@@ -8,15 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 [data-theme="light"] {
-  --bg: #fafaf9;
+  --bg: #f9fafb;
   --surface: #ffffff;
-  --surface2: #f5f4f2;
-  --surface3: #eeece9;
-  --border: #e5e3de;
-  --border-strong: #ccc9c2;
-  --text: #1a1916;
-  --text-muted: #72706b;
-  --text-dim: #a8a59e;
+  --surface2: #f9fafb;
+  --surface3: #e5e7eb;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --text-dim: #9ca3af;
   --shadow: 0 1px 3px rgba(0,0,0,0.07),0 4px 16px rgba(0,0,0,0.04);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.12),0 2px 6px rgba(0,0,0,0.06);
   --shadow-modal: 0 24px 80px rgba(0,0,0,0.18),0 4px 16px rgba(0,0,0,0.08);
@@ -252,7 +252,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);heigh
 <!-- Topbar -->
 <div class="topbar">
   <div class="logo-area">
-    <div class="logo-mark">D</div>
     <span class="page-title">DataSets</span>
   </div>
   <div class="nav-tabs">
@@ -280,7 +279,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);heigh
     <div class="sidebar-scroll">
       <div class="sidebar-section">Connected · <span id="connected-count">14</span> sources</div>
       <div id="source-list"></div>
-      <div class="sidebar-section" style="color:#d97706;margin-top:6px">Gaps · Not in Domo</div>
+      <div class="sidebar-section" style="color:#d97706;margin-top:6px">Potential Data gaps (Not in Domo)</div>
       <div id="gap-list"></div>
     </div>
   </div>
