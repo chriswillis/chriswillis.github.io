@@ -8,15 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 [data-theme="light"] {
-  --bg: #fafaf9;
+  --bg: #f9fafb;
   --surface: #ffffff;
-  --surface2: #f5f4f2;
-  --surface3: #eeece9;
-  --border: #e5e3de;
-  --border-strong: #ccc9c2;
-  --text: #1a1916;
-  --text-muted: #72706b;
-  --text-dim: #a8a59e;
+  --surface2: #f9fafb;
+  --surface3: #e5e7eb;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --text-dim: #9ca3af;
   --shadow: 0 1px 3px rgba(0,0,0,0.07),0 4px 16px rgba(0,0,0,0.04);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.12),0 2px 6px rgba(0,0,0,0.06);
   --shadow-modal: 0 24px 80px rgba(0,0,0,0.18),0 4px 16px rgba(0,0,0,0.08);
@@ -279,7 +279,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);heigh
     <div class="sidebar-scroll">
       <div class="sidebar-section">Connected · <span id="connected-count">14</span> sources</div>
       <div id="source-list"></div>
-      <div class="sidebar-section" style="color:#d97706;margin-top:6px">Gaps · Not in Domo</div>
+      <div class="sidebar-section" style="color:#d97706;margin-top:6px">Potential Data gaps (Not in Domo)</div>
       <div id="gap-list"></div>
     </div>
   </div>
@@ -315,8 +315,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);heigh
       <div class="legend-title">Legend</div>
       <div id="health-legend-items" class="health-legend">
         <div class="legend-row"><div class="legend-dot" style="background:#16a34a"></div>Healthy (≥95%)</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#d97706"></div>Warning (85–94%)</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#dc2626"></div>Critical (&lt;85%)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#ff8c09"></div>Warning (85–94%)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#b80303"></div>Critical (&lt;85%)</div>
         <div style="border-top:1px solid var(--border);margin:5px 0"></div>
         <div class="legend-row"><div class="legend-solid-line"></div>Data pipeline</div>
         <div class="legend-row"><div class="legend-dash-line"></div>Potential gap</div>
@@ -541,7 +541,7 @@ const GAPS = [
 let colorMode = 'health';
 const HEALTH_COLORS = {
   green: {color:'#16a34a', bg:'rgba(22,163,74,.11)', stroke:'rgba(22,163,74,.4)'},
-  amber: {color:'#d97706', bg:'rgba(217,119,6,.11)', stroke:'rgba(217,119,6,.4)'},
+  amber: {color:'#ff8c09', bg:'rgba(255,140,9,.11)', stroke:'rgba(255,140,9,.4)'},
   red:   {color:'#dc2626', bg:'rgba(220,38,38,.11)', stroke:'rgba(220,38,38,.4)'},
 };
 const CAT_COLORS = {
@@ -566,7 +566,7 @@ function getC(s) {
   }
   return CAT_COLORS[s.category] || CAT_COLORS.files;
 }
-function hColor(pct){ return pct>=95?'#16a34a':pct>=85?'#d97706':'#dc2626'; }
+function hColor(pct){ return pct>=95?'#16a34a':pct>=85?'#FF8C07':'#dc2626'; }
 function fmtN(n){ return n>=1e9?(n/1e9).toFixed(1)+'B':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(0)+'K':String(n); }
 const TIMES = ['2m ago','17m ago','1h ago','2h ago','8:05 AM','9:37 AM','11:17 AM','2:00 AM','Yesterday'];
 const randT = () => TIMES[Math.floor(Math.random()*TIMES.length)];
@@ -766,9 +766,9 @@ function buildMap(){
 
   // Health dot
   nSel.filter(d=>d.type==='source'&&d.errors>0).append('circle')
-    .attr('r',4.5).attr('cx',d=>-d.r*.68).attr('cy',d=>d.r*.68)
+    .attr('r',6.5).attr('cx',d=>-d.r*.72).attr('cy',d=>d.r*.68)
     .attr('fill',d=>hColor(d.health))
-    .attr('stroke','var(--surface)').attr('stroke-width',1.5);
+    .attr('stroke','var(--surface2)').attr('stroke-width',1.5);
 
   svg.on('click',()=>{closeDetail();deselectAll();});
 
