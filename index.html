@@ -4,25 +4,39 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Chris Willis</title>
-<meta name="description" content="Chris Willis — personal site." />
+<meta name="description" content="Chris Willis — Chief Design Officer and Futurist at Domo. Emotional design, human-AI collaboration, and the future of work." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #ffffff;
+    --bg: #f8f0ea;
+    --bg: oklch(96% 0.012 60);
     --text: #1a1a1a;
     --muted: #757575;
-    --rule: #e5e5e5;
+    --rule: #e3dbd2;
     --link: #1a1a1a;
+    --underline: #9ca6ae;
+    --accent: #5763ff;
+  }
+  :root[data-theme="dark"] {
+    --bg: #1a1921;
+    --text: #e8e8e8;
+    --muted: #8a8a8a;
+    --rule: #2c2c33;
+    --link: #e8e8e8;
+    --underline: #56595c;
+    --accent: #3b7bff;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #111111;
+    :root:not([data-theme="light"]) {
+      --bg: #1a1921;
       --text: #e8e8e8;
       --muted: #8a8a8a;
-      --rule: #2b2b2b;
+      --rule: #2c2c33;
       --link: #e8e8e8;
+      --underline: #56595c;
+      --accent: #3b7bff;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,10 +48,12 @@
     font-size: 1.2rem;
     line-height: 1.65;
     padding: clamp(2.5rem, 8vw, 6rem) 1.5rem;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
   }
   main {
     max-width: 36rem;
     margin: 0 auto;
+    position: relative;
   }
   h1 {
     font-size: 1.4rem;
@@ -45,64 +61,136 @@
     margin-bottom: 1.75rem;
     letter-spacing: -0.01em;
   }
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 2rem 0 0.75rem;
+  }
   p { margin-bottom: 1.25rem; }
+  ul {
+    list-style: none;
+    margin-bottom: 1.25rem;
+  }
+  ul li {
+    padding-left: 1.1rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
   a {
     color: var(--link);
-    font-weight: 300;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    text-decoration-color: var(--muted);
+    font-weight: 400;
+    text-decoration: underline;
+    text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.1em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
   }
-  a:hover { text-decoration-color: var(--link); }
+  a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+    transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
+  }
   hr {
     border: none;
     border-top: 1px solid var(--rule);
     margin: 2.5rem 0 1.75rem;
   }
   nav a { margin-right: 1.25rem; }
+
+  .theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.35rem;
+    line-height: 1;
+    color: var(--muted);
+    font-size: 1.1rem;
+    border-radius: 0.35rem;
+    transition: color 0.2s ease-out;
+  }
+  .theme-toggle:hover { color: var(--accent); }
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .theme-toggle .icon-sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  }
 </style>
+<script>
+  // Apply saved theme before paint to avoid a flash
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 <main>
+  <button class="theme-toggle" aria-label="Toggle light and dark mode">
+    <span class="icon-moon" aria-hidden="true">☾</span>
+    <span class="icon-sun" aria-hidden="true">☀</span>
+  </button>
+
   <h1>Chris Willis</h1>
 
-  <!-- Edit these paragraphs — this is your bio. -->
-  <p>I'm Chris Willis. This is my site.</p>
+  <p>Hi. I design digital products that transform what people are capabale of.</p>
+  <p>I'm currently the Chief Design Officer at <a href="https://www.domo.com">Domo</a> in American Fork, Utah.</p>
+  <p>Most companies are still asking what AI is for. I've spent my career on the harder question: How to make technology feel genuinely human.</p>
 
-  <p>
-      Most companies are still asking what AI is for. I've spent my career on the harder question: How to make technology feel genuinely human.
+  <p>As Chief Design Officer and Futurist at Domo, that's my whole job. Over nearly 15 years I've helped build one of the first cloud-native, mobile-first data platforms, and lately I've pushed it into AI that real people can actually use. The through-line is emotional design: Designing technology to solve human problems, not just demo well.</p>
 
-      As Chief Design Officer and Futurist at Domo, that's my whole job. Over nearly 15 years I've helped build one of the first cloud-native, mobile-first data platforms, and lately I've pushed it into AI that real people can actually use. The through-line is emotional design: Designing technology to solve human problems, not just demo well.
+  <h2>What I'm known for</h2>
+  <ul>
+    <li>Founding designer at Domo building to $330M+ in revenue</li>
+    <li>Domo's AI experiences, including its natural-language AI Chat and a framework that runs nearly any large language model on the platform</li>
+    <li><a href="https://www.domo.com/news/press/domos-chris-willis-wins-executive-excellence-award">2025 Executive Excellence Award</a>, Utah Business Magazine</li>
+    <li>Forbes Technology Council member</li>
+    <li>Six U.S. patents</li>
+  </ul>
 
-      What I'm known for:
+  <h2>In the media</h2>
+  <ul>
+    <li>Made over 30 appearances so far this year from TV to podcasts</li>
+    <li>Topics: Human-AI collaboration, the future of work and emotional design</li>
+    <li>Recent: FoxNews segment on how Domo powers human-AI collaboration and the future of work</li>
+  </ul>
 
-      • Building Domo's AI experiences, including its natural-language AI Chat and a framework that runs nearly any large language model on the platform
-      • 2025 Executive Excellence Award, Utah Business Magazine
-      • Forbes Technology Council member
-      • Six U.S. patents
+  <h2>Before Domo</h2>
+  <ul>
+    <li>Co-founded Footnote.com (now <a href="https://www.fold3.com/publication/485/us-vietnam-veterans-memorial">Fold3.com</a>), a TechCrunch50 finalist that put 670M+ National Archives documents online. Acquired by Ancestry.com for $27M.</li>
+    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a>(Peachpit Press)</li>
+    <li>Co-founded <a href="https://www.hourdetroit.com/">HOUR Detroit Magazine</a></li>
+    <li>Award-winning redesigns of newspapers (like The Detroit News) and magazines</li>
+    <li>Award-winning designer, illustrator and journalist</li>
+    <li>Concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, Oprah Magazine</a></li>
+  </ul>
 
-      In the media:
+  <h2>Outside of work</h2>
+  <ul>
+    <li>Chaired the board of a Blue Ribbon charter school</li>
+    <li>Helped pilot humanitarian flights of medical care into remote parts of Baja, Mexico</li>
+    <li>Coached youth hockey for more than a decade</li>
+  </ul>
 
-      • Made over 30 appearances so far this year from TV to podcasts
-      • Topics: Human-AI collaboration, the future of work and emotional design
-      • Recent: FoxNews segment on how Domo powers human-AI collaboration and the future of work
-
-      Before Domo:
-
-      • Co-founded Footnote.com (now Fold3.com), a TechCrunch50 finalist that put 67M+ National Archives documents online. Acquired by Ancestry.com for $27M.
-      • Co-author of two books on media and design
-      • Co-founded HOUR Detroit Magazine
-      • Award-winning redesigns of newspapers (like The Detroit News) and magazines
-      • Award-winning designer, illustrator and journalist
-
-      Outside of work:
-
-      Chaired the board of a Blue Ribbon charter school
-      Helped pilot humanitarian flights of medical care into remote parts of Baja, Mexico
-      Coached youth hockey for more than a decade
-
-      If you're building the future of work, or just looking for a spirited chat about it, let's talk.</p>
-
+  <p>If you're building the future of work, or just looking for a spirited chat about it, <a href="https://www.linkedin.com/in/cwillis/">let's talk</a>.</p>
 
   <hr />
 
@@ -113,5 +201,24 @@
     <a href="https://www.instagram.com/hypergene/">Instagram</a>
   </nav>
 </main>
+<script>
+  (function () {
+    var btn = document.querySelector(".theme-toggle");
+    var root = document.documentElement;
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function currentTheme() {
+      var set = root.getAttribute("data-theme");
+      if (set === "light" || set === "dark") return set;
+      return systemDark.matches ? "dark" : "light";
+    }
+
+    btn.addEventListener("click", function () {
+      var next = currentTheme() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  })();
+</script>
 </body>
 </html>
