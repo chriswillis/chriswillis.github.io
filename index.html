@@ -58,8 +58,30 @@
   h1 {
     font-size: 1.4rem;
     font-weight: 400;
-    margin-bottom: 1.75rem;
     letter-spacing: -0.01em;
+  }
+  .masthead {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.75rem;
+  }
+  .logo {
+    height: 1.25rem;
+    width: auto;
+    flex-shrink: 0;
+    color: var(--text);
+    transition: color 0.2s ease-out;
+  }
+  /* Hang the logo in the left margin when there's room for it */
+  @media (min-width: 46rem) {
+    .logo {
+      position: absolute;
+      right: calc(100% + 1.4rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
   h2 {
     font-size: 1.2rem;
@@ -103,10 +125,16 @@
   }
   nav a { margin-right: 1.25rem; }
 
-  .theme-toggle {
+  .controls {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .controls button {
     background: none;
     border: none;
     cursor: pointer;
@@ -117,10 +145,15 @@
     border-radius: 0.35rem;
     transition: color 0.2s ease-out;
   }
-  .theme-toggle:hover { color: var(--accent); }
-  .theme-toggle:focus-visible {
+  .controls button:hover { color: var(--accent); }
+  .controls button:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
+  }
+  .controls button svg {
+    display: block;
+    width: 1.15em;
+    height: 1.15em;
   }
   .theme-toggle .icon-sun { display: none; }
   :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
@@ -129,6 +162,35 @@
     :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
     :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
   }
+
+  /* Monitor / Terminal mode */
+  .mode-toggle .icon-monitor { display: none; }
+  :root[data-mode="terminal"] .mode-toggle .icon-monitor { display: block; }
+  :root[data-mode="terminal"] .mode-toggle .icon-wang { display: none; }
+
+  .crt {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: #03100a;
+  }
+  .crt canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  :root[data-mode="terminal"] body { overflow: hidden; }
+  :root[data-mode="terminal"] main > *:not(.controls) { visibility: hidden; }
+  :root[data-mode="terminal"] .controls {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 11;
+  }
+  :root[data-mode="terminal"] .controls button { color: #4f9a76; }
+  :root[data-mode="terminal"] .controls button:hover { color: #8df0b4; }
+  :root[data-mode="terminal"] .controls button:focus-visible { outline-color: #8df0b4; }
+  :root[data-mode="terminal"] .theme-toggle { display: none; }
 </style>
 <script>
   // Apply saved theme before paint to avoid a flash
@@ -144,14 +206,33 @@
 </head>
 <body>
 <main>
-  <button class="theme-toggle" aria-label="Toggle light and dark mode">
-    <span class="icon-moon" aria-hidden="true">☾</span>
-    <span class="icon-sun" aria-hidden="true">☀</span>
-  </button>
+  <div class="controls">
+    <button class="mode-toggle" aria-label="Switch to terminal mode" aria-pressed="false">
+      <svg class="icon-wang" viewBox="14 15.5 26 27" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path d="M30.9639 17C31.7316 17 32.3992 16.982 32.9844 17.2188C33.4623 17.4121 33.8825 17.7259 34.2041 18.1289C34.5977 18.6223 34.7705 19.2671 34.9893 20.0029L38.7363 32.6035C38.9382 33.2825 39.1096 33.8557 39.2051 34.3271C39.3018 34.8046 39.3482 35.2985 39.2109 35.7969C39.011 36.5224 38.5456 37.1465 37.9072 37.5449C37.4685 37.8187 36.9815 37.9146 36.4961 37.958C36.0168 38.0008 35.4185 38 34.71 38H20.2031C19.5074 38 18.9194 38.001 18.4473 37.959C17.9685 37.9164 17.4884 37.8224 17.0537 37.5547C16.4199 37.1643 15.9538 36.5518 15.7461 35.8369C15.6037 35.3466 15.6402 34.8587 15.7266 34.3857C15.8117 33.9196 15.9692 33.3531 16.1543 32.6826L19.6338 20.082C19.8419 19.3282 20.0045 18.6678 20.3975 18.1611C20.7184 17.7475 21.1428 17.4248 21.627 17.2256C22.2199 16.9817 22.8996 17 23.6816 17H30.9639Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="23" y="21" width="9" height="8" rx="2" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <line x1="21" y1="34" x2="34" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <svg class="icon-monitor" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/>
+      </svg>
+    </button>
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
 
-  <h1>Chris Willis</h1>
+  <header class="masthead">
+    <svg class="logo" viewBox="4.1 6.75 79.8 47.25" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">
+      <path d="M64.3589 48.12C62.9121 50.6259 62.1887 51.8789 61.4205 52.542C59.1683 54.486 55.8317 54.486 53.5795 52.542C52.8113 51.8789 52.0879 50.6259 50.6411 48.12L33.615 18.63C32.1682 16.1241 31.4448 14.8711 31.2547 13.8743C30.6972 10.9518 32.3655 8.06218 35.1752 7.08375C36.1336 6.75 37.5804 6.75 40.4739 6.75L74.5261 6.75C77.4196 6.75 78.8664 6.75 79.8248 7.08374C82.6345 8.06218 84.3028 10.9518 83.7453 13.8743C83.5552 14.8711 82.8318 16.1241 81.385 18.63L64.3589 48.12Z" fill="currentColor" fill-opacity="0.7"/>
+      <path d="M37.3589 48.12C35.9121 50.6259 35.1887 51.8789 34.4205 52.542C32.1683 54.486 28.8317 54.486 26.5795 52.542C25.8113 51.8789 25.0879 50.6259 23.6411 48.12L6.61502 18.63C5.16823 16.1241 4.44484 14.8711 4.25468 13.8743C3.69719 10.9518 5.36552 8.06218 8.1752 7.08375C9.13358 6.75 10.5804 6.75 13.4739 6.75L47.5261 6.75C50.4196 6.75 51.8664 6.75 52.8248 7.08374C55.6345 8.06218 57.3028 10.9518 56.7453 13.8743C56.5552 14.8711 55.8318 16.1241 54.385 18.63L37.3589 48.12Z" fill="currentColor" fill-opacity="0.3"/>
+      <path d="M50.8517 6.75C55.4705 6.75 58.3574 11.75 56.048 15.75L44.0002 36.6172L31.9523 15.75C29.6431 11.7501 32.53 6.75016 37.1486 6.75H50.8517Z" fill="currentColor" fill-opacity="0.6"/>
+    </svg>
+    <h1>Chris Willis</h1>
+  </header>
 
-  <p>Hi. I try to design digital products that feel genuinely human.</p>
+  <p>Hi. I design digital products that feel genuinely human.</p>
   <p>I'm currently the Chief Design Officer at <a href="https://www.domo.com">Domo</a> in American Fork, Utah.</p>
 
   <p>As Chief Design Officer and Futurist at Domo, I devoted nearly 15 years to build one of the first cloud-native, mobile-first data platforms, with governed AI that real people can actually use. My focus is always designing technology to solve human problems, not just cool demos.</p>
@@ -169,17 +250,17 @@
   <ul>
     <li>Made over 30 appearances so far this year from TV to podcasts</li>
     <li>Topics: Human-AI collaboration, the future of work and emotional design</li>
-    <li>Recent: FoxNews segment on how Domo powers human-AI collaboration and the future of work</li>
+    <li>Recent:<a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">FoxNews</a> segment on how Domo powers human-AI collaboration and the future of work</li>
   </ul>
 
   <h2>Before Domo</h2>
   <ul>
     <li>Co-founded Footnote.com (now <a href="https://www.fold3.com/publication/485/us-vietnam-veterans-memorial">Fold3.com</a>), a TechCrunch50 finalist that put 670M+ National Archives documents online. Acquired by Ancestry.com for $27M.</li>
-    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a>(Peachpit Press)</li>
+    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a> (Peachpit Press)</li>
     <li>Co-founded <a href="https://www.hourdetroit.com/">HOUR Detroit Magazine</a></li>
     <li>Award-winning redesigns of newspapers (like The Detroit News) and magazines</li>
     <li>Award-winning designer, illustrator and journalist</li>
-    <li>Concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, Oprah Magazine</a></li>
+    <li>Original concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, Oprah Magazine</a></li>
   </ul>
 
   <h2>Outside of work</h2>
@@ -200,6 +281,7 @@
     <a href="https://www.instagram.com/hypergene/">Instagram</a>
   </nav>
 </main>
+<div class="crt" id="crt" hidden aria-hidden="true"><canvas></canvas></div>
 <script>
   (function () {
     var btn = document.querySelector(".theme-toggle");
@@ -216,6 +298,298 @@
       var next = currentTheme() === "dark" ? "light" : "dark";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  })();
+
+  /* Terminal mode — a curved-glass CRT rendering the site as a phosphor boot log.
+     Adapted from ThreeUI Community's CrtBackground (MIT), github.com/MengTo/threeui:
+     a Canvas-2D text pass uploaded as a texture to a single WebGL triangle whose
+     fragment shader adds curvature, chromatic aberration, scanlines, an aperture
+     grille, a rolling bar, vignette, flicker, noise, and room spill. */
+  (function () {
+    var root = document.documentElement;
+    var modeBtn = document.querySelector(".mode-toggle");
+    var crtHost = document.getElementById("crt");
+    var canvas = crtHost.querySelector("canvas");
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var renderer = null;
+
+    function seg(t, c) { return { t: t, c: c || "p" }; }
+    function dots(n) { return new Array(n + 1).join("\u00b7"); }
+    var LOG = [
+      [seg("WILLIS MAINFRAME  v26.8"), seg("   (c) hypergene", "d")],
+      [seg("CHRIS WILLIS  Chief Design Officer / Futurist \u2014 Domo", "d")],
+      [],
+      [seg("Designing products that feel human "), seg(dots(8) + " ", "d"), seg("OK", "a")],
+      [seg("Cloud-native data platform "), seg(dots(10) + " ", "d"), seg("$330M ARR", "a")],
+      [seg("Scanning U.S. patents "), seg(dots(12) + " ", "d"), seg("6 found", "a")],
+      [seg("ai0   CREATIVE INTELLIGENCE ", "d"), seg(dots(5) + " ", "d"), seg("MAX", "a")],
+      [seg("llm0  ANY-MODEL FRAMEWORK ", "d"), seg(dots(8) + " ", "d"), seg("READY", "a")],
+      [seg("med0  TV + PODCAST APPEARANCES ", "d"), seg(dots(4) + " ", "d"), seg("50+", "a")],
+      [seg("ftn0  FOOTNOTE.COM  670M DOCS ", "d"), seg(dots(4) + " ", "d"), seg("ACQUIRED", "a")],
+      [seg("Mounting /dev/empathy -> ROOT: "), seg(dots(6) + " ", "d"), seg("OK", "a")],
+      [seg("Loading emotional design program "), seg(dots(4) + " ", "d"), seg("🧡", "a")],
+      [seg("30 years of design experience "), seg(dots(3) + " ", "d"), seg("WOW", "a")],
+      [seg("Locating the future of work "), seg(dots(6) + " ", "d"), seg("99.9%", "a")],
+      [],
+      [seg("HUMAN SIGNAL  "), seg("detected.", "h")],
+      [seg("DIRECTIVE: solving human problems, not just cool demos ", "d")],
+      [],
+      [seg("let's talk: linkedin.com/in/cwillis ")],
+    ];
+    var COLORS = {
+      p: { fill: "#8df0b4", glow: "rgba(28,236,132,0.95)" },
+      d: { fill: "#4f9a76", glow: "rgba(28,236,132,0.45)" },
+      a: { fill: "#ffba5e", glow: "rgba(255,150,52,0.95)" },
+      h: { fill: "#eafff3", glow: "rgba(120,255,190,0.95)" }
+    };
+    function lineLength(line) { var n = 0; for (var i = 0; i < line.length; i++) n += line[i].t.length; return n; }
+    var TOTAL = 0, MAX_CHARS = 1;
+    for (var i = 0; i < LOG.length; i++) { var l = lineLength(LOG[i]); TOTAL += l; if (l > MAX_CHARS) MAX_CHARS = l; }
+
+    var VERT = "attribute vec2 aPos;\nvoid main(){ gl_Position = vec4(aPos,0.0,1.0); }";
+    var FRAG =
+      "precision highp float;\n" +
+      "uniform sampler2D uTex;\nuniform vec2 uRes;\nuniform float uTime;\nuniform float uMotion;\n" +
+      "float hash(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }\n" +
+      "vec2 curve(vec2 uv){ uv = uv*2.0-1.0; vec2 o = uv.yx*uv.yx; uv += uv * o * vec2(0.115,0.165); return uv*0.5+0.5; }\n" +
+      "void main(){\n" +
+      "  vec2 fuv = gl_FragCoord.xy / uRes;\n" +
+      "  vec2 uv = curve(fuv);\n" +
+      "  vec2 inb = step(vec2(0.0), uv) * step(uv, vec2(1.0));\n" +
+      "  float inside = inb.x*inb.y;\n" +
+      "  vec2 ed = min(uv, 1.0-uv);\n" +
+      "  inside *= smoothstep(0.0,0.020, min(ed.x,ed.y));\n" +
+      "  vec2 dir = uv-0.5;\n" +
+      "  float d2 = dot(dir,dir);\n" +
+      "  vec2 ao = dir * (0.0016 + 0.012*d2);\n" +
+      "  vec3 col;\n" +
+      "  col.r = texture2D(uTex, uv + ao).r;\n" +
+      "  col.g = texture2D(uTex, uv).g;\n" +
+      "  col.b = texture2D(uTex, uv - ao).b;\n" +
+      "  float lines = uRes.y*0.92;\n" +
+      "  float sl = sin(uv.y*3.14159265*lines + uTime*4.0*uMotion);\n" +
+      "  col *= mix(0.70,1.0, sl*sl);\n" +
+      "  float gx = gl_FragCoord.x * (6.2831853/3.0);\n" +
+      "  vec3 grille = 0.66 + 0.34*cos(gx + vec3(0.0,2.094,4.188));\n" +
+      "  col *= grille;\n" +
+      "  col *= 1.34;\n" +
+      "  float bar = fract(uv.y*0.5 - uTime*0.07*uMotion);\n" +
+      "  bar = smoothstep(0.0,0.05,bar)*smoothstep(0.18,0.05,bar);\n" +
+      "  col += bar*0.045*uMotion;\n" +
+      "  float sheen = smoothstep(0.55,0.0, distance(uv, vec2(0.50,0.15)));\n" +
+      "  col += sheen*0.030*vec3(0.55,1.0,0.78);\n" +
+      "  float vig = smoothstep(0.98,0.30, length((uv-0.5)*vec2(1.05,1.0)));\n" +
+      "  col *= mix(0.42,1.0, vig);\n" +
+      "  col *= 1.0 - 0.028*uMotion*sin(uTime*8.0);\n" +
+      "  col += (hash(fuv + fract(uTime*0.37)) - 0.5)*0.022;\n" +
+      "  float spill = smoothstep(0.85,0.18, length(fuv-0.5))*0.05;\n" +
+      "  vec3 room = vec3(0.012,0.03,0.022) + vec3(0.0,spill*0.6,spill*0.42);\n" +
+      "  col = mix(room, col, inside);\n" +
+      "  col = max(col, vec3(0.004,0.010,0.008));\n" +
+      "  gl_FragColor = vec4(col,1.0);\n" +
+      "}";
+
+    function compile(gl, type, source) {
+      var shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader) || "CRT shader failed");
+      return shader;
+    }
+
+    function createCrtRenderer(host, canvas) {
+      var gl = canvas.getContext("webgl", { antialias: false, alpha: false, depth: false, premultipliedAlpha: false });
+      var textCanvas = document.createElement("canvas");
+      var ctx = textCanvas.getContext("2d");
+      if (!ctx) throw new Error("CRT text canvas unavailable");
+      var motion = reducedMotion.matches ? 0 : 1;
+      var FONT_STACK = 'ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace';
+
+      var program = null, buffer = null, texture = null, vertex = null, fragment = null;
+      var uRes, uTime, uMotion;
+      if (gl) {
+        vertex = compile(gl, gl.VERTEX_SHADER, VERT);
+        fragment = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+        program = gl.createProgram();
+        gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "CRT link failed");
+        gl.useProgram(program);
+        buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+        var position = gl.getAttribLocation(program, "aPos");
+        gl.enableVertexAttribArray(position);
+        gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform1i(gl.getUniformLocation(program, "uTex"), 0);
+        uRes = gl.getUniformLocation(program, "uRes");
+        uTime = gl.getUniformLocation(program, "uTime");
+        uMotion = gl.getUniformLocation(program, "uMotion");
+        texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      } else {
+        // Fallback: show the 2D text pass directly, no glass.
+        textCanvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;";
+        host.appendChild(textCanvas);
+        canvas.style.display = "none";
+      }
+
+      var width = 1, height = 1, fontSize = 14, lineHeight = 20, startY = 0, charWidth = 8;
+      var caretX = 0, caretY = 0, typed = reducedMotion.matches ? TOTAL : 0, done = reducedMotion.matches;
+      var textDirty = true, lastTextAt = 0, lastReveal = -1, lastBlink = -1;
+      var startedAt = performance.now();
+
+      function layout() {
+        startY = height * 0.135;
+        lineHeight = height * 0.74 / LOG.length;
+        fontSize = Math.max(5, Math.min(lineHeight * 0.8, width * 0.88 / (Math.max(MAX_CHARS, 1) * 0.62)));
+        ctx.font = "600 " + fontSize.toFixed(2) + "px " + FONT_STACK;
+        charWidth = ctx.measureText("M").width || fontSize * 0.6;
+      }
+      function setStyle(key) {
+        var color = COLORS[key];
+        ctx.fillStyle = color.fill;
+        ctx.shadowColor = color.glow;
+        ctx.shadowBlur = fontSize * 0.55;
+      }
+      function drawScreen(reveal) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#03100a";
+        ctx.fillRect(0, 0, width, height);
+        ctx.textBaseline = "top";
+        ctx.font = "600 " + fontSize.toFixed(2) + "px " + FONT_STACK;
+        var remaining = reveal, y = startY;
+        caretX = Math.floor((width - MAX_CHARS * charWidth) / 2);
+        caretY = startY;
+        for (var li = 0; li < LOG.length; li++) {
+          var line = LOG[li], length = lineLength(line);
+          var visible = reveal === Infinity ? Infinity : Math.min(remaining, length);
+          var x = Math.floor((width - MAX_CHARS * charWidth) / 2), drawn = 0;
+          for (var si = 0; si < line.length; si++) {
+            var item = line[si], text = item.t;
+            if (visible !== Infinity) {
+              var left = visible - drawn;
+              if (left <= 0) break;
+              if (left < text.length) text = text.slice(0, left);
+            }
+            if (text.length) { setStyle(item.c); ctx.fillText(text, x, y); x += charWidth * text.length; }
+            drawn += item.t.length;
+            if (visible !== Infinity && drawn >= visible) break;
+          }
+          caretX = x; caretY = y;
+          if (visible !== Infinity) remaining -= visible;
+          y += lineHeight;
+          if (visible !== Infinity && remaining <= 0) break;
+        }
+      }
+      function drawCursor() {
+        ctx.shadowColor = COLORS.p.glow;
+        ctx.shadowBlur = fontSize * 0.6;
+        ctx.fillStyle = "#bdf8d2";
+        ctx.fillRect(caretX, caretY + fontSize * 0.06, Math.max(charWidth * 0.92, 4), fontSize * 0.96);
+      }
+      function uploadTexture() {
+        if (!gl) { textDirty = false; return; }
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textCanvas);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        textDirty = false;
+      }
+      function resize() {
+        var bounds = host.getBoundingClientRect();
+        var vw = Math.max(1, bounds.width), vh = Math.max(1, bounds.height);
+        var scale = vw < 700 ? 0.82 : 0.55;
+        var bw = Math.min(Math.round(vw * scale), 920);
+        var bh = Math.round(bw * vh / vw);
+        if (canvas.width !== bw || canvas.height !== bh || width !== bw) {
+          canvas.width = bw; canvas.height = bh;
+          textCanvas.width = bw; textCanvas.height = bh;
+          width = bw; height = bh;
+          layout();
+          lastReveal = -1; lastBlink = -1;
+        }
+        if (gl) { gl.viewport(0, 0, bw, bh); gl.uniform2f(uRes, bw, bh); }
+      }
+      function maybeRedrawText(now) {
+        var reveal = done ? Infinity : Math.floor(typed);
+        var blink = Math.floor((now - startedAt) / 420) % 2 === 0 ? 1 : 0;
+        if (!done && now - lastTextAt <= 42 && reveal === lastReveal && blink === lastBlink) return;
+        if (done && reveal === lastReveal && blink === lastBlink) return;
+        drawScreen(reveal);
+        if (blink && motion) drawCursor();
+        if (!motion && done) drawCursor();
+        lastTextAt = now; lastReveal = reveal; lastBlink = blink; textDirty = true;
+      }
+      return {
+        resize: resize,
+        render: function (now) {
+          if (!done) { typed += 4.4; if (typed >= TOTAL) { typed = TOTAL; done = true; } }
+          maybeRedrawText(now);
+          if (textDirty) uploadTexture();
+          if (gl) {
+            gl.useProgram(program);
+            gl.uniform1f(uTime, (now - startedAt) * 0.001);
+            gl.uniform1f(uMotion, motion);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+          }
+        },
+        dispose: function () {
+          if (gl) {
+            gl.deleteBuffer(buffer); gl.deleteTexture(texture);
+            gl.deleteProgram(program); gl.deleteShader(vertex); gl.deleteShader(fragment);
+          }
+          if (textCanvas.parentNode) textCanvas.parentNode.removeChild(textCanvas);
+        }
+      };
+    }
+
+    var frame = 0, resizeHandler = null;
+    function enterTerminal() {
+      crtHost.hidden = false;
+      root.setAttribute("data-mode", "terminal");
+      modeBtn.setAttribute("aria-pressed", "true");
+      modeBtn.setAttribute("aria-label", "Switch to monitor mode");
+      try {
+        renderer = createCrtRenderer(crtHost, canvas);
+      } catch (e) {
+        console.warn("Terminal mode unavailable:", e);
+        exitTerminal();
+        return;
+      }
+      renderer.resize();
+      var tick = function (now) { renderer.render(now); frame = requestAnimationFrame(tick); };
+      frame = requestAnimationFrame(tick);
+      resizeHandler = function () { renderer.resize(); };
+      window.addEventListener("resize", resizeHandler);
+    }
+    function exitTerminal() {
+      if (frame) { cancelAnimationFrame(frame); frame = 0; }
+      if (resizeHandler) { window.removeEventListener("resize", resizeHandler); resizeHandler = null; }
+      if (renderer) { renderer.dispose(); renderer = null; }
+      crtHost.hidden = true;
+      root.removeAttribute("data-mode");
+      modeBtn.setAttribute("aria-pressed", "false");
+      modeBtn.setAttribute("aria-label", "Switch to terminal mode");
+    }
+    modeBtn.addEventListener("click", function () {
+      if (root.getAttribute("data-mode") === "terminal") exitTerminal(); else enterTerminal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && root.getAttribute("data-mode") === "terminal") exitTerminal();
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (!renderer) return;
+      if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else if (!document.hidden && !frame) {
+        var tick = function (now) { renderer.render(now); frame = requestAnimationFrame(tick); };
+        frame = requestAnimationFrame(tick);
+      }
     });
   })();
 </script>
