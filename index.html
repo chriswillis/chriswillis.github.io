@@ -8,6 +8,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;500&display=swap" rel="stylesheet" />
+
+<!-- iMessage / Open Graph preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cewillis.com/">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="Chris Willis — Designing technology for humans">
+<meta property="og:description" content="Chief Design Officer and Futurist at Domo. Designing AI-powered products that solve human problems—not just cool demos.">
+<meta property="og:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta property="og:image:secure_url" content="https://cewillis.com/og-cewillis.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Chris Willis — Designing technology for humans">
+
+<!-- X / Twitter fallback -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chris Willis — Designing technology for humans">
+<meta name="twitter:description" content="Chief Design Officer and Futurist at Domo. Designing AI-powered products that solve human problems—not just cool demos.">
+<meta name="twitter:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta name="twitter:image:alt" content="Chris Willis — Designing technology for humans">
+
+
 <style>
   :root {
     --bg: #f8f0ea;
@@ -18,6 +40,7 @@
     --link: #1a1a1a;
     --underline: #9ca6ae;
     --accent: #5763ff;
+    --surface: oklch(93% 0.01 60);
   }
   :root[data-theme="dark"] {
     --bg: #1a1921;
@@ -27,6 +50,7 @@
     --link: #e8e8e8;
     --underline: #56595c;
     --accent: #3b7bff;
+    --surface: #24232c;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -37,6 +61,7 @@
       --link: #e8e8e8;
       --underline: #56595c;
       --accent: #3b7bff;
+      --surface: #24232c;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -191,6 +216,108 @@
   :root[data-mode="terminal"] .controls button:hover { color: #8df0b4; }
   :root[data-mode="terminal"] .controls button:focus-visible { outline-color: #8df0b4; }
   :root[data-mode="terminal"] .theme-toggle { display: none; }
+
+  /* Brands — adapted from shadcnblocks logos13:
+     sticky left label + muted rounded logo cards */
+  .brands-section {
+    --brands-max: 58rem;
+    width: min(calc(100vw - 3rem), var(--brands-max));
+    margin: 2.5rem 0 2.75rem;
+    margin-left: calc(50% - min((100vw - 3rem) / 2, calc(var(--brands-max) / 2)));
+    display: grid;
+    gap: 1.25rem;
+  }
+  .brands-label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: fit-content;
+  }
+  .brands-label .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex-shrink: 0;
+    background: var(--accent);
+  }
+  .brands-label h2 {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .brands {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 0;
+    list-style: none;
+  }
+  .brands li::before { content: none; }
+  .brands li {
+    margin-bottom: 0;
+    padding: 1.75rem 1.25rem;
+    min-height: 6.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border-radius: 0.85rem;
+  }
+  .brands img {
+    display: block;
+    max-width: 6.25rem;
+    max-height: 1.75rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1) opacity(0.5);
+    transition: filter 0.2s ease-out, opacity 0.2s ease-out;
+  }
+  .brands li.mark img {
+    max-width: 2.25rem;
+    max-height: 2.1rem;
+  }
+  .brands li.wide img {
+    max-width: 7rem;
+    max-height: 1.5rem;
+  }
+  .brands li:hover img {
+    filter: grayscale(1) opacity(0.75);
+  }
+  :root[data-theme="dark"] .brands img {
+    filter: grayscale(1) invert(1) opacity(0.65);
+  }
+  :root[data-theme="dark"] .brands li:hover img {
+    filter: grayscale(1) invert(1) opacity(0.9);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .brands img {
+      filter: grayscale(1) invert(1) opacity(0.65);
+    }
+    :root:not([data-theme="light"]) .brands li:hover img {
+      filter: grayscale(1) invert(1) opacity(0.9);
+    }
+  }
+  @media (min-width: 40rem) {
+    .brands { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 52rem) {
+    .brands-section {
+      grid-template-columns: 9.5rem minmax(0, 1fr);
+      gap: 1.75rem;
+      align-items: start;
+    }
+    .brands-label {
+      position: sticky;
+      top: 1.5rem;
+    }
+    .brands { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 62rem) {
+    .brands { grid-template-columns: repeat(4, 1fr); }
+  }
 </style>
 <script>
   // Apply saved theme before paint to avoid a flash
@@ -248,7 +375,7 @@
 
   <h2>In the media</h2>
   <ul>
-    <li>Made over 30 appearances so far this year from TV to podcasts</li>
+    <li>Made over 50 appearances, so far, this year from TV to podcasts</li>
     <li>Topics: Human-AI collaboration, the future of work and emotional design</li>
     <li>Recent:<a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">FoxNews</a> segment on how Domo powers human-AI collaboration and the future of work</li>
   </ul>
@@ -271,6 +398,43 @@
   </ul>
 
   <p>If you're building the future of work, or just looking for a spirited chat about it, <a href="https://www.linkedin.com/in/cwillis/">let's talk</a>.</p>
+
+  <section class="brands-section" aria-label="Brands I've worked with">
+    <div class="brands-label">
+      <span class="dot" aria-hidden="true"></span>
+      <h2>Brands I've worked with</h2>
+    </div>
+    <ul class="brands">
+      <li class="mark"><img src="assets/logos/apple.svg" alt="Apple" loading="lazy" /></li>
+      <li><img src="assets/logos/nike.svg" alt="Nike" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/target.svg" alt="Target" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/walmart.svg" alt="Walmart" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/snowflake.svg" alt="Snowflake" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/yum-brands.svg" alt="Yum! Brands" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/white-house.svg" alt="The White House" loading="lazy" /></li>
+      <li><img src="assets/logos/us-bank.svg" alt="U.S. Bank" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/deutsche-bank.svg" alt="Deutsche Bank" loading="lazy" /></li>
+      <li><img src="assets/logos/visa.svg" alt="Visa" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/chanel.svg" alt="Chanel" loading="lazy" /></li>
+      <li><img src="assets/logos/ford.svg" alt="Ford" loading="lazy" /></li>
+      <li><img src="assets/logos/coca-cola.svg" alt="Coca-Cola Swire" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/disney.svg" alt="Disney" loading="lazy" /></li>
+      <li><img src="assets/logos/nbc.svg" alt="NBC" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/nfl.svg" alt="NFL" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/ge-healthcare.svg" alt="GE HealthCare" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/loreal.svg" alt="L'Oréal" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/unitedhealth.svg" alt="UnitedHealth Group" loading="lazy" /></li>
+      <li><img src="assets/logos/bbva.svg" alt="BBVA" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/ups.svg" alt="UPS" loading="lazy" /></li>
+      <li><img src="assets/logos/dhl.svg" alt="DHL" loading="lazy" /></li>
+      <li><img src="assets/logos/randstad.svg" alt="Randstad" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/pg.svg" alt="Procter &amp; Gamble" loading="lazy" /></li>
+      <li><img src="assets/logos/unilever.svg" alt="Unilever" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/la-z-boy.svg" alt="La-Z-Boy" loading="lazy" /></li>
+      <li><img src="assets/logos/telus.svg" alt="Telus" loading="lazy" /></li>
+      <li><img src="assets/logos/sony.svg" alt="Sony Interactive Entertainment" loading="lazy" /></li>
+    </ul>
+  </section>
 
   <hr />
 
