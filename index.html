@@ -272,8 +272,9 @@
     width: auto;
     height: auto;
     object-fit: contain;
-    filter: grayscale(1) opacity(0.5);
-    transition: filter 0.2s ease-out, opacity 0.2s ease-out;
+    /* Force every logo to exact #B2B2B5 (178/255 ≈ 69.8%) */
+    filter: brightness(0) invert(69.8%);
+    transition: opacity 0.2s ease-out;
   }
   .brands li.mark img {
     max-width: 2.25rem;
@@ -284,21 +285,7 @@
     max-height: 1.5rem;
   }
   .brands li:hover img {
-    filter: grayscale(1) opacity(0.75);
-  }
-  :root[data-theme="dark"] .brands img {
-    filter: grayscale(1) invert(1) opacity(0.65);
-  }
-  :root[data-theme="dark"] .brands li:hover img {
-    filter: grayscale(1) invert(1) opacity(0.9);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .brands img {
-      filter: grayscale(1) invert(1) opacity(0.65);
-    }
-    :root:not([data-theme="light"]) .brands li:hover img {
-      filter: grayscale(1) invert(1) opacity(0.9);
-    }
+    opacity: 0.75;
   }
   @media (min-width: 40rem) {
     .brands { grid-template-columns: repeat(3, 1fr); }
