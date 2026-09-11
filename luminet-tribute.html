@@ -39,6 +39,7 @@
      the figure below it share a left edge */
   .wide > .col.flush { margin-left: 0; padding-left: 0; }
   .fig-narrow { max-width: 720px; }
+  figure img { display: block; width: 100%; height: auto; }
   .develop-note.placeholder { text-align: left; }
   /* Geometric figures: tighter panel padding than chart defaults */
   .figrow .plot-fig,
@@ -55,8 +56,8 @@
 
 <div class="brandbar">
   <div class="wide inner">
-    <span class="wordmark">Graphics</span>
-    <span class="stamp">Interactive &middot; computed on page load</span>
+    <span class="wordmark">General Relativity (Work in progress)</span>
+    <span class="stamp">Browser &middot; computed on page load</span>
   </div>
 </div>
 
@@ -64,9 +65,9 @@
   <div class="wide">
     <p class="kicker">A tribute to Jean-Pierre Luminet, 1979</p>
     <h1>The first portrait of a black hole</h1>
-    <p class="byline">Text and computation by Chris Willis</p>
+    <p class="byline">By Chris Willis</p>
     <p class="dateline">After Luminet, Astronomy &amp; Astrophysics 75, 228 (1979)</p>
-    <p class="lede">Computed in 1978, drawn by hand in ink, published in 1979. This page rebuilds Luminet's images from his equations, live.</p>
+    <p class="lede">Computed in 1978, drawn by hand in ink, published in 1979. This page rebuilds Luminet's image from his equations.</p>
     <figure>
       <div class="plate-wrap">
         <div class="plate-inner" id="hero-inner">
@@ -90,6 +91,10 @@
     <h2>One computer, one bottle of ink</h2>
     <p>In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, decided to compute the view instead. General relativity says that light from a glowing disk of infalling gas is bent around the hole, so the disk should appear folded over itself: you see its top and its underside at once, with a ghost of the far side wrapped around the central shadow.</p>
     <p>Luminet traced the light on an IBM 7040, a transistor-era machine programmed with punch cards. There was no software to draw the result, so he plotted it himself: black India ink on white paper, dot by dot, denser where the disk shone brighter. A photographic negative turned his ink into light. The blazing, lopsided ring he revealed anticipated by forty years what the Event Horizon Telescope photographed around the M87 galaxy's black hole in 2019. His paper had even named M87 as a likely place to look.</p>
+    <figure>
+      <img src="assets/TN-JPL1978-72dpi-1024x508.jpg" width="1024" height="508" alt="Jean-Pierre Luminet">
+      <figcaption>Luminet's hand-drawn image of the black hole, 1979</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -142,7 +147,7 @@
     <p class="eyebrow">The instrument</p>
     <h2>In the darkroom</h2>
     <div class="col flush">
-      <p>Luminet's plate exists in two states: the ink drawing he made by hand, and the negative that made it famous. Both are below, along with a smooth exposure of the same data. Lower exposure values lift the faint outskirts of the disk into view.</p>
+      <p>Luminet's made his ink drawing by hand, then the negative made it famous. Both are below, along with a smooth exposure of the same data. Lower exposure values lift the faint outskirts of the disk into view. (I experimented with a stippled version, which really didn't work.)</p>
     </div>
     <div class="controls">
       <div class="modes" role="group" aria-label="Rendering mode">
@@ -672,7 +677,7 @@ var BH = (function () {
   var MX0 = -52, MX1 = 48, MY0 = -28, MY1 = 22;     // master window in M
   var THETA0 = 80 * DEG;                            // 10 deg above the plane
   var FRAME_CX = 1.5, FRAME_CY = 0;                 // shadow centred vertically in the frame
-  var HERO_EXPOSURE = 0.35;                         // hero plate exposure (same scale as the
+  var HERO_EXPOSURE = 0.30;                         // hero plate exposure (same scale as the
                                                     // darkroom slider; higher is brighter)
   function viewWindow(frameW) {                     // 2:1 crop, clamped to the master
     var hw = frameW / 2, hh = frameW / 4;
@@ -836,7 +841,7 @@ var BH = (function () {
     }
     fieldDone = true;
     note.textContent = 'plate developed: ' + (NR * NPHI).toLocaleString() + ' rays traced';
-    renderPlate(heroCtx, 'pos', 1.8 - HERO_EXPOSURE, 76, 1.0);
+    renderPlate(heroCtx, 'pos', 1.8 - HERO_EXPOSURE, 76, 0.0);
     renderDark();
     setTimeout(buildContourMaps, 1200);
   }
@@ -855,7 +860,7 @@ var BH = (function () {
   /* ---------- plate rendering from the finished field ---------- */
   var darkCanvas = document.getElementById('dark-plate');
   var darkCtx = darkCanvas.getContext('2d');
-  var currentMode = 'pos', currentExpo = 0.65, currentFrame = 76, currentGrain = 1.0;
+  var currentMode = 'pos', currentExpo = 0.30, currentFrame = 76, currentGrain = 0.0;
 
   /* mode: 'photo' | 'pos' | 'neg'. power: stipple/photo gamma (exposure = 1.8 - power).
    * frameW: visible width in M (2:1 crop of the master field). grain: sky specks. */
