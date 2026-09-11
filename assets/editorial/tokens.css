@@ -1,0 +1,361 @@
+/* ============================================================================
+ * editorial-graphics · tokens.css
+ * Design tokens for an editorial / data-graphics page in the tradition of a
+ * newspaper graphics desk. Warm paper, ink, hairlines, one restrained accent.
+ *
+ * TYPE VOICES — swap the whole typographic personality with one attribute:
+ *   <html data-voice="franklin">   Franklin + Charter (default)
+ *   <html data-voice="plex">       IBM Plex Sans + Plex Serif + Plex Mono
+ *   <html data-voice="plex-mixed"> Plex Sans labels over Charter text
+ * Remember to load the matching webfonts (see references/typography.md).
+ * Charts follow automatically: plot-theme.js reads these variables at
+ * render time, so no chart code changes when the voice changes.
+ * ========================================================================== */
+
+:root {
+  /* ---- surfaces & ink ---- */
+  --paper: #f7f7f5;        /* page background: warm newsprint white */
+  --paper-2: #efefe9;      /* recessed bands: colophon, footer */
+  --panel: #fdfdfb;        /* chart panels, controls: barely raised */
+  --plate: #101113;        /* dark photographic surface for image plates */
+  --ink: #121212;          /* primary text, never pure black */
+  --ink-soft: #5a5a5a;     /* secondary text, captions, axis labels */
+  --ink-faint: #9a9a94;    /* tertiary: process notes, credits */
+  --hair: #d5d5cd;         /* hairline rules and borders */
+  --grid: #e6e6e0;         /* chart gridlines: quieter than hairlines */
+
+  /* ---- accent ---- */
+  --accent: #326295;       /* links and interactive affordances only */
+
+  /* ---- data palette (charts) ---- */
+  --data-1: #326295;       /* blue: first or only series */
+  --data-2: #b04a3c;       /* brick */
+  --data-3: #6c8168;       /* sage */
+  --data-4: #c9902e;       /* ochre */
+  --data-5: #715c8c;       /* plum */
+  --data-6: #8c8c84;       /* warm gray */
+  --data-muted: #c9c9c1;   /* context series behind a single highlight */
+  --data-pos: #3d7a4f;
+  --data-neg: #b04a3c;
+
+  /* ---- type slots (voice: franklin) ---- */
+  --font-headline: Charter, "Bitstream Charter", "Iowan Old Style",
+      "Source Serif 4", Georgia, serif;
+  --font-body: Charter, "Bitstream Charter", "Iowan Old Style",
+      "Source Serif 4", Georgia, serif;
+  --font-graphic: "Libre Franklin", "Franklin Gothic Medium",
+      "Franklin Gothic", "Helvetica Neue", Arial, sans-serif;
+  --font-data: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+      monospace;
+
+  /* ---- measure & rhythm ---- */
+  --col-text: 700px;       /* reading column */
+  --col-wide: 1020px;      /* graphics column */
+  --size-body: 17.5px;
+  --leading-body: 1.62;
+}
+
+/* ---- voice: plex — the full IBM Plex family ---- */
+[data-voice="plex"] {
+  --font-headline: "IBM Plex Serif", Charter, Georgia, serif;
+  --font-body: "IBM Plex Serif", Charter, Georgia, serif;
+  --font-graphic: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+
+/* ---- voice: plex-mixed — modern labels over classic text ---- */
+[data-voice="plex-mixed"] {
+  --font-graphic: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* headline & body inherit the Charter stacks from :root */
+}
+
+/* ============================================================================
+ * Base
+ * ========================================================================== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* .col/.wide own the horizontal 20px gutter. Never set the `padding`
+ * shorthand on an element that also carries one of these classes —
+ * use padding-top/padding-bottom so the gutter survives. */
+.col  { max-width: var(--col-text); margin: 0 auto; padding: 0 20px; }
+.wide { max-width: var(--col-wide); margin: 0 auto; padding: 0 20px; }
+
+p { margin: 0 0 1.1em; max-width: 68ch; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2.5px;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+hr.sep {
+  border: 0; border-top: 1px solid var(--hair);
+  margin: 44px auto; max-width: var(--col-wide);
+}
+
+/* ============================================================================
+ * Brand bar — thin identity strip above the headline
+ * ========================================================================== */
+.brandbar { border-bottom: 1px solid var(--hair); }
+.brandbar .inner {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-top: 12px; padding-bottom: 12px;
+  font-family: var(--font-graphic); font-size: 12px; letter-spacing: 0.02em;
+}
+.brandbar .wordmark { font-weight: 700; letter-spacing: -0.01em; }
+.brandbar .stamp { color: var(--ink-soft); }
+
+/* ============================================================================
+ * Headline block — kicker · hed · byline · dateline · lede
+ * ========================================================================== */
+header.hero { padding: 44px 0 0; }
+
+.kicker {
+  font-family: var(--font-graphic);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink); margin: 0 0 14px;
+}
+.kicker::before {
+  content: ""; display: block; width: 44px;
+  border-top: 3px solid var(--ink); margin-bottom: 10px;
+}
+
+h1 {
+  font-family: var(--font-headline);
+  font-size: clamp(2.1rem, 5.4vw, 3.6rem);
+  line-height: 1.06; letter-spacing: -0.015em;
+  font-weight: 700; margin: 0 0 18px; max-width: 16ch;
+}
+
+.byline {
+  font-family: var(--font-graphic); font-size: 13px; font-weight: 600;
+  color: var(--ink); margin: 0 0 2px;
+}
+.dateline {
+  font-family: var(--font-graphic); font-size: 12px;
+  color: var(--ink-soft); margin: 0 0 20px;
+}
+.lede {
+  font-size: 1.16em; color: var(--ink-soft);
+  max-width: 52ch; margin: 0 0 40px;
+}
+
+/* ============================================================================
+ * Sections — eyebrow labels and subheds
+ * ========================================================================== */
+section { padding: 30px 0; }
+
+.eyebrow {
+  font-family: var(--font-graphic);
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink);
+  border-top: 1px solid var(--ink);
+  padding-top: 9px; margin: 54px 0 0;
+}
+.eyebrow + h2, .eyebrow ~ h2 { margin-top: 10px; }
+
+h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 3vw, 2.05rem);
+  line-height: 1.15; letter-spacing: -0.01em;
+  margin: 40px 0 16px;
+}
+
+h3 {
+  font-family: var(--font-graphic);
+  font-size: 0.86em; font-weight: 700; margin: 0 0 4px;
+}
+
+/* ============================================================================
+ * Figures — numbered, captioned, sourced
+ * ========================================================================== */
+figure { margin: 0; }
+
+.plot-fig {
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  padding: 16px 16px 10px;
+}
+.plot-fig svg { display: block; width: 100%; height: auto; }
+
+.plate-wrap {
+  background: var(--plate);
+  border-radius: 3px;
+  padding: clamp(10px, 2.5vw, 26px);
+  box-shadow: 0 1px 0 rgba(20,20,25,.08), 0 14px 40px rgba(25,28,40,.14);
+}
+.plate-wrap canvas, .plate-wrap img { display: block; width: 100%; height: auto; }
+
+figcaption {
+  font-family: var(--font-graphic);
+  font-size: 0.76em; line-height: 1.55;
+  color: var(--ink-soft);
+  padding: 12px 2px 0; max-width: 76ch;
+}
+figcaption b { color: var(--ink); font-weight: 600; }
+figcaption .figno { color: var(--ink); font-weight: 700; }
+figcaption .source {
+  display: block; margin-top: 3px;
+  font-size: 0.92em; color: var(--ink-faint);
+}
+
+.figrow {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 28px; align-items: start;
+}
+
+/* ============================================================================
+ * Controls — sliders, mode toggles, buttons for interactive graphics
+ * ========================================================================== */
+.controls {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 14px 22px; padding: 14px 0 18px;
+  font-family: var(--font-graphic); font-size: 12.5px;
+}
+.controls label { display: flex; align-items: center; gap: 10px; color: var(--ink-soft); }
+.controls output {
+  color: var(--ink); min-width: 3ch;
+  font-variant-numeric: tabular-nums;
+}
+input[type="range"] { accent-color: var(--accent); width: min(260px, 52vw); }
+
+.btn-toggle {
+  font-family: var(--font-graphic); font-size: 12px;
+  padding: 7px 13px;
+  border: 1px solid var(--hair); border-radius: 3px;
+  background: var(--panel); color: var(--ink-soft); cursor: pointer;
+}
+.btn-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-toggle:not([aria-pressed="true"]):hover { background: var(--paper-2); }
+.btn-toggle:active { transform: translateY(1px); }
+.btn-toggle[disabled] { opacity: 0.45; cursor: default; transform: none; }
+
+.modes {
+  display: flex; border: 1px solid var(--hair);
+  border-radius: 3px; overflow: hidden;
+}
+.modes button {
+  font-family: var(--font-graphic); font-size: 12px;
+  padding: 7px 13px; border: 0; cursor: pointer;
+  background: var(--panel); color: var(--ink-soft);
+  border-left: 1px solid var(--hair);
+}
+.modes button:first-child { border-left: 0; }
+.modes button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.modes button:not([aria-pressed="true"]):hover { background: var(--paper-2); }
+
+/* ============================================================================
+ * Features grid — short labeled explainers
+ * ========================================================================== */
+.features {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 26px 40px; margin: 26px 0 8px;
+}
+.features p { font-size: 0.92em; color: var(--ink-soft); margin: 0; }
+
+/* ============================================================================
+ * Figure furniture — legend strips and editorial subheads
+ * ========================================================================== */
+/* Legend strip: the one sanctioned legend — a single sentence-like row that
+ * decodes SEGMENT color semantics (condition-colored lines, binned ramps).
+ * Series identity still gets direct labels, never a legend. */
+.legend-strip {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 6px 18px; padding: 4px 2px 12px;
+  font-family: var(--font-graphic); font-size: 12px; color: var(--ink-soft);
+}
+.legend-strip .key { display: inline-flex; align-items: center; gap: 7px; }
+.legend-strip .swatch {
+  display: inline-block; width: 18px; height: 3px; border-radius: 1px;
+  background: var(--data-1);
+}
+.legend-strip .swatch.dashed {
+  height: 0; border-top: 2px dashed var(--ink-soft); background: none;
+}
+.legend-strip .lead { color: var(--ink); font-weight: 600; }
+
+/* Editorial subhead: a full-sentence bold claim dividing rows of figures
+ * ("In late June, excess deaths were very high where..."). */
+.fig-subhed {
+  font-family: var(--font-graphic);
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  margin: 44px 0 14px; max-width: 62ch;
+}
+
+/* Panel title for small multiples: plain sans over each panel. */
+.panel-title {
+  font-family: var(--font-graphic);
+  font-size: 13.5px; color: var(--ink);
+  margin: 0 0 6px;
+}
+
+/* ============================================================================
+ * Data tables — hairline rules, tabular numerals
+ * ========================================================================== */
+table.data {
+  border-collapse: collapse; width: 100%;
+  font-family: var(--font-graphic); font-size: 0.82em;
+}
+table.data caption {
+  text-align: left; font-weight: 700; color: var(--ink);
+  padding-bottom: 8px;
+}
+table.data th {
+  text-align: left; font-weight: 700; color: var(--ink);
+  border-bottom: 1px solid var(--ink); padding: 6px 14px 6px 0;
+}
+table.data td {
+  border-bottom: 1px solid var(--hair);
+  padding: 7px 14px 7px 0; color: var(--ink-soft);
+}
+table.data th.num, table.data td.num {
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+table.data td.num { color: var(--ink); }
+
+/* ============================================================================
+ * Colophon & footer
+ * ========================================================================== */
+.colophon {
+  background: var(--paper-2); border-top: 1px solid var(--hair);
+  margin-top: 70px; padding: 54px 0 64px;
+}
+.colophon h2 { margin-top: 0; }
+.colophon p { font-size: 0.94em; }
+.colophon .note { font-size: 0.86em; color: var(--ink-soft); }
+
+footer { padding: 26px 0 40px; background: var(--paper-2); }
+footer p {
+  font-family: var(--font-graphic); font-size: 11.5px;
+  color: var(--ink-soft); margin: 0;
+}
+
+/* ============================================================================
+ * Responsive · print · motion
+ * ========================================================================== */
+@media (max-width: 760px) {
+  .figrow, .features { grid-template-columns: 1fr; }
+  header.hero { padding-top: 48px; }
+}
+
+@media print {
+  .controls { display: none; }
+  .plate-wrap { box-shadow: none; }
+  body { font-size: 12pt; }
+}
