@@ -93,7 +93,7 @@
     margin-bottom: 1.75rem;
   }
   .logo {
-    height: 1.25rem;
+    height: 1.5rem;
     width: auto;
     flex-shrink: 0;
     color: var(--text);
@@ -284,6 +284,21 @@
     max-width: 7rem;
     max-height: 1.5rem;
   }
+  /* Very long wordmarks (10:1 and wider) need more run to stay legible */
+  .brands li.xwide img {
+    max-width: 8.75rem;
+    max-height: 1.5rem;
+  }
+  /* Stacked mark-over-wordmark logos need height rather than width */
+  .brands li.tall img {
+    max-width: 2.75rem;
+    max-height: 2.75rem;
+  }
+  /* Mark beside a multi-line wordmark */
+  .brands li.lockup img {
+    max-width: 7.5rem;
+    max-height: 2.5rem;
+  }
   .brands li:hover img {
     opacity: 0.75;
   }
@@ -388,38 +403,37 @@
 
   <section class="brands-section" aria-label="Brands I've worked with">
     <div class="brands-label">
-      <span class="dot" aria-hidden="true"></span>
-      <h2>Brands I've worked with</h2>
+      <h2>I'VE WORKED WITH</h2>
     </div>
     <ul class="brands">
-      <li class="mark"><img src="assets/logos/apple.svg" alt="Apple" loading="lazy" /></li>
-      <li><img src="assets/logos/nike.svg" alt="Nike" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/target.svg" alt="Target" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/apple.svg" alt="Apple" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/nike.svg" alt="Nike" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/target.svg" alt="Target" loading="lazy" /></li>
       <li class="wide"><img src="assets/logos/walmart.svg" alt="Walmart" loading="lazy" /></li>
-      <li class="wide"><img src="assets/logos/snowflake.svg" alt="Snowflake" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/yum-brands.png" alt="Yum! Brands" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/white-house.png" alt="The White House" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/snowflake.svg" alt="Snowflake" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/yum-brands.png" alt="Yum! Brands" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/white-house.svg" alt="The White House" loading="lazy" /></li>
       <li><img src="assets/logos/us-bank.svg" alt="U.S. Bank" loading="lazy" /></li>
       <li class="mark"><img src="assets/logos/deutsche-bank.svg" alt="Deutsche Bank" loading="lazy" /></li>
-      <li><img src="assets/logos/visa.svg" alt="Visa" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/visa.svg" alt="Visa" loading="lazy" /></li>
       <li class="wide"><img src="assets/logos/chanel.svg" alt="Chanel" loading="lazy" /></li>
       <li><img src="assets/logos/ford.svg" alt="Ford" loading="lazy" /></li>
       <li><img src="assets/logos/coca-cola.svg" alt="Coca-Cola Swire" loading="lazy" /></li>
       <li class="wide"><img src="assets/logos/disney.svg" alt="Disney" loading="lazy" /></li>
-      <li><img src="assets/logos/nbc.svg" alt="NBC" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/nfl.png" alt="NFL" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/nbc.svg" alt="NBC" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/nfl.png" alt="NFL" loading="lazy" /></li>
       <li class="wide"><img src="assets/logos/ge-healthcare.svg" alt="GE HealthCare" loading="lazy" /></li>
       <li class="wide"><img src="assets/logos/loreal.svg" alt="L'Oréal" loading="lazy" /></li>
-      <li class="wide"><img src="assets/logos/unitedhealth.svg" alt="UnitedHealth Group" loading="lazy" /></li>
-      <li><img src="assets/logos/bbva.svg" alt="BBVA" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/ups.svg" alt="UPS" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/unitedhealth.svg" alt="UnitedHealth Group" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/bbva.svg" alt="BBVA" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/ups.svg" alt="UPS" loading="lazy" /></li>
       <li><img src="assets/logos/dhl.svg" alt="DHL" loading="lazy" /></li>
-      <li><img src="assets/logos/randstad.svg" alt="Randstad" loading="lazy" /></li>
-      <li class="mark"><img src="assets/logos/pg.png" alt="Procter &amp; Gamble" loading="lazy" /></li>
-      <li><img src="assets/logos/unilever.svg" alt="Unilever" loading="lazy" /></li>
-      <li class="wide"><img src="assets/logos/la-z-boy.svg" alt="La-Z-Boy" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/randstad.svg" alt="Randstad" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/pg.svg" alt="Procter &amp; Gamble" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/unilever.svg" alt="Unilever" loading="lazy" /></li>
+      <li class="xwide"><img src="assets/logos/la-z-boy.svg" alt="La-Z-Boy" loading="lazy" /></li>
       <li><img src="assets/logos/telus.svg" alt="Telus" loading="lazy" /></li>
-      <li><img src="assets/logos/sony.svg" alt="Sony Interactive Entertainment" loading="lazy" /></li>
+      <li class="lockup"><img src="assets/logos/sony.svg" alt="Sony Interactive Entertainment" loading="lazy" /></li>
     </ul>
   </section>
 
