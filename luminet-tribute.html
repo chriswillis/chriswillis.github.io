@@ -571,17 +571,17 @@
 
 <section>
   <div class="wide">
-    <p class="eyebrow">The mirage</p>
-    <h2>The sky behind, bent</h2>
+    <p class="eyebrow">A stellar mirage</p>
+    <h2>Warping the starfield</h2>
     <div class="col" style="margin-left:0; padding-left:0;">
-      <p>Luminet left the stars out, and so did we, until now: light from the sky behind the hole is bent too, and it needs no disk. Every background star appears at least twice, once on either side of the shadow. A star sitting exactly behind the hole smears into a complete circle, the Einstein ring, and rays that skim the photon sphere can loop once, twice, endlessly, so image upon image of the entire sky piles onto the thin rim at b&nbsp;=&nbsp;3&radic;3&nbsp;M. Unlike the disk's light, starlight arrives unshifted: the energy a photon spends climbing out exactly repays what it gained falling in.</p>
+      <p>(This is a work-in-progress) Luminet left the stars out. But the same equations can be used to show how starlight from behind the hole is warped, too. Every background star appears at least twice, once on either side of the shadow. A star sitting exactly behind the hole smears out into a complete circle, the Einstein (photon) ring, and rays that skim the photon sphere can loop once, twice, infinitely. So, it's image upon image of the entire sky piles onto the thin rim (at b&nbsp;=&nbsp;3&radic;3&nbsp;M). Unlike the disk's light, starlight arrives unshifted: The energy a photon spends climbing out exactly repays what it gained falling in.</p>
     </div>
     <figure>
       <div class="plate-wrap">
         <canvas id="lens-plate" width="1280" height="640" role="img"
           aria-label="A random field of stars gravitationally lensed by the black hole: each star appears twice, stretched into tangential arcs that lengthen near the central shadow and pile into a thin bright ring at the photon-ring radius."></canvas>
       </div>
-      <figcaption><span class="figno">Fig. 10</span> <b>A thousand stars, lensed.</b> Every star in a random background field is drawn at each visible image position: a primary arc on the far side of the shadow, a fainter mirror image on the near side, and higher orders that merge into the rim. Arcs lengthen as their star lies closer to the exact anti-observer axis; a star precisely behind the hole closes into a full Einstein ring. The paper's own "return of light" ring (deflection 180&deg;, b&nbsp;&asymp;&nbsp;5.35&nbsp;M) sits just outside the rim. The frame is 36&nbsp;M wide.
+      <figcaption><span class="figno"></span> <b>(WIP) 2,000 gravitationally lensed stars</b> Every star in a random background field is drawn at each visible image position: a primary arc on the far side of the shadow, a fainter mirror image on the near side, and higher orders that merge into the rim. Arcs lengthen as their star lies closer to the exact anti-observer axis; a star precisely behind the hole closes into a full Einstein ring. The paper's own "return of light" ring (deflection 180&deg;, b&nbsp;&asymp;&nbsp;5.35&nbsp;M) sits just outside the rim. The frame is 36&nbsp;M wide.
         <span class="source">Source: the paper's Eqs. 3, 4 and 5 applied to starlight; the geometry of its Fig. 2.</span></figcaption>
     </figure>
   </div>
@@ -589,7 +589,10 @@
 
 <div class="colophon">
   <div class="col">
-    <h2>Sources and fidelity notes</h2>
+    <h2>Sources and notes</h2>
+    <h3>Why did I do this?</h3>
+    <p>Some things just draw you inescapably down the rabbit, uh, black hole. During the Covid pandemic I read Sean Carroll's,"<a href="https://www.amazon.com/dp/0593186583?lv=shuf&hvlocphy=9029694&hvptwo=&hvnetw=g&mcid=&hvext=372746366575&hvadid=813013136585&language=en_US&hvpone=&hvlocint=&hvcampaign=23946688072&hydadcr=11474_13716608_2515456&hvpos=&hvdev=c&hvdvcmdl=&hvocijid=2932094671538568045--&hvqmt=a&hvexpln=0&tag=smgglusdsadts-20&hvtargid=kwl-2484167636399&adgrpid=195855869885&hvrand=2932094671538568045&channelId=500&ref_=&plpRedirect=mhFallback">The Biggest Ideas in the Universe: Space, Time, and Motion</a>." It made some complex but beautiful ideas accessible with out dumbing them down. That led me to being investigating one of the greatest achievements of human thought and creativity: Einstein's General Relativity. Before I knew it, I was deep into energy-momentum tensors and Christoffel symbols. And while I had a good science and computer programming background, the power of Claude, Cursor, and other models helped me immensely in some complex coding. So, why did I do this? Becasue I couldn't help it and now the tools remove any excuses I might have had.
+    </p>
     <p>
       The paper: J.-P. Luminet,
       <a href="https://articles.adsabs.harvard.edu/pdf/1979A%26A....75..228L">&ldquo;Image of a spherical black hole with thin accretion disk,&rdquo;</a>
@@ -1936,7 +1939,7 @@ var BH = (function () {
       });
   }
 
-  /* ---------- the mirage: a background starfield, lensed (Fig. 10) ----------
+  /* ---------- Warping starfield, lensed (Fig. 10) ----------
    * Rays from infinity to infinity: the star seen at plate point (b, a) lies
    * in the direction the reversed ray escapes, at angle delta(b) from the
    * anti-observer axis (see BH.deflectionOfP). Because the bending happens
@@ -1976,7 +1979,7 @@ var BH = (function () {
     }
 
     var sd = 24601; function rs() { sd = (sd * 1103515245 + 12345) & 0x7fffffff; return sd / 0x7fffffff; }
-    for (var k = 0; k < 1000; k++) {
+    for (var k = 0; k < 2000; k++) {
       var phiS = rs() * 2 * Math.PI;           // sky azimuth
       var chi = Math.acos(1 - 2 * rs());       // polar angle, isotropic on the sphere
       var mag = 0.35 + 0.65 * rs() * rs();
