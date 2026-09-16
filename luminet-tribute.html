@@ -372,15 +372,13 @@
     <p class="eyebrow">Historical interlude</p>
     <h2>Even Einstein didn&rsquo;t think this was possible</h2>
 
-    <p>In November 1915 Einstein presented the final form of his general theory
-    of relativity to the Prussian Academy of Sciences. He did not expect anyone
-    to find an exact solution to it, himself included. His equations are not
-    only complex, they are non-linear, which means there is no easy way to
-    just add things up. Said another way, gravity gravitates: the field is its
-    own source.</p>
+    <p>In November 1915, Einstein stood before the Prussian Academy of Sciences
+    and presented what many consider the most beautiful theory in the history
+    of physics. Almost in the same breath, he admitted he didn&rsquo;t think
+    anyone could actually do anything with it&mdash;himself included.</p>
 
     <figure>
-      <div class="eqn" id="eqn-efe"></div>
+      <p class="eq" id="eqn-efe" style="font-size:1.35em; margin:0 0 6px" aria-label="G mu nu equals R mu nu minus one half R g mu nu equals 8 pi G over c to the fourth, times T mu nu"><span aria-hidden="true"><i>G</i><sub><i>&mu;&nu;</i></sub>&ensp;&equiv;&ensp;<i>R</i><sub><i>&mu;&nu;</i></sub> &minus; <span class="fr"><span class="nu">1</span><span class="de">2</span></span><i>R</i>&thinsp;<i>g</i><sub><i>&mu;&nu;</i></sub>&ensp;=&ensp;<span class="fr"><span class="nu">8&pi;<i>G</i></span><span class="de"><i>c</i><sup>4</sup></span></span>&thinsp;<i>T</i><sub><i>&mu;&nu;</i></sub></span></p>
       <figcaption>
         <span class="figno">Eq. 0</span> <b>Ten equations in one line.</b>
         The Einstein field equations of 25 November 1915, in modern notation. The
@@ -391,25 +389,41 @@
       </figcaption>
     </figure>
 
-    <p>But within weeks, Karl Schwarzschild sent Einstein an exact solution for
-    the spacetime around a single point mass&mdash;the very first. Einstein wrote
-    back that he had not expected the problem could be solved so simply, and
-    presented the paper to the Academy on Schwarzschild&rsquo;s behalf in
-    January 1916.</p>
+    <p>His equations are complex and non-linear. There is no easy way to just
+    add things up. Gravity gravitates: the gravity field is its own source,
+    bending back on itself in ways that make the math nearly impenetrable.
+    Einstein had rewritten the rules of the universe, but solving those rules
+    was another problem entirely.</p>
 
-    <p>Schwarzschild did all this on the Russian front, where he was serving as
-    an artillery officer and calculating shell trajectories. He was already ill
-    with pemphigus, an autoimmune skin disease that was then untreatable, and
-    he died in May 1916, four months after his paper was read. (His solution is
-    annotated in &ldquo;Six key equations, annotated&rdquo; below.)</p>
+    <p>Then, just weeks later, he received a letter from the Russian front.</p>
 
-    <p>Buried in that solution is a radius where the mathematics breaks
-    down&mdash;a surface that nothing, not even light, could climb back out of.
-    Neither man read it as a prediction. Schwarzschild took it for a
-    mathematical boundary, not a place, and Einstein argued as late as 1939
-    that nature would never let matter collapse that far. There was no word for
-    what they had found; &ldquo;black hole&rdquo; would not enter the language
-    until the 1960s. Today it has a name, and a photograph.</p>
+    <p>Karl Schwarzschild was an artillery officer, shell-trajectory
+    calculator, and apparently one of the most gifted mathematical minds of his
+    generation. In just weeks, he had found an exact solution. The first one.
+    Einstein wrote back that he hadn&rsquo;t expected the problem could be
+    solved so simply, and then personally presented Schwarzschild&rsquo;s paper
+    to the Academy in January 1916.</p>
+
+    <p>The solution itself was remarkable. Schwarzschild had done this while
+    serving in one of the deadliest theaters of World War&nbsp;I, stricken with
+    an autoimmune skin disease that would kill him four months after his paper
+    was read. (His annotated equation leads the &ldquo;Six key equations&rdquo;
+    below.)</p>
+
+    <p>Buried inside his solution was something neither man was prepared to
+    believe. There was a radius&mdash;a point of no return&mdash;where the
+    mathematics broke down entirely, an infinitely deep gravitational hole
+    that not even light could escape. Neither Einstein nor Schwarzschild read
+    it as a prediction. Schwarzschild called it a mathematical boundary, not a
+    physical place. Einstein argued as late as 1939 that nature would never
+    permit a monstrous entity like that to exist.</p>
+
+    <p>They had discovered the black hole fifty years before anyone had the
+    word for it.</p>
+
+    <p>Today, everyone has seen one. At the time, two of the greatest
+    scientific minds of their era looked at the math they discovered and told
+    themselves it couldn&rsquo;t possibly be real.</p>
   </div>
 </section>
 
@@ -976,14 +990,65 @@ var BH = (function () {
 </script>
 
 <script>
-/* ============================================================
- * Page figures.
- * ============================================================ */
+/* ============================================================================
+ * From equations to pixels: every figure on the page.
+ *
+ * This file is meant to be read. The module above (BH) is the physics: six
+ * equations from Luminet (1979) turned into functions, each annotated with
+ * the paper's equation number. Read that first. This block never does any
+ * physics of its own; it only asks BH two questions, over and over:
+ *   BH.screenPoint(r, phi, theta0, order)  where does the disk point (r, phi)
+ *                                          land on the photographic plate?
+ *   BH.onePlusZ(r, b, theta0, alpha)       and how much is its light shifted?
+ * and then turns the answers into ink.
+ *
+ * THE PIPELINE, which every figure below follows in some form:
+ *   1. SAMPLE    walk the disk in its own coordinates (r, phi), project each
+ *                point to the plate, and compute its observed brightness.
+ *   2. ACCUMULATE  drop each sample into a grid cell on the plate, keeping a
+ *                running sum and a count per cell.
+ *   3. DEVELOP   divide sums by counts to get the mean flux per cell, fill
+ *                the few cells no sample happened to hit, soften slightly.
+ *   4. RENDER    paint the finished field: as a photograph, a stipple, a
+ *                negative, a plotter drawing, a contour map, or an SVG.
+ * Luminet did steps 1-3 on an IBM 7040 and step 4 by hand, with ink and a
+ * pen, one dot at a time. Steps 1-2 are the slow part here too, so they run
+ * in time slices between animation frames while the page stays responsive.
+ *
+ * DESIGN NOTE, forward versus inverse rendering: a modern ray tracer works
+ * backwards, firing one ray per PIXEL from the camera and asking where it
+ * came from. This page does the opposite, as the paper did: it starts from
+ * points ON THE DISK and asks where they land. That is why there are sums
+ * and counts per cell (several disk points can land in one cell, and some
+ * cells get none), why a "develop" step exists at all, and why the code
+ * speaks of a photographic plate rather than a screen.
+ *
+ * VOCABULARY (used consistently below):
+ *   plate        the observer's image plane, in units of M, hole at (0, 0),
+ *                x to the right, y up; the near side of the disk is at the
+ *                bottom (see screenPoint's convention in BH).
+ *   master       the one wide plate window on which the field is computed.
+ *   frame/view   a 2:1 crop of the master that a canvas actually shows.
+ *   field        a Float64Array of mean observed flux per grid cell, in
+ *                units of the disk's intrinsic peak (BH.FSMAX), so 1.0 is
+ *                "as bright as the brightest ring would be if unshifted".
+ *   cell         one element of that grid, GW x GH over the master window.
+ *   order        0 = direct image, 1 = ghost (secondary) image, i.e. light
+ *                that went once around the hole before reaching us.
+ *   develop      the pass that turns raw sums into a finished field.
+ *   exposure     a display gamma; higher shows more of the faint outer disk.
+ * ============================================================================ */
 (function () {
   'use strict';
   var DEG = Math.PI / 180;
 
-  /* ---------- Figure A / C: isoradial curves via Observable Plot ---------- */
+  /* ---------- Figs. 3-5: isoradial curves via Observable Plot ---------- */
+  /* One ring of the disk, projected. Walk the ring's azimuth phi through a
+   * full turn and ask BH.screenPoint where each point lands. The result is
+   * the image of a circle of radius r: for the direct image (order 0) a
+   * flattened loop, for the ghost (order 1) a small ring hugging the shadow.
+   * screenPoint returns null where no ray connects that disk point to the
+   * observer, so a curve can have gaps; Plot simply draws what it is given. */
   function curve(r, theta0, order, step) {
     var pts = [];
     for (var i = 0; i <= 360; i += (step || 1)) {
@@ -992,6 +1057,16 @@ var BH = (function () {
     }
     return pts;
   }
+  /* The skeleton drawing: four direct rings, their four ghosts, and the
+   * photon ring, exactly the ingredients of the paper's Figs. 5 and 6.
+   * The argument is the observer's ELEVATION above the disk plane because
+   * that is how people talk about the view ("10 degrees above"), but the
+   * physics wants the polar angle from the disk's axis, theta0 = 90 - elev.
+   * (Mixing the two is the classic reproduction bug; see BH's notation.)
+   * The dotted circle at b = 3*sqrt(3) M is the photon ring, the plate radius
+   * of rays that graze the photon sphere at r = 3 M. Every ghost image is
+   * squeezed into a thin band just outside it, and nothing at all arrives
+   * from inside it: that disc is the shadow. */
   function isoradialPlot(elevDeg, opts) {
     var theta0 = (90 - elevDeg) * DEG;
     var marks = [];
@@ -1008,7 +1083,9 @@ var BH = (function () {
       ring.push({ x: BH.BC * Math.cos(i * DEG), y: BH.BC * Math.sin(i * DEG) });
     marks.push(Plot.line(ring, { x: 'x', y: 'y', stroke: 'currentColor',
       strokeWidth: 0.6, strokeDasharray: '1,3' }));
-    // ring distance labels on the upper-right arc, as the paper labels Figs. 5-6
+    // Ring distance labels on the upper-right arc, as the paper labels Figs. 5-6.
+    // phi = 155 deg is on the far side of the disk, so the label sits on the
+    // arch over the shadow where the curves are widest apart.
     [6, 10, 20, 30].forEach(function (r) {
       var p = BH.screenPoint(r, 155 * DEG, theta0, 0);
       marks.push(Plot.text([{ x: p.x, y: p.y, t: r + ' M' }],
@@ -1032,6 +1109,10 @@ var BH = (function () {
     });
   }
 
+  /* Figs. 3 and 4: the paper's two published viewpoints, 30 and 10 degrees
+   * above the plane (theta0 = 60 and 80 degrees). Same window for both so
+   * the eye can compare how the arch rises as the observer drops toward the
+   * plane. */
   function drawStatic() {
     var f60 = isoradialPlot(30, {
       step: 1, x0: -40, x1: 40, y0: -24, y1: 34,
@@ -1047,7 +1128,16 @@ var BH = (function () {
     document.getElementById('figA-80').appendChild(f80);
   }
 
-  /* ---------- Figure C: slider ---------- */
+  /* ---------- Fig. 5: the inclination slider ---------- */
+  /* Each redraw re-solves the light-bending problem for every point on eight
+   * curves (about 3,000 calls into BH.screenPoint, each a bisection over
+   * elliptic integrals), which is a few tens of milliseconds. That is too
+   * slow to do on every 'input' event while the thumb is dragged, so the
+   * handler below coalesces: it records the latest value and redraws at
+   * most once per animation frame, with a coarser step (every 4 degrees of
+   * phi) while dragging. The 'change' event, which fires when the thumb is
+   * released, redraws once at full resolution. The visible effect is a
+   * drawing that follows the finger and then sharpens when it stops. */
   var figC = document.getElementById('figC');
   var inclInput = document.getElementById('incl');
   var inclOut = document.getElementById('incl-out');
@@ -1080,11 +1170,17 @@ var BH = (function () {
   });
 
   /* ---------- The plate: flux field, computed in chunks ---------- */
-  /* The field is computed once on a wide master window; the visible frame is a
-   * crop of it, so the frame slider never needs a recompute. */
-  var GW = 1000, GH = 500;                          // master field grid
+  /* Steps 1-3 of the pipeline for the two big plates (the hero at the top
+   * and the darkroom plate below). The field is computed ONCE on a wide
+   * master window; every visible frame is a crop of it, so the frame slider
+   * and the four rendering modes never trigger a recompute. The master is
+   * 100 x 50 M at 10 cells per M, and it is offset (MX0 = -52, MX1 = 48)
+   * because the image itself is lopsided: the approaching, Doppler-boosted
+   * left side is brighter and, once the disk is drawn out to r = 30 M,
+   * needs more room than the right. */
+  var GW = 1000, GH = 500;                          // master field grid, 10 cells per M
   var MX0 = -52, MX1 = 48, MY0 = -28, MY1 = 22;     // master window in M
-  var THETA0 = 80 * DEG;                            // 10 deg above the plane
+  var THETA0 = 80 * DEG;                            // POLAR angle: 10 deg above the plane
   var FRAME_CX = 1.5, FRAME_CY = 0;                 // shadow centred vertically in the frame
   var HERO_EXPOSURE = 0.35;                         // hero plate exposure (same scale as the
                                                     // darkroom slider; higher is brighter)
@@ -1094,6 +1190,13 @@ var BH = (function () {
     var cy = Math.min(Math.max(FRAME_CY, MY0 + hh), MY1 - hh);
     return { x0: cx - hw, x1: cx + hw, y0: cy - hh, y1: cy + hh };
   }
+  /* The accumulators (step 2). Each cell keeps a running SUM of observed
+   * flux and a COUNT of samples; the mean, sum/count, becomes FIELD at
+   * develop time. The same is done for (1+z), the combined gravitational
+   * and Doppler shift, so the Doppler tint later knows each cell's mean
+   * shift without re-tracing anything. Flat typed arrays indexed
+   * row * GW + col are used throughout: half a million cells, and the
+   * sampling loop touches them tens of millions of times. */
   var FIELD = new Float64Array(GW * GH);
   var fsum = new Float64Array(GW * GH);
   var fcnt = new Int32Array(GW * GH);
@@ -1107,11 +1210,20 @@ var BH = (function () {
   var FMAX_EXPECTED = 2.81;
   var fieldDone = false;
 
+  /* The disk's inner edge, as a polygon on the plate. The disk ends at the
+   * innermost stable circular orbit, r = 6 M; inside it gas cannot orbit
+   * and falls in, so the plate is dark there except for the thin ghost
+   * ring. Its direct image, sampled every 2 degrees of phi, outlines that
+   * dark moat, and insideEdge() asks whether a plate point lies within it. */
   var edgePoly = [];
   for (var i = 0; i <= 360; i += 2) {
     var p = BH.screenPoint(6, i * DEG, THETA0, 0);
     edgePoly.push([p.x, p.y]);
   }
+  /* Point-in-polygon by the even-odd rule: cast a ray from (x, y) toward
+   * +x and count the edges it crosses; an odd count means inside. The
+   * same six-line test recurs below under other names (insidePoly2,
+   * inPoly, inside) because each pass owns its own polygons. */
   function insideEdge(x, y) {
     var inside = false;
     for (var i = 0, j = edgePoly.length - 1; i < edgePoly.length; j = i++) {
@@ -1120,16 +1232,33 @@ var BH = (function () {
     }
     return inside;
   }
+  /* Plate coordinates (in M, y up) to a grid index (row-major, y down), or
+   * -1 when the point falls outside the master window. */
   function cellOf(x, y) {
     var px = Math.floor((x - MX0) / (MX1 - MX0) * GW), py = Math.floor((MY1 - y) / (MY1 - MY0) * GH);
     return (px < 0 || px >= GW || py < 0 || py >= GH) ? -1 : py * GW + px;
   }
 
-  // deterministic jitter (stratified sampling kills the radial banding)
+  /* A tiny seeded random generator (a linear congruential generator with
+   * the classic ANSI C constants). Math.random would do for the pictures,
+   * but a fixed seed means every visitor develops the SAME plate, dot for
+   * dot, and a bug report can be reproduced exactly. The samples below use
+   * it for STRATIFIED jitter: instead of tracing the disk on a regular
+   * (r, phi) lattice, which prints through as moire and radial banding on
+   * the plate, each sample sits at a random offset inside its own lattice
+   * cell. Coverage stays even; the pattern disappears. */
   var seed = 987654321;
   function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
 
-  // ghost ring first: Luminet's estimate, r = 9.55 M light on a b = 5.25 M line
+  /* The ghost ring, laid down first. In an opaque disk almost all of the
+   * secondary image is hidden behind the disk itself; what survives, in
+   * Luminet's estimate (p. 234), is a thin bright line at plate radius
+   * b = 5.25 M, just outside the photon ring, carrying the light of the
+   * disk's brightest zone at r = 9.55 M. It is seeded here as a narrow band
+   * of samples and only inside the moat (insideEdge), since anywhere the
+   * direct image lands the direct samples will overwrite it (see the
+   * absorption rule in computeRows). The full, uncensored secondary image
+   * is computed separately in computeGhostField for the transparent mode. */
   (function ghostRing() {
     var fs = BH.fluxIntrinsic(9.55);
     for (var i = 0; i < 2600; i++) {
@@ -1153,6 +1282,22 @@ var BH = (function () {
   heroCtx.fillRect(0, 0, heroCanvas.width, heroCanvas.height);
   var note = document.getElementById('develop-note');
 
+  /* Step 1 and 2, the heart of the plate. The disk is walked as NR rows in
+   * radius from the ISCO (6 M) out to 30 M, each row NPHI points around in
+   * azimuth, each point jittered within its lattice cell (see rnd). For
+   * each point:
+   *   - BH.screenPoint projects it to the plate along the direct ray;
+   *   - BH.onePlusZ gives its shift; the sign of alpha is flipped for the
+   *     mirrored half (phi > pi) so the receding side is always the plate's
+   *     right, as Eq. 17 requires;
+   *   - the observed flux is Eq. 15 dimmed by (1+z)^4 (Eq. 19), normalized
+   *     by the intrinsic peak so the field is dimensionless;
+   *   - the value is added to its cell's running sum.
+   * The function is called in small batches from developStep so the browser
+   * can paint between them; rowIndex remembers where it left off.
+   * DESIGN NOTE: NR x NPHI = 132,000 rays is far more than the 500 x 500
+   * plate needs for coverage; the excess averages down the Monte Carlo
+   * noise so that the photograph mode is smooth without heavy blurring. */
   function computeRows(nRows) {
     for (var q = 0; q < nRows && rowIndex < NR; q++, rowIndex++) {
       var r = 6 + 24 * (rowIndex + rnd()) / NR;
@@ -1171,7 +1316,12 @@ var BH = (function () {
         // (Luminet: the visible secondary "reduces to" the thin uncovered line).
         if (fcnt[k] < 1e9) { fsum[k] = 0; zsum[k] = 0; fcnt[k] = 1e9; }
         fsum[k] += v; zsum[k] += z1; fcnt[k]++;
-        // progressive inking of the hero plate
+        // Progressive inking of the hero plate: the develop animation. Each
+        // sample draws a small random number of dots, expected count a power
+        // of its brightness, straight onto the hero canvas as it is traced,
+        // so the reader watches the image emerge row by row from the inner
+        // edge outward. This is texture, not the finished plate: that is
+        // re-rendered from the averaged field in finishField.
         var dots = 3.2 * Math.pow(Math.min(v / FMAX_EXPECTED, 1), 1.8 - HERO_EXPOSURE) * 0.55;
         var n = Math.floor(dots) + (rnd() < dots - Math.floor(dots) ? 1 : 0);
         for (var d = 0; d < n; d++) inkDot(heroCtx, p.x, p.y, '#e9e7e0');
@@ -1179,6 +1329,9 @@ var BH = (function () {
     }
   }
   var heroView = viewWindow(76);
+  /* One 2x2 grain on the hero canvas, with half a pixel of jitter so grains
+   * from the same cell do not stack into a visible lattice. Dots outside
+   * the hero's 76 M frame are simply skipped. */
   function inkDot(ctx, x, y, color) {
     if (x < heroView.x0 || x > heroView.x1 || y < heroView.y0 || y > heroView.y1) return;
     var W = ctx.canvas.width, H = ctx.canvas.height;
@@ -1189,6 +1342,28 @@ var BH = (function () {
   }
 
   var FIELDP = new Float64Array(GW * GH); // hole-filled + softened, for photo mode
+  /* Step 3, DEVELOP. Runs once, when the last row has been traced.
+   *   a. Averages: FIELD = sum / count per cell, ZFIELD likewise for (1+z).
+   *      (The 1e9 offset on fcnt is the absorption sentinel from computeRows
+   *      and is stripped here.)
+   *   b. Hole fill. Forward rendering leaves a few cells that no sample
+   *      happened to hit, and they would print as black pinpricks. But a
+   *      dark cell is only a GAP if it lies where the direct image should
+   *      be: between the outer rim's curve (r = 30) and the inner edge's
+   *      (r = 6). The moat around the shadow and the sky beyond the disk are
+   *      dark because they are dark. So a "fillable" mask is built from
+   *      those two polygons first, and only masked holes are filled, by up
+   *      to four passes of "take the mean of your lit 3x3 neighbours if at
+   *      least three of them are lit". Each pass closes holes one cell
+   *      wider; four passes handle every gap the sampling density leaves.
+   *   c. DIRECTMASK remembers which cells the direct image owns, for the
+   *      transparent-disk mode later.
+   *   d. FIELDP, a copy softened by one 3x3 binomial blur (weights 1-2-1),
+   *      for the photograph mode; the stipple modes read the raw FIELD,
+   *      since their grain hides the noise on its own.
+   * Then the finished hero plate is faded in, the darkroom plate is drawn,
+   * and the slower optional passes (the full secondary image, the contour
+   * maps) are queued behind short pauses so the page feels settled first. */
   function finishField() {
     var hole = new Uint8Array(GW * GH);
     ZFIELD = new Float64Array(GW * GH);
@@ -1275,6 +1450,14 @@ var BH = (function () {
     }, 600);
   }
 
+  /* The time-slicing driver for the sampling loop. Tracing all 132,000 rays
+   * in one go would freeze the page for several seconds, so this traces in
+   * bursts of about 34 ms (roughly two animation frames), updates the
+   * progress note, and yields with setTimeout(0) so the browser can paint
+   * the dots just inked and respond to scrolling. The whole plate develops
+   * in a few seconds on a laptop, longer on a phone, and the page is usable
+   * throughout. (A Web Worker would be the heavier-duty solution; this keeps
+   * the whole page in one file with no build step.) */
   function developStep() {
     var t0 = performance.now();
     while (performance.now() - t0 < 34 && rowIndex < NR) computeRows(2);
@@ -1299,6 +1482,10 @@ var BH = (function () {
    * mirror above -- the view Interstellar later made famous. Same equations
    * throughout; brightness still Eq. 15 dimmed by Eq. 19's (1+z)^4. */
   function computeGhostField(onDone) {
+    // The same sampling loop as computeRows, at slightly lower density (the
+    // secondary image is small on the plate), with order = 1 and with NO
+    // absorption sentinel: every ghost photon is kept. Private accumulators
+    // so the finished direct field is never disturbed.
     var NR2 = 150, NPHI2 = 520, row = 0;
     var gsum = new Float64Array(GW * GH), gz = new Float64Array(GW * GH),
         gcnt = new Int32Array(GW * GH);
@@ -1327,6 +1514,13 @@ var BH = (function () {
     step();
   }
 
+  /* Develop the secondary image and combine it with the direct one. Same
+   * recipe as finishField: averages, masked hole fill, then a blur, except
+   * that the footprint mask is now bounded by the GHOST images of the two
+   * rim curves. Note the inversion: in the secondary image the ISCO (r = 6)
+   * is the OUTERMOST curve and the r = 30 rim hugs the photon ring, because
+   * light from farther out in the disk has to bend less to reach us and so
+   * lands closer to the critical radius. */
   function finishGhost(gsum, gz, gcnt, onDone) {
     var N = GW * GH;
     var GF = new Float64Array(N), GZ = new Float64Array(N);
@@ -1379,9 +1573,12 @@ var BH = (function () {
       }
       GF = next; GZ = nextZ; ghole = nextHole;
     }
-    // combine: direct light (without the baked-in thin-line ghost estimate,
-    // which the full secondary replaces) plus the complete order-1 image;
-    // the tint field is the flux-weighted mean of the two shifts
+    // Combine: direct light (without the baked-in thin-line ghost estimate,
+    // which the full secondary replaces) plus the complete order-1 image.
+    // Where both images overlap, the tint field takes the flux-weighted mean
+    // of their two shifts, since that is what the eye would see: the colour
+    // of whichever light dominates that cell. XMAX is recorded so the
+    // transparent plate can renormalize its own exposure.
     XFIELD = new Float64Array(N);
     XZ = new Float64Array(N);
     XMAX = 0;
@@ -1407,7 +1604,10 @@ var BH = (function () {
     if (onDone) onDone();
   }
 
-  /* ---------- plate rendering from the finished field ---------- */
+  /* ---------- Step 4: rendering the finished field ---------- */
+  /* From here down nothing is traced; everything reads FIELD (or its
+   * siblings) and paints. The darkroom plate keeps its state in a handful
+   * of "current*" variables that the controls write and renderDark reads. */
   var darkCanvas = document.getElementById('dark-plate');
   var darkCtx = darkCanvas.getContext('2d');
   var currentMode = 'pos', currentExpo = 0.35, currentFrame = 76, currentTint = false,
@@ -1421,7 +1621,15 @@ var BH = (function () {
    * tint: color each grain by its cell's mean (1+z) from Eqs. 17-19 --
    * blue where beaming wins (1+z < 1), red where gravity and recession win.
    * A modern annotation, so the historical hero plate never uses it. */
+  /* Map a cell's mean (1+z) to a tint strength in [-1, +1]: zero at no net
+   * shift, negative (blue) where 1+z < 1, positive (red) beyond. The gain
+   * of 3.5 saturates the colour at a 29% shift either way, which is about
+   * the range the disk spans at this inclination, so the whole scale of the
+   * effect is used without clipping in the middle. */
   function shiftT(z1) { return Math.max(-1, Math.min(1, (z1 - 1) * 3.5)); }
+  /* Grain colour for the stipple modes: blend the plain ink toward a warm
+   * red or a cool blue by the tint strength. The negative uses deeper
+   * pigments so they still read against paper. */
   function tintColor(z1, negative) {
     var t = shiftT(z1);
     var base = negative ? [23, 24, 26] : [233, 231, 224];
@@ -1432,6 +1640,21 @@ var BH = (function () {
                     Math.round(base[1] + (to[1] - base[1]) * a) + ',' +
                     Math.round(base[2] + (to[2] - base[2]) * a) + ')';
   }
+  /* Paint one plate. Three of the four modes live here; the plotter mode
+   * has its own machinery below.
+   *   'photo'  Continuous tone. The visible crop of the softened field is
+   *            written pixel-for-cell into an offscreen ImageData with a
+   *            gamma of `power`, then scaled up onto the canvas with
+   *            bilinear smoothing. This is the "what a camera would record"
+   *            view and the closest to the 2019 EHT image.
+   *   'pos'    Ink on black, the look of Luminet's original plate: for each
+   *            cell, a handful of 2x2 grains, their expected number a power
+   *            of the cell's flux. Tone is carried by grain DENSITY, as in
+   *            the paper, where the dots were placed by hand from the
+   *            computed values.
+   *   'neg'    The same stipple inverted, dark ink on paper.
+   * All three read the same view window as the skeleton overlay, so the
+   * SVG anatomy stays registered on top of them at any frame width. */
   function renderPlate(ctx, mode, power, frameW, tint, xray) {
     var W = ctx.canvas.width, H = ctx.canvas.height;
     // Transparent disk: same renderer, different field. The combined field is
@@ -1447,6 +1670,9 @@ var BH = (function () {
     var s = 424242; function rr() { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }
 
     if (mode === 'photo') {
+      // One ImageData pixel per field cell, so the crop is written at the
+      // field's native 10 cells/M and the canvas upscales it (for a 76 M
+      // frame that is 760 x 380 cells onto 1280 x 640 pixels).
       var cw = Math.round(gx1 - gx0), ch = Math.round(gy1 - gy0);
       var ix0 = Math.round(gx0), iy0 = Math.round(gy0);
       var off = document.createElement('canvas');
@@ -1457,6 +1683,9 @@ var BH = (function () {
         var k = (iy0 + y) * GW + (ix0 + x), o = 4 * (y * cw + x);
         var v = Math.pow(Math.min(SFP[k] / vmax, 1), power) * 255;
         if (tint && SZ) {
+          // Tint in the photo mode: push red up and blue down on the receding
+          // side, the reverse on the approaching side, and pull green a
+          // little either way so a strong shift never washes out to white.
           var t = shiftT(SZ[k]);
           id.data[o]     = Math.min(255, v * (1 + 0.55 * Math.max(t, 0) - 0.30 * Math.max(-t, 0)));
           id.data[o + 1] = Math.min(255, v * (1 - 0.16 * Math.abs(t)));
@@ -1492,8 +1721,16 @@ var BH = (function () {
       for (var gx = cx0; gx < cx1; gx++) {
         var v2 = SF[gy * GW + gx] / vmax;
         if (v2 <= 0) continue;
+        // Seed this cell's stream by hashing its coordinates (two large
+        // primes from the spatial-hashing literature); the `|| 1` keeps the
+        // generator off the fixed point at zero.
         var cs = (((gx * 73856093) ^ (gy * 19349663)) >>> 0) || 1;
         var cr = function () { cs = (cs * 1103515245 + 12345) & 0x7fffffff; return cs / 0x7fffffff; };
+        // Expected grains for this cell: about five at full brightness,
+        // falling as a power of the flux, scaled up a little when the frame
+        // is zoomed in (sx = canvas pixels per cell) so density per screen
+        // area holds. The fractional part is realized by a coin toss, which
+        // is what lets a cell average 0.3 grains rather than 0 or 1.
         var expect = 5.2 * Math.pow(Math.min(v2, 1), power + 0.05) * Math.min(sx / 1.6, 1.4);
         var n = Math.floor(expect) + (cr() < expect - Math.floor(expect) ? 1 : 0);
         if (tint && SZ && n > 0) ctx.fillStyle = tintColor(SZ[gy * GW + gx], negative);
@@ -1506,9 +1743,16 @@ var BH = (function () {
   }
 
   /* ---------- anatomy overlay: live SVG skeleton over a plate ---------- */
-  /* Same solver, same view window as the plate beneath, so it stays registered
-   * at any frame width. Curves carry a plate-coloured halo so they stay legible
-   * over the blazing left ansa; everything inverts in the ink-on-paper mode. */
+  /* The labelled diagram that appears over a plate on hover or tap. It is
+   * not a static picture: the curves are re-solved with BH.screenPoint for
+   * the plate's current view window, so they stay registered on the ink
+   * beneath at any frame width. Built as one SVG string with a fixed
+   * 1280 x 640 viewBox and stretched by CSS to the canvas, which keeps the
+   * plate-to-pixel mapping a single multiplication (PX, PY).
+   * Curves and text carry a plate-coloured halo (paint-order="stroke", so
+   * the halo is drawn under the fill) to stay legible over the blazing
+   * left ansa; every colour inverts in the ink-on-paper modes. On phones
+   * the whole SVG scales far down, so labels grow and callouts shorten. */
   function skeletonSVG(vw, negative) {
     var CW = 1280, CH = 640;
     var scale = CW / (vw.x1 - vw.x0);
@@ -1588,12 +1832,18 @@ var BH = (function () {
       s + '</svg>';
   }
 
+  /* Swap a plate's overlay for a freshly built one. Called at boot, on
+   * frame or mode changes (via renderDark), and when the viewport crosses
+   * the small-screen breakpoint. */
   function setSkeleton(container, vw, negative) {
     var old = container.querySelector('.skeleton');
     if (old) old.remove();
     container.insertAdjacentHTML('beforeend', skeletonSVG(vw, negative));
   }
 
+  /* The overlay shows on hover by CSS; the button (and a tap on the plate,
+   * for touch screens with no hover) pins it. aria-pressed keeps the state
+   * readable to assistive technology. */
   function wireAnatomy(innerId, btnId) {
     var inner = document.getElementById(innerId);
     var btn = document.getElementById(btnId);
@@ -1606,11 +1856,33 @@ var BH = (function () {
   }
 
   /* ---------- plotter stipple: weighted Voronoi (Secord, via Bostock) ----------
-   * Dots seeded from the flux density, then relaxed by Lloyd iterations toward
-   * the density-weighted centroids of their Voronoi cells (d3-delaunay).
-   * The relaxation is animated, one iteration per frame. */
+   * The fourth mode is a different kind of picture. The stipple modes above
+   * scatter grains at random inside each cell; this one places a fixed
+   * budget of 11,000 dots so that each dot sits at the centre of the patch
+   * of brightness it represents, which is what a human stippler (or a pen
+   * plotter) does. The method is Adrian Secord's weighted Voronoi stippling
+   * (2002), in the form Mike Bostock published for d3:
+   *   1. SEED    throw dots at random, accepting each with probability
+   *              proportional to the local brightness (rejection sampling),
+   *              so bright regions start denser.
+   *   2. RELAX   repeatedly compute each dot's Voronoi cell (the region of
+   *              the plate nearer to it than to any other dot) and move the
+   *              dot to that cell's brightness-weighted centroid. This is
+   *              Lloyd's algorithm; each step spreads the dots more evenly
+   *              while keeping them where the light is.
+   * The relaxation is animated one iteration per frame, so the reader
+   * watches the dots settle. The result is what the export button saves as
+   * an SVG of circles, ready for a plotter. */
   var vor = { pts: null, n: 11000, cw: 0, ch: 0, den: null, frameKey: -1, remaining: 0, raf: null, k: 0 };
 
+  /* Build the brightness map the stippler works from: the visible crop of
+   * the SOFTENED field, tone-compressed, then blurred twice more. Two
+   * reasons for so much smoothing. Centroidal relaxation is a noise
+   * amplifier: any Monte Carlo mottle in the field becomes clumps of dots.
+   * And a stipple carries tone by spacing alone, with no grey levels to
+   * lean on, so the disk's enormous dynamic range has to be compressed
+   * further than in the other modes (the gamma is a fraction of the
+   * darkroom exposure's) or the outer disk would receive no dots at all. */
   function vorDensity() {
     var power = 1.8 - currentExpo;
     var w = viewWindow(currentFrame);
@@ -1648,6 +1920,9 @@ var BH = (function () {
     vor.den = den; vor.cw = cw; vor.ch = ch;
   }
 
+  /* Rejection sampling: pick a random spot, keep it with probability
+   * density / max density, try again otherwise (up to 200 times, after
+   * which the dot is left at the origin and the relaxation rescues it). */
   function vorSeed() {
     var maxd = 0;
     for (var k = 0; k < vor.den.length; k++) if (vor.den[k] > maxd) maxd = vor.den[k];
@@ -1663,6 +1938,12 @@ var BH = (function () {
     vor.pts = pts;
   }
 
+  /* One Lloyd iteration. Rather than constructing every Voronoi cell
+   * explicitly, walk the density grid and ask the Delaunay triangulation
+   * which dot each grid point is nearest to (delaunay.find, seeded with
+   * the previous answer since neighbouring grid points usually belong to
+   * the same or an adjacent cell). Accumulate density-weighted sums per
+   * dot; the weighted centroid is sum / weight. */
   function vorStep() {
     var n = vor.n, pts = vor.pts, cw = vor.cw, ch = vor.ch, den = vor.den;
     var delaunay = new d3.Delaunay(pts);
@@ -1676,8 +1957,11 @@ var BH = (function () {
         wt[i] += d; cx[i] += d * (x + 0.5); cy[i] += d * (y + 0.5);
       }
     }
-    // Bostock's update: over-relaxation plus decaying annealing jitter,
-    // without which Lloyd freezes into mottled local minima
+    // Bostock's update: move PAST the centroid (over-relaxation, omega = 1.8)
+    // to converge in fewer steps, plus a random nudge that shrinks with each
+    // iteration (simulated annealing). Without the jitter, plain Lloyd
+    // freezes early into mottled local minima; with it, the dots keep
+    // exploring until the pattern is calm.
     var omega = 1.8, jit = Math.pow(vor.k + 1, -0.8) * 10;
     for (var k = 0; k < n; k++) {
       var x0 = pts[2 * k], y0 = pts[2 * k + 1];
@@ -1691,6 +1975,8 @@ var BH = (function () {
     vor.k++;
   }
 
+  /* Draw every dot as one arc in a single path and fill once; far cheaper
+   * than 11,000 separate fill calls, which matters at one draw per frame. */
   function vorDraw() {
     var ctx = darkCtx, W = ctx.canvas.width, H = ctx.canvas.height;
     var sx = W / vor.cw, sy = H / vor.ch, r = 1.6;
@@ -1706,6 +1992,9 @@ var BH = (function () {
     ctx.fill();
   }
 
+  /* The animation loop: one relaxation step per frame until the budget of
+   * steps is spent, or all of them at once for readers who have asked the
+   * operating system for reduced motion. */
   function vorLoop() {
     vor.raf = requestAnimationFrame(function () {
       if (currentMode !== 'vor' || !fieldDone) { vor.raf = null; return; }
@@ -1718,6 +2007,10 @@ var BH = (function () {
     });
   }
 
+  /* Entry point from renderDark. A new frame width means a new crop and a
+   * fresh seeding (96 steps to settle); a change of exposure or tint keeps
+   * the existing dots and re-anneals them gently from a low iteration
+   * count (48 steps), so the picture adjusts rather than starting over. */
   function runVoronoi() {
     var reseed = vor.frameKey !== currentFrame || !vor.pts;
     vorDensity();
@@ -1733,6 +2026,9 @@ var BH = (function () {
     vor.remaining = 0;
   }
 
+  /* Export the settled stipple as an SVG of plain circles: the format a
+   * pen plotter's software expects, and small enough (about 700 KB) to
+   * build as a string and hand to the browser as a download. */
   document.getElementById('export-svg').addEventListener('click', function () {
     if (currentMode !== 'vor' || !vor.pts) return;
     var W = 1280, H = 640, sx = W / vor.cw, sy = H / vor.ch;
@@ -1755,6 +2051,15 @@ var BH = (function () {
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
   });
 
+  /* The darkroom plate's single redraw path. Every control calls this and
+   * nothing else; it reads the current* state, coalesces bursts of calls
+   * into one paint per animation frame (a slider emits dozens of events a
+   * second), dispatches to the plotter or renderPlate, rebuilds the SVG
+   * skeleton only when the frame or paper/ink polarity actually changed,
+   * and keeps the export and tint buttons enabled only when they can do
+   * something. Having one such function is what makes the controls
+   * composable: any combination of mode, exposure, frame, tint and
+   * transparency is just a state and a call. */
   var darkPending = false;
   function renderDark() {
     if (!fieldDone || darkPending) return;
@@ -1805,9 +2110,17 @@ var BH = (function () {
     renderDark();
   });
 
-  /* ---------- constant-flux maps (paper Figs. 9-10) ---------- */
-  /* A fresh direct-image-only field per inclination, computed in the background
-   * after the plate develops, then contoured with d3 and drawn with Plot. */
+  /* ---------- Figs. 9-10 of the paper: curves of constant observed flux ---------- */
+  /* The paper's own way of showing brightness, before it had a picture: a
+   * contour map of F0, the observed flux, at each of the two viewpoints.
+   * Each map needs its own field (a different theta0 from the plates), so
+   * the pipeline runs again here, generalized over inclination, window and
+   * grid size, then d3 contours the field and Plot draws it.
+   * DESIGN NOTE: this is a deliberate near-copy of computeRows +
+   * finishField rather than a shared routine. The plate code carries the
+   * absorption sentinel, the hero inking and the Doppler accumulators, none
+   * of which a contour map needs; keeping this version plain makes it the
+   * easier one to read, and the duplication is the price. */
   function computeFluxFieldAsync(theta0, win, gw, gh, nr, nphi, noteEl, onDone) {
     var sum = new Float64Array(gw * gh), cnt = new Int32Array(gw * gh);
     var edgeP = [], outerP = [];
@@ -1896,6 +2209,14 @@ var BH = (function () {
     slice();
   }
 
+  /* Contour the field at the paper's levels (marching squares, via
+   * d3.contours) and label each ring with its value. The dashed curve is
+   * the disk's inner edge, as in the originals. Label placement is the
+   * fiddly part: the paper puts its numbers at each ring's lower-left, where
+   * the contours are widest apart, so each ring is scored by x + w*y with a
+   * few weights tried in turn, and the first spot that clears every label
+   * already placed wins. A ring that finds no clear spot goes unlabelled;
+   * the paper does not label every crowded ring either. */
   function contourPlot(el, field, win, gw, gh, theta0, label, desc) {
     var LEVELS = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.60, 0.90, 1.20, 1.50, 1.80, 2.10];
     var cs = d3.contours().size([gw, gh]).thresholds(LEVELS)(field);
@@ -1968,6 +2289,9 @@ var BH = (function () {
     el.replaceChildren(node);
   }
 
+  /* The two maps, computed one after the other (not in parallel, so a
+   * single time-sliced job runs at a time and the page stays smooth), each
+   * on a window sized to its image: the 60-degree view is taller. */
   function buildContourMaps() {
     var d60 = document.getElementById('figD-60'), d80 = document.getElementById('figD-80');
     var w60 = { x0: -42, x1: 42, y0: -17, y1: 30 };
@@ -2006,8 +2330,11 @@ var BH = (function () {
     ctx.fillStyle = '#101113';
     ctx.fillRect(0, 0, W, H);
 
-    // delta(b) lookup: P log-spaced from the photon sphere outward;
-    // b ascends while delta descends, so one binary search inverts it
+    // We need b as a function of the bending angle delta, but BH gives
+    // delta as a function of P (and hence b). So tabulate: 241 values of P
+    // log-spaced from just above the photon sphere (where delta diverges)
+    // outward. Along that table b rises and delta falls monotonically, so a
+    // binary search plus linear interpolation inverts it.
     var tab = [];
     for (var i = 0; i <= 240; i++) {
       var P = 3 + Math.pow(10, -9 + i * 12.5 / 240);
@@ -2028,9 +2355,16 @@ var BH = (function () {
     var sd = 24601; function rs() { sd = (sd * 1103515245 + 12345) & 0x7fffffff; return sd / 0x7fffffff; }
     for (var k = 0; k < 2000; k++) {
       var phiS = rs() * 2 * Math.PI;           // sky azimuth
-      var chi = Math.acos(1 - 2 * rs());       // polar angle, isotropic on the sphere
+      var chi = Math.acos(1 - 2 * rs());       // polar angle; acos of a uniform
+                                               // variable gives points spread
+                                               // evenly over the sphere, not
+                                               // bunched at the poles
       var mag = 0.35 + 0.65 * rs() * rs();
       var eps = 0.006 + 0.010 * rs() * mag;    // angular-size proxy
+      // The first three rungs of the image ladder: the primary image on the
+      // far side of the hole from the star, the first secondary on the same
+      // side, and the second-order image back on the far side. Higher orders
+      // all fall within a hair of b_c and would only thicken the rim.
       var images = [
         { delta: chi,               az: phiS + Math.PI, fade: 1.0,  w: 2.4 },
         { delta: 2 * Math.PI - chi, az: phiS,           fade: 0.6,  w: 1.7 },
@@ -2052,6 +2386,13 @@ var BH = (function () {
   }
 
   /* ---------- boot ---------- */
+  /* Order matters a little. Everything cheap and synchronous goes first:
+   * blank the darkroom plate, draw the static figures and the slider's
+   * initial state, the starfield, and the skeleton overlays (which need
+   * only BH, not the field). Then the controls are wired. developStep is
+   * the very last call, because it starts the long time-sliced trace, and
+   * every figure above should already be on the page before the first
+   * batch of rays goes out. */
   darkCtx.fillStyle = '#101113';
   darkCtx.fillRect(0, 0, darkCanvas.width, darkCanvas.height);
   drawStatic();
@@ -2072,12 +2413,17 @@ var BH = (function () {
     this.setAttribute('aria-pressed', String(currentXray));
     renderDark();
   });
-  /* Fig. 6: hovering or focusing a symbol lights its every occurrence, so the
-   * reader can watch one quantity thread through the whole chain. */
+  /* Printing: the annotated equations live in a collapsed <details>, which
+   * would otherwise print as a single closed summary line. */
   window.addEventListener('beforeprint', function () {
     var d = document.getElementById('eqfold');
     if (d) d.open = true;
   });
+  /* The six equations: hovering or focusing a symbol lights its every
+   * occurrence (all tokens sharing a data-s name), so the reader can watch
+   * one quantity thread through the whole chain from metric to pixel.
+   * Focus and blur are wired as well as mouse events, so it works from the
+   * keyboard. */
   (function eqTokens() {
     var toks = document.querySelectorAll('#eqchain .tok');
     function lite(sym, on) {
@@ -2092,6 +2438,8 @@ var BH = (function () {
       t.addEventListener('blur', function () { lite(sym, false); });
     })(toks[i]);
   })();
+  // Rebuild the overlays when the viewport crosses the phone breakpoint, since
+  // the skeleton chooses its label sizes and wording at build time.
   if (window.matchMedia) {
     window.matchMedia('(max-width: 700px)').addEventListener('change', function () {
       setSkeleton(document.getElementById('hero-inner'), heroView, false);
