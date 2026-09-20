@@ -1,0 +1,73 @@
+[
+	{
+		"id": "opencolor",
+		"name": "Open Color",
+		"url": "https://yeun.github.io/open-color/",
+		"data": "https://github.com/yeun/open-color/blob/master/open-color.json"
+	},
+	{
+		"id": "openprops",
+		"name": "Open Props",
+		"data": "https://github.com/argyleink/open-props/blob/main/src/props.colors.js"
+	},
+	{
+		"id": "tailwind",
+		"name": "Tailwind CSS",
+		"data": "https://github.com/tailwindlabs/tailwindcss/blob/2fedbe0194c0e5c8e5ba76974c2eb523b4e252d0/packages/tailwindcss/theme.css"
+	},
+	{
+		"id": "tailwind-v4",
+		"name": "Tailwind CSS v4",
+		"url": "https://tailwindcss.com/docs/colors",
+		"data": "https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css"
+	},
+	{
+		"id": "material",
+		"name": "Material Design",
+		"data": "https://github.com/material-components/material-components-web/blob/cfec83c749a1b6b6602c4d2fa474d3e776e7c97b/packages/mdc-theme/_color-palette.scss#L96"
+	},
+	{
+		"id": "spectrum",
+		"name": "Adobe Spectrum",
+		"url": "https://spectrum.adobe.com/page/color-palette/",
+		"data": "https://github.com/adobe/spectrum-tokens/blob/ca49b0076718426f468773ad51fdadc486eacced/packages/tokens/src/color-palette.json"
+	},
+	{
+		"id": "primer",
+		"name": "GitHub Primer",
+		"url": "https://primer.style/foundations/color/base-scales/",
+		"data": "https://github.com/primer/primitives/blob/c5599c015b5c05f6a115d5725ce26be4cc1a0a8b/src/tokens/base/color/light/light.json5"
+	},
+	{
+		"id": "polaris",
+		"name": "Shopify Polaris",
+		"url": "https://polaris.shopify.com/tokens/colors",
+		"data": "https://github.com/Shopify/polaris/blob/main/polaris-tokens/src/colors.ts"
+	},
+	{
+		"id": "carbon",
+		"name": "IBM Carbon",
+		"url": "https://www.ibm.com/design/language/color/",
+		"data": "https://github.com/carbon-design-system/carbon/blob/v10/packages/colors/src/colors.js"
+	},
+	{
+		"id": "atlassian",
+		"name": "Atlassian Design System",
+		"url": "https://atlassian.design/foundations/color-new/color-palette-new",
+		"data": "https://bitbucket.org/atlassian/atlassian-frontend-mirror/src/master/design-system/tokens/src/artifacts/palettes-raw/palette.tsx"
+	},
+	{
+		"name": "Flexoki",
+		"url": "https://stephango.com/flexoki"
+	},
+	{
+		"name": "Reasonable Colors",
+		"url": "https://reasonable.work/colors/"
+	},
+	{
+		"id": "webawesome",
+		"name": "Web Awesome",
+		"url": "https://webawesome.com/docs/color-palettes",
+		"data": "https://github.com/shoelace-style/webawesome/blob/next/packages/webawesome/src/styles/color/palettes/default.css"
+	}
+]

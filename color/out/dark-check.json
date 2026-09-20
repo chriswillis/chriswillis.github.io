@@ -1,0 +1,11 @@
+{
+ "balanced λ = 0.5 (the default)": 0.03811518581617647,
+ "λ = 0 — pure WCAG mirror, no calibration": 0.07518479022966397,
+ "λ = 1 — pure APCA mirror, no calibration": 0.07675289815113072,
+ "no near-surface gain": 0.0418218700356996,
+ "λ(n) fit to Radix": 0.029411701537281117,
+ "no chroma factor": 0.03830850168819987,
+ "source system's own w(n)": 0.03902142568854017,
+ "no pin": 0.1196252282185237,
+ "no minimum step separation": 0.038886056965169336
+}

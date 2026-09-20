@@ -1,0 +1,1436 @@
+{
+  "$schema": "palette-dna/figma-variables/1",
+  "note": "Figma has no wide-gamut colour, so these are the sRGB siblings; OKLCH stays canonical in the DTCG file. 0 of 39 tokens sit more than one JND outside sRGB and differ visibly from the P3 value — each carries its own ΔEOK under `wideGamut`. Variables are keyed by `id`: match on that, not on `name`, so a rename stays a rename.",
+  "collections": [
+    {
+      "name": "Tailwind v4 · P3 · derived dark — primitives",
+      "modes": [
+        "Light",
+        "Dark"
+      ],
+      "variables": [
+        {
+          "id": "0fg54w80l4jsl",
+          "name": "brand/50",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 50",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.996078431372549,
+              "g": 0.9686274509803922,
+              "b": 0.9333333333333333,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.11372549019607843,
+              "g": 0.03529411764705882,
+              "b": 0.011764705882352941,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9922 0.9686 0.9373)",
+              "deltaEOK": 0.00079
+            },
+            "Dark": {
+              "value": "color(display-p3 0.102 0.0392 0.0157)",
+              "deltaEOK": 0.00121
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-50)"
+          }
+        },
+        {
+          "id": "06z8qpg18pj0r",
+          "name": "brand/100",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 100",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9882352941176471,
+              "g": 0.8627450980392157,
+              "b": 0.7137254901960784,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.18823529411764706,
+              "g": 0.09019607843137255,
+              "b": 0.0392156862745098,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9686 0.8667 0.7333)",
+              "deltaEOK": 0.00108
+            },
+            "Dark": {
+              "value": "color(display-p3 0.1765 0.0941 0.051)",
+              "deltaEOK": 0.00162
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-100)"
+          }
+        },
+        {
+          "id": "0nwo7790codmt",
+          "name": "brand/200",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 200",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9921568627450981,
+              "g": 0.7411764705882353,
+              "b": 0.48627450980392156,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.28627450980392155,
+              "g": 0.13725490196078433,
+              "b": 0.06666666666666667,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9529 0.7529 0.5255)",
+              "deltaEOK": 0.0011
+            },
+            "Dark": {
+              "value": "color(display-p3 0.2667 0.1451 0.0824)",
+              "deltaEOK": 0.00015
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-200)"
+          }
+        },
+        {
+          "id": "1woy17u18jvc2",
+          "name": "brand/300",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 300",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9803921568627451,
+              "g": 0.611764705882353,
+              "b": 0.2784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.39215686274509803,
+              "g": 0.17254901960784313,
+              "b": 0.07450980392156863,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9294 0.6275 0.3451)",
+              "deltaEOK": 0.00093
+            },
+            "Dark": {
+              "value": "color(display-p3 0.3647 0.1843 0.098)",
+              "deltaEOK": 0.00049
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-300)"
+          }
+        },
+        {
+          "id": "0grsv770ee979",
+          "name": "brand/400",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 400",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.984313725490196,
+              "g": 0.4549019607843137,
+              "b": 0.06666666666666667,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.5098039215686274,
+              "g": 0.20392156862745098,
+              "b": 0.06274509803921569,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9176 0.4863 0.2039)",
+              "deltaEOK": 0.00059
+            },
+            "Dark": {
+              "value": "color(display-p3 0.4745 0.2235 0.1059)",
+              "deltaEOK": 0.00118
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-400)"
+          }
+        },
+        {
+          "id": "1pk2p7s1a9t43",
+          "name": "brand/500",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 500",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9019607843137255,
+              "g": 0.3254901960784314,
+              "b": 0.00784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6313725490196078,
+              "g": 0.23137254901960785,
+              "b": 0.043137254901960784,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8353 0.3647 0.1529)",
+              "deltaEOK": 0.00044
+            },
+            "Dark": {
+              "value": "color(display-p3 0.5843 0.2588 0.1137)",
+              "deltaEOK": 0.00056
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-500)"
+          }
+        },
+        {
+          "id": "16vvaix1d2fij",
+          "name": "brand/600",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 600 — the seed",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            },
+            "Dark": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-600)"
+          }
+        },
+        {
+          "id": "1g8nxr209wvde",
+          "name": "brand/700",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 700",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6235294117647059,
+              "g": 0.21568627450980393,
+              "b": 0.0784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.984313725490196,
+              "g": 0.2823529411764706,
+              "b": 0.027450980392156862,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.5765 0.2431 0.1294)",
+              "deltaEOK": 0.00054
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9098 0.3412 0.1647)",
+              "deltaEOK": 0.00077
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-700)"
+          }
+        },
+        {
+          "id": "09761xj19wr6v",
+          "name": "brand/800",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 800",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.48627450980392156,
+              "g": 0.18823529411764706,
+              "b": 0.09411764705882353,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 0.5137254901960784,
+              "b": 0.41568627450980394,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.451 0.2078 0.1216)",
+              "deltaEOK": 0.00094
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9529 0.5412 0.4431)",
+              "deltaEOK": 0.00792
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-800)"
+          }
+        },
+        {
+          "id": "193slr006r4u4",
+          "name": "brand/900",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 900",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.36470588235294116,
+              "g": 0.1411764705882353,
+              "b": 0.07058823529411765,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 0.7098039215686275,
+              "b": 0.6588235294117647,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.3373 0.1529 0.0902)",
+              "deltaEOK": 0.00114
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9569 0.7216 0.6706)",
+              "deltaEOK": 0.00031
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-900)"
+          }
+        },
+        {
+          "id": "0dgsg691v8ku8",
+          "name": "brand/950",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 950",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.2549019607843137,
+              "g": 0.08627450980392157,
+              "b": 0.0392156862745098,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.996078431372549,
+              "g": 0.8941176470588236,
+              "b": 0.8745098039215686,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.2353 0.098 0.0549)",
+              "deltaEOK": 0.00111
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9804 0.898 0.8784)",
+              "deltaEOK": 0.00062
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-950)"
+          }
+        },
+        {
+          "id": "1xaydb80q8u7e",
+          "name": "taupe/50",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 50",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.984313725490196,
+              "g": 0.9803921568627451,
+              "b": 0.9764705882352941,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.043137254901960784,
+              "g": 0.03529411764705882,
+              "b": 0.03137254901960784,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9843 0.9804 0.9765)",
+              "deltaEOK": 0.00031
+            },
+            "Dark": {
+              "value": "color(display-p3 0.0431 0.0353 0.0314)",
+              "deltaEOK": 0.00097
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-50)"
+          }
+        },
+        {
+          "id": "0l969u815ipv4",
+          "name": "taupe/100",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 100",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.8862745098039215,
+              "g": 0.8705882352941177,
+              "b": 0.8627450980392157,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.11372549019607843,
+              "g": 0.10980392156862745,
+              "b": 0.10980392156862745,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8824 0.8706 0.8627)",
+              "deltaEOK": 0.00065
+            },
+            "Dark": {
+              "value": "color(display-p3 0.1137 0.1098 0.1098)",
+              "deltaEOK": 0.00043
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-100)"
+          }
+        },
+        {
+          "id": "1b290j50a577e",
+          "name": "taupe/200",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 200",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.788235294117647,
+              "g": 0.7607843137254902,
+              "b": 0.7490196078431373,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.2,
+              "g": 0.1843137254901961,
+              "b": 0.1843137254901961,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.7843 0.7608 0.749)",
+              "deltaEOK": 0.00079
+            },
+            "Dark": {
+              "value": "color(display-p3 0.1961 0.1843 0.1843)",
+              "deltaEOK": 0.00081
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-200)"
+          }
+        },
+        {
+          "id": "0bxridi15odju",
+          "name": "taupe/300",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 300",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6941176470588235,
+              "g": 0.6549019607843137,
+              "b": 0.6352941176470588,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.2901960784313726,
+              "g": 0.27058823529411763,
+              "b": 0.2627450980392157,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.6863 0.6549 0.6392)",
+              "deltaEOK": 0.00137
+            },
+            "Dark": {
+              "value": "color(display-p3 0.2863 0.2706 0.2627)",
+              "deltaEOK": 0.00068
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-300)"
+          }
+        },
+        {
+          "id": "11qu92f082y2k",
+          "name": "taupe/400",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 400",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6,
+              "g": 0.5529411764705883,
+              "b": 0.5294117647058824,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.38823529411764707,
+              "g": 0.3568627450980392,
+              "b": 0.34901960784313724,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.5922 0.5529 0.5333)",
+              "deltaEOK": 0.00144
+            },
+            "Dark": {
+              "value": "color(display-p3 0.3843 0.3569 0.349)",
+              "deltaEOK": 0.00111
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-400)"
+          }
+        },
+        {
+          "id": "029z6ik13yfrs",
+          "name": "taupe/500",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 500",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.5098039215686274,
+              "g": 0.4470588235294118,
+              "b": 0.42745098039215684,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.49019607843137253,
+              "g": 0.45098039215686275,
+              "b": 0.43137254901960786,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.498 0.451 0.4314)",
+              "deltaEOK": 0.00139
+            },
+            "Dark": {
+              "value": "color(display-p3 0.4824 0.451 0.4353)",
+              "deltaEOK": 0.00148
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-500)"
+          }
+        },
+        {
+          "id": "1rij3zx08xaog",
+          "name": "taupe/600",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 600",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.40784313725490196,
+              "g": 0.3568627450980392,
+              "b": 0.33725490196078434,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.596078431372549,
+              "g": 0.5450980392156862,
+              "b": 0.5215686274509804,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.4 0.3569 0.3412)",
+              "deltaEOK": 0.00181
+            },
+            "Dark": {
+              "value": "color(display-p3 0.5882 0.5451 0.5255)",
+              "deltaEOK": 0.0016
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-600)"
+          }
+        },
+        {
+          "id": "0se1lua14sula",
+          "name": "taupe/700",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 700",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.3137254901960784,
+              "g": 0.27058823529411763,
+              "b": 0.2549019607843137,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7058823529411765,
+              "g": 0.6392156862745098,
+              "b": 0.6196078431372549,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.3059 0.2706 0.2588)",
+              "deltaEOK": 0.00178
+            },
+            "Dark": {
+              "value": "color(display-p3 0.6941 0.6431 0.6235)",
+              "deltaEOK": 0.0011
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-700)"
+          }
+        },
+        {
+          "id": "19bh2c316py17",
+          "name": "taupe/800",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 800",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.2235294117647059,
+              "g": 0.1843137254901961,
+              "b": 0.17647058823529413,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.8,
+              "g": 0.7490196078431373,
+              "b": 0.7294117647058823,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.2157 0.1843 0.1765)",
+              "deltaEOK": 0.00147
+            },
+            "Dark": {
+              "value": "color(display-p3 0.7922 0.749 0.7333)",
+              "deltaEOK": 0.0016
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-800)"
+          }
+        },
+        {
+          "id": "0j2mudk03kdw2",
+          "name": "taupe/900",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 900",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.12941176470588237,
+              "g": 0.10980392156862745,
+              "b": 0.10196078431372549,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.9019607843137255,
+              "g": 0.8588235294117647,
+              "b": 0.8470588235294118,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.1255 0.1098 0.102)",
+              "deltaEOK": 0.00082
+            },
+            "Dark": {
+              "value": "color(display-p3 0.8941 0.8588 0.8471)",
+              "deltaEOK": 0.00102
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-900)"
+          }
+        },
+        {
+          "id": "0ij5m391ypwyu",
+          "name": "taupe/950",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 950",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.047058823529411764,
+              "g": 0.0392156862745098,
+              "b": 0.03529411764705882,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.9882352941176471,
+              "g": 0.9725490196078431,
+              "b": 0.9686274509803922,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.0471 0.0392 0.0353)",
+              "deltaEOK": 0.00094
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9843 0.9725 0.9686)",
+              "deltaEOK": 0.00059
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-taupe-950)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tailwind v4 · P3 · derived dark — semantic",
+      "modes": [
+        "Light",
+        "Dark"
+      ],
+      "variables": [
+        {
+          "id": "1oxoyff0zn94w",
+          "name": "background/page",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The app background. Not taken from the ramp; it is the surface everything else is measured against. Requirement: given — the page background the ramp is solved against.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.984313725490196,
+              "g": 0.984313725490196,
+              "b": 0.9764705882352941,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.00784313725490196,
+              "g": 0.023529411764705882,
+              "b": 0.09411764705882353,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "#fbfbf9",
+              "deltaEOK": 0
+            },
+            "Dark": {
+              "value": "#020618",
+              "deltaEOK": 0
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-page)"
+          }
+        },
+        {
+          "id": "1pvacjh15jkra",
+          "name": "background/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "A tinted band behind a section — readable as a different surface, not as an element. Requirement: calibrated: Radix's step 2 sits ΔEOK 0.010–0.015 from its step 1 in light mode, 0.019–0.036 in dark.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.996078431372549,
+              "g": 0.9686274509803922,
+              "b": 0.9333333333333333,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.11372549019607843,
+              "g": 0.03529411764705882,
+              "b": 0.011764705882352941,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9922 0.9686 0.9373)",
+              "deltaEOK": 0.00079
+            },
+            "Dark": {
+              "value": "color(display-p3 0.102 0.0392 0.0157)",
+              "deltaEOK": 0.00121
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-subtle)"
+          }
+        },
+        {
+          "id": "1xuktho0m55ry",
+          "name": "surface/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The resting fill of a component — a card, an input, an unpressed button. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9882352941176471,
+              "g": 0.8627450980392157,
+              "b": 0.7137254901960784,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.18823529411764706,
+              "g": 0.09019607843137255,
+              "b": 0.0392156862745098,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9686 0.8667 0.7333)",
+              "deltaEOK": 0.00108
+            },
+            "Dark": {
+              "value": "color(display-p3 0.1765 0.0941 0.051)",
+              "deltaEOK": 0.00162
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-normal)"
+          }
+        },
+        {
+          "id": "0uelis30b4d0s",
+          "name": "surface/hover",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The same component under the pointer. A JND is the floor for a state change to register at all. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9921568627450981,
+              "g": 0.7411764705882353,
+              "b": 0.48627450980392156,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.28627450980392155,
+              "g": 0.13725490196078433,
+              "b": 0.06666666666666667,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9529 0.7529 0.5255)",
+              "deltaEOK": 0.0011
+            },
+            "Dark": {
+              "value": "color(display-p3 0.2667 0.1451 0.0824)",
+              "deltaEOK": 0.00015
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-hover)"
+          }
+        },
+        {
+          "id": "1ylu6p90vbj79",
+          "name": "surface/active",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "Pressed, or selected. Also used for `surface/selected`. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9803921568627451,
+              "g": 0.611764705882353,
+              "b": 0.2784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.39215686274509803,
+              "g": 0.17254901960784313,
+              "b": 0.07450980392156863,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9294 0.6275 0.3451)",
+              "deltaEOK": 0.00093
+            },
+            "Dark": {
+              "value": "color(display-p3 0.3647 0.1843 0.098)",
+              "deltaEOK": 0.00049
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-active)"
+          }
+        },
+        {
+          "id": "0fcd1u30qbyo7",
+          "name": "border/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "A separator or a decorative hairline — not required to identify anything, so no 3:1 claim. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.984313725490196,
+              "g": 0.4549019607843137,
+              "b": 0.06666666666666667,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.5098039215686274,
+              "g": 0.20392156862745098,
+              "b": 0.06274509803921569,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9176 0.4863 0.2039)",
+              "deltaEOK": 0.00059
+            },
+            "Dark": {
+              "value": "color(display-p3 0.4745 0.2235 0.1059)",
+              "deltaEOK": 0.00118
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-subtle)"
+          }
+        },
+        {
+          "id": "1xqlb4d00nhc4",
+          "name": "border/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "The edge of a component whose fill already identifies it. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9019607843137255,
+              "g": 0.3254901960784314,
+              "b": 0.00784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6313725490196078,
+              "g": 0.23137254901960785,
+              "b": 0.043137254901960784,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8353 0.3647 0.1529)",
+              "deltaEOK": 0.00044
+            },
+            "Dark": {
+              "value": "color(display-p3 0.5843 0.2588 0.1137)",
+              "deltaEOK": 0.00056
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-normal)"
+          }
+        },
+        {
+          "id": "0dp8jfl1p02b8",
+          "name": "border/strong",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "A boundary that is the only thing identifying a control. This is a requirement, not a position, so it can land well past the step a system uses for its strong border — on most hues it lands on the brand fill, which is where a focus ring belongs anyway. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9019607843137255,
+              "g": 0.3254901960784314,
+              "b": 0.00784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.984313725490196,
+              "g": 0.2823529411764706,
+              "b": 0.027450980392156862,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8353 0.3647 0.1529)",
+              "deltaEOK": 0.00044
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9098 0.3412 0.1647)",
+              "deltaEOK": 0.00077
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-strong)"
+          }
+        },
+        {
+          "id": "1s7dhvm1m54d2",
+          "name": "border/focus",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "The focus ring. Same requirement as a strong border; usually the same step. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9019607843137255,
+              "g": 0.3254901960784314,
+              "b": 0.00784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.984313725490196,
+              "g": 0.2823529411764706,
+              "b": 0.027450980392156862,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8353 0.3647 0.1529)",
+              "deltaEOK": 0.00044
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9098 0.3412 0.1647)",
+              "deltaEOK": 0.00077
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-focus)"
+          }
+        },
+        {
+          "id": "0segw9j1azvb7",
+          "name": "background/solid",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The brand fill. Found by chroma, not contrast: across Radix its contrast against the background spans 1.46–5.07 in light mode, so no threshold identifies it. Requirement: measured — the peak-chroma step, which the DNA records as `peakIndex`.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            },
+            "Dark": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-solid)"
+          }
+        },
+        {
+          "id": "0k39tii10c4i3",
+          "name": "background/solid/hover",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The brand fill under the pointer. Requirement: measured — one step past the peak, the direction every reference moves its solid on hover.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6235294117647059,
+              "g": 0.21568627450980393,
+              "b": 0.0784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.984313725490196,
+              "g": 0.2823529411764706,
+              "b": 0.027450980392156862,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.5765 0.2431 0.1294)",
+              "deltaEOK": 0.00054
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9098 0.3412 0.1647)",
+              "deltaEOK": 0.00077
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-solid-hover)"
+          }
+        },
+        {
+          "id": "0hgvt3m07v4pg",
+          "name": "indicator/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "A status dot, a badge fill, a chart series marker. The brand color at full strength. Requirement: measured — the same step as the solid.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7607843137254902,
+              "g": 0.2549019607843137,
+              "b": 0.047058823529411764,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            },
+            "Dark": {
+              "value": "color(display-p3 0.70357 0.29132 0.13525)",
+              "deltaEOK": 0
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-indicator-normal)"
+          }
+        },
+        {
+          "id": "11vw5v40ej4dq",
+          "name": "icon/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "SHAPE_FILL",
+            "FRAME_FILL"
+          ],
+          "description": "A glyph carrying meaning. Non-text, so 3:1 — but APCA asks Lc 45 of anything with strokes that fine, and the assignment takes whichever step clears both. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9019607843137255,
+              "g": 0.3254901960784314,
+              "b": 0.00784313725490196,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 0.5137254901960784,
+              "b": 0.41568627450980394,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.8353 0.3647 0.1529)",
+              "deltaEOK": 0.00044
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9529 0.5412 0.4431)",
+              "deltaEOK": 0.00792
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-icon-normal)"
+          }
+        },
+        {
+          "id": "1v9rr6c0n6ou4",
+          "name": "content/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Secondary text. \"Subtle\" names its role, not a discount on legibility: it still has to clear body-text contrast. Requirement: WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.48627450980392156,
+              "g": 0.18823529411764706,
+              "b": 0.09411764705882353,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 0.7098039215686275,
+              "b": 0.6588235294117647,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.451 0.2078 0.1216)",
+              "deltaEOK": 0.00094
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9569 0.7216 0.6706)",
+              "deltaEOK": 0.00031
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-subtle)"
+          }
+        },
+        {
+          "id": "172wsj21a5wbz",
+          "name": "content/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Primary text: the most contrasting step the ramp has. The thresholds are checked rather than used to select, so the report says whether the darkest step actually reaches AAA — on Radix's dark scale it clears 7:1 easily and reaches Lc 86–96, short of the Lc 90 APCA wants for fluent text in 18 of 25 families. Requirement: WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.2549019607843137,
+              "g": 0.08627450980392157,
+              "b": 0.0392156862745098,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.996078431372549,
+              "g": 0.8941176470588236,
+              "b": 0.8745098039215686,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.2353 0.098 0.0549)",
+              "deltaEOK": 0.00111
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9804 0.898 0.8784)",
+              "deltaEOK": 0.00062
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-normal)"
+          }
+        },
+        {
+          "id": "1gd8kb21d7ebd",
+          "name": "content/on-solid",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Text or an icon on the brand fill, and the role where palettes actually break. White clears 4.5:1 on only 5 of Radix's 25 light solids, and black covers the rest — so WCAG alone is always satisfiable. Satisfying WCAG and APCA with the *same* colour is not: on blue-9 white reaches 3.26:1 / Lc 65 and black 6.43:1 / Lc 45, and on 15 of the 25 solids the two measures prefer opposite foregrounds and neither clears both. The assignment resolves per family, says which measure prefers what, and reports the lightness the fill would need for one colour to satisfy both. Requirement: WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "#ffffff",
+              "deltaEOK": 0
+            },
+            "Dark": {
+              "value": "#ffffff",
+              "deltaEOK": 0
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-on-solid)"
+          }
+        },
+        {
+          "id": "1kod0011gfi8s",
+          "name": "content/disabled",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Text in a disabled control. The one role with no criterion behind it, so it takes the quietest step that is still readable at all. Requirement: WCAG 2.1 exempts disabled controls from 1.4.3 and 1.4.11, so nothing published applies; the floor here is APCA Lc 30, its spot-reading level — a licence to be quiet, not to disappear.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.984313725490196,
+              "g": 0.4549019607843137,
+              "b": 0.06666666666666667,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 0.5137254901960784,
+              "b": 0.41568627450980394,
+              "a": 1
+            }
+          },
+          "wideGamut": {
+            "Light": {
+              "value": "color(display-p3 0.9176 0.4863 0.2039)",
+              "deltaEOK": 0.00059
+            },
+            "Dark": {
+              "value": "color(display-p3 0.9529 0.5412 0.4431)",
+              "deltaEOK": 0.00792
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-disabled)"
+          }
+        }
+      ]
+    }
+  ]
+}

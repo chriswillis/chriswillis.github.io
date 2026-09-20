@@ -1,0 +1,497 @@
+{
+ "source": "185 chromatic ramps across 13 reference systems in dna/",
+ "stepUniformityCv": {
+  "p10": 0.15842703133031757,
+  "median": 0.3350738683411056,
+  "p90": 0.9210020387670892,
+  "min": 0.0622380232598072,
+  "max": 1.0813061167219764
+ },
+ "smallestStep": {
+  "p10": 0.01400745019834333,
+  "median": 0.03455939127443017,
+  "p90": 0.051501826629517314,
+  "min": 0.008229701460702985,
+  "max": 0.0749425990572413
+ },
+ "cvd": {
+  "protan": {
+   "minAdjacent": {
+    "p10": 0.011736249072602687,
+    "median": 0.028662216622433533,
+    "p90": 0.04684951591490016,
+    "min": 0.00616379783445663,
+    "max": 0.06757981898697674
+   },
+   "collapsedPairs": {
+    "p10": 0,
+    "median": 0,
+    "p90": 1,
+    "min": 0,
+    "max": 5
+   }
+  },
+  "deutan": {
+   "minAdjacent": {
+    "p10": 0.012958931747337676,
+    "median": 0.03193056173331732,
+    "p90": 0.04492985275306673,
+    "min": 0.008338575868070585,
+    "max": 0.07164431365344305
+   },
+   "collapsedPairs": {
+    "p10": 0,
+    "median": 0,
+    "p90": 0,
+    "min": 0,
+    "max": 5
+   }
+  },
+  "tritan": {
+   "minAdjacent": {
+    "p10": 0.013142324625564469,
+    "median": 0.030463616505564586,
+    "p90": 0.05380849977620071,
+    "min": 0.005449203638448574,
+    "max": 0.07421418711898252
+   },
+   "collapsedPairs": {
+    "p10": 0,
+    "median": 0,
+    "p90": 0,
+    "min": 0,
+    "max": 5
+   }
+  }
+ },
+ "usable45": {
+  "p10": 0.08888888888888889,
+  "median": 0.2878787878787879,
+  "p90": 0.34545454545454546,
+  "min": 0,
+  "max": 0.45454545454545453
+ },
+ "usableLc60": {
+  "p10": 0.12222222222222222,
+  "median": 0.24175824175824176,
+  "p90": 0.325,
+  "min": 0,
+  "max": 0.4772727272727273
+ },
+ "relCSrgb": {
+  "p10": 0.5724896740196901,
+  "median": 0.8729270025062705,
+  "p90": 0.9986884005191707,
+  "min": 0.18458528372896146,
+  "max": 1.0388228782340347
+ },
+ "atShellSrgb": {
+  "p10": 0,
+  "median": 0.2727272727272727,
+  "p90": 0.8,
+  "min": 0,
+  "max": 1
+ },
+ "crossFamily": {
+  "opencolor": {
+   "pairs": 66,
+   "collapsed": {
+    "deutan": 1,
+    "protan": 1
+   },
+   "worstDeutan": {
+    "a": "violet",
+    "b": "indigo",
+    "before": 0.08033159804452836,
+    "after": 0.011123069613719483
+   }
+  },
+  "openprops": {
+   "pairs": 120,
+   "collapsed": {
+    "protan": 4,
+    "deutan": 2
+   },
+   "worstDeutan": {
+    "a": "indigo",
+    "b": "violet",
+    "before": 0.08033159804452836,
+    "after": 0.011123069613719483
+   }
+  },
+  "tailwind": {
+   "pairs": 136,
+   "collapsed": {
+    "tritan": 4,
+    "deutan": 6,
+    "protan": 3
+   },
+   "worstDeutan": {
+    "a": "blue",
+    "b": "purple",
+    "before": 0.1631859723797522,
+    "after": 0.0037003600605822846
+   }
+  },
+  "tailwind-v4": {
+   "pairs": 136,
+   "collapsed": {
+    "tritan": 2,
+    "deutan": 12,
+    "protan": 2
+   },
+   "worstDeutan": {
+    "a": "violet",
+    "b": "purple",
+    "before": 0.05640754911660576,
+    "after": 0.004477533223341162
+   }
+  },
+  "material": {
+   "pairs": 78,
+   "collapsed": {
+    "deutan": 2
+   },
+   "worstDeutan": {
+    "a": "purple",
+    "b": "indigo",
+    "before": 0.17006662684496504,
+    "after": 0.013662154211355564
+   }
+  },
+  "spectrum": {
+   "pairs": 78,
+   "collapsed": {
+    "tritan": 1,
+    "deutan": 1
+   },
+   "worstDeutan": {
+    "a": "indigo",
+    "b": "purple",
+    "before": 0.09631675766669807,
+    "after": 0.007727850735910901
+   }
+  },
+  "primer": {
+   "pairs": 28,
+   "collapsed": {
+    "protan": 1,
+    "tritan": 1
+   },
+   "worstDeutan": {
+    "a": "yellow",
+    "b": "orange",
+    "before": 0.0835648274720555,
+    "after": 0.03144162176914651
+   }
+  },
+  "polaris": {
+   "pairs": 66,
+   "collapsed": {
+    "tritan": 1
+   },
+   "worstDeutan": {
+    "a": "azure",
+    "b": "magenta",
+    "before": 0.28056835970771826,
+    "after": 0.048241887175805014
+   }
+  },
+  "carbon": {
+   "pairs": 36,
+   "collapsed": {},
+   "worstDeutan": {
+    "a": "orange",
+    "b": "yellow",
+    "before": 0.0996240162882497,
+    "after": 0.023501262230816028
+   }
+  },
+  "atlassian": {
+   "pairs": 36,
+   "collapsed": {},
+   "worstDeutan": {
+    "a": "lime",
+    "b": "orange",
+    "before": 0.1954255982037042,
+    "after": 0.048344658836063294
+   }
+  },
+  "webawesome": {
+   "pairs": 36,
+   "collapsed": {
+    "protan": 1
+   },
+   "worstDeutan": {
+    "a": "indigo",
+    "b": "purple",
+    "before": 0.09987118644500302,
+    "after": 0.03848275896221215
+   }
+  },
+  "radix-light": {
+   "pairs": 300,
+   "collapsed": {
+    "tritan": 9,
+    "protan": 6,
+    "deutan": 6
+   },
+   "worstDeutan": {
+    "a": "grass",
+    "b": "brown",
+    "before": 0.16309591985825464,
+    "after": 0.009262982752479918
+   }
+  },
+  "radix-dark": {
+   "pairs": 300,
+   "collapsed": {
+    "tritan": 9,
+    "protan": 6,
+    "deutan": 6
+   },
+   "worstDeutan": {
+    "a": "grass",
+    "b": "brown",
+    "before": 0.16309591985825464,
+    "after": 0.009262982752479918
+   }
+  }
+ },
+ "perSystem": {
+  "opencolor": {
+   "ramps": 12,
+   "cvStep": 0.22638240773651894,
+   "minStep": 0.027326614644657233,
+   "cvdMinAdjacent": {
+    "protan": 0.03294616424628142,
+    "deutan": 0.03516186773297678,
+    "tritan": 0.03439606315175176
+   },
+   "collapsedPairs": {
+    "protan": 0,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.0462962962962963,
+   "usableLc60": 0.09166666666666667,
+   "relCSrgb": 0.8867402206182514
+  },
+  "openprops": {
+   "ramps": 16,
+   "cvStep": 0.259182529781215,
+   "minStep": 0.027326614644657233,
+   "cvdMinAdjacent": {
+    "protan": 0.03373529623207497,
+    "deutan": 0.037288585564132296,
+    "tritan": 0.03673708286596197
+   },
+   "collapsedPairs": {
+    "protan": 0,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.19711538461538464,
+   "usableLc60": 0.1842948717948718,
+   "relCSrgb": 0.8496797456005221
+  },
+  "tailwind": {
+   "ramps": 17,
+   "cvStep": 0.33766171029356046,
+   "minStep": 0.026855280598747693,
+   "cvdMinAdjacent": {
+    "protan": 0.028110927068026585,
+    "deutan": 0.03239126178309649,
+    "tritan": 0.032509273247245944
+   },
+   "collapsedPairs": {
+    "protan": 0.29411764705882354,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.304812834224599,
+   "usableLc60": 0.2925133689839572,
+   "relCSrgb": 0.8990788515064447
+  },
+  "tailwind-v4": {
+   "ramps": 17,
+   "cvStep": 0.3368412836966222,
+   "minStep": 0.02692778320498459,
+   "cvdMinAdjacent": {
+    "protan": 0.029739364332078154,
+    "deutan": 0.030962419753459768,
+    "tritan": 0.032102043949507206
+   },
+   "collapsedPairs": {
+    "protan": 0.17647058823529413,
+    "deutan": 0.35294117647058826,
+    "tritan": 0.058823529411764705
+   },
+   "usable45": 0.30802139037433157,
+   "usableLc60": 0.2887700534759358,
+   "relCSrgb": 0.9729645880867859
+  },
+  "material": {
+   "ramps": 13,
+   "cvStep": 0.36855425257034563,
+   "minStep": 0.016604386141879462,
+   "cvdMinAdjacent": {
+    "protan": 0.029979610269793757,
+    "deutan": 0.029376301559864135,
+    "tritan": 0.030226297211110885
+   },
+   "collapsedPairs": {
+    "protan": 0.15384615384615385,
+    "deutan": 0.07692307692307693,
+    "tritan": 0.07692307692307693
+   },
+   "usable45": 0.0923076923076923,
+   "usableLc60": 0.0905982905982906,
+   "relCSrgb": 0.7819759636657246
+  },
+  "spectrum": {
+   "ramps": 13,
+   "cvStep": 0.1527536314798146,
+   "minStep": 0.03355074577385544,
+   "cvdMinAdjacent": {
+    "protan": 0.03314551095047737,
+    "deutan": 0.03702069154406944,
+    "tritan": 0.03819079829729759
+   },
+   "collapsedPairs": {
+    "protan": 0.3076923076923077,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.31868131868131855,
+   "usableLc60": 0.2392223161453931,
+   "relCSrgb": 0.925743557038269
+  },
+  "primer": {
+   "ramps": 8,
+   "cvStep": 0.1936270946952348,
+   "minStep": 0.051053367998789866,
+   "cvdMinAdjacent": {
+    "protan": 0.04711698466023475,
+    "deutan": 0.05157503476408609,
+    "tritan": 0.06079494924100931
+   },
+   "collapsedPairs": {
+    "protan": 0.125,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.3333333333333333,
+   "usableLc60": 0.2569444444444444,
+   "relCSrgb": 0.928150409039895
+  },
+  "polaris": {
+   "ramps": 12,
+   "cvStep": 0.6070303887078411,
+   "minStep": 0.009654506944020636,
+   "cvdMinAdjacent": {
+    "protan": 0.01590846866931564,
+    "deutan": 0.017207262621212138,
+    "tritan": 0.01718530464458611
+   },
+   "collapsedPairs": {
+    "protan": 1.1666666666666667,
+    "deutan": 0.5833333333333334,
+    "tritan": 0.6666666666666666
+   },
+   "usable45": 0.32222222222222213,
+   "usableLc60": 0.32916666666666666,
+   "relCSrgb": 0.9460034128899814
+  },
+  "carbon": {
+   "ramps": 9,
+   "cvStep": 0.14228057249541665,
+   "minStep": 0.06229227207237235,
+   "cvdMinAdjacent": {
+    "protan": 0.05118462925650347,
+    "deutan": 0.05729916257186692,
+    "tritan": 0.06668465063727298
+   },
+   "collapsedPairs": {
+    "protan": 0.1111111111111111,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.39999999999999997,
+   "usableLc60": 0.2679012345679012,
+   "relCSrgb": 0.931706270052394
+  },
+  "atlassian": {
+   "ramps": 9,
+   "cvStep": 0.2418111642643539,
+   "minStep": 0.03039026821506313,
+   "cvdMinAdjacent": {
+    "protan": 0.03118188811380775,
+    "deutan": 0.03504798317622296,
+    "tritan": 0.03825828074643483
+   },
+   "collapsedPairs": {
+    "protan": 0.1111111111111111,
+    "deutan": 0,
+    "tritan": 0
+   },
+   "usable45": 0.25084175084175087,
+   "usableLc60": 0.21969696969696972,
+   "relCSrgb": 0.808672616996047
+  },
+  "webawesome": {
+   "ramps": 9,
+   "cvStep": 0.219637003861953,
+   "minStep": 0.042371186562179766,
+   "cvdMinAdjacent": {
+    "protan": 0.04003379154677934,
+    "deutan": 0.04050005377224505,
+    "tritan": 0.04655848470100313
+   },
+   "collapsedPairs": {
+    "protan": 0,
+    "deutan": 0.1111111111111111,
+    "tritan": 0
+   },
+   "usable45": 0.34545454545454546,
+   "usableLc60": 0.27777777777777773,
+   "relCSrgb": 0.9070558314878338
+  },
+  "radix-light": {
+   "ramps": 25,
+   "cvStep": 0.9280644750110179,
+   "minStep": 0.008229701460702985,
+   "cvdMinAdjacent": {
+    "protan": 0.013287287516482331,
+    "deutan": 0.013090571655784504,
+    "tritan": 0.01199710085378724
+   },
+   "collapsedPairs": {
+    "protan": 0.32,
+    "deutan": 0.12,
+    "tritan": 0.12
+   },
+   "usable45": 0.18909090909090903,
+   "usableLc60": 0.22666666666666666,
+   "relCSrgb": 0.6971923651381806
+  },
+  "radix-dark": {
+   "ramps": 25,
+   "cvStep": 0.6500872784734194,
+   "minStep": 0.018313420045248226,
+   "cvdMinAdjacent": {
+    "protan": 0.022143373282199015,
+    "deutan": 0.023498050144491748,
+    "tritan": 0.023858464351839994
+   },
+   "collapsedPairs": {
+    "protan": 0.48,
+    "deutan": 0.2,
+    "tritan": 0.16
+   },
+   "usable45": 0.2981818181818181,
+   "usableLc60": 0.21242424242424243,
+   "relCSrgb": 0.6381459977326845
+  }
+ }
+}

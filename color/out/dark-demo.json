@@ -1,0 +1,1438 @@
+{
+ "seed": "#7c3aed",
+ "pairs": [
+  {
+   "label": "Radix — authored dark scale",
+   "system": "radix-light",
+   "darkSource": {
+    "id": "radix-dark",
+    "kind": "authored",
+    "warnings": []
+   },
+   "pin": {
+    "stepKey": "8",
+    "color": {
+     "l": 0.5413370870268791,
+     "c": 0.24658594545285942,
+     "h": 293.00896749248056
+    },
+    "deltaE": 0,
+    "light": {
+     "wcagVsBg": 5.598798972099022,
+     "apcaOnBg": 76.2240506350608
+    },
+    "dark": {
+     "wcagVsBg": 3.3154659940276847,
+     "apcaOnBg": -23.796660128747174
+    }
+   },
+   "keys": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+   ],
+   "light": [
+    "#fdfcfe",
+    "#eee3ff",
+    "#dccaff",
+    "#c8b0fd",
+    "#b597f7",
+    "#a17df1",
+    "#8d63e9",
+    "#7c3aed",
+    "#6b41c0",
+    "#5836a2",
+    "#462a85",
+    "#351f69"
+   ],
+   "dark": [
+    "#151120",
+    "#251837",
+    "#321e55",
+    "#40276f",
+    "#523784",
+    "#63459d",
+    "#724fbb",
+    "#7c3aed",
+    "#9a6af7",
+    "#ba8fff",
+    "#d2b6ff",
+    "#e6dbff"
+   ],
+   "lightGrays": [
+    "#fdfcfd",
+    "#e7e5ea",
+    "#d0ced8",
+    "#b9b9c6",
+    "#a4a3b1",
+    "#8f8e9c",
+    "#7b7a86",
+    "#676771",
+    "#54545d",
+    "#42414a",
+    "#313038",
+    "#201f26"
+   ],
+   "darkGrays": [
+    "#121113",
+    "#222124",
+    "#333237",
+    "#45444b",
+    "#585760",
+    "#6b6a75",
+    "#7f7f8a",
+    "#95949f",
+    "#aba9b4",
+    "#c0c0c9",
+    "#d7d7dc",
+    "#eeeef0"
+   ],
+   "lightBg": {
+    "l": 0.99377,
+    "c": 0.001316,
+    "h": 106.42352900000003
+   },
+   "darkBg": {
+    "l": 0.177218,
+    "c": 0.002019,
+    "h": 106.60385500000001
+   },
+   "correspondence": [
+    {
+     "key": "1",
+     "deltaE": 0.802332445960463,
+     "lightWcag": 1.0048913491084042,
+     "darkWcag": 1.0192776840672058,
+     "lightApca": 0,
+     "darkApca": 0
+    },
+    {
+     "key": "2",
+     "deltaE": 0.6907721389826461,
+     "lightWcag": 1.2088920321242955,
+     "darkWcag": 1.1376443732806014,
+     "lightApca": 10.148641062065296,
+     "darkApca": 0
+    },
+    {
+     "key": "3",
+     "deltaE": 0.578545556314763,
+     "lightWcag": 1.4805682885537448,
+     "darkWcag": 1.306806555020359,
+     "lightApca": 22.433599245496303,
+     "darkApca": 0
+    },
+    {
+     "key": "4",
+     "deltaE": 0.45989030544414655,
+     "lightWcag": 1.8613789680465507,
+     "darkWcag": 1.5634321820190882,
+     "lightApca": 34.741203302658555,
+     "darkApca": 0
+    },
+    {
+     "key": "5",
+     "deltaE": 0.33281233379036324,
+     "lightWcag": 2.362159030317296,
+     "darkWcag": 2.0138977495198054,
+     "lightApca": 46.01220004524516,
+     "darkApca": -10.472300127005024
+    },
+    {
+     "key": "6",
+     "deltaE": 0.20918991372642068,
+     "lightWcag": 3.070713649481852,
+     "darkWcag": 2.5808933377740813,
+     "lightApca": 56.838337114855676,
+     "darkApca": -16.36336665836161
+    },
+    {
+     "key": "7",
+     "deltaE": 0.09422775977689178,
+     "lightWcag": 4.050370407488214,
+     "darkWcag": 3.1952013491446234,
+     "lightApca": 66.72102900927416,
+     "darkApca": -22.073906121612964
+    },
+    {
+     "key": "8",
+     "deltaE": 0,
+     "lightWcag": 5.598798972099022,
+     "darkWcag": 3.3154659940276847,
+     "lightApca": 76.2240506350608,
+     "darkApca": -23.796660128747174
+    },
+    {
+     "key": "9",
+     "deltaE": 0.1468582354093209,
+     "lightWcag": 6.565699845546769,
+     "darkWcag": 5.199047712920468,
+     "lightApca": 81.1836446900546,
+     "darkApca": -37.62286894074896
+    },
+    {
+     "key": "10",
+     "deltaE": 0.3002823547364611,
+     "lightWcag": 8.372358080937657,
+     "darkWcag": 7.612143412308358,
+     "lightApca": 87.54522186613522,
+     "darkApca": -52.88156035984811
+    },
+    {
+     "key": "11",
+     "deltaE": 0.4527299392228588,
+     "lightWcag": 10.688679342304729,
+     "darkWcag": 10.684311698354703,
+     "lightApca": 93.43372774729467,
+     "darkApca": -69.7443085046032
+    },
+    {
+     "key": "12",
+     "deltaE": 0.6006671701332216,
+     "lightWcag": 13.299535319086093,
+     "darkWcag": 14.342143186126771,
+     "lightApca": 98.35349681367912,
+     "darkApca": -87.53541703124553
+    }
+   ],
+   "warnings": [
+    "steps 5, 6, 7, 8 carry body text in light mode (|Lc| 46, 57, 67, 76) but only |Lc| 10, 16, 22, 24 in dark mode — they are solids in dark mode, not text. Use a step further from the pin for text, or unpin."
+   ]
+  },
+  {
+   "label": "Radix — derived, for comparison",
+   "system": "radix-light",
+   "darkSource": {
+    "id": "radix-light-dark",
+    "kind": "derived",
+    "warnings": [
+     "33 steps could not hold Radix Colors (light)'s chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: yellow 5, wanted C 0.135, holds 0.067). That hue is simply narrower down there; no parameter recovers it.",
+     "9 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: cyan 11 at 0.0034). Their contrast is no longer exactly mirrored."
+    ]
+   },
+   "pin": {
+    "stepKey": "8",
+    "color": {
+     "l": 0.5413370870268791,
+     "c": 0.24658594545285942,
+     "h": 293.00896749248056
+    },
+    "deltaE": 0,
+    "light": {
+     "wcagVsBg": 5.598798972099022,
+     "apcaOnBg": 76.2240506350608
+    },
+    "dark": {
+     "wcagVsBg": 3.313638837873505,
+     "apcaOnBg": -23.791855462796864
+    }
+   },
+   "keys": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+   ],
+   "light": [
+    "#fdfcfe",
+    "#eee3ff",
+    "#dccaff",
+    "#c8b0fd",
+    "#b597f7",
+    "#a17df1",
+    "#8d63e9",
+    "#7c3aed",
+    "#6b41c0",
+    "#5836a2",
+    "#462a85",
+    "#351f69"
+   ],
+   "dark": [
+    "#161119",
+    "#221733",
+    "#321b4e",
+    "#401f6b",
+    "#4e2e83",
+    "#5e3e99",
+    "#6e4eb0",
+    "#7c3aed",
+    "#8869ef",
+    "#a791fd",
+    "#c4b9ff",
+    "#e3e0ff"
+   ],
+   "lightGrays": [
+    "#fdfcfd",
+    "#e7e5ea",
+    "#d0ced8",
+    "#b9b9c6",
+    "#a4a3b1",
+    "#8f8e9c",
+    "#7b7a86",
+    "#676771",
+    "#54545d",
+    "#42414a",
+    "#313038",
+    "#201f26"
+   ],
+   "darkGrays": [
+    "#141214",
+    "#242225",
+    "#353338",
+    "#47454d",
+    "#595862",
+    "#6c6c78",
+    "#81818d",
+    "#9696a2",
+    "#abacb8",
+    "#c2c2cd",
+    "#d9d8e3",
+    "#f1effa"
+   ],
+   "lightBg": {
+    "l": 0.99377,
+    "c": 0.001316,
+    "h": 106.42352900000003
+   },
+   "darkBg": {
+    "l": 0.177638,
+    "c": 0,
+    "h": 0
+   },
+   "correspondence": [
+    {
+     "key": "1",
+     "deltaE": 0.8048939263491334,
+     "lightWcag": 1.0048913491084042,
+     "darkWcag": 1.0145890181779953,
+     "lightApca": 0,
+     "darkApca": 0
+    },
+    {
+     "key": "2",
+     "deltaE": 0.6993767123080699,
+     "lightWcag": 1.2088920321242955,
+     "darkWcag": 1.1135426802205466,
+     "lightApca": 10.148641062065296,
+     "darkApca": 0
+    },
+    {
+     "key": "3",
+     "deltaE": 0.5892543142101079,
+     "lightWcag": 1.4805682885537448,
+     "darkWcag": 1.261040101720196,
+     "lightApca": 22.433599245496303,
+     "darkApca": 0
+    },
+    {
+     "key": "4",
+     "deltaE": 0.47585617747832354,
+     "lightWcag": 1.8613789680465507,
+     "darkWcag": 1.4623652903009452,
+     "lightApca": 34.741203302658555,
+     "darkApca": 0
+    },
+    {
+     "key": "5",
+     "deltaE": 0.35252238110301326,
+     "lightWcag": 2.362159030317296,
+     "darkWcag": 1.8365877702982223,
+     "lightApca": 46.01220004524516,
+     "darkApca": -8.562491583400183
+    },
+    {
+     "key": "6",
+     "deltaE": 0.22812150941815895,
+     "lightWcag": 3.070713649481852,
+     "darkWcag": 2.3603602994445594,
+     "lightApca": 56.838337114855676,
+     "darkApca": -14.232070778886738
+    },
+    {
+     "key": "7",
+     "deltaE": 0.11121350692504899,
+     "lightWcag": 4.050370407488214,
+     "darkWcag": 3.038984761118937,
+     "lightApca": 66.72102900927416,
+     "darkApca": -20.653658982408437
+    },
+    {
+     "key": "8",
+     "deltaE": 0,
+     "lightWcag": 5.598798972099022,
+     "darkWcag": 3.313638837873505,
+     "lightApca": 76.2240506350608,
+     "darkApca": -23.791855462796864
+    },
+    {
+     "key": "9",
+     "deltaE": 0.12316342720144481,
+     "lightWcag": 6.565699845546769,
+     "darkWcag": 4.7781751731864786,
+     "lightApca": 81.1836446900546,
+     "darkApca": -34.601494479192986
+    },
+    {
+     "key": "10",
+     "deltaE": 0.2854208994061889,
+     "lightWcag": 8.372358080937657,
+     "darkWcag": 7.293894606040727,
+     "lightApca": 87.54522186613522,
+     "darkApca": -50.959436568772055
+    },
+    {
+     "key": "11",
+     "deltaE": 0.4469001987920922,
+     "lightWcag": 10.688679342304729,
+     "darkWcag": 10.548172918406733,
+     "lightApca": 93.43372774729467,
+     "darkApca": -69.04844362217688
+    },
+    {
+     "key": "12",
+     "deltaE": 0.6087711018728956,
+     "lightWcag": 13.299535319086093,
+     "darkWcag": 14.721965176196845,
+     "lightApca": 98.35349681367912,
+     "darkApca": -89.30706895829489
+    }
+   ],
+   "warnings": [
+    "steps 5, 6, 7, 8 carry body text in light mode (|Lc| 46, 57, 67, 76) but only |Lc| 9, 14, 21, 24 in dark mode — they are solids in dark mode, not text. Use a step further from the pin for text, or unpin.",
+    "33 steps could not hold Radix Colors (light)'s chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: yellow 5, wanted C 0.135, holds 0.067). That hue is simply narrower down there; no parameter recovers it.",
+    "9 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: cyan 11 at 0.0034). Their contrast is no longer exactly mirrored."
+   ]
+  },
+  {
+   "label": "Tailwind v4 — derived",
+   "system": "tailwind-v4",
+   "darkSource": {
+    "id": "tailwind-v4-dark",
+    "kind": "derived",
+    "warnings": [
+     "96 steps could not hold Tailwind CSS v4's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: lime 400, wanted C 0.224, holds 0.112). That hue is simply narrower down there; no parameter recovers it.",
+     "27 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: yellow 950 at 0.0108). Their contrast is no longer exactly mirrored.",
+     "6 mirrored steps fell outside p3 and were gamut-mapped (max ΔEOK 0.0326)"
+    ]
+   },
+   "pin": {
+    "stepKey": "600",
+    "color": {
+     "l": 0.5413370870268791,
+     "c": 0.24658594545285942,
+     "h": 293.00896749248056
+    },
+    "deltaE": 0,
+    "light": {
+     "wcagVsBg": 5.507832862146583,
+     "apcaOnBg": 75.08188976570497
+    },
+    "dark": {
+     "wcagVsBg": 3.5397527420659713,
+     "apcaOnBg": -24.185255102825334
+    }
+   },
+   "keys": [
+    "50",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "950"
+   ],
+   "light": [
+    "#f5f3fe",
+    "#ddd7fb",
+    "#c8bbfb",
+    "#b49ffa",
+    "#a081f8",
+    "#8e61f7",
+    "#7c3aed",
+    "#6729cd",
+    "#5525a5",
+    "#411f80",
+    "#2d1560"
+   ],
+   "dark": [
+    "#140b2b",
+    "#231a3e",
+    "#34235d",
+    "#452a7e",
+    "#5730a3",
+    "#6933c9",
+    "#7c3aed",
+    "#925aff",
+    "#aa8dff",
+    "#c7b9ff",
+    "#e7e4ff"
+   ],
+   "lightGrays": [
+    "#fafafa",
+    "#dedee1",
+    "#c3c2c9",
+    "#a8a7b1",
+    "#8e8d98",
+    "#75747e",
+    "#5d5c66",
+    "#46454e",
+    "#303034",
+    "#1c1b1e",
+    "#09090b"
+   ],
+   "darkGrays": [
+    "#0a0a0a",
+    "#1c1d1d",
+    "#313134",
+    "#47464b",
+    "#5e5c64",
+    "#76747f",
+    "#8f8d99",
+    "#a8a6b2",
+    "#c3c1cc",
+    "#dedde3",
+    "#f9f9fc"
+   ],
+   "lightBg": {
+    "l": 0.988,
+    "c": 0.003,
+    "h": 106.5
+   },
+   "darkBg": {
+    "l": 0.129,
+    "c": 0.042,
+    "h": 264.69499999999994
+   },
+   "correspondence": [
+    {
+     "key": "50",
+     "deltaE": 0.7862358533737709,
+     "lightWcag": 1.0607911656990554,
+     "darkWcag": 1.0686103607560749,
+     "lightApca": 0,
+     "darkApca": 0
+    },
+    {
+     "key": "100",
+     "deltaE": 0.6458704961525952,
+     "lightWcag": 1.3364224326062693,
+     "darkWcag": 1.237941675901438,
+     "lightApca": 16.2521391669261,
+     "darkApca": 0
+    },
+    {
+     "key": "200",
+     "deltaE": 0.5143154465500582,
+     "lightWcag": 1.6975038918430652,
+     "darkWcag": 1.4835600991237903,
+     "lightApca": 29.70677322893899,
+     "darkApca": 0
+    },
+    {
+     "key": "300",
+     "deltaE": 0.38780264655056707,
+     "lightWcag": 2.187104230576084,
+     "darkWcag": 1.8111190612677412,
+     "lightApca": 42.14739022830184,
+     "darkApca": 0
+    },
+    {
+     "key": "400",
+     "deltaE": 0.25724628281003903,
+     "lightWcag": 2.9036133976343734,
+     "darkWcag": 2.263920739487514,
+     "lightApca": 54.14516814595325,
+     "darkApca": -12.382132686303878
+    },
+    {
+     "key": "500",
+     "deltaE": 0.13362636826899538,
+     "lightWcag": 3.900948251027351,
+     "darkWcag": 2.8024966513843057,
+     "lightApca": 64.76436221450297,
+     "darkApca": -17.785265336939187
+    },
+    {
+     "key": "600",
+     "deltaE": 0,
+     "lightWcag": 5.507832862146583,
+     "darkWcag": 3.5397527420659713,
+     "lightApca": 75.08188976570497,
+     "darkApca": -24.185255102825334
+    },
+    {
+     "key": "700",
+     "deltaE": 0.14236193889704707,
+     "lightWcag": 7.313088980177651,
+     "darkWcag": 4.926352702240646,
+     "lightApca": 82.71540034322236,
+     "darkApca": -34.04350574620584
+    },
+    {
+     "key": "800",
+     "deltaE": 0.3055002202128923,
+     "lightWcag": 9.250278111911753,
+     "darkWcag": 7.649019276381268,
+     "lightApca": 88.82361057069656,
+     "darkApca": -50.56893396195564
+    },
+    {
+     "key": "900",
+     "deltaE": 0.4754157666024862,
+     "lightWcag": 11.715740641762105,
+     "darkWcag": 11.346030826407556,
+     "lightApca": 94.56740326370839,
+     "darkApca": -69.82278524931834
+    },
+    {
+     "key": "950",
+     "deltaE": 0.6525579138047464,
+     "lightWcag": 14.62590035240794,
+     "darkWcag": 16.270907555163284,
+     "lightApca": 99.1157244764491,
+     "darkApca": -92.01094685767883
+    }
+   ],
+   "warnings": [
+    "steps 400, 500, 600 carry body text in light mode (|Lc| 54, 65, 75) but only |Lc| 12, 18, 24 in dark mode — they are solids in dark mode, not text. Use a step further from the pin for text, or unpin.",
+    "96 steps could not hold Tailwind CSS v4's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: lime 400, wanted C 0.224, holds 0.112). That hue is simply narrower down there; no parameter recovers it.",
+    "27 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: yellow 950 at 0.0108). Their contrast is no longer exactly mirrored.",
+    "6 mirrored steps fell outside p3 and were gamut-mapped (max ΔEOK 0.0326)"
+   ]
+  },
+  {
+   "label": "Carbon — derived",
+   "system": "carbon",
+   "darkSource": {
+    "id": "carbon-dark",
+    "kind": "derived",
+    "warnings": [
+     "3 steps cannot reach IBM Carbon's own contrast on this surface and were clamped to the nearest reachable lightness (worst: green 10, wanted 1.00:1, got 1.01:1). A dark surface has less contrast headroom above it than a white one has below it; lower the surface or accept the clamp.",
+     "41 steps could not hold IBM Carbon's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: blue 80, wanted C 0.156, holds 0.067). That hue is simply narrower down there; no parameter recovers it.",
+     "15 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: teal 40 at 0.0006). Their contrast is no longer exactly mirrored."
+    ]
+   },
+   "pin": {
+    "stepKey": "60",
+    "color": {
+     "l": 0.5413370870268791,
+     "c": 0.24658594545285942,
+     "h": 293.00896749248056
+    },
+    "deltaE": 0,
+    "light": {
+     "wcagVsBg": 5.181155609494311,
+     "apcaOnBg": 70.90746660067117
+    },
+    "dark": {
+     "wcagVsBg": 3.21396822899958,
+     "apcaOnBg": -23.500966593614496
+    }
+   },
+   "keys": [
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "100"
+   ],
+   "light": [
+    "#f5f2fe",
+    "#e5dafc",
+    "#cdbaf9",
+    "#b493f6",
+    "#996cf3",
+    "#7c3aed",
+    "#5d2fb0",
+    "#42227f",
+    "#2d1658",
+    "#1b102f"
+   ],
+   "dark": [
+    "#1a102d",
+    "#2f1e49",
+    "#452373",
+    "#592b96",
+    "#6b33bf",
+    "#7c3aed",
+    "#834eed",
+    "#9082c6",
+    "#dfdaf9",
+    "#f3f0fe"
+   ],
+   "lightGrays": [
+    "#f5f3f7",
+    "#e1dfe5",
+    "#c6c5cd",
+    "#a8a7b0",
+    "#8e8a94",
+    "#6f6e77",
+    "#525158",
+    "#39383f",
+    "#24262b",
+    "#151519"
+   ],
+   "darkGrays": [
+    "#17141c",
+    "#353338",
+    "#504f57",
+    "#6d6b74",
+    "#87828d",
+    "#9f9ea7",
+    "#babac2",
+    "#d3d3db",
+    "#e3e6ee",
+    "#f1f1f8"
+   ],
+   "lightBg": {
+    "l": 0.967153,
+    "c": 0,
+    "h": 0
+   },
+   "darkBg": {
+    "l": 0.194826,
+    "c": 0.004875,
+    "h": 17.57826399999999
+   },
+   "correspondence": [
+    {
+     "key": "10",
+     "deltaE": 0.7641106416971248,
+     "lightWcag": 1.004139144715737,
+     "darkWcag": 1.0081417471650298,
+     "lightApca": 0,
+     "darkApca": 0
+    },
+    {
+     "key": "20",
+     "deltaE": 0.6282987959936495,
+     "lightWcag": 1.2110490017193576,
+     "darkWcag": 1.223436769581798,
+     "lightApca": 9.806979781279765,
+     "darkApca": 0
+    },
+    {
+     "key": "30",
+     "deltaE": 0.4798731473918905,
+     "lightWcag": 1.5927831882066412,
+     "darkWcag": 1.5184284904441019,
+     "lightApca": 25.397100669400746,
+     "darkApca": 0
+    },
+    {
+     "key": "40",
+     "deltaE": 0.3212241648690374,
+     "lightWcag": 2.2609041872574718,
+     "darkWcag": 1.9280867593576232,
+     "lightApca": 42.171279911384005,
+     "darkApca": -10.252599908534421
+    },
+    {
+     "key": "50",
+     "deltaE": 0.1646793934695593,
+     "lightWcag": 3.2955029893858656,
+     "darkWcag": 2.486508286733926,
+     "lightApca": 56.93674052242099,
+     "darkApca": -16.44763169346218
+    },
+    {
+     "key": "60",
+     "deltaE": 0,
+     "lightWcag": 5.181155609494311,
+     "darkWcag": 3.21396822899958,
+     "lightApca": 70.90746660067117,
+     "darkApca": -23.500966593614496
+    },
+    {
+     "key": "70",
+     "deltaE": 0.13306821454659715,
+     "lightWcag": 7.640473435671226,
+     "darkWcag": 3.7307790860031864,
+     "lightApca": 81.61413687131432,
+     "darkApca": -27.54975135560332
+    },
+    {
+     "key": "80",
+     "deltaE": 0.29571036703704145,
+     "lightWcag": 10.805912578140465,
+     "darkWcag": 5.402375450215016,
+     "lightApca": 90.03319759983974,
+     "darkApca": -39.566451091690794
+    },
+    {
+     "key": "90",
+     "deltaE": 0.6293791405025265,
+     "lightWcag": 13.964596790395117,
+     "darkWcag": 13.547971164773434,
+     "lightApca": 95.30157143196774,
+     "darkApca": -85.53750643178667
+    },
+    {
+     "key": "100",
+     "deltaE": 0.7558637085555356,
+     "lightWcag": 16.43462833194335,
+     "darkWcag": 16.314477631046945,
+     "lightApca": 98.1168333026373,
+     "darkApca": -98.3459683968647
+    }
+   ],
+   "warnings": [
+    "steps 50, 60, 70 carry body text in light mode (|Lc| 57, 71, 82) but only |Lc| 16, 24, 28 in dark mode — they are solids in dark mode, not text. Use a step further from the pin for text, or unpin.",
+    "3 steps cannot reach IBM Carbon's own contrast on this surface and were clamped to the nearest reachable lightness (worst: green 10, wanted 1.00:1, got 1.01:1). A dark surface has less contrast headroom above it than a white one has below it; lower the surface or accept the clamp.",
+    "41 steps could not hold IBM Carbon's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: blue 80, wanted C 0.156, holds 0.067). That hue is simply narrower down there; no parameter recovers it.",
+    "15 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: teal 40 at 0.0006). Their contrast is no longer exactly mirrored."
+   ]
+  },
+  {
+   "label": "Material — derived",
+   "system": "material",
+   "darkSource": {
+    "id": "material-dark",
+    "kind": "derived",
+    "warnings": [
+     "the dark surface defaults to Material Design's darkest neutral (grey, L 0.248), but at that lightness it is a text color rather than an app background — Radix, the one reference that ships a dark scale, sits its own at L 0.178. Pass `surface` explicitly.",
+     "52 steps could not hold Material Design's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: yellow 700, wanted C 0.128, holds 0.020). That hue is simply narrower down there; no parameter recovers it.",
+     "34 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: teal 400 at 0.0070). Their contrast is no longer exactly mirrored."
+    ]
+   },
+   "pin": {
+    "stepKey": "600",
+    "color": {
+     "l": 0.5413370870268791,
+     "c": 0.24658594545285942,
+     "h": 293.00896749248056
+    },
+    "deltaE": 0,
+    "light": {
+     "wcagVsBg": 5.459648353149257,
+     "apcaOnBg": 74.47334385670341
+    },
+    "dark": {
+     "wcagVsBg": 2.82564489089312,
+     "apcaOnBg": -22.0250178731058
+    }
+   },
+   "keys": [
+    "50",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900"
+   ],
+   "light": [
+    "#ece8fa",
+    "#d7cef5",
+    "#c3b5ef",
+    "#af9be9",
+    "#9b82e1",
+    "#8867db",
+    "#7c3aed",
+    "#6430c9",
+    "#4a1faf",
+    "#310a97"
+   ],
+   "dark": [
+    "#352351",
+    "#443165",
+    "#534078",
+    "#624991",
+    "#693eaf",
+    "#712fd0",
+    "#7c3aed",
+    "#9c7efb",
+    "#c0b2ff",
+    "#e2e4ff"
+   ],
+   "lightGrays": [
+    "#fafafa",
+    "#dfdfdf",
+    "#c4c4c4",
+    "#aaaaaa",
+    "#919191",
+    "#797979",
+    "#616161",
+    "#4b4b4b",
+    "#353535",
+    "#212121"
+   ],
+   "darkGrays": [
+    "#222222",
+    "#363636",
+    "#4b4b4b",
+    "#616161",
+    "#797979",
+    "#919191",
+    "#aaaaaa",
+    "#c3c3c3",
+    "#dddddd",
+    "#f8f8f8"
+   ],
+   "lightBg": {
+    "l": 0.985104,
+    "c": 0,
+    "h": 0
+   },
+   "darkBg": {
+    "l": 0.247759,
+    "c": 0,
+    "h": 0
+   },
+   "correspondence": [
+    {
+     "key": "50",
+     "deltaE": 0.6392422287231493,
+     "lightWcag": 1.1503656160702842,
+     "darkWcag": 1.1582912889566745,
+     "lightApca": 0,
+     "darkApca": 0
+    },
+    {
+     "key": "100",
+     "deltaE": 0.511431623023858,
+     "lightWcag": 1.4333738504476727,
+     "darkWcag": 1.436189122081932,
+     "lightApca": 20.28084250281661,
+     "darkApca": 0
+    },
+    {
+     "key": "200",
+     "deltaE": 0.3867409898891951,
+     "lightWcag": 1.8001804655249483,
+     "darkWcag": 1.8190692339543941,
+     "lightApca": 32.60184772668014,
+     "darkApca": -9.869491508421541
+    },
+    {
+     "key": "300",
+     "deltaE": 0.27048851785748745,
+     "lightWcag": 2.3157863343991165,
+     "darkWcag": 2.2092405894869303,
+     "lightApca": 44.54595398654462,
+     "darkApca": -14.601541273928644
+    },
+    {
+     "key": "400",
+     "deltaE": 0.19621618598626092,
+     "lightWcag": 3.0146007626452076,
+     "darkWcag": 2.230339203832453,
+     "lightApca": 55.43155009668699,
+     "darkApca": -15.154763116044743
+    },
+    {
+     "key": "500",
+     "deltaE": 0.12189616346794703,
+     "lightWcag": 4.015993956918408,
+     "darkWcag": 2.3153211606008868,
+     "lightApca": 65.63840845371689,
+     "darkApca": -16.65610256246586
+    },
+    {
+     "key": "600",
+     "deltaE": 0,
+     "lightWcag": 5.459648353149257,
+     "darkWcag": 2.82564489089312,
+     "lightApca": 74.47334385670341,
+     "darkApca": -22.0250178731058
+    },
+    {
+     "key": "700",
+     "deltaE": 0.2069651556587747,
+     "lightWcag": 7.164941340386493,
+     "darkWcag": 5.2070711596377155,
+     "lightApca": 82.01550021208654,
+     "darkApca": -41.83682615676135
+    },
+    {
+     "key": "800",
+     "deltaE": 0.40951039307941683,
+     "lightWcag": 9.552633513435858,
+     "darkWcag": 8.475443033507949,
+     "lightApca": 88.91379073407585,
+     "darkApca": -64.08411214117073
+    },
+    {
+     "key": "900",
+     "deltaE": 0.608031855222598,
+     "lightWcag": 12.412864842533633,
+     "darkWcag": 12.862623256816095,
+     "lightApca": 94.42012151466503,
+     "darkApca": -89.1847462068081
+    }
+   ],
+   "warnings": [
+    "steps 400, 500, 600 carry body text in light mode (|Lc| 55, 66, 74) but only |Lc| 15, 17, 22 in dark mode — they are solids in dark mode, not text. Use a step further from the pin for text, or unpin.",
+    "the dark surface defaults to Material Design's darkest neutral (grey, L 0.248), but at that lightness it is a text color rather than an app background — Radix, the one reference that ships a dark scale, sits its own at L 0.178. Pass `surface` explicitly.",
+    "52 steps could not hold Material Design's chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: yellow 700, wanted C 0.128, holds 0.020). That hue is simply narrower down there; no parameter recovers it.",
+    "34 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: teal 400 at 0.0070). Their contrast is no longer exactly mirrored."
+   ]
+  }
+ ],
+ "fidelity": [
+  {
+   "label": "balanced λ = 0.5 (default)",
+   "rms": 0.03811518581617647,
+   "median": 0.01989936191799872,
+   "p90": 0.059118766532136185,
+   "withinTwoJnd": 0.7266666666666667
+  },
+  {
+   "label": "λ = 0 — WCAG mirror",
+   "rms": 0.07518479022966397,
+   "median": 0.05260957804894347,
+   "p90": 0.11875895051158375,
+   "withinTwoJnd": 0.43333333333333335
+  },
+  {
+   "label": "λ = 1 — APCA mirror",
+   "rms": 0.07675289815113072,
+   "median": 0.052625929053534214,
+   "p90": 0.13335901045215692,
+   "withinTwoJnd": 0.4266666666666667
+  },
+  {
+   "label": "λ(n) fit to Radix",
+   "rms": 0.029411701537281117,
+   "median": 0.021405328254282582,
+   "p90": 0.04379463384251497,
+   "withinTwoJnd": 0.8633333333333333
+  },
+  {
+   "label": "no pin",
+   "rms": 0.1196252282185237,
+   "median": 0.029159308975472985,
+   "p90": 0.08363606164742585,
+   "withinTwoJnd": 0.5933333333333334
+  }
+ ],
+ "blue": {
+  "keys": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12"
+  ],
+  "light": [
+   0.993098,
+   0.982018,
+   0.959677,
+   0.938067,
+   0.905075,
+   0.863266,
+   0.80976,
+   0.73361,
+   0.649294,
+   0.622299,
+   0.55575,
+   0.323963
+  ],
+  "authoredDark": [
+   0.193607,
+   0.212927,
+   0.27447,
+   0.320138,
+   0.367096,
+   0.416028,
+   0.474106,
+   0.540567,
+   0.649294,
+   0.688383,
+   0.76422,
+   0.907125
+  ],
+  "derivedDark": [
+   0.18706913123799376,
+   0.20884331203345607,
+   0.25831298948752013,
+   0.2931485610218998,
+   0.35185834664943094,
+   0.4075916660278424,
+   0.46720822991074346,
+   0.5413279446789668,
+   0.6492939891713041,
+   0.6748188349505446,
+   0.7072455343727639,
+   0.9043745362112255
+  ],
+  "authoredC": [
+   0.025497,
+   0.030337,
+   0.066289,
+   0.096776,
+   0.105883,
+   0.113257,
+   0.121869,
+   0.139538,
+   0.19304,
+   0.169325,
+   0.125747,
+   0.051036
+  ],
+  "derivedC": [
+   0.016296836436176767,
+   0.01834084679588565,
+   0.03575219055985703,
+   0.05384394344046681,
+   0.06837556281358824,
+   0.07744803162084932,
+   0.08954531495940107,
+   0.10865224766503334,
+   0.19304008980583812,
+   0.17718993140000133,
+   0.15741814706787863,
+   0.04651859258027073
+  ]
+ },
+ "perFamily": {
+  "tomato": 0.04121568520354515,
+  "red": 0.039902920860561096,
+  "ruby": 0.03746228346202776,
+  "crimson": 0.04017578113102817,
+  "pink": 0.03647862003625334,
+  "plum": 0.02652702443907972,
+  "purple": 0.0256789196262583,
+  "violet": 0.02547933354860206,
+  "iris": 0.020575269314538944,
+  "indigo": 0.021895960520429282,
+  "blue": 0.03640481179476213,
+  "cyan": 0.028914073837843033,
+  "teal": 0.03387475365343965,
+  "jade": 0.03354435059725414,
+  "green": 0.03202124136226762,
+  "grass": 0.028223307071884397,
+  "brown": 0.033897428889848855,
+  "orange": 0.03969170214662685,
+  "sky": 0.043233376583517294,
+  "mint": 0.03543944095484638,
+  "lime": 0.05764437654942095,
+  "yellow": 0.06892698112819912,
+  "amber": 0.05851996021048755,
+  "gold": 0.032025383755547726,
+  "bronze": 0.03369586159251593
+ },
+ "derivation": {
+  "from": "radix-light",
+  "lambda": 0.5,
+  "chroma": "radix",
+  "chromaPolicy": "transfer",
+  "nearSurfaceGain": true,
+  "calibration": "@radix-ui/colors 3.0.0 light → dark, 25 families × 12 steps, leave-one-family-out",
+  "lightSurface": {
+   "l": 0.991069,
+   "c": 0,
+   "h": 0
+  },
+  "darkSurface": {
+   "l": 0.177638,
+   "c": 0,
+   "h": 0
+  },
+  "surfaceRule": "given",
+  "pinnedKey": "9",
+  "mapping": {
+   "steps": 15,
+   "total": 372,
+   "meanDeltaE": 0.00023843087642169477,
+   "maxDeltaE": 0.0013382846299249528
+  },
+  "unreachable": [],
+  "separated": [
+   {
+    "family": "purple",
+    "key": "8",
+    "was": 0.05181808389753898,
+    "deltaL": -0.019406567770987593
+   },
+   {
+    "family": "violet",
+    "key": "8",
+    "was": 0.05614031627431923,
+    "deltaL": -0.030846340137720252
+   },
+   {
+    "family": "iris",
+    "key": "8",
+    "was": 0.05864445590317673,
+    "deltaL": -0.027616618563607198
+   },
+   {
+    "family": "indigo",
+    "key": "8",
+    "was": 0.06590694510851422,
+    "deltaL": -0.01634812848828726
+   },
+   {
+    "family": "cyan",
+    "key": "11",
+    "was": 0.0034249310959741748,
+    "deltaL": 0.01698849301226435
+   },
+   {
+    "family": "teal",
+    "key": "11",
+    "was": 0.010802910227395894,
+    "deltaL": 0.014164390856400089
+   },
+   {
+    "family": "jade",
+    "key": "11",
+    "was": 0.01621104634726064,
+    "deltaL": 0.003982512755319578
+   },
+   {
+    "family": "green",
+    "key": "11",
+    "was": 0.018736512765541568,
+    "deltaL": 0.0013061602879314016
+   },
+   {
+    "family": "orange",
+    "key": "11",
+    "was": 0.010322038204444165,
+    "deltaL": 0.023268885424360564
+   }
+  ],
+  "shellLimited": [
+   {
+    "family": "tomato",
+    "key": "11",
+    "wanted": 0.17834046590283611,
+    "got": 0.16685916987455532
+   },
+   {
+    "family": "red",
+    "key": "11",
+    "wanted": 0.16682842321482294,
+    "got": 0.15841879746678444
+   },
+   {
+    "family": "red",
+    "key": "12",
+    "wanted": 0.06365927321533953,
+    "got": 0.048961296765672783
+   },
+   {
+    "family": "ruby",
+    "key": "11",
+    "wanted": 0.16796990580024118,
+    "got": 0.15434072742509455
+   },
+   {
+    "family": "ruby",
+    "key": "12",
+    "wanted": 0.06466032257200936,
+    "got": 0.050455731532587304
+   },
+   {
+    "family": "crimson",
+    "key": "11",
+    "wanted": 0.17834023608000515,
+    "got": 0.16130369645806641
+   },
+   {
+    "family": "crimson",
+    "key": "12",
+    "wanted": 0.06785065723846694,
+    "got": 0.05376975896347561
+   },
+   {
+    "family": "pink",
+    "key": "12",
+    "wanted": 0.08109387828136178,
+    "got": 0.06376170026109237
+   },
+   {
+    "family": "plum",
+    "key": "12",
+    "wanted": 0.08003427580184994,
+    "got": 0.07165209735301636
+   },
+   {
+    "family": "purple",
+    "key": "12",
+    "wanted": 0.059327844343692,
+    "got": 0.04879063735103256
+   },
+   {
+    "family": "violet",
+    "key": "12",
+    "wanted": 0.04829658501759246,
+    "got": 0.040469109938678825
+   },
+   {
+    "family": "iris",
+    "key": "12",
+    "wanted": 0.04797928305761102,
+    "got": 0.0403499719873358
+   },
+   {
+    "family": "blue",
+    "key": "12",
+    "wanted": 0.05713230459631913,
+    "got": 0.046505489557740455
+   },
+   {
+    "family": "orange",
+    "key": "4",
+    "wanted": 0.08119242727157581,
+    "got": 0.07242276542917402
+   },
+   {
+    "family": "orange",
+    "key": "5",
+    "wanted": 0.09844088748880965,
+    "got": 0.08366046093851327
+   },
+   {
+    "family": "orange",
+    "key": "6",
+    "wanted": 0.10952526434797787,
+    "got": 0.09685284443358595
+   },
+   {
+    "family": "orange",
+    "key": "10",
+    "wanted": 0.18841833651102616,
+    "got": 0.18319575580232333
+   },
+   {
+    "family": "orange",
+    "key": "11",
+    "wanted": 0.17686031799985505,
+    "got": 0.17008888542451062
+   },
+   {
+    "family": "sky",
+    "key": "10",
+    "wanted": 0.09530453563059937,
+    "got": 0.08212262979866358
+   },
+   {
+    "family": "yellow",
+    "key": "3",
+    "wanted": 0.08193875691439759,
+    "got": 0.05159357829643451
+   },
+   {
+    "family": "yellow",
+    "key": "4",
+    "wanted": 0.1158290354520706,
+    "got": 0.058655608862274694
+   },
+   {
+    "family": "yellow",
+    "key": "5",
+    "wanted": 0.13548947356769697,
+    "got": 0.06727004938650692
+   },
+   {
+    "family": "yellow",
+    "key": "6",
+    "wanted": 0.12104541175905802,
+    "got": 0.07970275212875735
+   },
+   {
+    "family": "yellow",
+    "key": "7",
+    "wanted": 0.1052608506683561,
+    "got": 0.0909545274632448
+   },
+   {
+    "family": "yellow",
+    "key": "8",
+    "wanted": 0.11522984625270638,
+    "got": 0.10604061236998999
+   },
+   {
+    "family": "yellow",
+    "key": "10",
+    "wanted": 0.1663027465690967,
+    "got": 0.10823562158832176
+   },
+   {
+    "family": "amber",
+    "key": "3",
+    "wanted": 0.07079047646163664,
+    "got": 0.05194879892511715
+   },
+   {
+    "family": "amber",
+    "key": "4",
+    "wanted": 0.10578088986659968,
+    "got": 0.059798074784791294
+   },
+   {
+    "family": "amber",
+    "key": "5",
+    "wanted": 0.12622047944993034,
+    "got": 0.0693919732020125
+   },
+   {
+    "family": "amber",
+    "key": "6",
+    "wanted": 0.11189433536682183,
+    "got": 0.07985961543360892
+   },
+   {
+    "family": "amber",
+    "key": "7",
+    "wanted": 0.10760346836298133,
+    "got": 0.09328588218772917
+   },
+   {
+    "family": "amber",
+    "key": "8",
+    "wanted": 0.1188873431684178,
+    "got": 0.11178265752178544
+   },
+   {
+    "family": "amber",
+    "key": "10",
+    "wanted": 0.1553941514859203,
+    "got": 0.12116340960921797
+   }
+  ],
+  "warnings": [
+   "33 steps could not hold Radix Colors (light)'s chroma at the lightness the mirror sends them to and were capped at the gamut shell (worst: yellow 5, wanted C 0.135, holds 0.067). That hue is simply narrower down there; no parameter recovers it.",
+   "9 steps were pushed apart to keep adjacent steps at least 0.020 ΔEOK apart, which the pinned key step squeezed below (worst: cyan 11 at 0.0034). Their contrast is no longer exactly mirrored."
+  ]
+ }
+}
