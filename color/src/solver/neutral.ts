@@ -15,6 +15,7 @@ import { parseToOklch, deltaEOK, hueDelta, wrap360, type Oklch } from '../color/
 import { wcag21Fast, apcaFast } from '../contrast/fast.ts';
 import type { Gamut } from '../gamut/shell.ts';
 import { gamutMap, quantize, chooseSpacing, JND_L, WCAG_THRESHOLDS, type SolvedRamp, type SolvedStep } from './index.ts';
+import { deltaEHK, defaultViewing } from '../color/hk.ts';
 
 export interface SolveNeutralInput {
   dna: SystemDNA;
@@ -149,6 +150,13 @@ export function solveNeutralRamp(input: SolveNeutralInput): SolvedRamp {
   for (let i = 1; i < spineSolved.length; i++) dEs.push(deltaEOK(spineSolved[i - 1]!, spineSolved[i]!));
   const dMean = dEs.reduce((a, b) => a + b, 0) / Math.max(1, dEs.length);
   const dCv = dMean > 0 ? Math.sqrt(dEs.reduce((a, b) => a + (b - dMean) ** 2, 0) / dEs.length) / dMean : 0;
+  // a grey ramp is near-achromatic, so its two rulers should agree closely; reported
+  // anyway, because a heavily tinted grey is where they start to come apart
+  const nViewing = defaultViewing(bg.l < 0.5 ? 'dark' : 'light');
+  const dHK: number[] = [];
+  for (let i = 1; i < spineSolved.length; i++) dHK.push(deltaEHK(spineSolved[i - 1]!, spineSolved[i]!, nViewing));
+  const hkMean = dHK.reduce((a, b) => a + b, 0) / Math.max(1, dHK.length);
+  const cvHK = hkMean > 0 ? Math.sqrt(dHK.reduce((a, b) => a + (b - hkMean) ** 2, 0) / dHK.length) / hkMean : 0;
 
   return {
     dna: { id: dna.id, name: dna.name, mode: dna.mode, kinship: dna.kinship.hybridWithinJnd, numbering: dna.steps.numbering?.class ?? null },
@@ -169,7 +177,11 @@ export function solveNeutralRamp(input: SolveNeutralInput): SolvedRamp {
       strengthMultiplier: strengthMul,
       pure: ref.pure || strengthMul === 0 || tintHue === null,
     },
-    spacing: { mode: spacingMode, rule: spacingChoice.rule, deltaE: dEs, mean: dMean, cv: dCv, min: Math.min(...dEs), max: Math.max(...dEs), referenceCv: dna.steps.spacing.cvDeltaE, segments: null },
+    spacing: {
+      mode: spacingMode, rule: spacingChoice.rule, lightness: 'oklab' as const,
+      deltaE: dEs, mean: dMean, cv: dCv, min: Math.min(...dEs), max: Math.max(...dEs),
+      referenceCv: dna.steps.spacing.cvDeltaE, deltaEHK: dHK, cvHK, segments: null,
+    },
     steps,
     warnings,
   };

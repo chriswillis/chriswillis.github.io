@@ -1977,6 +1977,28 @@
       "percentileish": 1,
       "verdict": "better than most"
      }
+    },
+    "apparent": {
+     "deltaE": [
+      0.08173840776014588,
+      0.08311684351905896,
+      0.07185547556963079,
+      0.06595711530332002,
+      0.06912873228127381,
+      0.08593557345509113,
+      0.0838531717257412,
+      0.08518582791789825,
+      0.08293055281767596,
+      0.07952437313377375
+     ],
+     "mean": 0.07892260734836096,
+     "cv": 0.08673925949205749,
+     "ratio": 2.33815481511168,
+     "viewing": {
+      "surround": "average",
+      "adaptingLuminance": 40
+     },
+     "strength": 0.25
     }
    },
    "dark": {
@@ -2010,6 +2032,28 @@
       "percentileish": 1,
       "verdict": "better than most"
      }
+    },
+    "apparent": {
+     "deltaE": [
+      0.0687530817113686,
+      0.072537803457831,
+      0.07135263316861575,
+      0.07609218685306034,
+      0.07332579763539804,
+      0.07741493705657136,
+      0.12858810708050597,
+      0.09708477145557151,
+      0.10169229583024032,
+      0.10669453547007432
+     ],
+     "mean": 0.08735361497192372,
+     "cv": 0.21776398033452757,
+     "ratio": 0.8340445685653113,
+     "viewing": {
+      "surround": "dark",
+      "adaptingLuminance": 8
+     },
+     "strength": 0.25
     }
    }
   },
@@ -2909,6 +2953,24 @@
  "lint": {
   "findings": [
    {
+    "rule": "apparent-spacing-differs",
+    "severity": "info",
+    "mode": "light",
+    "subjects": [
+     "spacing"
+    ],
+    "message": "the ramp is even by ΔEOK (cv 0.037) but 2.3× less even in apparent lightness (cv 0.087) — saturated steps read brighter than their lightness",
+    "evidence": {
+     "cvMeasured": 0.0371,
+     "cvApparent": 0.0867,
+     "ratio": 2.34,
+     "strength": 0.25,
+     "adaptingLuminance": 40,
+     "spacing": "even"
+    },
+    "remedy": "pass lightness: 'hk' to space by apparent distance instead — but it is a trade, not a fix: apparent evenness costs measured evenness roughly 1:1, and contrast requirements are stated in measured terms"
+   },
+   {
     "rule": "cvd-standing",
     "severity": "info",
     "mode": "light",
@@ -3033,7 +3095,7 @@
   "counts": {
    "error": 0,
    "warning": 0,
-   "info": 8
+   "info": 9
   },
   "clean": true
  }

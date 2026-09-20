@@ -28,6 +28,7 @@ import type { SystemDNA } from '../dna/schema.ts';
 import { pchip, invertMonotone } from '../dna/curves.ts';
 import { shell, type Gamut } from '../gamut/shell.ts';
 import { parseToOklch, deltaEOK, hueDelta, wrap360, type Oklch } from '../color/oklch.ts';
+import { deltaEHK, defaultViewing, type ViewingConditions, type HKOptions } from '../color/hk.ts';
 import { wcag21Fast, apcaFast } from '../contrast/fast.ts';
 import { selectReference, respaceEven, type ReferenceCurves } from './reference.ts';
 
@@ -77,6 +78,32 @@ export interface SolveInput {
    * `'reference'` and `'even'` force it either way. Replication needs `'reference'`.
    */
   spacing?: 'auto' | 'reference' | 'even';
+  /**
+   * Which ruler even spacing uses. `'oklab'` (default) equalises ΔEOK, the
+   * measured distance. `'hk'` equalises a distance whose lightness axis carries
+   * a Helmholtz–Kohlrausch term, so the steps come out even *in appearance*
+   * rather than in measurement.
+   *
+   * This is opt-in, and the reason is a real trade rather than caution. ΔEOK has
+   * no H–K term, and a ramp sweeps chroma from near zero at its ends to a peak
+   * in the middle — precisely the axis being equalised. Measured across the
+   * corpus (`spike/phase6-spacing.ts`), ramps even by ΔEOK at mean CV 0.035
+   * come out at CV 0.263 when remeasured in apparent lightness, 7.5× worse, and
+   * the worst offenders are the magentas, pinks and purples the effect predicts.
+   * But contrast requirements are stated in measured terms, not apparent ones,
+   * so buying apparent evenness spends measured regularity. The audit reports
+   * both figures whichever is chosen, so the trade is visible rather than
+   * assumed.
+   */
+  lightness?: 'oklab' | 'hk';
+  /**
+   * What the eye is adapted to. Only consulted when `lightness` is `'hk'`.
+   * Defaults to an average surround for a light background and a dark surround
+   * for a dark one — see `color/hk.ts`.
+   */
+  viewing?: ViewingConditions;
+  /** Strength and method for the H–K term. Only consulted when `lightness` is `'hk'`. */
+  hk?: HKOptions;
 }
 
 export interface SolvedColor {
@@ -131,9 +158,19 @@ export interface SolvedRamp {
     mode: 'reference' | 'even';
     /** Why that mode, when `spacing` was left to `'auto'`. */
     rule: 'asked' | 'even-by-default' | 'contrast-bearing-numbering';
+    /** Which ruler was used to equalise. */
+    lightness: 'oklab' | 'hk';
     deltaE: number[];
     mean: number; cv: number; min: number; max: number;
     referenceCv: number;
+    /**
+     * The same ramp measured with the other ruler, always reported. `deltaEHK`
+     * is the apparent-lightness distance and `cvHK` its coefficient of
+     * variation; a large gap between `cv` and `cvHK` means the ramp is even by
+     * one definition and not the other.
+     */
+    deltaEHK: number[];
+    cvHK: number;
     /** In even mode with a seed, the ramp is even within each side of the pinned step. */
     segments: { before: { mean: number; steps: number }; after: { mean: number; steps: number } } | null;
   };
@@ -290,6 +327,12 @@ export function solveRamp(input: SolveInput): SolvedRamp {
   //      then select the reference by the implied peak hue so the seed's own family wins outright.
   const spacingChoice = chooseSpacing(dna, input.spacing);
   const spacingMode: 'reference' | 'even' = spacingChoice.mode;
+  // The viewing condition follows the background unless it is given: a ramp solved
+  // on a dark page is one the eye meets in a dark surround.
+  const viewing = input.viewing ?? defaultViewing(bg.l < 0.5 ? 'dark' : 'light');
+  const lightnessRuler = input.lightness ?? 'oklab';
+  const hkMetric = (a: Oklch, b: Oklch) => deltaEHK(a, b, viewing, input.hk ?? {});
+  const arcMetric = lightnessRuler === 'hk' ? hkMetric : undefined;
   let targetHue = seed ? seed.h : input.hue!;
   let placement: ReturnType<typeof placeSeed> | null = null;
   if (seed) {
@@ -334,11 +377,11 @@ export function solveRamp(input: SolveInput): SolvedRamp {
     // Even spacing decides which step holds the seed by lightness rank on the respaced
     // spine, because the reference's own step placement is exactly what is being replaced.
     if (seed && seedOnSpine && !input.seedStep) {
-      const probe = respaceEven(refBase, { targetHue, gamut: shellGamut });
+      const probe = respaceEven(refBase, { targetHue, gamut: shellGamut, metric: arcMetric });
       seedIndex = probe.spine.reduce((bi, i) => (Math.abs(probe.L[i]! - seed.l) < Math.abs(probe.L[bi]! - seed.l) ? i : bi), probe.spine[0]!);
     }
     const pin = seed && seedOnSpine ? { seedL: seed.l, seedSpinePos: refBase.spine.indexOf(seedIndex) } : {};
-    ref = respaceEven(refBase, { targetHue, gamut: shellGamut, ...pin });
+    ref = respaceEven(refBase, { targetHue, gamut: shellGamut, ...pin, metric: arcMetric });
     L = [...ref.L];
     if (seed && seedIndex >= 0) L[seedIndex] = seed.l;
     if (seed && !seedOnSpine) {
@@ -400,7 +443,7 @@ export function solveRamp(input: SolveInput): SolvedRamp {
     // re-spaced with the gain applied or the steps drift apart in chroma. One extra pass
     // converges: the gain depends only on the seed step, whose lightness is pinned.
     if (spacingMode === 'even' && seedOnSpine && Math.abs(applied - 1) > 1e-6) {
-      ref = respaceEven(refBase, { targetHue, gamut: shellGamut, seedL: seed.l, seedSpinePos: refBase.spine.indexOf(seedIndex), chromaGain: applied });
+      ref = respaceEven(refBase, { targetHue, gamut: shellGamut, seedL: seed.l, seedSpinePos: refBase.spine.indexOf(seedIndex), chromaGain: applied, metric: arcMetric });
       L = [...ref.L];
       L[seedIndex] = seed.l;
       hueOffset = hueDelta(seed.h, wrap360(targetHue + ref.dh[seedIndex]!));
@@ -526,7 +569,16 @@ export function solveRamp(input: SolveInput): SolvedRamp {
   const segments = spacingMode === 'even' && seedSpinePos > 0 && seedSpinePos < ref.spine.length - 1
     ? { before: { mean: mn(dEs.slice(0, seedSpinePos)), steps: seedSpinePos }, after: { mean: mn(dEs.slice(seedSpinePos)), steps: dEs.length - seedSpinePos } }
     : null;
-  const spacing = { mode: spacingMode, rule: spacingChoice.rule, deltaE: dEs, mean: dMean, cv: dCv, min: Math.min(...dEs), max: Math.max(...dEs), referenceCv: dna.steps.spacing.cvDeltaE, segments };
+  // the same ramp under the other ruler, reported whichever was used to build it
+  const dHK: number[] = [];
+  for (let i = 1; i < spineSolved.length; i++) dHK.push(hkMetric(spineSolved[i - 1]!, spineSolved[i]!));
+  const hkMean = mn(dHK);
+  const cvHK = hkMean > 0 ? Math.sqrt(mn(dHK.map((v) => (v - hkMean) ** 2))) / hkMean : 0;
+  const spacing = {
+    mode: spacingMode, rule: spacingChoice.rule, lightness: lightnessRuler,
+    deltaE: dEs, mean: dMean, cv: dCv, min: Math.min(...dEs), max: Math.max(...dEs),
+    referenceCv: dna.steps.spacing.cvDeltaE, deltaEHK: dHK, cvHK, segments,
+  };
   if (segments && Math.max(segments.before.mean, segments.after.mean) / Math.min(segments.before.mean, segments.after.mean) > 1.4) {
     warnings.push(`the pinned seed splits the ramp unevenly: steps above it average ΔEOK ${segments.before.mean.toFixed(3)}, below it ${segments.after.mean.toFixed(3)} — the seed's lightness does not sit where step ${seedInfo?.stepKey} falls on an even ramp`);
   }

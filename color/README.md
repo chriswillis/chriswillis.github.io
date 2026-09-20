@@ -28,9 +28,20 @@ possible answers.
 
 **Spacing defaults to `'auto'`, which means even.** See `docs/solver.md`.
 
-Status: **all phases complete (0–5).** Built-in DNA for 13 systems in `dna/` (format:
+**Perception is modelled, reported, and mostly not applied.** OKLab L is a
+luminance correlate, so it does not know that a saturated step looks brighter
+than it measures. Measured against Radix, a Helmholtz–Kohlrausch term explains
+13.5% of what the dark mirror leaves over — but correcting the mirror with it
+recovers 0.03 of a JND, so it is not shipped. Applied to *even spacing* it
+matters a great deal: ramps even by ΔEOK (mean CV 0.035) come out at CV 0.263
+when remeasured in apparent lightness, worst on the magentas and pinks the effect
+predicts. That is opt-in, because it is a trade rather than a fix — apparent
+evenness costs measured evenness roughly 1:1 at every strength. The audit reports
+both rulers either way. See `docs/perception.md`.
+
+Status: **all phases complete (0–6).** Built-in DNA for 13 systems in `dna/` (format:
 `docs/dna-format.md`); the entry point is documented in `docs/palette.md`, the solver in
-`docs/solver.md`, dark mode in
+`docs/solver.md`, perception in `docs/perception.md`, dark mode in
 `docs/dark-mode.md`, grays in `docs/neutrals.md`, tokens in `docs/tokens.md`, the
 validation harness in `docs/validation.md`. Findings: `docs/phase0-report.md` (premise
 test on Tailwind v4 and Radix) and `docs/all-systems.md` (curves across all 13 systems).
@@ -103,6 +114,7 @@ src/
   builtins.ts             the 13 reference systems: source, license, key step, roles
   gamut/shell.ts          thin GamutShell interface; nutelch behind it, exact bisection oracle
   color/oklch.ts          culori parsing, hue arithmetic, circular stats, ΔEOK
+  color/hk.ts             Helmholtz–Kohlrausch, viewing conditions, apparent lightness, ΔE_HK
   contrast/index.ts       WCAG 2.1 + APCA via Color.js (oracle; hot paths come in Phase 2)
   ingest/index.ts         generic ingest: { family: { step: css } } → normalized ramps
   ingest/                 loaders: Tailwind v4 theme.css, @radix-ui/colors, color-js/palettes dataset
@@ -128,7 +140,7 @@ src/
   tokens/emit.ts          CSS custom properties, Tailwind v4 @theme, Figma Variables, a text report
   validate/baseline.ts    the corpus: 185 ramps across 13 systems, measured on every check
   validate/audit.ts       contrast matrix, step uniformity, CVD simulation, gamut headroom, promises
-  validate/lint.ts        14 rules, each with its evidence and its remedy; none of them repair anything
+  validate/lint.ts        15 rules, each with its evidence and its remedy; none of them repair anything
   validate/render.ts      a self-contained audit page: the tokens driving real components, both modes
   validate/report.ts      the same numbers as text, for CI
 scripts/build-dna.ts      builds dna/*.json and dna/centroids.json
@@ -152,6 +164,9 @@ spike/
   phase4.ts               the corpus measurement behind validate/baseline.ts
   phase5-spacing.ts       does even spacing break contrast-bearing numbering? (it breaks 2 of 5)
   phase5-surfaces.ts      does a foreground stay legible on the surface it lands on?
+  phase6-hk.ts            is the Helmholtz–Kohlrausch effect visible in Radix's dark scale?
+  phase6-fit.ts           does an H–K term fit Radix better? (no: 0.03 JND — the negative result)
+  phase6-spacing.ts       is a ramp even by ΔEOK even in appearance? (no: 7.45× worse)
   plot_dark.py            fig10
   plot_tokens.py          fig11
   shoot-audit.mjs         fig12 (screenshots out/audit/radix-violet.html)
@@ -165,7 +180,7 @@ out/                      phase0.json, all-systems.json, reports, fig0–fig8, d
 
 ```
 npm install
-npm test                # 192 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
+npm test                # 210 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
                         # solver identity + properties, neutrals, dark mode, token
                         # assignment, the audit, the linter, and the entry point
 npm run build:dna       # regenerate dna/*.json (≈2 s)
@@ -181,6 +196,7 @@ npx tsx scripts/demo-tokens.ts && python3 spike/plot_tokens.py
 npx tsx spike/phase4.ts
 npx tsx scripts/demo-audit.ts && node spike/shoot-audit.mjs
 npx tsx spike/phase5-spacing.ts && npx tsx spike/phase5-surfaces.ts
+npx tsx spike/phase6-hk.ts && npx tsx spike/phase6-fit.ts && npx tsx spike/phase6-spacing.ts
 npm run typecheck
 ```
 

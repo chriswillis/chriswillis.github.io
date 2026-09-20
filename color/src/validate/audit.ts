@@ -28,6 +28,7 @@ import type { TokenSet, Mode, PrimitiveToken } from '../tokens/build.ts';
 import type { SystemDNA } from '../dna/schema.ts';
 import { shell, type Gamut } from '../gamut/shell.ts';
 import { deltaEOK, type Oklch } from '../color/oklch.ts';
+import { deltaEHK, defaultViewing, DEFAULT_STRENGTH, type ViewingConditions, type HKOptions } from '../color/hk.ts';
 import { wcag21Fast, apcaFast } from '../contrast/fast.ts';
 import { CORPUS, position, beatsSystems, type Band } from './baseline.ts';
 import { JND } from '../dna/weights.ts';
@@ -87,6 +88,19 @@ export interface UniformityReport {
   /** The same measures on the reference this ramp came from. */
   reference: { cv: number; min: number } | null;
   corpus: { cv: ReturnType<typeof position>; min: ReturnType<typeof position> };
+  /**
+   * The same ramp measured with a ruler that carries a Helmholtz–Kohlrausch
+   * term, so its lightness axis is apparent rather than measured. Reported
+   * whether or not the ramp was built that way, because the two definitions of
+   * "evenly spaced" genuinely disagree and the disagreement is invisible in
+   * ΔEOK alone. `ratio` is cvHK ÷ cv: 1 means the two rulers agree, and large
+   * means the ramp is even by one and not the other.
+   *
+   * Measured across the corpus (`spike/phase6-spacing.ts`): ramps even by ΔEOK
+   * average cv 0.035 and cvHK 0.263 at full strength — and the worst are the
+   * magentas, pinks and purples the effect predicts, not a random scatter.
+   */
+  apparent: { deltaE: number[]; mean: number; cv: number; ratio: number; viewing: ViewingConditions; strength: number };
 }
 
 export interface CvdReport {
@@ -179,11 +193,22 @@ export function contrastMatrix(colors: { key: string; color: Oklch }[], mode: Mo
   return { mode, keys, cells, usable: { wcag: okW / Math.max(1, n), apca: okA / Math.max(1, n), disagree: dis / Math.max(1, n) }, disagreements };
 }
 
-export function uniformity(colors: Oklch[], mode: Mode, reference: Oklch[] | null): UniformityReport {
+export function uniformity(
+  colors: Oklch[],
+  mode: Mode,
+  reference: Oklch[] | null,
+  hkOpts: { viewing?: ViewingConditions; hk?: HKOptions } = {},
+): UniformityReport {
   const d: number[] = [];
   for (let i = 1; i < colors.length; i++) d.push(deltaEOK(colors[i - 1]!, colors[i]!));
   const m = mean(d);
   const cv = m > 0 ? sd(d) / m : 0;
+  const viewing = hkOpts.viewing ?? defaultViewing(mode);
+  const strength = hkOpts.hk?.strength ?? DEFAULT_STRENGTH;
+  const dh: number[] = [];
+  for (let i = 1; i < colors.length; i++) dh.push(deltaEHK(colors[i - 1]!, colors[i]!, viewing, { ...hkOpts.hk, strength }));
+  const hm = mean(dh);
+  const cvHK = hm > 0 ? sd(dh) / hm : 0;
   let ref: UniformityReport['reference'] = null;
   if (reference && reference.length > 1) {
     const rd: number[] = [];
@@ -194,6 +219,7 @@ export function uniformity(colors: Oklch[], mode: Mode, reference: Oklch[] | nul
   return {
     mode, deltaE: d, mean: m, cv, min: Math.min(...d), max: Math.max(...d), reference: ref,
     corpus: { cv: position(cv, CORPUS.stepUniformityCv, false), min: position(Math.min(...d), CORPUS.smallestStep, true) },
+    apparent: { deltaE: dh, mean: hm, cv: cvHK, ratio: cv > 1e-9 ? cvHK / cv : 1, viewing, strength },
   };
 }
 

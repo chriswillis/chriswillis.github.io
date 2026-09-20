@@ -166,6 +166,40 @@ export function lint(set: TokenSet, a: Audit, opts: LintOptions = {}): LintResul
       });
     }
 
+    // ── even by one ruler, uneven by the other ────────────────────────────────
+    // Deliberately `info`, and deliberately not phrased as a defect. ΔEOK has no
+    // Helmholtz–Kohlrausch term, so it cannot see that a saturated step looks
+    // brighter than its lightness; a ramp sweeps chroma from near zero at its
+    // ends to a peak in the middle, which is exactly the axis even spacing
+    // equalises. But the trade is symmetric — measured across the corpus
+    // (`spike/phase6-spacing.ts`), equalising apparent distance costs measured
+    // evenness at almost exactly 1:1, at every strength. There is no setting
+    // that dominates, so there is nothing here to call wrong. What there is, is
+    // a choice the palette is making silently, and this says so.
+    const uni = a.uniformity[mode];
+    if (uni && uni.apparent && uni.apparent.ratio >= 2 && uni.cv > 1e-6) {
+      add({
+        rule: 'apparent-spacing-differs',
+        severity: 'info',
+        mode,
+        subjects: ['spacing'],
+        message:
+          `the ramp is even by ΔEOK (cv ${uni.cv.toFixed(3)}) but ${uni.apparent.ratio.toFixed(1)}× less even in apparent lightness ` +
+          `(cv ${uni.apparent.cv.toFixed(3)}) — saturated steps read brighter than their lightness`,
+        evidence: {
+          cvMeasured: Number(uni.cv.toFixed(4)),
+          cvApparent: Number(uni.apparent.cv.toFixed(4)),
+          ratio: Number(uni.apparent.ratio.toFixed(2)),
+          strength: uni.apparent.strength,
+          adaptingLuminance: uni.apparent.viewing.adaptingLuminance,
+          spacing: set.provenance.spacing,
+        },
+        remedy:
+          'pass lightness: \'hk\' to space by apparent distance instead — but it is a trade, not a fix: ' +
+          'apparent evenness costs measured evenness roughly 1:1, and contrast requirements are stated in measured terms',
+      });
+    }
+
     // ── colour-vision deficiency ──────────────────────────────────────────────
     const cvd = a.cvd[mode];
     if (cvd) {
@@ -327,7 +361,8 @@ export function lint(set: TokenSet, a: Audit, opts: LintOptions = {}): LintResul
 
 /** All rule names, so `disable` can be checked against something. */
 export const RULES = [
-  'requirement-unmet', 'measures-disagree', 'state-indistinguishable', 'foreground-on-surface', 'cvd-steps-collapse',
+  'requirement-unmet', 'measures-disagree', 'state-indistinguishable', 'foreground-on-surface',
+  'apparent-spacing-differs', 'cvd-steps-collapse',
   'cvd-families-collapse', 'cvd-standing', 'step-under-jnd', 'uneven-spacing', 'gamut-mapped',
   'srgb-sibling-drift', 'on-the-shell', 'promise-broken', 'step-shared-across-categories',
 ] as const;

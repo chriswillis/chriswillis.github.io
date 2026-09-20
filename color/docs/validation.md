@@ -97,7 +97,7 @@ the property tests throw at it, it has not fired.
 
 ## The linter
 
-Fourteen rules, each carrying what it checked, what it found and what would fix
+Fifteen rules, each carrying what it checked, what it found and what would fix
 it. Severity means something specific:
 
 - **error** — a promise the set makes and does not keep, or a WCAG criterion it
@@ -138,6 +138,14 @@ that exemption is load-bearing — applying the exclusion to them as well (they
 share the same separation rule) pushed `content/disabled` four steps past where
 its own criterion put it, turning disabled text into ordinary text. Same-step
 pairs across the corpus: 30 → 0.
+
+`apparent-spacing-differs` is the one rule that does not claim anything is wrong,
+and that is deliberate. ΔEOK has no Helmholtz–Kohlrausch term, so a ramp made
+even by it can be markedly uneven in apparent lightness — 7.45× on average across
+the corpus, worst on magentas and pinks. But equalising the other way costs
+measured evenness at almost exactly 1:1, so neither ruler is the right one. The
+rule reports the gap at `info`, names the dial, and says in its remedy that it is
+a trade rather than a fix. See [perception.md](perception.md).
 
 `cvd-steps-collapse` reports one finding per deficiency rather than one per pair,
 and drops to `info` when every collapsed pair lands within a tenth of the JND —

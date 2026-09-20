@@ -33,6 +33,8 @@ export { CORPUS, position, beatsSystems, type CorpusBaseline, type Band } from '
 export { lint, RULES, type LintResult, type LintOptions, type Finding, type Severity, type RuleName } from './validate/lint.ts';
 export { renderAudit, type RenderOptions } from './validate/render.ts';
 export { reportAudit, usablePairs } from './validate/report.ts';
+// Phase 6 — perception: viewing conditions and the Helmholtz–Kohlrausch effect
+export { hkGamma, apparentL, lForApparent, deltaEHK, suvTheta, coefficientQ, coefficientKBr, defaultViewing, AVERAGE_SURROUND, DARK_SURROUND, DEFAULT_STRENGTH, type ViewingConditions, type HKOptions, type HKMethod } from './color/hk.ts';
 // Phase 5 — the one-call entry point
 export { palette, loadDNA, builtinDNAIds, DEFAULT_REFERENCE, type Palette, type PaletteOptions } from './palette.ts';
 export { chooseSpacing } from './solver/index.ts';

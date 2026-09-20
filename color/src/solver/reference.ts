@@ -9,7 +9,7 @@ import { familyCurves } from '../dna/system.ts';
 import { linear, pchip, catmullRom, type Curve } from '../dna/curves.ts';
 import { hueDelta, wrap360 } from '../color/oklch.ts';
 import { shell, type Gamut, type GamutShell } from '../gamut/shell.ts';
-import { deltaEOK } from '../color/oklch.ts';
+import { deltaEOK, type Oklch } from '../color/oklch.ts';
 
 export interface ReferenceCurves {
   keys: string[];
@@ -192,6 +192,20 @@ export interface RespaceOptions {
   /** The seed's chroma gain, so the arc length reflects the colors actually emitted. */
   chromaGain?: number;
   samples?: number;
+  /**
+   * The ruler the arc length is measured with. Defaults to ΔEOK.
+   *
+   * Worth exposing because the choice is load-bearing and ΔEOK has a blind spot:
+   * it has no Helmholtz–Kohlrausch term, so it does not know that a saturated
+   * step looks brighter than its lightness. A ramp sweeps chroma from near zero
+   * at its ends to a peak in the middle, which is exactly the axis being
+   * equalised — measured across the corpus (`spike/phase6-spacing.ts`), ramps
+   * that are even by ΔEOK (mean CV 0.035) come out at CV 0.263 when remeasured
+   * in apparent lightness, and the worst are the magentas, pinks and purples the
+   * effect predicts. Passing `deltaEHK` equalises what the eye sees instead, at
+   * the cost of making the *measured* steps uneven.
+   */
+  metric?: (a: Oklch, b: Oklch) => number;
 }
 
 /**
@@ -230,11 +244,12 @@ export function respaceEven(ref: ReferenceCurves, opts: RespaceOptions): Referen
   }
 
   const J = opts.samples ?? 400;
+  const metric = opts.metric ?? deltaEOK;
   const ns: number[] = [];
   const cum: number[] = [0];
   for (let j = 0; j <= J; j++) ns.push(n0 + ((n1 - n0) * j) / J);
   for (let j = 1; j <= J; j++) {
-    cum.push(cum[j - 1]! + deltaEOK(pathColor(ref, ns[j - 1]!, opts.targetHue, sh, lAt, opts.chromaGain ?? 1), pathColor(ref, ns[j]!, opts.targetHue, sh, lAt, opts.chromaGain ?? 1)));
+    cum.push(cum[j - 1]! + metric(pathColor(ref, ns[j - 1]!, opts.targetHue, sh, lAt, opts.chromaGain ?? 1), pathColor(ref, ns[j]!, opts.targetHue, sh, lAt, opts.chromaGain ?? 1)));
   }
   const S = cum[J]!;
   if (!(S > 0)) return ref;
