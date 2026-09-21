@@ -76,25 +76,59 @@ to infer it from the linter:
 > difference — the whole ramp spans just 0.005 in lightness, so the seed's step
 > leaves nowhere for the others to go. They will read as one colour.
 
+## What it found and what was fixed
+
+`duplicate-steps` fired on 122 instances, the only class reaching the default
+path, and chasing it was instructive because the first two diagnoses were wrong.
+
+It looked like quantization — adjacent steps rounding to the same 8-bit colour.
+Splitting the cases by how much lightness the ramp actually spanned showed 22
+where the ramp was genuinely collapsed (span under 0.05, so no ten distinct
+8-bit colours exist to be had) and **12 where the ramp spanned as much as 0.75
+and still emitted duplicates**. Those twelve were the bug.
+
+The second wrong diagnosis was the metric. A Tailwind dark ramp put nine
+consecutive steps on L 0.90864 to five decimal places, which suggested ΔE_HK
+going locally flat and breaking the arc-length inversion. Two fixes along those
+lines — a strictly-increasing baseline on the arc length, and a guard for a
+starved side — changed the count by exactly zero, and were reverted. Measuring
+the fix rather than reasoning about it is what caught that.
+
+The cause was the pin. A seed's *step* is decided in light mode and reused in
+dark mode, which is what Radix does and what makes a brand colour the same colour
+in both. But a seed's *lightness* ranks differently in the two: a pale blue at
+L 0.91 is near the top of a dark ramp and near the bottom of a light one. Pinned
+to the light ramp's step 100, the nine dark steps above it had to be brighter
+than the brightest lightness the curve reaches, and every one of them piled onto
+the same colour.
+
+Three premises collide there and they are not equal. The seed being exact is the
+premise of the library. Distinct steps are the difference between a palette and a
+swatch. Sharing a step key across modes is a convenience measured off one
+reference. So the last yields: when pinning collapses steps that solving freely
+would not, the dark ramp is solved on its own terms and the warning says the two
+modes no longer correspond step for step. Ordinary seeds are untouched — they
+still share a step at ΔEOK 0.00000.
+
+Result on the same campaign: `duplicate-steps` 122 → **0**, total invariant
+breaks 152 → 29, and the campaign runs in 13.6s instead of 25s because there are
+far fewer degenerate ramps to grind through.
+
 ## Open defects
 
-A 1216-case campaign (`--seed 42`) leaves these, and they are not yet fixed:
+A 1216-case campaign (`--seed 42`) still leaves these:
 
 | rule | cases | notes |
 |---|---|---|
-| `duplicate-steps` | 122 (10.0%) | Adjacent steps quantizing to the same 8-bit colour. Concentrated in low-chroma seeds where the ramp differs almost only in lightness, and in compressed ramps. Affects the default path, not only `lightness: 'hk'`. |
-| `non-monotone` | 16 (1.3%) | Spine lightness turning around by more than one LSB. Mostly `lightness: 'hk'`. |
+| `non-monotone` | 15 (1.2%) | Spine lightness turning around by more than one 8-bit step. Mostly `lightness: 'hk'`. |
 | `out-of-gamut` | 8 (0.7%) | Real overshoot, not LUT error — `#0000ff` through Open Color at `lightness: 'hk'` carries C 0.313 where sRGB holds 0.266. |
-| `seed-inexact` | 4 (0.3%) | Remaining cases after the mapped-seed fix. |
+| `seed-inexact` | 4 (0.3%) | Seeds at extreme lightness where the mapped seed still is not reproduced. |
+| `promise-broken` | 2 (0.2%) | The solver's quantization nudge landing a hundredth short: promised 4.5:1, measured 4.49:1. |
 
-The concentration is informative: most of the non-`duplicate-steps` breaks sit on
-the `lightness: 'hk'` path added in the perception work, which is opt-in and was
-never fuzzed before it shipped. `duplicate-steps` is the one that reaches the
-default path and is the first thing to fix.
-
-The solver has a nudge mechanism that already protects contrast promises through
-quantization; extending it to protect step distinctness is the obvious fix, and
-is a change to the solver rather than to the harness.
+Eighteen of the 29 are on the `lightness: 'hk'` path added in the perception
+work, which is opt-in and was never fuzzed before it shipped — a fair indictment
+of the order those two things were done in. The default path is down to 11 of
+1216, or 0.9%.
 
 ## Using it as a library
 

@@ -142,6 +142,47 @@ export function solvePair(input: SolvePairInput): SolvedPair {
   let darkRamp: SolvedRamp;
   if (seed && seedStep && dark.steps.keys?.includes(seedStep)) {
     darkRamp = solveRamp({ ...common, dna: dark, background: darkBg, seedStep });
+
+    /**
+     * The pin is not always feasible, and when it is not it destroys the ramp.
+     *
+     * A seed's *step* is decided in light mode and reused in dark mode, which is
+     * what Radix does and what makes a brand colour the same colour in both.
+     * But a seed's *lightness* ranks differently in the two modes: a pale blue
+     * at L 0.91 is near the top of a dark ramp and near the bottom of a light
+     * one. Pin it to the light ramp's step 100 and the nine dark steps above it
+     * have to be brighter than the brightest lightness the curve reaches — so
+     * they all pile onto the same colour. Found by the fuzz harness on a
+     * Tailwind dark ramp that put nine consecutive steps on L 0.90864 to five
+     * decimal places.
+     *
+     * Three premises collide here and they are not equal. The seed being exact
+     * is the premise of the library. Distinct steps are the difference between a
+     * palette and a swatch. Sharing a step key across modes is a convenience
+     * measured off one reference. So the last one yields: solve the dark ramp on
+     * its own terms, keep the seed exact, and say plainly that the modes no
+     * longer correspond step for step.
+     */
+    const dEs: number[] = [];
+    for (let i = 1; i < darkRamp.steps.length; i++) {
+      if (darkRamp.steps[i - 1]!.color.native === darkRamp.steps[i]!.color.native) dEs.push(i);
+    }
+    if (dEs.length > 0) {
+      const free = solveRamp({ ...common, dna: dark, background: darkBg });
+      let stillDup = 0;
+      for (let i = 1; i < free.steps.length; i++) {
+        if (free.steps[i - 1]!.color.native === free.steps[i]!.color.native) stillDup++;
+      }
+      if (stillDup < dEs.length) {
+        warnings.push(
+          `pinning the seed to step ${seedStep} collapsed ${dEs.length} of the dark ramp's steps onto colours already used — the seed's lightness ranks near ` +
+          `${seed.l > 0.5 ? 'the bright' : 'the dark'} end of the dark scale but step ${seedStep} sits near the other, so there was no room left. ` +
+          `The dark ramp was solved on its own terms instead: the seed is still exact, but it holds step ${free.seed?.stepKey ?? '?'} in dark mode and ` +
+          `${seedStep} in light mode, so the two do not correspond step for step. Pass seedStep to force one, or pick a seed whose lightness suits both.`,
+        );
+        darkRamp = free;
+      }
+    }
   } else {
     darkRamp = solveRamp({ ...common, dna: dark, background: darkBg });
     if (seed && seedStep) warnings.push(`the dark reference ${dark.id} has no step "${seedStep}"; the seed was placed independently there, so the two ramps may not correspond step for step`);

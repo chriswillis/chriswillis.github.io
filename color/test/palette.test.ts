@@ -123,6 +123,62 @@ describe('spacing defaults to even', () => {
   });
 });
 
+describe('an infeasible pin falls back rather than collapsing the ramp', () => {
+  // Found by the fuzz harness. A seed's step is decided in light mode and reused
+  // in dark mode, but its *lightness* ranks differently in the two: a pale blue
+  // at L 0.91 is near the top of a dark ramp and near the bottom of a light one.
+  // Pinned to the light ramp's step 100, the nine dark steps above it had to be
+  // brighter than the brightest lightness the curve reaches, and all nine came
+  // back as one colour — L 0.90864 to five decimal places, before quantization.
+  const PALE = 'oklch(0.9076 0.0558 238.09)';
+
+  it('emits distinct colours for the case that produced nine identical steps', () => {
+    const p = palette({ seed: PALE, reference: 'tailwind', gamut: 'p3', spacing: 'even', lightness: 'hk' });
+    const natives = p.pair.dark.steps.map((s) => s.color.native);
+    expect(new Set(natives).size).toBe(natives.length);
+  });
+
+  it('keeps the seed exact when it falls back', () => {
+    const p = palette({ seed: PALE, reference: 'tailwind', gamut: 'p3', spacing: 'even', lightness: 'hk' });
+    expect(p.pair.dark.steps.some((s) => s.isSeed)).toBe(true);
+    expect(p.pair.light.steps.some((s) => s.isSeed)).toBe(true);
+  });
+
+  it('says plainly that the modes no longer correspond step for step', () => {
+    const p = palette({ seed: PALE, reference: 'tailwind', gamut: 'p3', spacing: 'even', lightness: 'hk' });
+    const w = p.pair.warnings.find((x) => x.includes('collapsed'));
+    expect(w).toBeDefined();
+    expect(w).toMatch(/do not correspond step for step/);
+    expect(w).toMatch(/seedStep/);
+  });
+
+  it('does not fire for ordinary seeds — they still share a step, exactly', () => {
+    for (const seed of ['#7c3aed', '#dc2626', '#0891b2', '#16a34a', '#db2777', '#ca8a04']) {
+      const p = palette({ seed });
+      expect(p.pair.light.seed?.stepKey, seed).toBe(p.pair.dark.seed?.stepKey);
+      expect(p.pair.pin, seed).not.toBeNull();
+      expect(p.pair.pin!.deltaE, seed).toBeLessThan(1e-6);
+      expect(p.pair.warnings.some((w) => w.includes('collapsed')), seed).toBe(false);
+    }
+  });
+
+  it('never trades a collapsed ramp for a worse one', () => {
+    // the fallback only applies when solving freely produces fewer duplicates
+    for (const seed of [PALE, 'oklch(0.3058 0.0239 237.55)', '#ffffff', '#000000']) {
+      for (const ref of ['tailwind', 'primer', 'spectrum']) {
+        const p = palette({ seed, reference: ref, gamut: 'srgb' });
+        const n = p.pair.dark.steps.map((s) => s.color.native);
+        const dups = n.length - new Set(n).size;
+        const spanL = Math.max(...p.pair.dark.steps.map((s) => s.color.oklch.l))
+          - Math.min(...p.pair.dark.steps.map((s) => s.color.oklch.l));
+        // duplicates are only acceptable where the ramp genuinely has no room:
+        // 8-bit cannot hold 10 distinct colours inside a hundredth of lightness
+        if (dups > 0) expect(spanL, `${ref}/${seed}`).toBeLessThan(0.05);
+      }
+    }
+  });
+});
+
 describe('the dark derivation is memoised', () => {
   // deriveDarkDNA mirrors every family in the reference while a solve needs one,
   // and it dominated solvePair by 50:1 (336 ms against 7 ms) before it was cached.
