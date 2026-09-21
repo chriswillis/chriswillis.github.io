@@ -1,9 +1,8 @@
 /**
- * extractSystemDNA: ramps → SystemDNA. Pure; the only I/O is the toolchain
- * version lookup, which the caller can override.
+ * extractSystemDNA: ramps → SystemDNA. Pure — no I/O at all. The toolchain
+ * stamp is passed in (see `dna/toolchain.ts`, which is the node-only half),
+ * because this module is on the solve path and has to bundle for a browser.
  */
-import { createRequire } from 'node:module';
-import { readFileSync } from 'node:fs';
 import type { Ramp } from '../ingest/types.ts';
 import { extractRamp, resample, type RampDNA } from './extract.ts';
 import { findSpine, type Direction } from './spine.ts';
@@ -16,19 +15,6 @@ import { mean, sd } from '../color/oklch.ts';
 import { APCA_VERSION } from '../contrast/index.ts';
 import type { Gamut } from '../gamut/shell.ts';
 import { DNA_SCHEMA, type FamilyDNA, type SystemDNA, type SourceInfo, type Toolchain, type Stat } from './schema.ts';
-
-const require = createRequire(import.meta.url);
-
-export function defaultToolchain(): Toolchain {
-  // colorjs.io does not export its package.json; read it from the resolved entry's directory.
-  const v = (p: string, entry?: string) => {
-    try { return (require(`${p}/package.json`) as { version: string }).version; } catch {
-      const dir = require.resolve(entry ?? p).split('/node_modules/')[0] + '/node_modules/' + p;
-      return (JSON.parse(readFileSync(`${dir}/package.json`, 'utf8')) as { version: string }).version;
-    }
-  };
-  return { culori: v('culori'), colorjs: v('colorjs.io'), nutelch: '0.2.0@915b785', apca: APCA_VERSION };
-}
 
 export interface ExtractOptions {
   id: string;
@@ -135,7 +121,7 @@ export function extractSystemDNA(ramps: Map<string, Ramp> | Ramp[], opts: Extrac
     ...(opts.pairedWith ? { pairedWith: opts.pairedWith } : {}),
     source: opts.source,
     extractedAt: (opts.now ?? (() => new Date().toISOString()))(),
-    toolchain: opts.toolchain ?? defaultToolchain(),
+    toolchain: opts.toolchain ?? { culori: 'unknown', colorjs: 'unknown', nutelch: '0.2.0@915b785', apca: APCA_VERSION },
     authoredGamut: list[0]!.gamut,
     steps: {
       keys,

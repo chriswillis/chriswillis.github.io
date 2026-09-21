@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/culori": "4.0.1",
     "@types/node": "26.6.2",
+    "esbuild": "^0.25.12",
     "fast-check": "4.10.2",
     "playwright": "^1.56.1",
     "tsx": "4.23.13",

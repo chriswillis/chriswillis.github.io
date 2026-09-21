@@ -123,6 +123,38 @@ describe('spacing defaults to even', () => {
   });
 });
 
+describe('the dark derivation is memoised', () => {
+  // deriveDarkDNA mirrors every family in the reference while a solve needs one,
+  // and it dominated solvePair by 50:1 (336 ms against 7 ms) before it was cached.
+  // These assert correctness of the cache key, not the speed, because a timing
+  // assertion in CI is a flake waiting to happen.
+  const light = DNA['tailwind-v4']!;
+
+  it('does not let two different mirror surfaces share an entry', () => {
+    const a = palette({ seed: SEED, reference: light, mirror: { surface: { l: 0.15, c: 0, h: 0 } } });
+    const b = palette({ seed: SEED, reference: light, mirror: { surface: { l: 0.30, c: 0, h: 0 } } });
+    const worst = Math.max(...a.pair.dark.steps.map((s, i) => deltaEOK(s.color.oklch, b.pair.dark.steps[i]!.color.oklch)));
+    expect(worst).toBeGreaterThan(0.01);
+  });
+
+  it('is insensitive to the order the options were written in', () => {
+    const a = palette({ seed: SEED, reference: light, mirror: { lambda: 0.5, chroma: 'radix' } });
+    const b = palette({ seed: SEED, reference: light, mirror: { chroma: 'radix', lambda: 0.5 } });
+    expect(a.pair.dark.steps.map((s) => s.color.native)).toEqual(b.pair.dark.steps.map((s) => s.color.native));
+  });
+
+  it('reproduces the same ramp on a repeat call', () => {
+    const a = palette({ seed: '#dc2626', reference: light });
+    const b = palette({ seed: '#dc2626', reference: light });
+    expect(a.pair.dark.steps.map((s) => s.color.native)).toEqual(b.pair.dark.steps.map((s) => s.color.native));
+  });
+
+  it('still honours an explicitly supplied dark scale over anything cached', () => {
+    const p = palette({ seed: SEED, reference: 'radix-light', dark: DNA['radix-dark']! });
+    expect(p.reference.dark.kind).toBe('authored');
+  });
+});
+
 describe('palette() composes the whole pipeline', () => {
   const p = palette({ seed: SEED, neutrals: true, families: { danger: '#dc2626' } });
 

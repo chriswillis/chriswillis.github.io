@@ -126,7 +126,8 @@ src/
   dna/centroids.ts        hue-family centroids (peak-chroma + published) and classifier
   dna/neutrals.ts         gray ramps: tint hue, tint strength, absolute chroma envelope
   dna/schema.ts           SystemDNA / FamilyDNA types, serializeDNA, parseDNA
-  dna/system.ts           extractSystemDNA, familyCurves
+  dna/system.ts           extractSystemDNA, familyCurves (pure — bundles for a browser)
+  dna/toolchain.ts        the node-only half: which colour libraries produced a DNA
   contrast/fast.ts        culori hot-path WCAG 2.1 + APCA, bit-for-bit with Color.js
   solver/reference.ts     reference selection (nearest-two by hue, aggregate fallback, forced)
   solver/neutral.ts       solveNeutralRamp: transfer a gray ramp onto a target tint hue
@@ -180,7 +181,7 @@ out/                      phase0.json, all-systems.json, reports, fig0–fig8, d
 
 ```
 npm install
-npm test                # 210 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
+npm test                # 214 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
                         # solver identity + properties, neutrals, dark mode, token
                         # assignment, the audit, the linter, and the entry point
 npm run build:dna       # regenerate dna/*.json (≈2 s)

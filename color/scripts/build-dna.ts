@@ -4,6 +4,7 @@
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { builtinSpecs, PALETTES_DATASET_COMMIT } from '../src/builtins.ts';
+import { defaultToolchain } from '../src/dna/toolchain.ts';
 import { extractSystemDNA } from '../src/dna/system.ts';
 import { serializeDNA } from '../src/dna/schema.ts';
 import { computeCentroids } from '../src/dna/centroids.ts';
@@ -19,7 +20,7 @@ console.log(`centroids: ${centroids.families.length} families`);
 const index: Record<string, unknown>[] = [];
 for (const spec of builtinSpecs()) {
   const t0 = Date.now();
-  const dna = extractSystemDNA(spec.load(), { id: spec.id, name: spec.name, mode: spec.mode, pairedWith: spec.pairedWith, source: spec.source, keyStepKey: spec.keyStepKey, roles: spec.roles, centroids, neutralRamps: spec.loadNeutrals() });
+  const dna = extractSystemDNA(spec.load(), { id: spec.id, name: spec.name, mode: spec.mode, pairedWith: spec.pairedWith, source: spec.source, keyStepKey: spec.keyStepKey, roles: spec.roles, centroids, neutralRamps: spec.loadNeutrals(), toolchain: defaultToolchain() });
   writeFileSync(`dna/${spec.id}.json`, serializeDNA(dna));
   const fams = Object.values(dna.families);
   const detached = fams.reduce((a, f) => a + f.spine.detached.length, 0);

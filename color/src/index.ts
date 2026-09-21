@@ -2,7 +2,8 @@
 export { ingestPalette, type PaletteInput, type IngestOptions } from './ingest/index.ts';
 export type { Ramp } from './ingest/types.ts';
 export { extractRamp, type RampDNA, type StepDNA } from './dna/extract.ts';
-export { extractSystemDNA, familyCurves, familyFromRamp, defaultToolchain, type ExtractOptions } from './dna/system.ts';
+export { extractSystemDNA, familyCurves, familyFromRamp, type ExtractOptions } from './dna/system.ts';
+export { defaultToolchain } from './dna/toolchain.ts';
 export { serializeDNA, parseDNA, DNA_SCHEMA, type SystemDNA, type FamilyDNA, type FamilyKnots, type SourceInfo } from './dna/schema.ts';
 export { pchip, catmullRom, linear, fit, sample, grid, invertMonotone, type Curve, type FitMethod } from './dna/curves.ts';
 export { findSpine, detectDirection, type SpineResult, type Direction } from './dna/spine.ts';
