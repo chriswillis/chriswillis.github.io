@@ -57,10 +57,31 @@ const toP3 = converter('p3');
 const inSrgb = inGamut('rgb');
 const inP3 = inGamut('p3');
 
+/**
+ * How far outside [0, 1] a channel may sit and still count as displayable.
+ *
+ * This is Color.js's default, and matching it is the point: `solver.gamutMap`
+ * decides membership with Color.js at this epsilon, so an exact test here left
+ * the library with two different answers to the same question. The difference is
+ * small — it moves sRGB's cusp under blue by 1e-4 — but a boundary test that
+ * disagrees with the mapper is a boundary test that will eventually be believed
+ * over it.
+ *
+ * Note this is a *cusp*: the largest C whose whole radial segment is displayable.
+ * That is not the same as membership, because the in-gamut set along a radius is
+ * not always an interval. At `#0000ff`'s own L and hue, red dips to −0.009
+ * around C 0.29 and returns to −0.00001 at C 0.313, so the primary itself sits
+ * beyond its own cusp. Ask `gamutMap` whether a colour is displayable; ask this
+ * how much chroma a ramp can carry.
+ */
+const GAMUT_EPSILON = 0.000075;
+
 export function exactCuspChroma(gamut: Gamut, L: number, h: number, tol = 1e-5): number {
   const test = (c: number) => {
     const col = { mode: 'oklch' as const, l: L, c, h };
-    return gamut === 'srgb' ? inSrgb(toRgb(col)) : inP3(toP3(col));
+    const rgb = gamut === 'srgb' ? toRgb(col) : toP3(col);
+    if (!rgb) return false;
+    return [rgb.r, rgb.g, rgb.b].every((v) => v >= -GAMUT_EPSILON && v <= 1 + GAMUT_EPSILON);
   };
   if (L <= 0 || L >= 1) return 0;
   let lo = 0;

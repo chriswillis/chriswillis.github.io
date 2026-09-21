@@ -513,8 +513,23 @@ export function solveRamp(input: SolveInput): SolvedRamp {
   for (let i = 0; i < N; i++) {
     let Li = Lfinal[i]!;
     let f = finalize(i, Li);
-    // promises: WCAG thresholds vs bg met by the mapped (pre-quantization) color
-    const promised = WCAG_THRESHOLDS.filter((th) => wcag21Fast(f.mapped, bg) >= th);
+    /**
+     * Promises are the thresholds the *pre-quantization* colour cleared, which
+     * the nudge below then defends through 8-bit rounding. That is the right
+     * contract for a step the solver may move — but not for the seed, which it
+     * may not. An out-of-gamut seed is mapped and then quantized, and if the
+     * mapped colour clears 4.5:1 while the emitted one lands on 4.489, promising
+     * 4.5 records an intention the solver has already excluded itself from
+     * keeping: the nudge skips the seed by design, because the seed being exact
+     * is the premise of the library.
+     *
+     * So the seed promises what it delivers. Found by the fuzz harness, which
+     * reported two `promise-broken` cases against a check `docs/validation.md`
+     * described as never having fired — both of them the seed step, neither of
+     * them a defect in the nudge.
+     */
+    const promiseFrom = i === seedIndex && seed ? f.color.oklch : f.mapped;
+    const promised = WCAG_THRESHOLDS.filter((th) => wcag21Fast(promiseFrom, bg) >= th);
     let nudge: SolvedStep['nudge'] = null;
     const broken = () => promised.some((th) => wcag21Fast(f.color.oklch, bg) < th);
     if (i !== seedIndex && broken()) {

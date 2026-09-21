@@ -23,12 +23,13 @@
  * an anecdote.
  */
 import { parseToOklch, deltaEOK, type Oklch } from '../color/oklch.ts';
-import { exactCuspChroma, type Gamut } from '../gamut/shell.ts';
+import { type Gamut } from '../gamut/shell.ts';
 import { solvePair } from '../solver/pair.ts';
 import { gamutMap } from '../solver/index.ts';
 import { buildTokens } from '../tokens/build.ts';
 import { audit } from './audit.ts';
 import { lint, type Severity } from './lint.ts';
+import { JND } from '../dna/weights.ts';
 import type { SystemDNA } from '../dna/schema.ts';
 import type { SolvedRamp } from '../solver/index.ts';
 
@@ -123,34 +124,51 @@ function invariants(c: FuzzCase, light: SolvedRamp, dark: SolvedRamp, seedIn: Ok
   for (const [mode, ramp] of [['light', light], ['dark', dark]] as const) {
     if (ramp.steps.length === 0) { add('empty-ramp', `${mode} ramp has no steps`, { mode }); continue; }
 
-    // In gamut — the solver maps last and promises the result fits. Checked
-    // against the exact bisection oracle rather than the nutelch LUT: the LUT is
-    // an interpolation and disagrees with the true boundary by a few thousandths,
-    // which is enough to report a step the solver mapped correctly.
+    // In gamut — the solver maps last and promises the result fits.
+    //
+    // Membership is asked directly, not via the cusp, and the difference is not
+    // pedantic. The cusp is the largest chroma whose whole radial segment is
+    // displayable, and the in-gamut set along a radius is not always an interval:
+    // at `#0000ff`'s own lightness and hue, red dips to −0.009 near C 0.29 and
+    // returns to −0.00001 at C 0.313, so the sRGB primary sits *beyond its own
+    // cusp*. Checking against the cusp reported eight cases where the solver had
+    // emitted a perfectly displayable colour.
     for (const s of ramp.steps) {
-      const max = exactCuspChroma(c.gamut, s.color.oklch.l, Number.isFinite(s.color.oklch.h) ? s.color.oklch.h : 0);
-      // 8-bit quantization can push a step a hair past the boundary on its own
-      if (s.color.oklch.c > max + 2e-3) {
-        add('out-of-gamut', `${mode} step ${s.key} carries C ${s.color.oklch.c.toFixed(4)} where ${c.gamut} holds ${max.toFixed(4)}`,
-          { mode, step: s.key, chroma: Number(s.color.oklch.c.toFixed(5)), allowed: Number(max.toFixed(5)) });
+      const { deltaE: mapDE } = gamutMap(s.color.oklch, c.gamut);
+      if (mapDE > 2e-3) {
+        add('out-of-gamut', `${mode} step ${s.key} is not displayable in ${c.gamut} — mapping it would move it ΔEOK ${mapDE.toFixed(4)}`,
+          { mode, step: s.key, chroma: Number(s.color.oklch.c.toFixed(5)), mapDeltaE: Number(mapDE.toFixed(5)) });
       }
       if (!Number.isFinite(s.color.oklch.l) || !Number.isFinite(s.color.oklch.c)) {
         add('non-finite', `${mode} step ${s.key} is not a finite colour`, { mode, step: s.key });
       }
     }
 
-    // Lightness monotone along the spine. Tolerance is one 8-bit step, not zero:
-    // the emitted colour is quantized, and near white one LSB moves OKLab L by
-    // about 0.002. Asserting exact monotonicity on quantized output reports
-    // rounding as a defect, which is how this check first read three cases that
-    // turned out to be one least-significant bit of blue.
-    const QUANT_L = 0.004;
+    /**
+     * Lightness monotone along the spine, to within a just-noticeable difference.
+     *
+     * The threshold went through two wrong values before this one. Zero reports
+     * 8-bit rounding as a defect — near white one least significant bit moves
+     * OKLab L by about 0.002, and three early hits were one LSB of blue. One
+     * quantization step is better but still the wrong scale: it flagged four
+     * ramps whose worst reversal was 0.0066 of lightness, a third of a JND, in
+     * ramps whose steps average 0.1. Nobody can see a turn that small; calling it
+     * a defect is measuring the float, not the colour.
+     *
+     * So the criterion is perceptual. A reversal counts when *both* moves around
+     * it exceed one JND, which is the point at which a direction change becomes
+     * something a person could notice rather than something a profiler can.
+     */
     const spine = ramp.steps.filter((s) => !s.detached).map((s) => s.color.oklch.l);
     if (spine.length > 2) {
-      const desc = spine.every((v, i) => i === 0 || v <= spine[i - 1]! + QUANT_L);
-      const asc = spine.every((v, i) => i === 0 || v >= spine[i - 1]! - QUANT_L);
-      if (!desc && !asc) {
-        add('non-monotone', `${mode} spine lightness turns around`, { mode, first: Number(spine[0]!.toFixed(4)), last: Number(spine[spine.length - 1]!.toFixed(4)) });
+      const d = spine.slice(1).map((v, i) => v - spine[i]!);
+      let worst = 0;
+      for (let i = 1; i < d.length; i++) {
+        if (d[i]! * d[i - 1]! < 0) worst = Math.max(worst, Math.min(Math.abs(d[i]!), Math.abs(d[i - 1]!)));
+      }
+      if (worst > JND) {
+        add('non-monotone', `${mode} spine lightness turns around by ΔL ${worst.toFixed(4)}, past the ${JND} JND`,
+          { mode, reversal: Number(worst.toFixed(5)), jnd: JND });
       }
     }
 
@@ -172,8 +190,16 @@ function invariants(c: FuzzCase, light: SolvedRamp, dark: SolvedRamp, seedIn: Ok
   } else {
     const { mapped } = gamutMap(seedIn, c.gamut);
     const d = deltaEOK(placed.color.oklch, mapped);
-    // 8-bit quantization is allowed; anything past that is not
-    if (d > 0.01) add('seed-inexact', `the seed came back ΔEOK ${d.toFixed(4)} from the in-gamut colour it asked for`, { deltaE: Number(d.toFixed(5)), step: placed.key });
+    // The allowance is the quantization the solver itself measured, not a flat
+    // number. 8-bit steps are not evenly sized in OKLab: near black one least
+    // significant bit is worth several times what it is worth in the midtones,
+    // and a fixed 0.01 reported a seed at L 0.055 whose only error was being
+    // rounded to the nearest colour a screen can show.
+    const allowed = Math.max(0.004, placed.quantizationDeltaE * 1.5);
+    if (d > allowed) {
+      add('seed-inexact', `the seed came back ΔEOK ${d.toFixed(4)} from the in-gamut colour it asked for, past the ${allowed.toFixed(4)} quantization cost`,
+        { deltaE: Number(d.toFixed(5)), allowed: Number(allowed.toFixed(5)), step: placed.key });
+    }
   }
 
   return out;

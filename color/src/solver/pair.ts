@@ -163,19 +163,44 @@ export function solvePair(input: SolvePairInput): SolvedPair {
      * its own terms, keep the seed exact, and say plainly that the modes no
      * longer correspond step for step.
      */
-    const dEs: number[] = [];
-    for (let i = 1; i < darkRamp.steps.length; i++) {
-      if (darkRamp.steps[i - 1]!.color.native === darkRamp.steps[i]!.color.native) dEs.push(i);
-    }
-    if (dEs.length > 0) {
-      const free = solveRamp({ ...common, dna: dark, background: darkBg });
-      let stillDup = 0;
-      for (let i = 1; i < free.steps.length; i++) {
-        if (free.steps[i - 1]!.color.native === free.steps[i]!.color.native) stillDup++;
+    /**
+     * Damage is counted, not just duplicates. A starved ramp does not always
+     * collapse all the way to repeated colours: squeezed into a fortieth of the
+     * lightness axis with heavy gamut mapping, steps can stay distinct and still
+     * stagger up and down. Both are the same failure — the pin left no room —
+     * and both are things a ramp may not do, so the score counts each.
+     */
+    const damage = (r: SolvedRamp): number => {
+      let n = 0;
+      const spine = r.steps.filter((s) => !s.detached);
+      for (let i = 1; i < r.steps.length; i++) {
+        if (r.steps[i - 1]!.color.native === r.steps[i]!.color.native) n++;
       }
-      if (stillDup < dEs.length) {
+      // A reversal counts only when it is large relative to the ramp's own steps,
+      // so quantization wobble on a healthy ramp is not mistaken for damage. The
+      // scale is the *median* step, not the average: a starved ramp is exactly
+      // the case where one enormous jump sits next to a crowd of tiny ones, and
+      // averaging lets the jump set a threshold none of the real steps can reach.
+      // Measured on the carbon case, the mean put the floor at 0.017 and missed
+      // two 0.007 reversals; the median puts it at 0.004 and catches both.
+      const Ls = spine.map((s) => s.color.oklch.l);
+      const diffs = Ls.slice(1).map((v, i) => Math.abs(v - Ls[i]!)).sort((a, b) => a - b);
+      const median = diffs.length ? diffs[Math.floor(diffs.length / 2)]! : 0;
+      const floor = Math.max(0.004, median * 0.2);
+      for (let i = 2; i < Ls.length; i++) {
+        const a = Ls[i - 1]! - Ls[i - 2]!, b = Ls[i]! - Ls[i - 1]!;
+        if (a * b < 0 && Math.min(Math.abs(a), Math.abs(b)) > floor) n++;
+      }
+      return n;
+    };
+    const pinnedDamage = damage(darkRamp);
+    if (pinnedDamage > 0) {
+      const free = solveRamp({ ...common, dna: dark, background: darkBg });
+      const dEs = { length: pinnedDamage };
+      const stillDup = damage(free);
+      if (stillDup < pinnedDamage) {
         warnings.push(
-          `pinning the seed to step ${seedStep} collapsed ${dEs.length} of the dark ramp's steps onto colours already used — the seed's lightness ranks near ` +
+          `pinning the seed to step ${seedStep} damaged the dark ramp in ${dEs.length} place${dEs.length === 1 ? '' : 's'} — steps repeating a colour already used, or reversing direction — because the seed's lightness ranks near ` +
           `${seed.l > 0.5 ? 'the bright' : 'the dark'} end of the dark scale but step ${seedStep} sits near the other, so there was no room left. ` +
           `The dark ramp was solved on its own terms instead: the seed is still exact, but it holds step ${free.seed?.stepKey ?? '?'} in dark mode and ` +
           `${seedStep} in light mode, so the two do not correspond step for step. Pass seedStep to force one, or pick a seed whose lightness suits both.`,

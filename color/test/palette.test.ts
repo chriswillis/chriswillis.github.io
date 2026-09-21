@@ -146,7 +146,7 @@ describe('an infeasible pin falls back rather than collapsing the ramp', () => {
 
   it('says plainly that the modes no longer correspond step for step', () => {
     const p = palette({ seed: PALE, reference: 'tailwind', gamut: 'p3', spacing: 'even', lightness: 'hk' });
-    const w = p.pair.warnings.find((x) => x.includes('collapsed'));
+    const w = p.pair.warnings.find((x) => x.includes('damaged the dark ramp'));
     expect(w).toBeDefined();
     expect(w).toMatch(/do not correspond step for step/);
     expect(w).toMatch(/seedStep/);
@@ -158,7 +158,7 @@ describe('an infeasible pin falls back rather than collapsing the ramp', () => {
       expect(p.pair.light.seed?.stepKey, seed).toBe(p.pair.dark.seed?.stepKey);
       expect(p.pair.pin, seed).not.toBeNull();
       expect(p.pair.pin!.deltaE, seed).toBeLessThan(1e-6);
-      expect(p.pair.warnings.some((w) => w.includes('collapsed')), seed).toBe(false);
+      expect(p.pair.warnings.some((w) => w.includes('damaged the dark ramp')), seed).toBe(false);
     }
   });
 

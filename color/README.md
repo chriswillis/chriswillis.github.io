@@ -183,7 +183,7 @@ out/                      phase0.json, all-systems.json, reports, fig0–fig8, d
 
 ```
 npm install
-npm test                # 229 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
+npm test                # 233 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
                         # solver identity + properties, neutrals, dark mode, token
                         # assignment, the audit, the linter, and the entry point
 npm run build:dna       # regenerate dna/*.json (≈2 s)

@@ -92,8 +92,13 @@ separately, because they have different causes.
 **Promises.** Every WCAG threshold the solver promised, re-measured on the
 emitted 8-bit colour. This is the one check that should never fire: the solver
 nudges lightness by up to a JND until each promise survives quantization, and a
-failure here is a solver defect, not a palette one. Across every system and seed
-the property tests throw at it, it has not fired.
+failure here is a solver defect, not a palette one.
+
+It did fire, twice in 1216 fuzz cases, and the claim that it never had was the
+thing at fault. Both were the seed step — exempt from the nudge by design, since
+the seed being exact is the premise of the library, and so recording a promise it
+had no way to keep. The seed now promises what it delivers. Against the property
+tests and three fuzz campaigns since, it has not fired.
 
 ## The linter
 

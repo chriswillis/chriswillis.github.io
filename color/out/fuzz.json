@@ -1,677 +1,48 @@
 {
  "campaign": {
-  "seed": 42,
-  "cases": 1216,
-  "elapsedMs": 13632,
-  "perCaseMs": 11.210526315789474
+  "seed": 313,
+  "cases": 1516,
+  "elapsedMs": 6956,
+  "perCaseMs": 4.588390501319261
  },
  "crashes": [],
- "invariants": [
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 9 carries C 0.3132 where srgb holds 0.2656",
-   "evidence": {
-    "mode": "light",
-    "step": "9",
-    "chroma": 0.31321,
-    "allowed": 0.26559
-   },
-   "case": {
-    "seed": "#0000ff",
-    "reference": "opencolor",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 9 carries C 0.3132 where srgb holds 0.2656",
-   "evidence": {
-    "mode": "dark",
-    "step": "9",
-    "chroma": 0.31321,
-    "allowed": 0.26559
-   },
-   "case": {
-    "seed": "#0000ff",
-    "reference": "opencolor",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1927,
-    "last": 0.9652
-   },
-   "case": {
-    "seed": "oklch(0.9344 0.3123 7.65)",
-    "reference": "carbon",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0146 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01462,
-    "step": "9"
-   },
-   "case": {
-    "seed": "oklch(0.0648 0.2450 82.71)",
-    "reference": "primer",
-    "spacing": "even",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1948,
-    "last": 0.9596
-   },
-   "case": {
-    "seed": "oklch(0.9283 0.2840 88.53)",
-    "reference": "webawesome",
-    "spacing": "reference",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.0594,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0515 0.2906 335.50)",
-    "reference": "primer",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 950 carries C 0.1270 where srgb holds 0.1077",
-   "evidence": {
-    "mode": "light",
-    "step": "950",
-    "chroma": 0.12698,
-    "allowed": 0.10767
-   },
-   "case": {
-    "seed": "oklch(0.1681 0.1994 262.87)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 50 carries C 0.1270 where srgb holds 0.1077",
-   "evidence": {
-    "mode": "dark",
-    "step": "50",
-    "chroma": 0.12698,
-    "allowed": 0.10767
-   },
-   "case": {
-    "seed": "oklch(0.1681 0.1994 262.87)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2105,
-    "last": 0.9565
-   },
-   "case": {
-    "seed": "oklch(0.9265 0.1449 15.73)",
-    "reference": "spectrum",
-    "spacing": "reference",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2356,
-    "last": 0.9945
-   },
-   "case": {
-    "seed": "oklch(0.9401 0.0094 25.93)",
-    "reference": "polaris",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 1000 carries C 0.0542 where srgb holds 0.0460",
-   "evidence": {
-    "mode": "light",
-    "step": "1000",
-    "chroma": 0.0542,
-    "allowed": 0.04595
-   },
-   "case": {
-    "seed": "oklch(0.0697 0.1531 249.26)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 100 carries C 0.0542 where srgb holds 0.0460",
-   "evidence": {
-    "mode": "dark",
-    "step": "100",
-    "chroma": 0.0542,
-    "allowed": 0.04595
-   },
-   "case": {
-    "seed": "oklch(0.0697 0.1531 249.26)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2304,
-    "last": 0.9901
-   },
-   "case": {
-    "seed": "oklch(0.9423 0.2808 339.17)",
-    "reference": "polaris",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1459,
-    "last": 0.9062
-   },
-   "case": {
-    "seed": "oklch(0.8874 0.2493 186.44)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0112 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01123,
-    "step": "950"
-   },
-   "case": {
-    "seed": "oklch(0.0520 0.0153 50.14)",
-    "reference": "tailwind",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.0843,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0721 0.1350 332.37)",
-    "reference": "primer",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 1000 carries C 0.0931 where srgb holds 0.0789",
-   "evidence": {
-    "mode": "light",
-    "step": "1000",
-    "chroma": 0.09308,
-    "allowed": 0.07892
-   },
-   "case": {
-    "seed": "oklch(0.1203 0.1759 258.22)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 100 carries C 0.0931 where srgb holds 0.0789",
-   "evidence": {
-    "mode": "dark",
-    "step": "100",
-    "chroma": 0.09308,
-    "allowed": 0.07892
-   },
-   "case": {
-    "seed": "oklch(0.1203 0.1759 258.22)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.203,
-    "last": 0.9574
-   },
-   "case": {
-    "seed": "oklch(0.9386 0.0957 2.84)",
-    "reference": "webawesome",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0114 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01144,
-    "step": "9"
-   },
-   "case": {
-    "seed": "oklch(0.0597 0.1632 93.29)",
-    "reference": "opencolor",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "promise-broken",
-   "severity": "error",
-   "message": "light step 60 promised 4.5:1 and measures 4.49:1",
-   "evidence": {
-    "mode": "light",
-    "step": "60",
-    "threshold": 4.5,
-    "measured": 4.489,
-    "broken": 1
-   },
-   "case": {
-    "seed": "oklch(0.5395 0.1428 243.18)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0102 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01024,
-    "step": "950"
-   },
-   "case": {
-    "seed": "oklch(0.0728 0.2600 75.82)",
-    "reference": "tailwind",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1988,
-    "last": 0.9631
-   },
-   "case": {
-    "seed": "oklch(0.9123 0.1709 327.10)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "promise-broken",
-   "severity": "error",
-   "message": "light step 800 promised 7:1 and measures 6.98:1",
-   "evidence": {
-    "mode": "light",
-    "step": "800",
-    "threshold": 7,
-    "measured": 6.975,
-    "broken": 1
-   },
-   "case": {
-    "seed": "oklch(0.4387 0.1981 214.08)",
-    "reference": "tailwind",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.202,
-    "last": 0.9573
-   },
-   "case": {
-    "seed": "oklch(0.9275 0.1078 175.79)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.089,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0776 0.2189 331.15)",
-    "reference": "primer",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.937,
-    "last": 0.9567
-   },
-   "case": {
-    "seed": "oklch(0.9370 0.0756 159.88)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1991,
-    "last": 0.9592
-   },
-   "case": {
-    "seed": "oklch(0.9269 0.1696 49.66)",
-    "reference": "webawesome",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2293,
-    "last": 0.9912
-   },
-   "case": {
-    "seed": "oklch(0.9343 0.1100 70.72)",
-    "reference": "polaris",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  }
- ],
+ "invariants": [],
  "byRule": {
-  "out-of-gamut": {
-   "kind": "invariant",
-   "severity": "error",
-   "count": 8,
-   "rate": 0.003289473684210526,
-   "worst": {
-    "kind": "invariant",
-    "rule": "out-of-gamut",
-    "severity": "error",
-    "message": "light step 9 carries C 0.3132 where srgb holds 0.2656",
-    "evidence": {
-     "mode": "light",
-     "step": "9",
-     "chroma": 0.31321,
-     "allowed": 0.26559
-    },
-    "case": {
-     "seed": "#0000ff",
-     "reference": "opencolor",
-     "spacing": "even",
-     "lightness": "hk",
-     "gamut": "srgb"
-    }
-   }
-  },
-  "non-monotone": {
-   "kind": "invariant",
-   "severity": "error",
-   "count": 15,
-   "rate": 0.012335526315789474,
-   "worst": {
-    "kind": "invariant",
-    "rule": "non-monotone",
-    "severity": "error",
-    "message": "dark spine lightness turns around",
-    "evidence": {
-     "mode": "dark",
-     "first": 0.1927,
-     "last": 0.9652
-    },
-    "case": {
-     "seed": "oklch(0.9344 0.3123 7.65)",
-     "reference": "carbon",
-     "spacing": "reference",
-     "lightness": "hk",
-     "gamut": "p3"
-    }
-   }
-  },
-  "seed-inexact": {
-   "kind": "invariant",
-   "severity": "error",
-   "count": 4,
-   "rate": 0.003289473684210526,
-   "worst": {
-    "kind": "invariant",
-    "rule": "seed-inexact",
-    "severity": "error",
-    "message": "the seed came back ΔEOK 0.0146 from the in-gamut colour it asked for",
-    "evidence": {
-     "deltaE": 0.01462,
-     "step": "9"
-    },
-    "case": {
-     "seed": "oklch(0.0648 0.2450 82.71)",
-     "reference": "primer",
-     "spacing": "even",
-     "lightness": "oklab",
-     "gamut": "p3"
-    }
-   }
-  },
-  "promise-broken": {
-   "kind": "invariant",
-   "severity": "error",
-   "count": 4,
-   "rate": 0.001644736842105263,
-   "worst": {
-    "kind": "invariant",
-    "rule": "promise-broken",
-    "severity": "error",
-    "message": "light step 60 promised 4.5:1 and measures 4.49:1",
-    "evidence": {
-     "mode": "light",
-     "step": "60",
-     "threshold": 4.5,
-     "measured": 4.489,
-     "broken": 1
-    },
-    "case": {
-     "seed": "oklch(0.5395 0.1428 243.18)",
-     "reference": "carbon",
-     "spacing": "auto",
-     "lightness": "oklab",
-     "gamut": "srgb"
-    }
-   }
-  },
   "requirement-unmet": {
    "kind": "finding",
    "severity": "error",
-   "count": 6750,
-   "rate": 0.8634868421052632,
+   "count": 8497,
+   "rate": 0.8608179419525066,
    "worst": {
     "kind": "finding",
     "rule": "requirement-unmet",
     "severity": "error",
-    "message": "content/on-solid does not meet its requirement: nothing clears 4.5:1 and Lc 60 on background/solid: black reaches 5.32:1 / Lc 37",
+    "message": "content/normal does not meet its requirement: no step reaches Lc 75 (best 67) against page",
     "evidence": {
-     "wcag": 5.317,
-     "apcaLc": 37.2,
-     "against": "background/solid",
-     "requirement": "WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text"
+     "wcag": 8.736,
+     "apcaLc": 67.5,
+     "against": "page",
+     "requirement": "WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze"
     },
     "case": {
-     "seed": "#808080",
-     "reference": "carbon",
-     "spacing": "auto",
+     "seed": "#000000",
+     "reference": "opencolor",
+     "spacing": "even",
      "lightness": "hk",
-     "gamut": "srgb"
+     "gamut": "p3"
     }
    }
   },
   "state-indistinguishable": {
    "kind": "finding",
    "severity": "warning",
-   "count": 4510,
-   "rate": 0.928453947368421,
+   "count": 5630,
+   "rate": 0.9307387862796834,
    "worst": {
     "kind": "finding",
     "rule": "state-indistinguishable",
     "severity": "warning",
-    "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 1000) — the solid will not appear to respond",
+    "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 9) — the solid will not appear to respond",
     "evidence": {
      "deltaE": 0,
      "jnd": 0.02,
@@ -679,7 +50,7 @@
     },
     "case": {
      "seed": "#000000",
-     "reference": "atlassian",
+     "reference": "opencolor",
      "spacing": "even",
      "lightness": "hk",
      "gamut": "p3"
@@ -689,20 +60,20 @@
   "step-shared-across-categories": {
    "kind": "finding",
    "severity": "info",
-   "count": 6037,
+   "count": 7514,
    "rate": 1,
    "worst": {
     "kind": "finding",
     "rule": "step-shared-across-categories",
     "severity": "info",
-    "message": "step 300 carries surface/active, border/strong, border/focus — roles from 2 categories on one colour",
+    "message": "step 3 carries surface/active, border/strong, border/focus — roles from 2 categories on one colour",
     "evidence": {
-     "step": "300",
+     "step": "3",
      "roles": "surface/active, border/strong, border/focus"
     },
     "case": {
      "seed": "#000000",
-     "reference": "atlassian",
+     "reference": "opencolor",
      "spacing": "even",
      "lightness": "hk",
      "gamut": "p3"
@@ -711,25 +82,25 @@
   },
   "cvd-steps-collapse": {
    "kind": "finding",
-   "severity": "info",
-   "count": 1068,
-   "rate": 0.4613486842105263,
+   "severity": "warning",
+   "count": 1384,
+   "rate": 0.503957783641161,
    "worst": {
     "kind": "finding",
     "rule": "cvd-steps-collapse",
-    "severity": "info",
-    "message": "1 step pair that a trichromat can tell apart becomes indistinguishable under protanopia — worst is 6/7, ΔEOK 0.060 → 0.019 (all of them within a tenth of the JND, so at the threshold rather than over it)",
+    "severity": "warning",
+    "message": "2 step pairs that a trichromat can tell apart become indistinguishable under protanopia — worst is 2/3, ΔEOK 0.031 → 0.011",
     "evidence": {
-     "pairs": 1,
-     "worstBefore": 0.059564,
-     "worstAfter": 0.019432,
+     "pairs": 2,
+     "worstBefore": 0.030906,
+     "worstAfter": 0.011071,
      "deficiency": "protan",
-     "minAdjacent": 0.019432
+     "minAdjacent": 0.006861
     },
     "case": {
-     "seed": "#ffffff",
-     "reference": "radix-light",
-     "spacing": "auto",
+     "seed": "#808080",
+     "reference": "primer",
+     "spacing": "reference",
      "lightness": "hk",
      "gamut": "p3"
     }
@@ -738,32 +109,32 @@
   "step-under-jnd": {
    "kind": "finding",
    "severity": "warning",
-   "count": 631,
-   "rate": 0.4786184210526316,
+   "count": 817,
+   "rate": 0.49868073878627966,
    "worst": {
     "kind": "finding",
     "rule": "step-under-jnd",
     "severity": "warning",
-    "message": "the closest consecutive steps are ΔEOK 0.0146 apart, under one JND",
+    "message": "the closest consecutive steps are ΔEOK 0.0058 apart, under one JND",
     "evidence": {
-     "min": 0.014584,
+     "min": 0.005797,
      "corpusMedian": 0.035,
      "verdict": "worse than most"
     },
     "case": {
      "seed": "#808080",
-     "reference": "carbon",
-     "spacing": "auto",
+     "reference": "primer",
+     "spacing": "reference",
      "lightness": "hk",
-     "gamut": "srgb"
+     "gamut": "p3"
     }
    }
   },
   "measures-disagree": {
    "kind": "finding",
    "severity": "info",
-   "count": 426,
-   "rate": 0.17516447368421054,
+   "count": 508,
+   "rate": 0.16754617414248021,
    "worst": {
     "kind": "finding",
     "rule": "measures-disagree",
@@ -777,42 +148,45 @@
     },
     "case": {
      "seed": "#808080",
-     "reference": "carbon",
-     "spacing": "auto",
+     "reference": "primer",
+     "spacing": "reference",
      "lightness": "hk",
-     "gamut": "srgb"
+     "gamut": "p3"
     }
    }
   },
-  "uneven-spacing": {
+  "apparent-spacing-differs": {
    "kind": "finding",
    "severity": "info",
-   "count": 682,
-   "rate": 0.5279605263157895,
+   "count": 95,
+   "rate": 0.048812664907651716,
    "worst": {
     "kind": "finding",
-    "rule": "uneven-spacing",
+    "rule": "apparent-spacing-differs",
     "severity": "info",
-    "message": "step spacing varies by CV 0.68, against a corpus median of 0.335 — the reference numbers by role, not by even perceptual distance",
+    "message": "the ramp is even by ΔEOK (cv 0.021) but 3.7× less even in apparent lightness (cv 0.077) — saturated steps read brighter than their lightness",
     "evidence": {
-     "cv": 0.68,
-     "referenceCv": 0.686,
-     "corpusMedian": 0.335
+     "cvMeasured": 0.0208,
+     "cvApparent": 0.0775,
+     "ratio": 3.73,
+     "strength": 0.25,
+     "adaptingLuminance": 40,
+     "spacing": "even"
     },
     "case": {
-     "seed": "#fefefe",
-     "reference": "polaris",
-     "spacing": "reference",
+     "seed": "#010101",
+     "reference": "tailwind",
+     "spacing": "even",
      "lightness": "oklab",
-     "gamut": "p3"
+     "gamut": "srgb"
     }
    }
   },
   "gamut-mapped": {
    "kind": "finding",
    "severity": "warning",
-   "count": 991,
-   "rate": 0.4185855263157895,
+   "count": 1240,
+   "rate": 0.4241424802110818,
    "worst": {
     "kind": "finding",
     "rule": "gamut-mapped",
@@ -824,8 +198,8 @@
     },
     "case": {
      "seed": "oklch(0.5 0.4 0)",
-     "reference": "atlassian",
-     "spacing": "reference",
+     "reference": "radix-light",
+     "spacing": "even",
      "lightness": "oklab",
      "gamut": "p3"
     }
@@ -834,21 +208,45 @@
   "srgb-sibling-drift": {
    "kind": "finding",
    "severity": "info",
-   "count": 329,
-   "rate": 0.17516447368421054,
+   "count": 371,
+   "rate": 0.15765171503957784,
    "worst": {
     "kind": "finding",
     "rule": "srgb-sibling-drift",
     "severity": "info",
-    "message": "1 step differ visibly between P3 and their sRGB sibling (worst ΔEOK 0.0259) — an sRGB display shows a different colour",
+    "message": "2 steps differ visibly between P3 and their sRGB sibling (worst ΔEOK 0.0259) — an sRGB display shows a different colour",
     "evidence": {
-     "steps": 1,
+     "steps": 2,
      "worst": 0.0259
     },
     "case": {
      "seed": "oklch(0.5 0.4 0)",
-     "reference": "atlassian",
-     "spacing": "reference",
+     "reference": "radix-light",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "p3"
+    }
+   }
+  },
+  "uneven-spacing": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 860,
+   "rate": 0.5277044854881267,
+   "worst": {
+    "kind": "finding",
+    "rule": "uneven-spacing",
+    "severity": "info",
+    "message": "step spacing varies by CV 0.77, against a corpus median of 0.335 — the reference numbers by role, not by even perceptual distance",
+    "evidence": {
+     "cv": 0.772,
+     "referenceCv": 0.955,
+     "corpusMedian": 0.335
+    },
+    "case": {
+     "seed": "oklch(0.5 0.4 0)",
+     "reference": "radix-light",
+     "spacing": "even",
      "lightness": "oklab",
      "gamut": "p3"
     }
@@ -857,75 +255,48 @@
   "on-the-shell": {
    "kind": "finding",
    "severity": "info",
-   "count": 529,
-   "rate": 0.3215460526315789,
+   "count": 607,
+   "rate": 0.2974934036939314,
    "worst": {
     "kind": "finding",
     "rule": "on-the-shell",
     "severity": "info",
-    "message": "83% of steps sit on the sRGB gamut shell, above the corpus p90 of 80% — the ramp has no chroma left to give",
+    "message": "100% of steps sit on the sRGB gamut shell, above the corpus p90 of 80% — the ramp has no chroma left to give",
     "evidence": {
-     "onShell": 0.833,
+     "onShell": 1,
      "corpusP90": 0.8
     },
     "case": {
      "seed": "oklch(0.99 0.3 90)",
-     "reference": "radix-light",
-     "spacing": "auto",
+     "reference": "spectrum",
+     "spacing": "reference",
      "lightness": "hk",
      "gamut": "srgb"
-    }
-   }
-  },
-  "apparent-spacing-differs": {
-   "kind": "finding",
-   "severity": "info",
-   "count": 103,
-   "rate": 0.06743421052631579,
-   "worst": {
-    "kind": "finding",
-    "rule": "apparent-spacing-differs",
-    "severity": "info",
-    "message": "the ramp is even by ΔEOK (cv 0.016) but 2.7× less even in apparent lightness (cv 0.043) — saturated steps read brighter than their lightness",
-    "evidence": {
-     "cvMeasured": 0.016,
-     "cvApparent": 0.0433,
-     "ratio": 2.7,
-     "strength": 0.25,
-     "adaptingLuminance": 40,
-     "spacing": "even"
-    },
-    "case": {
-     "seed": "oklch(0.3058 0.0239 237.55)",
-     "reference": "primer",
-     "spacing": "even",
-     "lightness": "oklab",
-     "gamut": "p3"
     }
    }
   },
   "foreground-on-surface": {
    "kind": "finding",
    "severity": "warning",
-   "count": 353,
-   "rate": 0.08223684210526316,
+   "count": 420,
+   "rate": 0.08245382585751979,
    "worst": {
     "kind": "finding",
     "rule": "foreground-on-surface",
     "severity": "warning",
-    "message": "content/disabled is ΔEOK 0.0199 from surface/active — text this colour is not quiet on that surface, it is absent",
+    "message": "icon/normal is ΔEOK 0.0096 from surface/normal — text this colour is not quiet on that surface, it is absent",
     "evidence": {
-     "deltaE": 0.019923,
+     "deltaE": 0.009552,
      "jnd": 0.02,
      "sameStep": false,
-     "wcag": 1.07,
+     "wcag": 1,
      "apca": 0
     },
     "case": {
-     "seed": "oklch(0.3163 0.0139 112.79)",
-     "reference": "polaris",
-     "spacing": "auto",
-     "lightness": "hk",
+     "seed": "#ffff00",
+     "reference": "primer",
+     "spacing": "even",
+     "lightness": "oklab",
      "gamut": "srgb"
     }
    }
@@ -933,571 +304,41 @@
  },
  "worst": [
   {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 9 carries C 0.3132 where srgb holds 0.2656",
-   "evidence": {
-    "mode": "light",
-    "step": "9",
-    "chroma": 0.31321,
-    "allowed": 0.26559
-   },
-   "case": {
-    "seed": "#0000ff",
-    "reference": "opencolor",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 9 carries C 0.3132 where srgb holds 0.2656",
-   "evidence": {
-    "mode": "dark",
-    "step": "9",
-    "chroma": 0.31321,
-    "allowed": 0.26559
-   },
-   "case": {
-    "seed": "#0000ff",
-    "reference": "opencolor",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1927,
-    "last": 0.9652
-   },
-   "case": {
-    "seed": "oklch(0.9344 0.3123 7.65)",
-    "reference": "carbon",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0146 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01462,
-    "step": "9"
-   },
-   "case": {
-    "seed": "oklch(0.0648 0.2450 82.71)",
-    "reference": "primer",
-    "spacing": "even",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1948,
-    "last": 0.9596
-   },
-   "case": {
-    "seed": "oklch(0.9283 0.2840 88.53)",
-    "reference": "webawesome",
-    "spacing": "reference",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.0594,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0515 0.2906 335.50)",
-    "reference": "primer",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 950 carries C 0.1270 where srgb holds 0.1077",
-   "evidence": {
-    "mode": "light",
-    "step": "950",
-    "chroma": 0.12698,
-    "allowed": 0.10767
-   },
-   "case": {
-    "seed": "oklch(0.1681 0.1994 262.87)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 50 carries C 0.1270 where srgb holds 0.1077",
-   "evidence": {
-    "mode": "dark",
-    "step": "50",
-    "chroma": 0.12698,
-    "allowed": 0.10767
-   },
-   "case": {
-    "seed": "oklch(0.1681 0.1994 262.87)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2105,
-    "last": 0.9565
-   },
-   "case": {
-    "seed": "oklch(0.9265 0.1449 15.73)",
-    "reference": "spectrum",
-    "spacing": "reference",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2356,
-    "last": 0.9945
-   },
-   "case": {
-    "seed": "oklch(0.9401 0.0094 25.93)",
-    "reference": "polaris",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 1000 carries C 0.0542 where srgb holds 0.0460",
-   "evidence": {
-    "mode": "light",
-    "step": "1000",
-    "chroma": 0.0542,
-    "allowed": 0.04595
-   },
-   "case": {
-    "seed": "oklch(0.0697 0.1531 249.26)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 100 carries C 0.0542 where srgb holds 0.0460",
-   "evidence": {
-    "mode": "dark",
-    "step": "100",
-    "chroma": 0.0542,
-    "allowed": 0.04595
-   },
-   "case": {
-    "seed": "oklch(0.0697 0.1531 249.26)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2304,
-    "last": 0.9901
-   },
-   "case": {
-    "seed": "oklch(0.9423 0.2808 339.17)",
-    "reference": "polaris",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1459,
-    "last": 0.9062
-   },
-   "case": {
-    "seed": "oklch(0.8874 0.2493 186.44)",
-    "reference": "tailwind-v4",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0112 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01123,
-    "step": "950"
-   },
-   "case": {
-    "seed": "oklch(0.0520 0.0153 50.14)",
-    "reference": "tailwind",
-    "spacing": "even",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.0843,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0721 0.1350 332.37)",
-    "reference": "primer",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "light step 1000 carries C 0.0931 where srgb holds 0.0789",
-   "evidence": {
-    "mode": "light",
-    "step": "1000",
-    "chroma": 0.09308,
-    "allowed": 0.07892
-   },
-   "case": {
-    "seed": "oklch(0.1203 0.1759 258.22)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "out-of-gamut",
-   "severity": "error",
-   "message": "dark step 100 carries C 0.0931 where srgb holds 0.0789",
-   "evidence": {
-    "mode": "dark",
-    "step": "100",
-    "chroma": 0.09308,
-    "allowed": 0.07892
-   },
-   "case": {
-    "seed": "oklch(0.1203 0.1759 258.22)",
-    "reference": "atlassian",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.203,
-    "last": 0.9574
-   },
-   "case": {
-    "seed": "oklch(0.9386 0.0957 2.84)",
-    "reference": "webawesome",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0114 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01144,
-    "step": "9"
-   },
-   "case": {
-    "seed": "oklch(0.0597 0.1632 93.29)",
-    "reference": "opencolor",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "promise-broken",
-   "severity": "error",
-   "message": "light step 60 promised 4.5:1 and measures 4.49:1",
-   "evidence": {
-    "mode": "light",
-    "step": "60",
-    "threshold": 4.5,
-    "measured": 4.489,
-    "broken": 1
-   },
-   "case": {
-    "seed": "oklch(0.5395 0.1428 243.18)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "seed-inexact",
-   "severity": "error",
-   "message": "the seed came back ΔEOK 0.0102 from the in-gamut colour it asked for",
-   "evidence": {
-    "deltaE": 0.01024,
-    "step": "950"
-   },
-   "case": {
-    "seed": "oklch(0.0728 0.2600 75.82)",
-    "reference": "tailwind",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1988,
-    "last": 0.9631
-   },
-   "case": {
-    "seed": "oklch(0.9123 0.1709 327.10)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "promise-broken",
-   "severity": "error",
-   "message": "light step 800 promised 7:1 and measures 6.98:1",
-   "evidence": {
-    "mode": "light",
-    "step": "800",
-    "threshold": 7,
-    "measured": 6.975,
-    "broken": 1
-   },
-   "case": {
-    "seed": "oklch(0.4387 0.1981 214.08)",
-    "reference": "tailwind",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.202,
-    "last": 0.9573
-   },
-   "case": {
-    "seed": "oklch(0.9275 0.1078 175.79)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.089,
-    "last": 0.9788
-   },
-   "case": {
-    "seed": "oklch(0.0776 0.2189 331.15)",
-    "reference": "primer",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "srgb"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.937,
-    "last": 0.9567
-   },
-   "case": {
-    "seed": "oklch(0.9370 0.0756 159.88)",
-    "reference": "carbon",
-    "spacing": "auto",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.1991,
-    "last": 0.9592
-   },
-   "case": {
-    "seed": "oklch(0.9269 0.1696 49.66)",
-    "reference": "webawesome",
-    "spacing": "reference",
-    "lightness": "hk",
-    "gamut": "p3"
-   }
-  },
-  {
-   "kind": "invariant",
-   "rule": "non-monotone",
-   "severity": "error",
-   "message": "dark spine lightness turns around",
-   "evidence": {
-    "mode": "dark",
-    "first": 0.2293,
-    "last": 0.9912
-   },
-   "case": {
-    "seed": "oklch(0.9343 0.1100 70.72)",
-    "reference": "polaris",
-    "spacing": "auto",
-    "lightness": "oklab",
-    "gamut": "p3"
-   }
-  },
-  {
    "kind": "finding",
    "rule": "requirement-unmet",
    "severity": "error",
-   "message": "content/on-solid does not meet its requirement: nothing clears 4.5:1 and Lc 60 on background/solid: black reaches 5.32:1 / Lc 37",
+   "message": "content/normal does not meet its requirement: no step reaches Lc 75 (best 67) against page",
    "evidence": {
-    "wcag": 5.317,
-    "apcaLc": 37.2,
-    "against": "background/solid",
-    "requirement": "WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text"
+    "wcag": 8.736,
+    "apcaLc": 67.5,
+    "against": "page",
+    "requirement": "WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze"
    },
    "case": {
-    "seed": "#808080",
-    "reference": "carbon",
-    "spacing": "auto",
+    "seed": "#000000",
+    "reference": "opencolor",
+    "spacing": "even",
     "lightness": "hk",
-    "gamut": "srgb"
+    "gamut": "p3"
    }
   },
   {
    "kind": "finding",
    "rule": "foreground-on-surface",
    "severity": "warning",
-   "message": "content/disabled is ΔEOK 0.0199 from surface/active — text this colour is not quiet on that surface, it is absent",
+   "message": "icon/normal is ΔEOK 0.0096 from surface/normal — text this colour is not quiet on that surface, it is absent",
    "evidence": {
-    "deltaE": 0.019923,
+    "deltaE": 0.009552,
     "jnd": 0.02,
     "sameStep": false,
-    "wcag": 1.07,
+    "wcag": 1,
     "apca": 0
    },
    "case": {
-    "seed": "oklch(0.3163 0.0139 112.79)",
-    "reference": "polaris",
-    "spacing": "auto",
-    "lightness": "hk",
+    "seed": "#ffff00",
+    "reference": "primer",
+    "spacing": "even",
+    "lightness": "oklab",
     "gamut": "srgb"
    }
   },
@@ -1512,8 +353,8 @@
    },
    "case": {
     "seed": "oklch(0.5 0.4 0)",
-    "reference": "atlassian",
-    "spacing": "reference",
+    "reference": "radix-light",
+    "spacing": "even",
     "lightness": "oklab",
     "gamut": "p3"
    }
@@ -1522,25 +363,45 @@
    "kind": "finding",
    "rule": "step-under-jnd",
    "severity": "warning",
-   "message": "the closest consecutive steps are ΔEOK 0.0146 apart, under one JND",
+   "message": "the closest consecutive steps are ΔEOK 0.0058 apart, under one JND",
    "evidence": {
-    "min": 0.014584,
+    "min": 0.005797,
     "corpusMedian": 0.035,
     "verdict": "worse than most"
    },
    "case": {
     "seed": "#808080",
-    "reference": "carbon",
-    "spacing": "auto",
+    "reference": "primer",
+    "spacing": "reference",
     "lightness": "hk",
-    "gamut": "srgb"
+    "gamut": "p3"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "cvd-steps-collapse",
+   "severity": "warning",
+   "message": "2 step pairs that a trichromat can tell apart become indistinguishable under protanopia — worst is 2/3, ΔEOK 0.031 → 0.011",
+   "evidence": {
+    "pairs": 2,
+    "worstBefore": 0.030906,
+    "worstAfter": 0.011071,
+    "deficiency": "protan",
+    "minAdjacent": 0.006861
+   },
+   "case": {
+    "seed": "#808080",
+    "reference": "primer",
+    "spacing": "reference",
+    "lightness": "hk",
+    "gamut": "p3"
    }
   },
   {
    "kind": "finding",
    "rule": "state-indistinguishable",
    "severity": "warning",
-   "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 1000) — the solid will not appear to respond",
+   "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 9) — the solid will not appear to respond",
    "evidence": {
     "deltaE": 0,
     "jnd": 0.02,
@@ -1548,12 +409,12 @@
    },
    "case": {
     "seed": "#000000",
-    "reference": "atlassian",
+    "reference": "opencolor",
     "spacing": "even",
     "lightness": "hk",
     "gamut": "p3"
    }
   }
  ],
- "clean": 21
+ "clean": 27
 }

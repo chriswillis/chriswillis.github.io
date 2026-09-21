@@ -114,21 +114,74 @@ Result on the same campaign: `duplicate-steps` 122 → **0**, total invariant
 breaks 152 → 29, and the campaign runs in 13.6s instead of 25s because there are
 far fewer degenerate ramps to grind through.
 
-## Open defects
+## The second pass: 29 down to 1 in 10,000
 
-A 1216-case campaign (`--seed 42`) still leaves these:
+Of the four classes left after the pin fix, **two were the library and two were
+the harness**, and the split is the useful part.
 
-| rule | cases | notes |
-|---|---|---|
-| `non-monotone` | 15 (1.2%) | Spine lightness turning around by more than one 8-bit step. Mostly `lightness: 'hk'`. |
-| `out-of-gamut` | 8 (0.7%) | Real overshoot, not LUT error — `#0000ff` through Open Color at `lightness: 'hk'` carries C 0.313 where sRGB holds 0.266. |
-| `seed-inexact` | 4 (0.3%) | Seeds at extreme lightness where the mapped seed still is not reproduced. |
-| `promise-broken` | 2 (0.2%) | The solver's quantization nudge landing a hundredth short: promised 4.5:1, measured 4.49:1. |
+**`promise-broken` (2) — the library.** Both cases were the seed step. The solver
+records promises from the pre-quantization colour and defends them with a nudge,
+but it exempts the seed from that nudge, because the seed being exact is the
+premise of the library. So an out-of-gamut seed whose mapped colour cleared 4.5:1
+and whose emitted colour landed on 4.489 was promising something the solver had
+already excluded itself from keeping. The seed now promises what it delivers.
+`docs/validation.md` said this check had never fired; it had, and the claim was
+the thing at fault.
 
-Eighteen of the 29 are on the `lightness: 'hk'` path added in the perception
-work, which is opt-in and was never fuzzed before it shipped — a fair indictment
-of the order those two things were done in. The default path is down to 11 of
-1216, or 0.9%.
+**`out-of-gamut` (8) — the harness, and an inconsistency it exposed.** All eight
+were `#0000ff` and friends: sRGB primaries, in gamut by definition. The check
+compared each step's chroma against `exactCuspChroma`, and a cusp is not
+membership. The in-gamut set along a radius is not always an interval — at
+`#0000ff`'s own lightness and hue, red dips to −0.009 near C 0.29 and returns to
+−0.00001 at C 0.313, so **the primary sits beyond its own cusp**. The invariant
+now asks `gamutMap` whether the colour is displayable, which is the property the
+solver actually promises. Separately, `exactCuspChroma` tested membership exactly
+while `gamutMap` allows Color.js's epsilon, so the library had two answers to one
+question; they now agree.
+
+**`seed-inexact` (4) — the harness.** A flat 0.01 tolerance on a promise that is
+"exact up to gamut mapping and quantization". 8-bit steps are not evenly sized in
+OKLab — near black one least significant bit is worth several times what it is
+worth in the midtones — and the reported case was a seed at L 0.055 whose only
+error was being rounded to a colour a screen can show. The allowance is now the
+quantization cost the solver measured for that step.
+
+**`non-monotone` (15) — both.** Eleven were the pin again, in a milder form: a
+ramp squeezed into a fortieth of the lightness axis stays distinct but staggers
+up and down. The fallback's damage score was extended to count reversals as well
+as duplicates, and its scale changed from the *mean* step to the *median* — a
+starved ramp is exactly the case where one enormous jump sits beside a crowd of
+tiny ones, and averaging let the jump set a threshold none of the real steps
+could reach (0.017 against reversals of 0.007). The remaining four were the
+threshold: reversals of 0.0066 in ramps whose steps average 0.1, a third of a
+JND. The criterion is now perceptual — a reversal counts when both moves around
+it exceed one JND — because below that nobody can see a turn and calling it a
+defect measures the float rather than the colour.
+
+Three campaigns at 1216, 2516 and 2516 cases come back with **no crashes and no
+invariant breaks**. A 10,016-case campaign finds exactly one.
+
+## The one open case
+
+```
+palette({ seed: 'oklch(0.6717 0.0084 88.84)', reference: 'material',
+          spacing: 'reference', lightness: 'hk', gamut: 'p3' })
+```
+
+1 in 10,016, and the mechanism is understood: Material's authored lightness runs
+0.979 down to 0.708, and this seed sits at 0.672 — *below the entire range*. Even
+spacing has stretch logic for a seed outside the curve; reference spacing does
+not, so the steps after the pin compress into the sliver beneath it and two of
+them quantize together. It is not a `lightness: 'hk'` problem — `oklab` collapses
+identically.
+
+It is left open deliberately. The fix is in the lightness warp, which is the code
+path replication depends on, and the value of changing it at one case in ten
+thousand does not cover the risk of making faithful replication less faithful.
+The solver says so at the time:
+
+> steps 400 and 500 are only ΔEOK 0.0065 apart, under the 0.02 just-noticeable
+> difference. They will read as one colour.
 
 ## Using it as a library
 
