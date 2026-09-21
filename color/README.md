@@ -41,7 +41,7 @@ both rulers either way. See `docs/perception.md`.
 
 Status: **all phases complete (0–6).** Built-in DNA for 13 systems in `dna/` (format:
 `docs/dna-format.md`); the entry point is documented in `docs/palette.md`, the solver in
-`docs/solver.md`, perception in `docs/perception.md`, dark mode in
+`docs/solver.md`, perception in `docs/perception.md`, fuzzing in `docs/fuzzing.md`, dark mode in
 `docs/dark-mode.md`, grays in `docs/neutrals.md`, tokens in `docs/tokens.md`, the
 validation harness in `docs/validation.md`. Findings: `docs/phase0-report.md` (premise
 test on Tailwind v4 and Radix) and `docs/all-systems.md` (curves across all 13 systems).
@@ -144,11 +144,13 @@ src/
   validate/lint.ts        15 rules, each with its evidence and its remedy; none of them repair anything
   validate/render.ts      a self-contained audit page: the tokens driving real components, both modes
   validate/report.ts      the same numbers as text, for CI
+  validate/fuzz.ts        the fuzz harness: crashes, invariant breaks, findings by rarity
 scripts/build-dna.ts      builds dna/*.json and dna/centroids.json
 scripts/demo-solver.ts    solver demo → out/solver-demo.json (spike/plot_solver.py renders fig9)
 scripts/demo-dark.ts      dark-mode demo → out/dark-demo.json (spike/plot_dark.py renders fig10)
 scripts/demo-tokens.ts    token demo → out/tokens/* (spike/plot_tokens.py renders fig11)
 scripts/demo-audit.ts     audit demo → out/audit/*.html and *.json
+scripts/fuzz.ts           fuzz campaign → out/fuzz.json (npm run fuzz)
 dna/                      built-in DNA (13 systems) + centroids + index
 test/                     vitest + fast-check: curves, spine, oracle (Color.js), dna round-trip, solver
 spike/
@@ -181,10 +183,12 @@ out/                      phase0.json, all-systems.json, reports, fig0–fig8, d
 
 ```
 npm install
-npm test                # 214 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
+npm test                # 224 tests: fitters, spine, Color.js oracle parity, DNA round-trips,
                         # solver identity + properties, neutrals, dark mode, token
                         # assignment, the audit, the linter, and the entry point
 npm run build:dna       # regenerate dna/*.json (≈2 s)
+npm run fuzz            # fuzz campaign; exits 1 on crashes or invariant breaks
+npm run fuzz -- --cases 5000 --seed 42
 npx tsx spike/smoke.ts
 npx tsx spike/phase0.ts && npx tsx spike/phase0b.ts && npx tsx spike/phase0c.ts
 npx tsx spike/verify.ts

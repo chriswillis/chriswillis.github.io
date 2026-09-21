@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "build:dna": "tsx scripts/build-dna.ts"
+    "build:dna": "tsx scripts/build-dna.ts",
+    "fuzz": "tsx scripts/fuzz.ts"
   },
   "dependencies": {
     "@radix-ui/colors": "3.0.0",

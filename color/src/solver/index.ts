@@ -574,6 +574,23 @@ export function solveRamp(input: SolveInput): SolvedRamp {
   for (let i = 1; i < spineSolved.length; i++) dHK.push(hkMetric(spineSolved[i - 1]!, spineSolved[i]!));
   const hkMean = mn(dHK);
   const cvHK = hkMean > 0 ? Math.sqrt(mn(dHK.map((v) => (v - hkMean) ** 2))) / hkMean : 0;
+  // The solver does not promise a minimum step, but a ramp whose steps collapse
+  // onto each other is unusable and the caller should not have to discover that
+  // from the linter. Found by the fuzz harness: a near-achromatic seed at an
+  // extreme of lightness ranks at one end of the light ramp, and pinning that
+  // same step key in the other mode puts it where the opposite end belongs, so
+  // the whole ramp has to fit into whatever lightness is left.
+  if (dEs.length > 0 && Math.min(...dEs) < JND_L) {
+    const worst = dEs.indexOf(Math.min(...dEs));
+    const a = ref.keys[ref.spine[worst]!] ?? String(worst);
+    const b = ref.keys[ref.spine[worst + 1]!] ?? String(worst + 1);
+    const span = Math.max(...spineSolved.map((c) => c.l)) - Math.min(...spineSolved.map((c) => c.l));
+    warnings.push(
+      `steps ${a} and ${b} are only ΔEOK ${Math.min(...dEs).toFixed(4)} apart, under the ${JND_L} just-noticeable difference` +
+      `${span < 0.1 ? ` — the whole ramp spans just ${span.toFixed(3)} in lightness, so the seed's step leaves nowhere for the others to go` : ''}` +
+      `. They will read as one colour.`,
+    );
+  }
   const spacing = {
     mode: spacingMode, rule: spacingChoice.rule, lightness: lightnessRuler,
     deltaE: dEs, mean: dMean, cv: dCv, min: Math.min(...dEs), max: Math.max(...dEs),
