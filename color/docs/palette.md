@@ -15,6 +15,7 @@ p.audit;      // contrast matrices, uniformity, CVD, headroom, promises
 p.lint;       // findings, each with its evidence and its remedy
 p.pair;       // the solved ramps, the pin, the correspondence
 p.families;   // the extra families, solved on the same reference
+p.semantics;  // where derived semantic hues came from, when they were derived
 p.reference;  // which reference supplied the curves, and where the dark scale came from
 ```
 
@@ -28,6 +29,7 @@ passed through to `solvePair` unchanged.
 | `reference` | A built-in id or a `SystemDNA` | `'tailwind-v4'` |
 | `dark` | The reference's own dark scale | its `pairedWith`, else derived |
 | `families` | Further seeds to solve on the same reference, keyed by name | none |
+| `semantics` | Derive danger/warning/success/info instead of naming them (`docs/semantics.md`) | false |
 | `neutrals` | Also solve a gray ramp, tinted from the seed | false |
 | `build` | Passed to `buildTokens` | — |
 | `lint` | Passed to `lint` | — |

@@ -38,8 +38,13 @@ const [app, worker] = await Promise.all([bundle('app/main.ts', 'esm'), bundle('a
 const put = (s: string, find: string | RegExp, value: string) => s.replace(find, () => value);
 const closeTag = (s: string) => s.replace(/<\/script/gi, () => '<\\/script');
 
+const centroids = readFileSync('dna/centroids.json', 'utf8');
+
 let html = readFileSync('app/shell.html', 'utf8');
 html = put(html, /\/\*__DNA__\*\/[\s\S]*?\/\*__DNA__\*\//, JSON.stringify(dna));
+// the semantic hue windows are measured from these, so the browser needs them
+// too — deriving danger/warning/success/info is not possible without the corpus
+html = put(html, /\/\*__CENTROIDS__\*\/[\s\S]*?\/\*__CENTROIDS__\*\//, JSON.stringify(JSON.parse(centroids)));
 // the worker lives in a <script type="text/plain">, so anything that could close
 // it early has to be neutralised; the browser reads the text back unescaped
 html = put(html, '/*__WORKER__*/', closeTag(worker));
@@ -68,3 +73,4 @@ console.log(`out/app/artifact.html  ${kb(artifact)}  — no skeleton, for publis
 console.log(`  app    ${kb(app)}`);
 console.log(`  worker ${kb(worker)}`);
 console.log(`  dna    ${kb(JSON.stringify(dna))}  — ${ids.length} systems`);
+console.log(`  hues   ${kb(JSON.stringify(JSON.parse(centroids)))}  — measured hue centroids`);

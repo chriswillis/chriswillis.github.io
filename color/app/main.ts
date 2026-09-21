@@ -22,17 +22,20 @@ import { renderAudit } from '../src/validate/render.ts';
 import { toCSS, toTailwind } from '../src/tokens/emit.ts';
 import { toDTCG } from '../src/tokens/dtcg.ts';
 import { parseToOklch } from '../src/color/oklch.ts';
+import { deriveSemanticHues, type DerivedSemantics } from '../src/tokens/semantics.ts';
+import type { CentroidTable } from '../src/dna/centroids.ts';
 import type { Gamut } from '../src/gamut/shell.ts';
 import type { FuzzResult, Violation } from '../src/validate/fuzz.ts';
 
 declare global {
-  interface Window { __DNA__: Record<string, unknown>; __FUZZ_WORKER__: string }
+  interface Window { __DNA__: Record<string, unknown>; __CENTROIDS__: CentroidTable; __FUZZ_WORKER__: string }
 }
 
 const RAW = window.__DNA__;
 const DNA: Record<string, SystemDNA> = {};
 for (const [id, v] of Object.entries(RAW)) DNA[id] = parseDNA(JSON.stringify(v));
 const LIGHT = Object.keys(DNA).filter((id) => DNA[id]!.mode === 'light');
+const CENTROIDS = window.__CENTROIDS__;
 
 interface State {
   seed: string;
@@ -41,11 +44,11 @@ interface State {
   lightness: 'oklab' | 'hk';
   gamut: Gamut;
   neutrals: boolean;
-  extras: boolean;
+  semantics: boolean;
 }
 const state: State = {
   seed: '#7c3aed', reference: 'tailwind-v4', spacing: 'auto',
-  lightness: 'oklab', gamut: 'p3', neutrals: true, extras: false,
+  lightness: 'oklab', gamut: 'p3', neutrals: true, semantics: false,
 };
 
 const $ = <T extends HTMLElement>(sel: string) => document.querySelector(sel) as T;
@@ -58,14 +61,28 @@ function repro(s: State): string {
   if (s.lightness !== 'oklab') bits.push(`lightness: '${s.lightness}'`);
   if (s.gamut !== 'p3') bits.push(`gamut: '${s.gamut}'`);
   if (s.neutrals) bits.push('neutrals: true');
+  if (s.semantics) bits.push('semantics: true');
   return `palette({ ${bits.join(', ')} })`;
 }
 
-const EXTRAS = { danger: '#dc2626', success: '#16a34a', warning: '#d97706' };
+/**
+ * The derivation is the slowest thing in a refresh — around 70 ms against 7 ms
+ * for the whole solve, because it sweeps four hue bands and solves a ramp at
+ * each position. It depends only on the reference, the gamut and the brand hue,
+ * none of which change when the seed's lightness or chroma is dragged, so it is
+ * memoised on those three and most seed edits cost nothing.
+ */
+const derivedCache = new Map<string, DerivedSemantics>();
+function semanticsFor(light: SystemDNA, brandHue: number): DerivedSemantics {
+  const k = `${light.id}|${state.gamut}|${brandHue.toFixed(1)}`;
+  let v = derivedCache.get(k);
+  if (!v) { v = deriveSemanticHues({ dna: light, centroids: CENTROIDS, brandHue, gamut: state.gamut }); derivedCache.set(k, v); }
+  return v;
+}
 
 let last: { css: string; tw: string; dtcg: string } | null = null;
 
-function solve(): { html: string; errors: number; warnings: number; infos: number; ms: number; warns: string[] } {
+function solve(): { html: string; errors: number; warnings: number; infos: number; ms: number; warns: string[]; semantics: DerivedSemantics | null } {
   const t0 = performance.now();
   const light = DNA[state.reference]!;
   const dark = light.pairedWith && DNA[light.pairedWith] ? DNA[light.pairedWith] : undefined;
@@ -76,9 +93,11 @@ function solve(): { html: string; errors: number; warnings: number; infos: numbe
   const pair = solvePair({ ...common, neutrals: state.neutrals });
 
   const families: Record<string, { light: ReturnType<typeof solvePair>['light']; dark: ReturnType<typeof solvePair>['dark'] }> = {};
-  if (state.extras) {
-    for (const [name, s] of Object.entries(EXTRAS)) {
-      const p = solvePair({ ...common, seed: s });
+  let semantics: DerivedSemantics | null = null;
+  if (state.semantics) {
+    semantics = semanticsFor(light, pair.light.target.hueAtPeak);
+    for (const [name, hue] of Object.entries(semantics.hues)) {
+      const p = solvePair({ ...common, seed: undefined, hue });
       families[name] = { light: p.light, dark: p.dark };
     }
   }
@@ -91,7 +110,8 @@ function solve(): { html: string; errors: number; warnings: number; infos: numbe
     html: renderAudit(tokens, a, l),
     errors: l.counts.error, warnings: l.counts.warning, infos: l.counts.info,
     ms: performance.now() - t0,
-    warns: [...pair.warnings, ...pair.light.warnings, ...pair.dark.warnings],
+    warns: [...pair.warnings, ...pair.light.warnings, ...pair.dark.warnings, ...(semantics?.warnings ?? [])],
+    semantics,
   };
 }
 
@@ -111,12 +131,28 @@ function refresh(): void {
       `<span class="pill ${r.errors ? 'err' : 'ok'}">${r.errors} error${r.errors === 1 ? '' : 's'}</span>` +
       `<span class="pill ${r.warnings ? 'warn' : 'ok'}">${r.warnings} warning${r.warnings === 1 ? '' : 's'}</span>` +
       `<span class="pill">${r.infos} note${r.infos === 1 ? '' : 's'}</span>` +
-      `<span class="pill">${r.ms.toFixed(0)} ms</span>`;
+      `<span class="pill">${r.ms.toFixed(0)} ms</span>` +
+      (r.semantics ? semanticsPills(r.semantics) : '');
     $('#warns').innerHTML = r.warns.length
       ? `<details><summary>${r.warns.length} solver note${r.warns.length === 1 ? '' : 's'}</summary><ul>${r.warns.map((w) => `<li>${esc(w)}</li>`).join('')}</ul></details>`
       : '';
     $('#repro').textContent = repro(state);
   }, 90);
+}
+
+/**
+ * What the derivation is worth, in the status line. The separation is the number
+ * that matters — the closest any two of the five families come, in any of the
+ * four views — and it is shown against the corpus rather than against a pass
+ * mark, because there is no threshold to pass, only a distribution to sit in.
+ */
+function semanticsPills(d: DerivedSemantics): string {
+  const cls = d.corpus.verdict === 'better than most' ? 'ok' : d.corpus.verdict === 'worse than most' ? 'warn' : '';
+  const hues = Object.entries(d.hues).map(([n, h]) => `${n} ${h.toFixed(0)}°`).join(' · ');
+  return `<span class="pill ${cls}" title="closest of the ten family pairs, worst of normal/protan/deutan/tritan">` +
+    `ΔEOK ${d.achieved.min.toFixed(4)} — ${esc(d.corpus.verdict)}</span>` +
+    `<span class="pill" title="against the conventional hues">${d.gain >= 0 ? '+' : ''}${d.gain.toFixed(4)} from placing</span>` +
+    `<span class="pill" title="derived hues">${esc(hues)}</span>`;
 }
 
 // ── controls ────────────────────────────────────────────────────────────────
@@ -176,7 +212,7 @@ function buildControls(): void {
     control('lightness', select('lightness', ['oklab', 'hk'])),
     control('gamut', select('gamut', ['p3', 'srgb'])),
     control('neutrals', toggle('neutrals')),
-    control('3 more families', toggle('extras')),
+    control('derive semantics', toggle('semantics')),
   );
 
   const actions = document.createElement('span');

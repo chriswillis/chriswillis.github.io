@@ -28,6 +28,17 @@ possible answers.
 
 **Spacing defaults to `'auto'`, which means even.** See `docs/solver.md`.
 
+**The semantic hues can be derived instead of chosen.** `semantics: true` places
+danger, warning, success and info inside the hue windows the corpus says those
+names occupy — ±2σ of the eleven shipping systems that publish them — at the
+positions that
+keep all five families furthest apart under normal vision and all three colour-
+vision deficiencies. Scored five families against five, it beats the references'
+own hand-picked hues on all twelve, median ΔEOK 0.0174 → 0.0235. It stays off by
+default and a named seed always wins. It also declines to tell you things that
+are true nine times in ten: that the brand is in the closest pair, or that a role
+landed on the edge of its window. See `docs/semantics.md`.
+
 **Perception is modelled, reported, and mostly not applied.** OKLab L is a
 luminance correlate, so it does not know that a saturated step looks brighter
 than it measures. Measured against Radix, a Helmholtz–Kohlrausch term explains
@@ -39,9 +50,10 @@ predicts. That is opt-in, because it is a trade rather than a fix — apparent
 evenness costs measured evenness roughly 1:1 at every strength. The audit reports
 both rulers either way. See `docs/perception.md`.
 
-Status: **all phases complete (0–6).** Built-in DNA for 13 systems in `dna/` (format:
+Status: **all phases complete (0–7).** Built-in DNA for 13 systems in `dna/` (format:
 `docs/dna-format.md`); the entry point is documented in `docs/palette.md`, the solver in
-`docs/solver.md`, perception in `docs/perception.md`, fuzzing in `docs/fuzzing.md`, dark mode in
+`docs/solver.md`, perception in `docs/perception.md`, derived semantic hues in
+`docs/semantics.md`, fuzzing in `docs/fuzzing.md`, dark mode in
 `docs/dark-mode.md`, grays in `docs/neutrals.md`, tokens in `docs/tokens.md`, the
 validation harness in `docs/validation.md`. Findings: `docs/phase0-report.md` (premise
 test on Tailwind v4 and Radix) and `docs/all-systems.md` (curves across all 13 systems).
@@ -103,6 +115,16 @@ const a = audit(tokens, { reference: dna, families: { success, danger }, ramps: 
 const findings = lint(tokens, a);
 fs.writeFileSync('audit.html', renderAudit(tokens, a, findings)); // components, matrices, CVD, findings
 process.exit(findings.clean ? 0 : 1);
+
+// Phase 7: derive the semantic hues instead of picking them. Placed inside the ±2σ hue
+// window the corpus gives each name, at the positions that keep all five families
+// furthest apart under normal vision and all three deficiencies (docs/semantics.md).
+import { deriveSemanticHues, loadCentroids } from 'palette-dna';
+const s = deriveSemanticHues({ dna, centroids: loadCentroids(), brandHue: 300 });
+s.hues;             // { danger: 30.9, warning: 104.8, success: 160.8, info: 261.7 }
+s.gain;             // what placing them was worth against the conventional hues
+s.corpus.verdict;   // where the result sits against the same measure on the references
+s.warnings;         // only when hue has genuinely run out of room — 1 brand hue in 24
 ```
 
 ## The explorer
@@ -112,15 +134,16 @@ npm run build:app     # → out/app/index.html (standalone) and artifact.html
 ```
 
 A control bar over the audit page: seed, reference, spacing, lightness ruler,
-gamut, neutrals and extra families, with the full audit regenerated on every
+gamut, neutrals and derived semantics, with the full audit regenerated on every
 change. The audit page is not reimplemented — `renderAudit` already produces it,
 and the explorer drops that document into an iframe, so the tool and the artefact
 it writes cannot drift apart. A solve is ~6 ms, so it keeps up with a colour
-picker being dragged. A second tab runs a fuzz campaign in a worker and links
+picker being dragged; the derivation is ~80 ms and memoised on the three inputs
+it actually depends on. A second tab runs a fuzz campaign in a worker and links
 every defect back into the explorer.
 
-One self-contained file: 1.3 MB, 516 KB gzipped, all thirteen DNA sets inlined,
-no network at runtime.
+One self-contained file: 1.3 MB, 519 KB gzipped, all thirteen DNA sets and the
+measured hue centroids inlined, no network at runtime.
 
 ## Layout
 
@@ -156,6 +179,7 @@ src/
   tokens/build.ts         buildTokens: one token, one value per mode, one stable ID
   tokens/dtcg.ts          W3C Design Tokens JSON (canonical) + alias resolution
   tokens/emit.ts          CSS custom properties, Tailwind v4 @theme, Figma Variables, a text report
+  tokens/semantics.ts     deriveSemanticHues: danger/warning/success/info placed by measurement
   validate/baseline.ts    the corpus: 185 ramps across 13 systems, measured on every check
   validate/audit.ts       contrast matrix, step uniformity, CVD simulation, gamut headroom, promises
   validate/lint.ts        15 rules, each with its evidence and its remedy; none of them repair anything
@@ -191,6 +215,8 @@ spike/
   phase6-hk.ts            is the Helmholtz–Kohlrausch effect visible in Radix's dark scale?
   phase6-fit.ts           does an H–K term fit Radix better? (no: 0.03 JND — the negative result)
   phase6-spacing.ts       is a ramp even by ΔEOK even in appearance? (no: 7.45× worse)
+  phase7-semantics.ts     is there room to place the semantic hues? (yes: 12 of 12, and it prints the band)
+  drive-semantics.mjs     drives the built explorer through the semantics toggle
   plot_dark.py            fig10
   plot_tokens.py          fig11
   shoot-audit.mjs         fig12 (screenshots out/audit/radix-violet.html)
@@ -224,6 +250,7 @@ npx tsx spike/phase4.ts
 npx tsx scripts/demo-audit.ts && node spike/shoot-audit.mjs
 npx tsx spike/phase5-spacing.ts && npx tsx spike/phase5-surfaces.ts
 npx tsx spike/phase6-hk.ts && npx tsx spike/phase6-fit.ts && npx tsx spike/phase6-spacing.ts
+npx tsx spike/phase7-semantics.ts
 npm run typecheck
 ```
 

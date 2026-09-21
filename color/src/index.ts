@@ -27,6 +27,8 @@ export { ROLES, ROLE_ORDER, roleByName, type RoleSpec, type Rule, type Against, 
 export { assignRoles, solidStep, roleAgreement, lightnessForForeground, type RoleAssignment, type RoleAssignments, type AssignOptions } from './tokens/assign.ts';
 export { buildTokens, stableId, type TokenSet, type TokenColor, type PrimitiveToken, type SemanticToken, type BuildOptions, type Mode } from './tokens/build.ts';
 export { toDTCG, walkDTCG, resolveDTCG, DTCG_NAMESPACE, type DTCGGroup, type DTCGToken, type DTCGColorValue, type DTCGOptions } from './tokens/dtcg.ts';
+// Phase 7 — semantic hues, derived rather than hand-picked
+export { deriveSemanticHues, conventionBands, separation, compareSeparation, SEMANTIC_ROLES, FIVE_FAMILY_SEPARATION, DEFAULT_SIGMAS, type DerivedSemantics, type DeriveSemanticsInput, type SemanticRoleSpec, type HueBand, type Separation } from './tokens/semantics.ts';
 export { toCSS, toTailwind, toFigma, toReport, type CssOptions, type TailwindOptions, type FigmaFile, type FigmaCollection, type FigmaVariable } from './tokens/emit.ts';
 // Phase 4 — the validation harness
 export { audit, contrastMatrix, uniformity, cvdReport, headroom, promiseCheck, simulate, DEFICIENCIES, type Audit, type AuditOptions, type ContrastMatrix, type ContrastCell, type UniformityReport, type CvdReport, type HeadroomReport, type HeadroomStep, type PromiseCheck, type Deficiency } from './validate/audit.ts';
@@ -38,7 +40,7 @@ export { fuzz, reproduce, EDGE_SEEDS, type FuzzCase, type FuzzOptions, type Fuzz
 // Phase 6 — perception: viewing conditions and the Helmholtz–Kohlrausch effect
 export { hkGamma, apparentL, lForApparent, deltaEHK, suvTheta, coefficientQ, coefficientKBr, defaultViewing, AVERAGE_SURROUND, DARK_SURROUND, DEFAULT_STRENGTH, type ViewingConditions, type HKOptions, type HKMethod } from './color/hk.ts';
 // Phase 5 — the one-call entry point
-export { palette, loadDNA, builtinDNAIds, DEFAULT_REFERENCE, type Palette, type PaletteOptions } from './palette.ts';
+export { palette, loadDNA, loadCentroids, builtinDNAIds, DEFAULT_REFERENCE, type Palette, type PaletteOptions } from './palette.ts';
 export { chooseSpacing } from './solver/index.ts';
 export { loadDatasetNeutrals } from './ingest/dataset.ts';
 export { loadRadixNeutrals, RADIX_NEUTRALS } from './ingest/radix.ts';

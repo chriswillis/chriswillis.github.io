@@ -175,6 +175,12 @@ categorical separation, which needs the CVD analysis in Phase 4 rather than a
 contrast threshold. Inventing either would be inventing taxonomy, which the brief
 rules out.
 
+The *hues* of the semantic families are a separate question from their roles, and
+Phase 7 answers it: `docs/semantics.md`. The role table says which step
+`danger/background/solid` resolves to; it says nothing about which red danger is.
+That used to be yours to name, and can still be, but `semantics: true` derives it
+from the corpus instead.
+
 ## What it reports that you would otherwise find out later
 
 On a violet seed through Radix, in both modes:

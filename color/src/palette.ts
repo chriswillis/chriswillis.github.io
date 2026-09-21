@@ -26,6 +26,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { parseDNA, type SystemDNA } from './dna/schema.ts';
+import type { CentroidTable } from './dna/centroids.ts';
+import { deriveSemanticHues, type DerivedSemantics, type SemanticRoleSpec } from './tokens/semantics.ts';
 import { solvePair, type SolvePairInput, type SolvedPair } from './solver/pair.ts';
 import { buildTokens, type TokenSet, type BuildOptions } from './tokens/build.ts';
 import { audit, type Audit } from './validate/audit.ts';
@@ -59,6 +61,14 @@ export function loadDNA(id: string = DEFAULT_REFERENCE): SystemDNA {
   return dna;
 }
 
+let centroidsCache: CentroidTable | null = null;
+
+/** The measured hue centroids, which is where the semantic hue windows come from. */
+export function loadCentroids(): CentroidTable {
+  if (!centroidsCache) centroidsCache = JSON.parse(readFileSync(resolve(DNA_DIR, 'centroids.json'), 'utf8')) as CentroidTable;
+  return centroidsCache;
+}
+
 let idsCache: string[] | null = null;
 
 /** The ids of the built-in DNA files. */
@@ -84,6 +94,20 @@ export interface PaletteOptions extends Omit<SolvePairInput, 'light' | 'dark'> {
   dark?: string | SystemDNA;
   /** Further families to solve with the same reference, keyed by name: `{ danger: '#dc2626' }`. */
   families?: Record<string, string>;
+  /**
+   * Derive the semantic families — danger, warning, success, info — instead of
+   * naming their seeds. The hues are placed inside the windows the corpus says
+   * those names occupy, at the positions that keep every family furthest from
+   * every other under normal vision and all three colour-vision deficiencies.
+   *
+   * Worth about three quarters of a JND over the conventional hues, and rather
+   * more when the brand sits on one of them. It does not always succeed: when
+   * the brand hue *is* a semantic hue, nothing inside convention separates them,
+   * and `semantics.brandCollision` says so instead of quietly moving danger
+   * somewhere it stops reading as danger. Anything in `families` wins over a
+   * derived hue of the same name.
+   */
+  semantics?: boolean | { sigmas?: number; roles?: SemanticRoleSpec[] };
   build?: Omit<BuildOptions, 'families' | 'neutrals'>;
   lint?: LintOptions;
 }
@@ -95,6 +119,8 @@ export interface Palette {
   pair: SolvedPair;
   /** The extra families, when any were asked for. */
   families: Record<string, { light: SolvedRamp; dark: SolvedRamp }>;
+  /** Where the semantic hues came from, and what they cost, when they were derived. */
+  semantics: DerivedSemantics | null;
   reference: { id: string; name: string; dark: { id: string; kind: 'authored' | 'derived' } };
 }
 
@@ -106,7 +132,7 @@ const asDNA = (v: string | SystemDNA | undefined, fallback?: string): SystemDNA 
  * separately; this is the path that picks sensible defaults for all of them.
  */
 export function palette(opts: PaletteOptions): Palette {
-  const { reference, dark, families: extraSeeds, build, lint: lintOpts, ...solve } = opts;
+  const { reference, dark, families: extraSeeds, semantics: semanticOpts, build, lint: lintOpts, ...solve } = opts;
   const light = asDNA(reference, DEFAULT_REFERENCE)!;
   // an authored dark scale beats a derived one, so take the reference's own when it has one
   const darkDna = asDNA(dark) ?? (light.pairedWith && builtinDNAIds().includes(light.pairedWith) ? loadDNA(light.pairedWith) : undefined);
@@ -116,6 +142,26 @@ export function palette(opts: PaletteOptions): Palette {
   const families: Record<string, { light: SolvedRamp; dark: SolvedRamp }> = {};
   // the neutrals belong to the set, not to each family: solve them once, with the brand
   const { neutrals: _n, ...perFamily } = solve;
+
+  let semantics: DerivedSemantics | null = null;
+  if (semanticOpts) {
+    const o = semanticOpts === true ? {} : semanticOpts;
+    semantics = deriveSemanticHues({
+      dna: light,
+      centroids: loadCentroids(),
+      brandHue: pair.light.target.hueAtPeak,
+      ...(solve.gamut ? { gamut: solve.gamut } : {}),
+      ...(o.sigmas !== undefined ? { sigmas: o.sigmas } : {}),
+      ...(o.roles ? { roles: o.roles } : {}),
+    });
+    // a named seed always wins: derivation fills the roles the caller left open
+    for (const [name, hue] of Object.entries(semantics.hues)) {
+      if (extraSeeds?.[name] !== undefined) continue;
+      const p = solvePair({ ...perFamily, light, ...(darkDna ? { dark: darkDna } : {}), hue, seed: undefined });
+      families[name] = { light: p.light, dark: p.dark };
+    }
+  }
+
   for (const [name, seed] of Object.entries(extraSeeds ?? {})) {
     const p = solvePair({ ...perFamily, light, ...(darkDna ? { dark: darkDna } : {}), seed });
     families[name] = { light: p.light, dark: p.dark };
@@ -125,7 +171,7 @@ export function palette(opts: PaletteOptions): Palette {
   const a = audit(tokens, { reference: light, families, ramps: { light: pair.light, dark: pair.dark } });
   const l = lint(tokens, a, lintOpts);
   return {
-    tokens, audit: a, lint: l, pair, families,
+    tokens, audit: a, lint: l, pair, families, semantics,
     reference: { id: light.id, name: light.name, dark: pair.darkSource },
   };
 }
