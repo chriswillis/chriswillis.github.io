@@ -105,6 +105,23 @@ fs.writeFileSync('audit.html', renderAudit(tokens, a, findings)); // components,
 process.exit(findings.clean ? 0 : 1);
 ```
 
+## The explorer
+
+```
+npm run build:app     # → out/app/index.html (standalone) and artifact.html
+```
+
+A control bar over the audit page: seed, reference, spacing, lightness ruler,
+gamut, neutrals and extra families, with the full audit regenerated on every
+change. The audit page is not reimplemented — `renderAudit` already produces it,
+and the explorer drops that document into an iframe, so the tool and the artefact
+it writes cannot drift apart. A solve is ~6 ms, so it keeps up with a colour
+picker being dragged. A second tab runs a fuzz campaign in a worker and links
+every defect back into the explorer.
+
+One self-contained file: 1.3 MB, 516 KB gzipped, all thirteen DNA sets inlined,
+no network at runtime.
+
 ## Layout
 
 ```
@@ -145,12 +162,16 @@ src/
   validate/render.ts      a self-contained audit page: the tokens driving real components, both modes
   validate/report.ts      the same numbers as text, for CI
   validate/fuzz.ts        the fuzz harness: crashes, invariant breaks, findings by rarity
+app/main.ts               the explorer: controls over renderAudit in an iframe
+app/fuzz-worker.ts        the campaign, off the main thread
+app/shell.html            the page shell (the audit page's own visual language)
 scripts/build-dna.ts      builds dna/*.json and dna/centroids.json
 scripts/demo-solver.ts    solver demo → out/solver-demo.json (spike/plot_solver.py renders fig9)
 scripts/demo-dark.ts      dark-mode demo → out/dark-demo.json (spike/plot_dark.py renders fig10)
 scripts/demo-tokens.ts    token demo → out/tokens/* (spike/plot_tokens.py renders fig11)
 scripts/demo-audit.ts     audit demo → out/audit/*.html and *.json
 scripts/fuzz.ts           fuzz campaign → out/fuzz.json (npm run fuzz)
+scripts/build-app.ts      bundles the explorer into one self-contained HTML file
 dna/                      built-in DNA (13 systems) + centroids + index
 test/                     vitest + fast-check: curves, spine, oracle (Color.js), dna round-trip, solver
 spike/
@@ -189,6 +210,7 @@ npm test                # 233 tests: fitters, spine, Color.js oracle parity, DNA
 npm run build:dna       # regenerate dna/*.json (≈2 s)
 npm run fuzz            # fuzz campaign; exits 1 on crashes or invariant breaks
 npm run fuzz -- --cases 5000 --seed 42
+npm run build:app       # the explorer → out/app/index.html
 npx tsx spike/smoke.ts
 npx tsx spike/phase0.ts && npx tsx spike/phase0b.ts && npx tsx spike/phase0c.ts
 npx tsx spike/verify.ts

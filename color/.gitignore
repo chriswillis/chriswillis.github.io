@@ -1,3 +1,4 @@
 node_modules/
 vendor-src/
 spike/tmp/
+out/app/

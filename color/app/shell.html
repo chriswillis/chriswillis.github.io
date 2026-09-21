@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palette DNA Explorer</title>
+<style>
+:root {
+  --ink: #16161a; --paper: #fbfbfd; --rule: #e3e3ea; --quiet: #6b6b78;
+  --ok: #15803d; --warn: #b45309; --err: #b91c1c;
+  color-scheme: light dark;
+}
+/* Three theme states, not two: "system" stamps nothing and only the media query
+   separates it, while an explicit choice stamps data-theme and has to win in
+   both directions. Every token is declared on bare :root above first. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --ink: #ececf1; --paper: #131316; --rule: #2b2b33; --quiet: #9a9aa8; --ok: #4ade80; --warn: #fbbf24; --err: #f87171; }
+}
+:root[data-theme="dark"] { --ink: #ececf1; --paper: #131316; --rule: #2b2b33; --quiet: #9a9aa8; --ok: #4ade80; --warn: #fbbf24; --err: #f87171; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.6 ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif; }
+header { border-bottom: 1px solid var(--rule); padding: 18px 16px 0; }
+.wrap { max-width: 1180px; margin: 0 auto; }
+h1 { font-size: 20px; margin: 0 0 2px; letter-spacing: -0.01em; }
+h1 small { font-weight: 400; color: var(--quiet); font-size: 14px; margin-left: 8px; }
+h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--quiet); margin: 26px 0 10px; font-weight: 600; }
+nav { display: flex; gap: 18px; margin-top: 14px; }
+nav a { text-decoration: none; color: var(--quiet); font-size: 14px; padding-bottom: 10px; border-bottom: 2px solid transparent; }
+nav a.on { color: var(--ink); border-bottom-color: var(--ink); }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+.quiet { color: var(--quiet); }
+.bar { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; padding: 16px 0; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.ctl { display: grid; gap: 3px; font-size: 12px; color: var(--quiet); }
+.ctl > span { letter-spacing: 0.02em; }
+select, input[type=text], input[type=number] { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
+input[type=text] { width: 20ch; font-family: ui-monospace, monospace; font-size: 13px; }
+input[type=number] { width: 9ch; }
+input[type=text].bad { border-color: var(--err); }
+input[type=color] { width: 34px; height: 32px; padding: 2px; border: 1px solid var(--rule); border-radius: 7px; background: var(--paper); }
+input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--ink); justify-self: start; margin: 6px 0; }
+.seed { display: flex; gap: 6px; align-items: center; }
+button { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 7px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--quiet); }
+.summary, #status { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pill { font-size: 12px; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--rule); }
+.pill.err { color: var(--err); border-color: currentColor; }
+.pill.warn { color: var(--warn); border-color: currentColor; }
+.pill.ok { color: var(--ok); border-color: currentColor; }
+.statusline { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; padding: 0 0 14px; }
+#repro { font-family: ui-monospace, monospace; font-size: 12px; color: var(--quiet); }
+#warns { padding: 0 0 12px; font-size: 13px; }
+#warns summary { color: var(--warn); cursor: pointer; }
+#warns ul { margin: 8px 0 0; padding-left: 20px; color: var(--quiet); }
+#warns li { margin-bottom: 6px; }
+iframe { width: 100%; height: calc(100vh - 210px); min-height: 520px; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); }
+main { padding: 0 16px 40px; }
+ul.findings { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+li.f { border: 1px solid var(--rule); border-left-width: 3px; border-radius: 8px; padding: 12px 14px; }
+li.f.error { border-left-color: var(--err); }
+li.f.warning { border-left-color: var(--warn); }
+li.f.info { border-left-color: var(--quiet); }
+.f-head { display: flex; gap: 10px; align-items: center; font-size: 12px; margin-bottom: 6px; }
+.sev { text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; font-size: 11px; color: var(--err); }
+li.f p { margin: 0; font-size: 14px; }
+li.f p.remedy { color: var(--quiet); margin-top: 6px; font-size: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+#fuzz-out { overflow-x: auto; }
+table.rules { border-collapse: collapse; font-size: 13px; }
+table.rules th { text-align: left; font-weight: 600; color: var(--quiet); font-size: 12px; padding: 6px 18px 6px 0; border-bottom: 1px solid var(--rule); }
+table.rules td { padding: 5px 18px 5px 0; border-bottom: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Palette DNA <small>explorer</small></h1>
+  <nav><a href="#explore">explore</a><a href="#fuzz">fuzz</a></nav>
+</div></header>
+<main class="wrap">
+  <section id="explore">
+    <div class="bar" id="controls"></div>
+    <div class="statusline"><span id="status"></span><span id="repro"></span></div>
+    <div id="warns"></div>
+    <iframe id="page" title="audit"></iframe>
+  </section>
+  <section id="fuzz" hidden>
+    <div class="bar" id="fuzz-controls"></div>
+    <p class="quiet">Crashes and invariant breaks are library defects. Lint findings are ranked by rarity — a rule firing on most cases is describing the corpus.</p>
+    <div id="fuzz-out"></div>
+  </section>
+</main>
+<script>window.__DNA__ = /*__DNA__*/{}/*__DNA__*/;</script>
+<script id="fuzz-worker-src" type="text/plain">/*__WORKER__*/</script>
+<script>window.__FUZZ_WORKER__ = document.getElementById('fuzz-worker-src').textContent;</script>
+<script type="module">/*__APP__*/</script>
+</body>
+</html>

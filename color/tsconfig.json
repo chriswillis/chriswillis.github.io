@@ -10,7 +10,14 @@
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src", "spike", "vendor"]
+  "include": [
+    "src",
+    "spike",
+    "vendor",
+    "app"
+  ]
 }
