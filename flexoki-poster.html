@@ -30,7 +30,7 @@
 <meta name="twitter:image:alt" content="Chris Willis — Designing technology for humans">
 
 <style>
-  /* Flexoki Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
+  /* Flexoki — Poster. Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
 
   :root {
     color-scheme: light dark;
@@ -58,11 +58,55 @@
     }
   }
 
-  :root { --divider: #E6E4D9; }
-  :root[data-theme="dark"] { --divider: #282726; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --divider: #282726; }
+  :root {
+    --divider: #E6E4D9;
   }
+
+  :root[data-theme="dark"] {
+    --divider: #282726;
+  }
+
+  :root {
+    --accent: var(--cy);
+    --link: var(--tx);
+    --underline: var(--tx-3);
+    --surface: var(--bg-2);
+    --tile-radius: 0;
+  }
+  body {
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
+  }
+  main { max-width: 44rem; }
+  .masthead { flex-direction: row; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .avatar { width: 3rem; height: 3rem; }
+  h1 { font-size: 1.1rem; font-weight: 400; color: var(--tx-1); }
+  /* the opening line is the display element */
+  .masthead + p {
+    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
+    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
+    margin-bottom: 1.5rem; max-width: 24ch;
+  }
+  .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
+  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
+  p { margin-bottom: 1.25rem; }
+  ul { display: grid; gap: 0.5rem;}
+  ul li { padding-left: 1.4rem; margin-bottom: 0; }
+  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
+  a, .experiment .title { font-weight: 400; }
+  .experiment .blurb { font-size: 1.05rem; }
+  .brands { gap: 2px; }
+  .brands li { background: var(--bg-2); min-height: 5rem; }
+  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, 1fr); } }
+  hr {
+    border: 0;
+    height: 1px;
+    background: var(--divider);
+    margin: 2.5rem 0 1.75rem;
+  }
+  nav a { margin-right: 1.5rem; }
+
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -179,58 +223,6 @@
   .experiment:hover img { opacity: 0.92; }
   .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--tile-radius, 0.85rem); }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
-
-  :root {
-    --accent: var(--cy);
-    --link: var(--tx);
-    --underline: var(--tx-3);
-    --surface: var(--bg-2);
-    --tile-radius: 0;
-  }
-  body {
-    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
-    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
-  }
-  main { max-width: 44rem; }
-  .masthead { flex-direction: row; align-items: center; gap: 1rem; margin-bottom: 3rem; }
-  .avatar { width: 3rem; height: 3rem; }
-  h1 { font-size: 1.1rem; font-weight: 400; color: var(--tx-2); }
-  /* the opening line is the display element */
-  .masthead + p {
-    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
-    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
-    margin-bottom: 1.5rem; max-width: 24ch;
-  }
-  .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
-  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
-  p { margin-bottom: 1.25rem; }
-  ul { display: grid; gap: 0.5rem; }
-  ul li { padding-left: 1.4rem; margin-bottom: 0; }
-  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
-  a, .experiment .title { font-weight: 400; }
-  .experiment .blurb { font-size: 1.05rem; }
-  .brands { gap: 2px; }
-  .brands li { background: var(--bg-2); min-height: 5rem; }
-  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, 1fr); } }
-  hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
-  nav a { margin-right: 1.5rem; }
-
-  /* Mark links that leave the site (footer nav excluded) */
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
-    content: "";
-    display: inline-block;
-    width: 0.55em; height: 0.55em;
-    margin-left: 0.2em;
-    vertical-align: 0.15em;
-    background: currentColor;
-    opacity: 0.55;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-    transition: opacity 0.2s ease-out;
-  }
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a):hover::after { opacity: 1; }
-
 </style>
 
 <script>

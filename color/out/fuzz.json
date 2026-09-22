@@ -1,0 +1,420 @@
+{
+ "campaign": {
+  "seed": 313,
+  "cases": 1516,
+  "elapsedMs": 6956,
+  "perCaseMs": 4.588390501319261
+ },
+ "crashes": [],
+ "invariants": [],
+ "byRule": {
+  "requirement-unmet": {
+   "kind": "finding",
+   "severity": "error",
+   "count": 8497,
+   "rate": 0.8608179419525066,
+   "worst": {
+    "kind": "finding",
+    "rule": "requirement-unmet",
+    "severity": "error",
+    "message": "content/normal does not meet its requirement: no step reaches Lc 75 (best 67) against page",
+    "evidence": {
+     "wcag": 8.736,
+     "apcaLc": 67.5,
+     "against": "page",
+     "requirement": "WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze"
+    },
+    "case": {
+     "seed": "#000000",
+     "reference": "opencolor",
+     "spacing": "even",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "state-indistinguishable": {
+   "kind": "finding",
+   "severity": "warning",
+   "count": 5630,
+   "rate": 0.9307387862796834,
+   "worst": {
+    "kind": "finding",
+    "rule": "state-indistinguishable",
+    "severity": "warning",
+    "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 9) — the solid will not appear to respond",
+    "evidence": {
+     "deltaE": 0,
+     "jnd": 0.02,
+     "sameStep": true
+    },
+    "case": {
+     "seed": "#000000",
+     "reference": "opencolor",
+     "spacing": "even",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "step-shared-across-categories": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 7514,
+   "rate": 1,
+   "worst": {
+    "kind": "finding",
+    "rule": "step-shared-across-categories",
+    "severity": "info",
+    "message": "step 3 carries surface/active, border/strong, border/focus — roles from 2 categories on one colour",
+    "evidence": {
+     "step": "3",
+     "roles": "surface/active, border/strong, border/focus"
+    },
+    "case": {
+     "seed": "#000000",
+     "reference": "opencolor",
+     "spacing": "even",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "cvd-steps-collapse": {
+   "kind": "finding",
+   "severity": "warning",
+   "count": 1384,
+   "rate": 0.503957783641161,
+   "worst": {
+    "kind": "finding",
+    "rule": "cvd-steps-collapse",
+    "severity": "warning",
+    "message": "2 step pairs that a trichromat can tell apart become indistinguishable under protanopia — worst is 2/3, ΔEOK 0.031 → 0.011",
+    "evidence": {
+     "pairs": 2,
+     "worstBefore": 0.030906,
+     "worstAfter": 0.011071,
+     "deficiency": "protan",
+     "minAdjacent": 0.006861
+    },
+    "case": {
+     "seed": "#808080",
+     "reference": "primer",
+     "spacing": "reference",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "step-under-jnd": {
+   "kind": "finding",
+   "severity": "warning",
+   "count": 817,
+   "rate": 0.49868073878627966,
+   "worst": {
+    "kind": "finding",
+    "rule": "step-under-jnd",
+    "severity": "warning",
+    "message": "the closest consecutive steps are ΔEOK 0.0058 apart, under one JND",
+    "evidence": {
+     "min": 0.005797,
+     "corpusMedian": 0.035,
+     "verdict": "worse than most"
+    },
+    "case": {
+     "seed": "#808080",
+     "reference": "primer",
+     "spacing": "reference",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "measures-disagree": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 508,
+   "rate": 0.16754617414248021,
+   "worst": {
+    "kind": "finding",
+    "rule": "measures-disagree",
+    "severity": "info",
+    "message": "content/on-solid: WCAG prefers black (5.32:1), APCA prefers white (Lc 72). A mid-lightness fill does this to them.",
+    "evidence": {
+     "wcagCandidate": "black",
+     "wcagValue": 5.317,
+     "apcaCandidate": "white",
+     "apcaLc": 72.4
+    },
+    "case": {
+     "seed": "#808080",
+     "reference": "primer",
+     "spacing": "reference",
+     "lightness": "hk",
+     "gamut": "p3"
+    }
+   }
+  },
+  "apparent-spacing-differs": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 95,
+   "rate": 0.048812664907651716,
+   "worst": {
+    "kind": "finding",
+    "rule": "apparent-spacing-differs",
+    "severity": "info",
+    "message": "the ramp is even by ΔEOK (cv 0.021) but 3.7× less even in apparent lightness (cv 0.077) — saturated steps read brighter than their lightness",
+    "evidence": {
+     "cvMeasured": 0.0208,
+     "cvApparent": 0.0775,
+     "ratio": 3.73,
+     "strength": 0.25,
+     "adaptingLuminance": 40,
+     "spacing": "even"
+    },
+    "case": {
+     "seed": "#010101",
+     "reference": "tailwind",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "srgb"
+    }
+   }
+  },
+  "gamut-mapped": {
+   "kind": "finding",
+   "severity": "warning",
+   "count": 1240,
+   "rate": 0.4241424802110818,
+   "worst": {
+    "kind": "finding",
+    "rule": "gamut-mapped",
+    "severity": "warning",
+    "message": "1 step moved more than a JND in gamut mapping (worst 0.1682) — the intended colour is not the emitted one",
+    "evidence": {
+     "steps": 1,
+     "worst": 0.1682
+    },
+    "case": {
+     "seed": "oklch(0.5 0.4 0)",
+     "reference": "radix-light",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "p3"
+    }
+   }
+  },
+  "srgb-sibling-drift": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 371,
+   "rate": 0.15765171503957784,
+   "worst": {
+    "kind": "finding",
+    "rule": "srgb-sibling-drift",
+    "severity": "info",
+    "message": "2 steps differ visibly between P3 and their sRGB sibling (worst ΔEOK 0.0259) — an sRGB display shows a different colour",
+    "evidence": {
+     "steps": 2,
+     "worst": 0.0259
+    },
+    "case": {
+     "seed": "oklch(0.5 0.4 0)",
+     "reference": "radix-light",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "p3"
+    }
+   }
+  },
+  "uneven-spacing": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 860,
+   "rate": 0.5277044854881267,
+   "worst": {
+    "kind": "finding",
+    "rule": "uneven-spacing",
+    "severity": "info",
+    "message": "step spacing varies by CV 0.77, against a corpus median of 0.335 — the reference numbers by role, not by even perceptual distance",
+    "evidence": {
+     "cv": 0.772,
+     "referenceCv": 0.955,
+     "corpusMedian": 0.335
+    },
+    "case": {
+     "seed": "oklch(0.5 0.4 0)",
+     "reference": "radix-light",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "p3"
+    }
+   }
+  },
+  "on-the-shell": {
+   "kind": "finding",
+   "severity": "info",
+   "count": 607,
+   "rate": 0.2974934036939314,
+   "worst": {
+    "kind": "finding",
+    "rule": "on-the-shell",
+    "severity": "info",
+    "message": "100% of steps sit on the sRGB gamut shell, above the corpus p90 of 80% — the ramp has no chroma left to give",
+    "evidence": {
+     "onShell": 1,
+     "corpusP90": 0.8
+    },
+    "case": {
+     "seed": "oklch(0.99 0.3 90)",
+     "reference": "spectrum",
+     "spacing": "reference",
+     "lightness": "hk",
+     "gamut": "srgb"
+    }
+   }
+  },
+  "foreground-on-surface": {
+   "kind": "finding",
+   "severity": "warning",
+   "count": 420,
+   "rate": 0.08245382585751979,
+   "worst": {
+    "kind": "finding",
+    "rule": "foreground-on-surface",
+    "severity": "warning",
+    "message": "icon/normal is ΔEOK 0.0096 from surface/normal — text this colour is not quiet on that surface, it is absent",
+    "evidence": {
+     "deltaE": 0.009552,
+     "jnd": 0.02,
+     "sameStep": false,
+     "wcag": 1,
+     "apca": 0
+    },
+    "case": {
+     "seed": "#ffff00",
+     "reference": "primer",
+     "spacing": "even",
+     "lightness": "oklab",
+     "gamut": "srgb"
+    }
+   }
+  }
+ },
+ "worst": [
+  {
+   "kind": "finding",
+   "rule": "requirement-unmet",
+   "severity": "error",
+   "message": "content/normal does not meet its requirement: no step reaches Lc 75 (best 67) against page",
+   "evidence": {
+    "wcag": 8.736,
+    "apcaLc": 67.5,
+    "against": "page",
+    "requirement": "WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze"
+   },
+   "case": {
+    "seed": "#000000",
+    "reference": "opencolor",
+    "spacing": "even",
+    "lightness": "hk",
+    "gamut": "p3"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "foreground-on-surface",
+   "severity": "warning",
+   "message": "icon/normal is ΔEOK 0.0096 from surface/normal — text this colour is not quiet on that surface, it is absent",
+   "evidence": {
+    "deltaE": 0.009552,
+    "jnd": 0.02,
+    "sameStep": false,
+    "wcag": 1,
+    "apca": 0
+   },
+   "case": {
+    "seed": "#ffff00",
+    "reference": "primer",
+    "spacing": "even",
+    "lightness": "oklab",
+    "gamut": "srgb"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "gamut-mapped",
+   "severity": "warning",
+   "message": "1 step moved more than a JND in gamut mapping (worst 0.1682) — the intended colour is not the emitted one",
+   "evidence": {
+    "steps": 1,
+    "worst": 0.1682
+   },
+   "case": {
+    "seed": "oklch(0.5 0.4 0)",
+    "reference": "radix-light",
+    "spacing": "even",
+    "lightness": "oklab",
+    "gamut": "p3"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "step-under-jnd",
+   "severity": "warning",
+   "message": "the closest consecutive steps are ΔEOK 0.0058 apart, under one JND",
+   "evidence": {
+    "min": 0.005797,
+    "corpusMedian": 0.035,
+    "verdict": "worse than most"
+   },
+   "case": {
+    "seed": "#808080",
+    "reference": "primer",
+    "spacing": "reference",
+    "lightness": "hk",
+    "gamut": "p3"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "cvd-steps-collapse",
+   "severity": "warning",
+   "message": "2 step pairs that a trichromat can tell apart become indistinguishable under protanopia — worst is 2/3, ΔEOK 0.031 → 0.011",
+   "evidence": {
+    "pairs": 2,
+    "worstBefore": 0.030906,
+    "worstAfter": 0.011071,
+    "deficiency": "protan",
+    "minAdjacent": 0.006861
+   },
+   "case": {
+    "seed": "#808080",
+    "reference": "primer",
+    "spacing": "reference",
+    "lightness": "hk",
+    "gamut": "p3"
+   }
+  },
+  {
+   "kind": "finding",
+   "rule": "state-indistinguishable",
+   "severity": "warning",
+   "message": "background/solid and background/solid/hover are ΔEOK 0.0000 apart (both on step 9) — the solid will not appear to respond",
+   "evidence": {
+    "deltaE": 0,
+    "jnd": 0.02,
+    "sameStep": true
+   },
+   "case": {
+    "seed": "#000000",
+    "reference": "opencolor",
+    "spacing": "even",
+    "lightness": "hk",
+    "gamut": "p3"
+   }
+  }
+ ],
+ "clean": 27
+}

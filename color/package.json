@@ -1,0 +1,33 @@
+{
+  "name": "palette-dna",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build:dna": "tsx scripts/build-dna.ts",
+    "fuzz": "tsx scripts/fuzz.ts",
+    "build:app": "tsx scripts/build-app.ts"
+  },
+  "dependencies": {
+    "@radix-ui/colors": "3.0.0",
+    "colorjs.io": "0.7.1",
+    "culori": "4.0.2",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@types/culori": "4.0.1",
+    "@types/node": "26.6.2",
+    "esbuild": "^0.25.12",
+    "fast-check": "4.10.2",
+    "playwright": "^1.56.1",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./dna/*": "./dna/*"
+  }
+}
