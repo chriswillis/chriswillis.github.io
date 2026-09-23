@@ -1,0 +1,50 @@
+system                  hues     steps  L mono.   transfer err ΔEOK (≤JND): absC        relC       hybrid        w(n) mean   1st≥4.5:1  logCR-SD  >sRGB  Δh range mean / max
+Open Color                12        10        yes    0.028 (47%)    0.020 (62%)    0.012 (80%)      0.60 mixed      none   0.22 nom     0%  15° / 43° (yellow)
+Open Props                16        13        yes    0.039 (35%)    0.023 (59%)    0.019 (68%)   0.71 relative        10   0.22 nom     0%  17° / 45° (choco)
+Tailwind CSS              17        11        yes    0.036 (42%)    0.013 (80%)    0.010 (89%)   0.81 relative       700   0.14 nom     0%  18° / 50° (amber)
+Tailwind CSS v4           17        11        yes    0.039 (40%)    0.014 (78%)    0.011 (87%)   0.80 relative       700   0.15 nom    50%  18° / 50° (amber)
+Material Design           13        10        yes    0.041 (39%)    0.038 (45%)    0.029 (58%)      0.49 mixed      none   0.42 nom     0%  22° / 49° (yellow)
+Adobe Spectrum            13        14        yes    0.047 (28%)    0.016 (72%)    0.013 (78%)   0.84 relative       900    0.00 CB     0%  13° / 38° (cyan)
+GitHub Primer              8        10        yes    0.027 (44%)    0.016 (67%)    0.010 (83%)      0.69 mixed         5    0.02 CB     0%  17° / 33° (yellow)
+Shopify Polaris           12        16        yes    0.049 (38%)    0.009 (86%)    0.009 (87%)   0.98 relative        12    0.04 CB     0%  14° / 35° (green)
+IBM Carbon                 9        10        yes    0.039 (37%)    0.011 (84%)    0.009 (85%)   0.84 relative        60    0.01 CB     0%  13° / 22° (cyan)
+Atlassian Design System     9        12        yes    0.031 (39%)    0.022 (60%)    0.016 (68%)      0.67 mixed       700   0.09 nom     0%  11° / 38° (orange)
+Web Awesome                9        11        yes    0.030 (45%)    0.018 (69%)    0.013 (80%)      0.64 mixed        50    0.00 CB     0%  13° / 40° (yellow)
+Radix Colors (light)      25        12    6 viol.    0.029 (56%)    0.028 (53%)    0.023 (61%)      0.37 mixed        11   0.12 nom     0%  19° / 46° (amber)
+Radix Colors (dark)       25        12    5 viol.    0.030 (50%)    0.030 (49%)    0.023 (64%)      0.50 mixed        11   0.14 nom     0%  18° / 45° (sky)
+
+w(n) per system (blend weight: 1 = relative chroma, 0 = absolute):
+  Open Color             0.55 0.50 0.30 0.40 0.70 0.70 0.70 0.75 0.70 0.65
+  Open Props             0.85 0.50 0.45 0.45 0.65 0.80 0.80 0.80 0.80 0.80 0.75 0.75 0.80
+  Tailwind CSS           0.65 0.80 0.65 0.65 0.90 0.80 0.85 0.90 0.90 0.90 0.90
+  Tailwind CSS v4        0.65 0.80 0.65 0.65 0.85 0.80 0.85 0.90 0.90 0.90 0.90
+  Material Design        0.00 0.00 0.00 0.25 0.50 0.75 0.75 0.80 0.90 0.95
+  Adobe Spectrum         0.80 0.85 0.80 0.80 0.80 0.80 0.75 0.80 0.85 0.95 1.00 0.95 0.90 0.75
+  GitHub Primer          1.00 0.65 0.55 0.45 0.60 0.70 0.65 0.65 0.70 0.90
+  Shopify Polaris        1.00 1.00 1.00 0.95 0.95 0.95 0.95 1.00 1.00 0.95 0.90 1.00 1.00 1.00 1.00 1.00
+  IBM Carbon             0.65 0.65 0.70 1.00 0.90 0.95 0.90 0.90 0.95 0.75
+  Atlassian Design System 1.00 0.55 0.70 0.95 0.55 0.65 0.60 0.65 0.65 0.70 0.45 0.60
+  Web Awesome            0.70 0.65 0.30 0.40 0.55 0.70 0.65 0.70 0.75 0.80 0.80
+  Radix Colors (light)   0.10 0.10 0.35 0.20 0.15 0.05 0.15 0.30 0.70 0.75 0.70 0.90
+  Radix Colors (dark)    0.45 0.60 0.45 0.50 0.45 0.40 0.40 0.45 0.70 0.60 0.60 0.35
+
+L monotonicity violations:
+  Radix Colors (light): iris 10→11, sky 8→9, mint 8→9, lime 8→9, yellow 8→9, amber 8→9
+  Radix Colors (dark): sky 10→11, mint 10→11, lime 10→11, yellow 10→11, amber 10→11
+
+Lowest step meeting 4.5:1 / 3:1 across all hues (vs white; vs own step 1 for dark scales), and contrast spread at that step:
+  Open Color             4.5:1 → null   3:1 → null      [white]
+  Open Props             4.5:1 →   10   3:1 →   10   at 10: 4.52–9.98   [white]
+  Tailwind CSS           4.5:1 →  700   3:1 →  700   at 700: 4.92–7.90   [white]
+  Tailwind CSS v4        4.5:1 →  700   3:1 →  700   at 700: 4.94–8.07   [white]
+  Material Design        4.5:1 → null   3:1 → null      [white]
+  Adobe Spectrum         4.5:1 →  900   3:1 →  700   at 900: 5.38–5.44   [white]
+  GitHub Primer          4.5:1 →    5   3:1 →    4   at 5: 4.87–5.35   [white]
+  Shopify Polaris        4.5:1 →   12   3:1 →   11   at 12: 4.56–6.00   [white]
+  IBM Carbon             4.5:1 →   60   3:1 →   50   at 60: 4.99–5.03   [white]
+  Atlassian Design System 4.5:1 →  700   3:1 →  600   at 700: 4.51–5.20   [white]
+  Web Awesome            4.5:1 →   50   3:1 →   50   at 50: 4.58–4.62   [white]
+  Radix Colors (light)   4.5:1 →   11   3:1 →   11   at 11: 4.51–6.17   [white]
+  Radix Colors (dark)    4.5:1 →   11   3:1 →    8   at 11: 8.72–14.04   [own step 1 (dark background)]
+
+wrote out/all-systems.json and out/dna/*.json

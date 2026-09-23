@@ -1,0 +1,5066 @@
+{
+ "seed": "#7c3aed",
+ "oneSeed": [
+  {
+   "dna": {
+    "id": "radix-light",
+    "name": "Radix Colors (light)",
+    "mode": "light",
+    "kinship": 0.612917,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "violet",
+      "weight": 0.7208851580464831,
+      "deltaDeg": 4.975753492480521
+     },
+     {
+      "family": "purple",
+      "weight": 0.2791148419535169,
+      "deltaDeg": 12.851150507519492
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.0839305190217699,
+    "mean": 0.07108014679957392,
+    "deltaE": [
+     0.06972565489686898,
+     0.07139262293856719,
+     0.07457310463933221,
+     0.07049921163428108,
+     0.07274989445104621,
+     0.0708668191490448,
+     0.08565332415090414,
+     0.07441255970033715,
+     0.0636206606406408,
+     0.06452990162532836,
+     0.06385786096896233
+    ]
+   },
+   "seed": {
+    "stepKey": "8",
+    "referenceStepKey": "9",
+    "gainApplied": 1.2,
+    "gainClamped": true
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [
+    "even spacing moved the seed from step 9 (where the reference's own placement puts it) to 8, which is where its lightness ranks; pass seedStep: '9' to keep the reference's step at the cost of uneven halves",
+    "seed chroma gain 1.35 clamped to 1.20 — the seed is more chromatic than Radix Colors (light)'s own curve allows; the seed step is exact, its neighbours follow the clamped curve, and the step next to the seed will read as a larger jump than the rest"
+   ],
+   "steps": [
+    {
+     "key": "1",
+     "hex": "#fdfcfe",
+     "native": "#fdfcfe",
+     "L": 0.992388090801302,
+     "C": 0.0028273614491624134,
+     "h": 308.42874123328056,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0228013416001365,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "2",
+     "hex": "#eee3ff",
+     "native": "#eee3ff",
+     "L": 0.9329178596452429,
+     "C": 0.03921576785752952,
+     "h": 303.4329109691538,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2304378910252318,
+     "apcaOnBg": 11.391924387212576,
+     "mappingDeltaE": 0.004847080446045489,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "3",
+     "hex": "#dccaff",
+     "native": "#dccaff",
+     "L": 0.8710113765901129,
+     "C": 0.074658933885307,
+     "h": 300.3863392117378,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.5069561830808715,
+     "apcaOnBg": 23.676882570643585,
+     "mappingDeltaE": 0.0070773099341620675,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "4",
+     "hex": "#c8b0fd",
+     "native": "#c8b0fd",
+     "L": 0.8052038653073098,
+     "C": 0.10957081936956206,
+     "h": 298.22125411932007,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8945539808193852,
+     "apcaOnBg": 35.984486627805836,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "5",
+     "hex": "#b597f7",
+     "native": "#b597f7",
+     "L": 0.7408164725922675,
+     "C": 0.1382156639918133,
+     "h": 297.3046999150678,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4042593534366032,
+     "apcaOnBg": 47.25548337039244,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "6",
+     "hex": "#a17df1",
+     "native": "#a17df1",
+     "L": 0.6745814525825747,
+     "C": 0.16806982874695808,
+     "h": 295.8881707935294,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.125442410412351,
+     "apcaOnBg": 58.08162044000294,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "7",
+     "hex": "#8d63e9",
+     "native": "#8d63e9",
+     "L": 0.6088614619031896,
+     "C": 0.1941421870028726,
+     "h": 294.3596502293086,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.122559409464609,
+     "apcaOnBg": 67.96431233442142,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "8",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "9",
+     "hex": "#6b41c0",
+     "native": "#6b41c0",
+     "L": 0.49524452482742737,
+     "C": 0.18820228452091692,
+     "h": 293.5444063278644,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 6.682719098465052,
+     "apcaOnBg": 82.42692801520188,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "10",
+     "hex": "#5836a2",
+     "native": "#5836a2",
+     "L": 0.4359787848765829,
+     "C": 0.1652143102635716,
+     "h": 292.7024938260041,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 8.521577069140443,
+     "apcaOnBg": 88.7885051912825,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "11",
+     "hex": "#462a85",
+     "native": "#462a85",
+     "L": 0.3750205160916975,
+     "C": 0.14409748462274438,
+     "h": 292.14210846354445,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 10.879181695556216,
+     "apcaOnBg": 94.67701107244196,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "12",
+     "hex": "#351f69",
+     "native": "#351f69",
+     "L": 0.315078834794925,
+     "C": 0.12213543560701212,
+     "h": 291.46064019805635,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 13.536570475095447,
+     "apcaOnBg": 99.59678013882639,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "polaris",
+    "name": "Shopify Polaris",
+    "mode": "light",
+    "kinship": 0.868845,
+    "numbering": "contrast-bearing"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "purple",
+      "weight": 0.8723352736197656,
+      "deltaDeg": 5.132714492480545
+     },
+     {
+      "family": "magenta",
+      "weight": 0.1276647263802344,
+      "deltaDeg": 35.07192650751938
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "reference",
+    "cv": 0.7196061031485348,
+    "mean": 0.05779812146570802,
+    "deltaE": [
+     0.016483538506000466,
+     0.01713512446001099,
+     0.014464274398502017,
+     0.019613169358347633,
+     0.017571228001971854,
+     0.014272221165111848,
+     0.034333993748199336,
+     0.04027900453134237,
+     0.09645562089606093,
+     0.09065647705180392,
+     0.08394310511278076,
+     0.07024075720076514,
+     0.09584087374715283,
+     0.11759389591046002,
+     0.1380885378971102
+    ]
+   },
+   "seed": {
+    "stepKey": "13",
+    "referenceStepKey": "13",
+    "gainApplied": 0.8864599754114878,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "1",
+     "hex": "#fdfdff",
+     "native": "#fdfdff",
+     "L": 0.9946076694396422,
+     "C": 0.002634391033570536,
+     "h": 286.3516247393163,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.015933785317549,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "2",
+     "hex": "#f9f7fe",
+     "native": "#f9f7fe",
+     "L": 0.9796527421428016,
+     "C": 0.009475348706885937,
+     "h": 299.24380139145455,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0625697441587736,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "3",
+     "hex": "#f4f1fd",
+     "native": "#f4f1fd",
+     "L": 0.9639117167625605,
+     "C": 0.01623510216132685,
+     "h": 297.5255245693363,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.1142290876521082,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "4",
+     "hex": "#f0ecfd",
+     "native": "#f0ecfd",
+     "L": 0.9511561468957807,
+     "C": 0.023049695641668116,
+     "h": 296.73084347839495,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.158837610697413,
+     "apcaOnBg": 7.485920908934557,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "5",
+     "hex": "#ebe5fc",
+     "native": "#ebe5fc",
+     "L": 0.9334455437988807,
+     "C": 0.0314637903573857,
+     "h": 297.71498258950896,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2247882625681081,
+     "apcaOnBg": 11.09907302909158,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "6",
+     "hex": "#e6dffc",
+     "native": "#e6dffc",
+     "L": 0.9179696367624259,
+     "C": 0.03975962581885068,
+     "h": 296.6608072546694,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2863446121173336,
+     "apcaOnBg": 14.208134266897387,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "7",
+     "hex": "#e2dafb",
+     "native": "#e2dafb",
+     "L": 0.9048709017139739,
+     "C": 0.045426732968130816,
+     "h": 296.5829664365142,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.3413966651146234,
+     "apcaOnBg": 16.79912240936201,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "8",
+     "hex": "#d9cefa",
+     "native": "#d9cefa",
+     "L": 0.8743565884908819,
+     "C": 0.061165208687521046,
+     "h": 296.56770033271755,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.4831243059129524,
+     "apcaOnBg": 22.768065440975196,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "9",
+     "hex": "#cec0f8",
+     "native": "#cec0f8",
+     "L": 0.8380605577293273,
+     "C": 0.07862111138755454,
+     "h": 296.12443801832137,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.677358324367368,
+     "apcaOnBg": 29.64394551613372,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "10",
+     "hex": "#b69ef5",
+     "native": "#b69ef5",
+     "L": 0.7533440796852398,
+     "C": 0.12473745845309482,
+     "h": 295.9531157175445,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.283034160372704,
+     "apcaOnBg": 44.946203894699245,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "11",
+     "hex": "#a07df1",
+     "native": "#a07df1",
+     "L": 0.6736720475314959,
+     "C": 0.1679732916123687,
+     "h": 295.4482453358146,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.1351012878462616,
+     "apcaOnBg": 58.202576628143824,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "12",
+     "hex": "#8c5cef",
+     "native": "#8c5cef",
+     "L": 0.601551581493933,
+     "C": 0.21073171620406916,
+     "h": 294.199982685476,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.292413814758224,
+     "apcaOnBg": 69.20794696343688,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "13",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "14",
+     "hex": "#6024c0",
+     "native": "#6024c0",
+     "L": 0.44968041588681157,
+     "C": 0.2186386622800255,
+     "h": 292.54883440623894,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 8.363657487639783,
+     "apcaOnBg": 87.62858049888449,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "15",
+     "hex": "#411685",
+     "native": "#411685",
+     "L": 0.3442084131532196,
+     "C": 0.16664636816551834,
+     "h": 292.8143325300732,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 12.51326982286098,
+     "apcaOnBg": 97.33603003352322,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "16",
+     "hex": "#1f0746",
+     "native": "#1f0746",
+     "L": 0.21996103887133314,
+     "C": 0.10638966789672154,
+     "h": 292.6398841063178,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 17.840575782377897,
+     "apcaOnBg": 104.05739752031285,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "material",
+    "name": "Material Design",
+    "mode": "light",
+    "kinship": 0.575641,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "indigo",
+      "weight": 0.5664506969778794,
+      "deltaDeg": 21.6063504924806
+     },
+     {
+      "family": "purple",
+      "weight": 0.4335493030221206,
+      "deltaDeg": 28.22962050751937
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.1008856000185165,
+    "mean": 0.07570911734433014,
+    "deltaE": [
+     0.07457071791011494,
+     0.07203074503177623,
+     0.07478717593841823,
+     0.07219920271719513,
+     0.07469662513477833,
+     0.09696849311619385,
+     0.07345986885302848,
+     0.07193964469707775,
+     0.07072958270038836
+    ]
+   },
+   "seed": {
+    "stepKey": "600",
+    "referenceStepKey": "500",
+    "gainApplied": 1.2,
+    "gainClamped": true
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [
+    "even spacing moved the seed from step 500 (where the reference's own placement puts it) to 600, which is where its lightness ranks; pass seedStep: '500' to keep the reference's step at the cost of uneven halves",
+    "seed chroma gain 1.41 clamped to 1.20 — the seed is more chromatic than Material Design's own curve allows; the seed step is exact, its neighbours follow the clamped curve, and the step next to the seed will read as a larger jump than the rest"
+   ],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#ece8fa",
+     "native": "#ece8fa",
+     "L": 0.9394021667154776,
+     "C": 0.024446705347024908,
+     "h": 296.1069578486113,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2007104120166878,
+     "apcaOnBg": 9.816654519675305,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#d7cef5",
+     "native": "#d7cef5",
+     "L": 0.8710007018172701,
+     "C": 0.05414520216816826,
+     "h": 295.83032578044777,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.4961042667671482,
+     "apcaOnBg": 23.274832606321286,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#c3b5ef",
+     "native": "#c3b5ef",
+     "L": 0.8046360064039407,
+     "C": 0.08214630067216988,
+     "h": 295.5670464726776,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8789638687643044,
+     "apcaOnBg": 35.59583783018481,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#af9be9",
+     "native": "#af9be9",
+     "L": 0.7362845354959724,
+     "C": 0.11249372593576808,
+     "h": 295.2800309347582,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4171348003408095,
+     "apcaOnBg": 47.53994409004929,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#9b82e1",
+     "native": "#9b82e1",
+     "L": 0.6691154943055938,
+     "C": 0.13890999271164753,
+     "h": 294.4568361208378,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.146532261757376,
+     "apcaOnBg": 58.42554020019166,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#8867db",
+     "native": "#8867db",
+     "L": 0.6014896074809931,
+     "C": 0.17057648714717663,
+     "h": 293.7546949404783,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.191750597640792,
+     "apcaOnBg": 68.63239855722158,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#6430c9",
+     "native": "#6430c9",
+     "L": 0.47428763244460886,
+     "C": 0.21746602952669974,
+     "h": 291.2118102665785,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.478509048522574,
+     "apcaOnBg": 85.00949031559121,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#4a1faf",
+     "native": "#4a1faf",
+     "L": 0.40550955790382665,
+     "C": 0.20512704769583712,
+     "h": 286.5698657489694,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.97069658683297,
+     "apcaOnBg": 91.90778083758052,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#310a97",
+     "native": "#310a97",
+     "L": 0.33861743211921036,
+     "C": 0.19534365236415657,
+     "h": 280.61528614402937,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 12.956103564969043,
+     "apcaOnBg": 97.41411161816971,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "violet",
+      "weight": 0.999996509096597,
+      "deltaDeg": 0.00003250751944960939
+     },
+     {
+      "family": "purple",
+      "weight": 0.000003490903403013945,
+      "deltaDeg": 9.312032507519461
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.058423591604844324,
+    "mean": 0.07758995755307002,
+    "deltaE": [
+     0.08140435083751406,
+     0.0810587150971568,
+     0.07979058251863175,
+     0.08246217631210577,
+     0.08038744941749158,
+     0.081937836605153,
+     0.06989282045775276,
+     0.0724890325122438,
+     0.07371593061907504,
+     0.07276068115357555
+    ]
+   },
+   "seed": {
+    "stepKey": "600",
+    "referenceStepKey": "600",
+    "gainApplied": 0.8780406605202731,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#f5f3fe",
+     "native": "#f5f3fe",
+     "L": 0.9688472101430743,
+     "C": 0.014739922334756144,
+     "h": 294.4718370891443,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0975294868361491,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#ddd7fb",
+     "native": "#ddd7fb",
+     "L": 0.895163528000024,
+     "C": 0.04933640829778371,
+     "h": 293.02066320987274,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.3827066760007265,
+     "apcaOnBg": 18.637583361429204,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#c8bbfb",
+     "native": "#c8bbfb",
+     "L": 0.8248923565006634,
+     "C": 0.08973368781009117,
+     "h": 293.6520212192512,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.7562934492286602,
+     "apcaOnBg": 32.09221742344209,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#b49ffa",
+     "native": "#b49ffa",
+     "L": 0.755831544325381,
+     "C": 0.129697932431951,
+     "h": 293.6630619844681,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.2628500891214367,
+     "apcaOnBg": 44.53283442280494,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#a081f8",
+     "native": "#a081f8",
+     "L": 0.6844797514811651,
+     "C": 0.17102964290871456,
+     "h": 293.35968865721713,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.004174078105314,
+     "apcaOnBg": 56.53061234045636,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#8e61f7",
+     "native": "#8e61f7",
+     "L": 0.6164122931497,
+     "C": 0.2137649467949536,
+     "h": 292.8712488671581,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.036049573718875,
+     "apcaOnBg": 67.14980640900606,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#6729cd",
+     "native": "#6729cd",
+     "L": 0.47398261632370176,
+     "C": 0.2280881798610646,
+     "h": 292.40670606640265,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.566362781982792,
+     "apcaOnBg": 85.10084453772545,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#5525a5",
+     "native": "#5525a5",
+     "L": 0.41333763180418104,
+     "C": 0.18852590562144944,
+     "h": 293.3506929469239,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.570642476615799,
+     "apcaOnBg": 91.20905476519967,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#411f80",
+     "native": "#411f80",
+     "L": 0.34954390408504826,
+     "C": 0.15162143842546189,
+     "h": 292.8192698451214,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 12.121491232428378,
+     "apcaOnBg": 96.9528474582115,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#2d1560",
+     "native": "#2d1560",
+     "L": 0.28262576497339353,
+     "C": 0.1233969767505478,
+     "h": 290.97140270473005,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 15.132438341637702,
+     "apcaOnBg": 101.50116867095223,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "carbon",
+    "name": "IBM Carbon",
+    "mode": "light",
+    "kinship": 0.845833,
+    "numbering": "contrast-bearing"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "purple",
+      "weight": 0.9428534036148456,
+      "deltaDeg": 1.8823175075193603
+     },
+     {
+      "family": "blue",
+      "weight": 0.0571465963851544,
+      "deltaDeg": 31.056083492480525
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "reference",
+    "cv": 0.14924495761687478,
+    "mean": 0.0965921473706362,
+    "deltaE": [
+     0.06700043949343236,
+     0.09147216860692094,
+     0.10826260221208223,
+     0.10539004607447866,
+     0.11264698465499708,
+     0.11270054138291018,
+     0.09989098940784487,
+     0.08507797790728777,
+     0.08688757659577169
+    ]
+   },
+   "seed": {
+    "stepKey": "60",
+    "referenceStepKey": "60",
+    "gainApplied": 0.8950323231871357,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "10",
+     "hex": "#f5f2fe",
+     "native": "#f5f2fe",
+     "L": 0.9669113081748699,
+     "C": 0.01622237473670143,
+     "h": 297.5266883165325,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.1044201391306636,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "20",
+     "hex": "#e5dafc",
+     "native": "#e5dafc",
+     "L": 0.9075813744100356,
+     "C": 0.04732430455889569,
+     "h": 300.2134259979998,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.331993592732191,
+     "apcaOnBg": 16.366847140816677,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "30",
+     "hex": "#cdbaf9",
+     "native": "#cdbaf9",
+     "L": 0.826309832541612,
+     "C": 0.08924284987299655,
+     "h": 298.25582635489195,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.7518506668935279,
+     "apcaOnBg": 31.95696802893766,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "40",
+     "hex": "#b493f6",
+     "native": "#b493f6",
+     "L": 0.7323586211806589,
+     "C": 0.1430379824376333,
+     "h": 298.14868856520457,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4866953252368944,
+     "apcaOnBg": 48.731147270920914,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "50",
+     "hex": "#996cf3",
+     "native": "#996cf3",
+     "L": 0.640739470321606,
+     "C": 0.19467057098604007,
+     "h": 295.7928583766284,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.624617055511166,
+     "apcaOnBg": 63.49660788195792,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "60",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "70",
+     "hex": "#5d2fb0",
+     "native": "#5d2fb0",
+     "L": 0.44355110636872086,
+     "C": 0.19056886100848774,
+     "h": 293.3217325096425,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 8.403509393349028,
+     "apcaOnBg": 88.17400423085121,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "80",
+     "hex": "#42227f",
+     "native": "#42227f",
+     "L": 0.3537527351356338,
+     "C": 0.14681765829064808,
+     "h": 293.1358293136052,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 11.885073434082848,
+     "apcaOnBg": 96.59306495937665,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "90",
+     "hex": "#2d1658",
+     "native": "#2d1658",
+     "L": 0.2762997682972508,
+     "C": 0.1116416262526271,
+     "h": 293.7602942753008,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 15.359207945745254,
+     "apcaOnBg": 101.86143879150467,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#1b102f",
+     "native": "#1b102f",
+     "L": 0.20675147560214538,
+     "C": 0.05980047924181942,
+     "h": 297.2656619246892,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 18.07591567806465,
+     "apcaOnBg": 104.67670066217423,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  }
+ ],
+ "oneSeedEven": [
+  {
+   "dna": {
+    "id": "radix-light",
+    "name": "Radix Colors (light)",
+    "mode": "light",
+    "kinship": 0.612917,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "violet",
+      "weight": 0.7208851580464831,
+      "deltaDeg": 4.975753492480521
+     },
+     {
+      "family": "purple",
+      "weight": 0.2791148419535169,
+      "deltaDeg": 12.851150507519492
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.0839305190217699,
+    "mean": 0.07108014679957392,
+    "deltaE": [
+     0.06972565489686898,
+     0.07139262293856719,
+     0.07457310463933221,
+     0.07049921163428108,
+     0.07274989445104621,
+     0.0708668191490448,
+     0.08565332415090414,
+     0.07441255970033715,
+     0.0636206606406408,
+     0.06452990162532836,
+     0.06385786096896233
+    ]
+   },
+   "seed": {
+    "stepKey": "8",
+    "referenceStepKey": "9",
+    "gainApplied": 1.2,
+    "gainClamped": true
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [
+    "even spacing moved the seed from step 9 (where the reference's own placement puts it) to 8, which is where its lightness ranks; pass seedStep: '9' to keep the reference's step at the cost of uneven halves",
+    "seed chroma gain 1.35 clamped to 1.20 — the seed is more chromatic than Radix Colors (light)'s own curve allows; the seed step is exact, its neighbours follow the clamped curve, and the step next to the seed will read as a larger jump than the rest"
+   ],
+   "steps": [
+    {
+     "key": "1",
+     "hex": "#fdfcfe",
+     "native": "#fdfcfe",
+     "L": 0.992388090801302,
+     "C": 0.0028273614491624134,
+     "h": 308.42874123328056,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0228013416001365,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "2",
+     "hex": "#eee3ff",
+     "native": "#eee3ff",
+     "L": 0.9329178596452429,
+     "C": 0.03921576785752952,
+     "h": 303.4329109691538,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2304378910252318,
+     "apcaOnBg": 11.391924387212576,
+     "mappingDeltaE": 0.004847080446045489,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "3",
+     "hex": "#dccaff",
+     "native": "#dccaff",
+     "L": 0.8710113765901129,
+     "C": 0.074658933885307,
+     "h": 300.3863392117378,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.5069561830808715,
+     "apcaOnBg": 23.676882570643585,
+     "mappingDeltaE": 0.0070773099341620675,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "4",
+     "hex": "#c8b0fd",
+     "native": "#c8b0fd",
+     "L": 0.8052038653073098,
+     "C": 0.10957081936956206,
+     "h": 298.22125411932007,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8945539808193852,
+     "apcaOnBg": 35.984486627805836,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "5",
+     "hex": "#b597f7",
+     "native": "#b597f7",
+     "L": 0.7408164725922675,
+     "C": 0.1382156639918133,
+     "h": 297.3046999150678,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4042593534366032,
+     "apcaOnBg": 47.25548337039244,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "6",
+     "hex": "#a17df1",
+     "native": "#a17df1",
+     "L": 0.6745814525825747,
+     "C": 0.16806982874695808,
+     "h": 295.8881707935294,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.125442410412351,
+     "apcaOnBg": 58.08162044000294,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "7",
+     "hex": "#8d63e9",
+     "native": "#8d63e9",
+     "L": 0.6088614619031896,
+     "C": 0.1941421870028726,
+     "h": 294.3596502293086,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.122559409464609,
+     "apcaOnBg": 67.96431233442142,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "8",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "9",
+     "hex": "#6b41c0",
+     "native": "#6b41c0",
+     "L": 0.49524452482742737,
+     "C": 0.18820228452091692,
+     "h": 293.5444063278644,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 6.682719098465052,
+     "apcaOnBg": 82.42692801520188,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "10",
+     "hex": "#5836a2",
+     "native": "#5836a2",
+     "L": 0.4359787848765829,
+     "C": 0.1652143102635716,
+     "h": 292.7024938260041,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 8.521577069140443,
+     "apcaOnBg": 88.7885051912825,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "11",
+     "hex": "#462a85",
+     "native": "#462a85",
+     "L": 0.3750205160916975,
+     "C": 0.14409748462274438,
+     "h": 292.14210846354445,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 10.879181695556216,
+     "apcaOnBg": 94.67701107244196,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "12",
+     "hex": "#351f69",
+     "native": "#351f69",
+     "L": 0.315078834794925,
+     "C": 0.12213543560701212,
+     "h": 291.46064019805635,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 13.536570475095447,
+     "apcaOnBg": 99.59678013882639,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "polaris",
+    "name": "Shopify Polaris",
+    "mode": "light",
+    "kinship": 0.868845,
+    "numbering": "contrast-bearing"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "purple",
+      "weight": 0.8723352736197656,
+      "deltaDeg": 5.132714492480545
+     },
+     {
+      "family": "magenta",
+      "weight": 0.1276647263802344,
+      "deltaDeg": 35.07192650751938
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.022309149635487815,
+    "mean": 0.057860987879207494,
+    "deltaE": [
+     0.05646258055398553,
+     0.05754697340975092,
+     0.05697410254754968,
+     0.057644770230600856,
+     0.058725292057817124,
+     0.05540744878827198,
+     0.05822358072516962,
+     0.05789582043713676,
+     0.056569305186707504,
+     0.05663730871487411,
+     0.057781673516171236,
+     0.059570732414505764,
+     0.05928469374647199,
+     0.05886422823989249,
+     0.06032630761920692
+    ]
+   },
+   "seed": {
+    "stepKey": "10",
+    "referenceStepKey": "13",
+    "gainApplied": 0.8861922165640738,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [
+    "even spacing moved the seed from step 13 (where the reference's own placement puts it) to 10, which is where its lightness ranks; pass seedStep: '13' to keep the reference's step at the cost of uneven halves"
+   ],
+   "steps": [
+    {
+     "key": "1",
+     "hex": "#fdfdff",
+     "native": "#fdfdff",
+     "L": 0.9946076694396422,
+     "C": 0.002634391033570536,
+     "h": 286.3516247393163,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.015933785317549,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "2",
+     "hex": "#eee9fd",
+     "native": "#eee9fd",
+     "L": 0.9438112942167465,
+     "C": 0.02723386601800886,
+     "h": 297.31136157790183,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.1858129793723395,
+     "apcaOnBg": 9.001448425293262,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "3",
+     "hex": "#ded5fb",
+     "native": "#ded5fb",
+     "L": 0.892100630838765,
+     "C": 0.05247459872220879,
+     "h": 296.17022854212155,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.3984495214612471,
+     "apcaOnBg": 19.314791079116215,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "4",
+     "hex": "#cfc1f8",
+     "native": "#cfc1f8",
+     "L": 0.8407728335911433,
+     "C": 0.07720222010886632,
+     "h": 296.37218267668857,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.6618478492004012,
+     "apcaOnBg": 29.14109255270521,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "5",
+     "hex": "#c0adf7",
+     "native": "#c0adf7",
+     "L": 0.7903620899620397,
+     "C": 0.10514002986789948,
+     "h": 295.6886428932743,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.9882959179937867,
+     "apcaOnBg": 38.404983808678935,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "6",
+     "hex": "#b298f5",
+     "native": "#b298f5",
+     "L": 0.7390181456489991,
+     "C": 0.13364234710560513,
+     "h": 295.82296157426094,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4130124049956665,
+     "apcaOnBg": 47.42813500082907,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "7",
+     "hex": "#a484f2",
+     "native": "#a484f2",
+     "L": 0.6898046247476026,
+     "C": 0.15906681393007935,
+     "h": 295.3241451781953,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.9324784871999445,
+     "apcaOnBg": 55.59968454071335,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "8",
+     "hex": "#966eef",
+     "native": "#966eef",
+     "L": 0.6385451398305909,
+     "C": 0.18664427610391096,
+     "h": 294.8616891198834,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.63725496774792,
+     "apcaOnBg": 63.66101283312727,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "9",
+     "hex": "#8956ef",
+     "native": "#8956ef",
+     "L": 0.590138744448911,
+     "C": 0.21825980583322624,
+     "h": 294.0004001528507,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.524700035470546,
+     "apcaOnBg": 70.85936279066533,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "10",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "11",
+     "hex": "#6b29d5",
+     "native": "#6b29d5",
+     "L": 0.4856751784550172,
+     "C": 0.23636667931323116,
+     "h": 292.4728360284572,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.233514766223681,
+     "apcaOnBg": 83.85700669797706,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "12",
+     "hex": "#5b22b7",
+     "native": "#5b22b7",
+     "L": 0.43385496381227884,
+     "C": 0.21080550358486327,
+     "h": 292.44307456391175,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 8.90804896012763,
+     "apcaOnBg": 89.21464532310269,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "13",
+     "hex": "#4b1b99",
+     "native": "#4b1b99",
+     "L": 0.3804364763734534,
+     "C": 0.18444041985420223,
+     "h": 292.4022701319127,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 10.960763510923393,
+     "apcaOnBg": 94.23582199560647,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "14",
+     "hex": "#3c147c",
+     "native": "#3c147c",
+     "L": 0.3272598945581362,
+     "C": 0.1582442605357485,
+     "h": 292.68030735123284,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 13.26392963580293,
+     "apcaOnBg": 98.68071180710584,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "15",
+     "hex": "#2d0d61",
+     "native": "#2d0d61",
+     "L": 0.2739683236193858,
+     "C": 0.1332605338271968,
+     "h": 292.3231889137069,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 15.651081693810928,
+     "apcaOnBg": 101.84613255624642,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "16",
+     "hex": "#1f0746",
+     "native": "#1f0746",
+     "L": 0.21996103887133314,
+     "C": 0.10638966789672154,
+     "h": 292.6398841063178,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 17.840575782377897,
+     "apcaOnBg": 104.05739752031285,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "material",
+    "name": "Material Design",
+    "mode": "light",
+    "kinship": 0.575641,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "indigo",
+      "weight": 0.5664506969778794,
+      "deltaDeg": 21.6063504924806
+     },
+     {
+      "family": "purple",
+      "weight": 0.4335493030221206,
+      "deltaDeg": 28.22962050751937
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.1008856000185165,
+    "mean": 0.07570911734433014,
+    "deltaE": [
+     0.07457071791011494,
+     0.07203074503177623,
+     0.07478717593841823,
+     0.07219920271719513,
+     0.07469662513477833,
+     0.09696849311619385,
+     0.07345986885302848,
+     0.07193964469707775,
+     0.07072958270038836
+    ]
+   },
+   "seed": {
+    "stepKey": "600",
+    "referenceStepKey": "500",
+    "gainApplied": 1.2,
+    "gainClamped": true
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [
+    "even spacing moved the seed from step 500 (where the reference's own placement puts it) to 600, which is where its lightness ranks; pass seedStep: '500' to keep the reference's step at the cost of uneven halves",
+    "seed chroma gain 1.41 clamped to 1.20 — the seed is more chromatic than Material Design's own curve allows; the seed step is exact, its neighbours follow the clamped curve, and the step next to the seed will read as a larger jump than the rest"
+   ],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#ece8fa",
+     "native": "#ece8fa",
+     "L": 0.9394021667154776,
+     "C": 0.024446705347024908,
+     "h": 296.1069578486113,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2007104120166878,
+     "apcaOnBg": 9.816654519675305,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#d7cef5",
+     "native": "#d7cef5",
+     "L": 0.8710007018172701,
+     "C": 0.05414520216816826,
+     "h": 295.83032578044777,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.4961042667671482,
+     "apcaOnBg": 23.274832606321286,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#c3b5ef",
+     "native": "#c3b5ef",
+     "L": 0.8046360064039407,
+     "C": 0.08214630067216988,
+     "h": 295.5670464726776,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8789638687643044,
+     "apcaOnBg": 35.59583783018481,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#af9be9",
+     "native": "#af9be9",
+     "L": 0.7362845354959724,
+     "C": 0.11249372593576808,
+     "h": 295.2800309347582,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.4171348003408095,
+     "apcaOnBg": 47.53994409004929,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#9b82e1",
+     "native": "#9b82e1",
+     "L": 0.6691154943055938,
+     "C": 0.13890999271164753,
+     "h": 294.4568361208378,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.146532261757376,
+     "apcaOnBg": 58.42554020019166,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#8867db",
+     "native": "#8867db",
+     "L": 0.6014896074809931,
+     "C": 0.17057648714717663,
+     "h": 293.7546949404783,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.191750597640792,
+     "apcaOnBg": 68.63239855722158,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#6430c9",
+     "native": "#6430c9",
+     "L": 0.47428763244460886,
+     "C": 0.21746602952669974,
+     "h": 291.2118102665785,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.478509048522574,
+     "apcaOnBg": 85.00949031559121,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#4a1faf",
+     "native": "#4a1faf",
+     "L": 0.40550955790382665,
+     "C": 0.20512704769583712,
+     "h": 286.5698657489694,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.97069658683297,
+     "apcaOnBg": 91.90778083758052,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#310a97",
+     "native": "#310a97",
+     "L": 0.33861743211921036,
+     "C": 0.19534365236415657,
+     "h": 280.61528614402937,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 12.956103564969043,
+     "apcaOnBg": 97.41411161816971,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "violet",
+      "weight": 0.999996509096597,
+      "deltaDeg": 0.00003250751944960939
+     },
+     {
+      "family": "purple",
+      "weight": 0.000003490903403013945,
+      "deltaDeg": 9.312032507519461
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.058423591604844324,
+    "mean": 0.07758995755307002,
+    "deltaE": [
+     0.08140435083751406,
+     0.0810587150971568,
+     0.07979058251863175,
+     0.08246217631210577,
+     0.08038744941749158,
+     0.081937836605153,
+     0.06989282045775276,
+     0.0724890325122438,
+     0.07371593061907504,
+     0.07276068115357555
+    ]
+   },
+   "seed": {
+    "stepKey": "600",
+    "referenceStepKey": "600",
+    "gainApplied": 0.8780406605202731,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#f5f3fe",
+     "native": "#f5f3fe",
+     "L": 0.9688472101430743,
+     "C": 0.014739922334756144,
+     "h": 294.4718370891443,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0975294868361491,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#ddd7fb",
+     "native": "#ddd7fb",
+     "L": 0.895163528000024,
+     "C": 0.04933640829778371,
+     "h": 293.02066320987274,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.3827066760007265,
+     "apcaOnBg": 18.637583361429204,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#c8bbfb",
+     "native": "#c8bbfb",
+     "L": 0.8248923565006634,
+     "C": 0.08973368781009117,
+     "h": 293.6520212192512,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.7562934492286602,
+     "apcaOnBg": 32.09221742344209,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#b49ffa",
+     "native": "#b49ffa",
+     "L": 0.755831544325381,
+     "C": 0.129697932431951,
+     "h": 293.6630619844681,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.2628500891214367,
+     "apcaOnBg": 44.53283442280494,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#a081f8",
+     "native": "#a081f8",
+     "L": 0.6844797514811651,
+     "C": 0.17102964290871456,
+     "h": 293.35968865721713,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.004174078105314,
+     "apcaOnBg": 56.53061234045636,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#8e61f7",
+     "native": "#8e61f7",
+     "L": 0.6164122931497,
+     "C": 0.2137649467949536,
+     "h": 292.8712488671581,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.036049573718875,
+     "apcaOnBg": 67.14980640900606,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#6729cd",
+     "native": "#6729cd",
+     "L": 0.47398261632370176,
+     "C": 0.2280881798610646,
+     "h": 292.40670606640265,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.566362781982792,
+     "apcaOnBg": 85.10084453772545,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#5525a5",
+     "native": "#5525a5",
+     "L": 0.41333763180418104,
+     "C": 0.18852590562144944,
+     "h": 293.3506929469239,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.570642476615799,
+     "apcaOnBg": 91.20905476519967,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#411f80",
+     "native": "#411f80",
+     "L": 0.34954390408504826,
+     "C": 0.15162143842546189,
+     "h": 292.8192698451214,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 12.121491232428378,
+     "apcaOnBg": 96.9528474582115,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#2d1560",
+     "native": "#2d1560",
+     "L": 0.28262576497339353,
+     "C": 0.1233969767505478,
+     "h": 290.97140270473005,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 15.132438341637702,
+     "apcaOnBg": 101.50116867095223,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "carbon",
+    "name": "IBM Carbon",
+    "mode": "light",
+    "kinship": 0.845833,
+    "numbering": "contrast-bearing"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "purple",
+      "weight": 0.9428534036148456,
+      "deltaDeg": 1.8823175075193603
+     },
+     {
+      "family": "blue",
+      "weight": 0.0571465963851544,
+      "deltaDeg": 31.056083492480525
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.01242119772468676,
+    "mean": 0.0964396194233562,
+    "deltaE": [
+     0.09549280986268772,
+     0.09886706153043953,
+     0.09694390436246604,
+     0.09626928571022116,
+     0.09741581287647398,
+     0.09431848034373962,
+     0.09654805985337639,
+     0.09624512691426125,
+     0.09585603335654017
+    ]
+   },
+   "seed": {
+    "stepKey": "60",
+    "referenceStepKey": "60",
+    "gainApplied": 0.9255228422358859,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "10",
+     "hex": "#f5f2fe",
+     "native": "#f5f2fe",
+     "L": 0.9669113081748699,
+     "C": 0.01622237473670143,
+     "h": 297.5266883165325,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.1044201391306636,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "20",
+     "hex": "#ded0fc",
+     "native": "#ded0fc",
+     "L": 0.8828975881320733,
+     "C": 0.06160036096574575,
+     "h": 299.67897708385226,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.4448928938480068,
+     "apcaOnBg": 21.244906450012575,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "30",
+     "hex": "#c6adfa",
+     "native": "#c6adfa",
+     "L": 0.7967135295668207,
+     "C": 0.11002964111607232,
+     "h": 298.7962592579645,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.9518472336402652,
+     "apcaOnBg": 37.47930454021166,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "40",
+     "hex": "#af8af9",
+     "native": "#af8af9",
+     "L": 0.7137947972625793,
+     "C": 0.16017482499869004,
+     "h": 297.57057098480914,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.6833206955186375,
+     "apcaOnBg": 51.95072653711762,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "50",
+     "hex": "#9566f6",
+     "native": "#9566f6",
+     "L": 0.6297416671010478,
+     "C": 0.20628942538269626,
+     "h": 294.8172077651923,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.811781855294214,
+     "apcaOnBg": 65.22064517111518,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "60",
+     "hex": "#7c3aed",
+     "native": "#7c3aed",
+     "L": 0.5413370870268791,
+     "C": 0.24658594545285942,
+     "h": 293.00896749248056,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 5.6985853297405535,
+     "apcaOnBg": 77.46733396020808,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "70",
+     "hex": "#6230ba",
+     "native": "#6230ba",
+     "L": 0.4588163456940894,
+     "C": 0.20092794070746686,
+     "h": 293.33957027853717,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.921089569809902,
+     "apcaOnBg": 86.61679076087172,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "80",
+     "hex": "#48238a",
+     "native": "#48238a",
+     "L": 0.3717545638954679,
+     "C": 0.1591973750680739,
+     "h": 293.52468664182743,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 11.152696025854297,
+     "apcaOnBg": 95.03313612595201,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "90",
+     "hex": "#30165d",
+     "native": "#30165d",
+     "L": 0.2846224679695502,
+     "C": 0.11836740837855352,
+     "h": 294.36322956680533,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 15.016052897867453,
+     "apcaOnBg": 101.41708246944422,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#1b1030",
+     "native": "#1b1030",
+     "L": 0.20757902890323346,
+     "C": 0.06142633583518824,
+     "h": 296.53049038565155,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 18.050548262123044,
+     "apcaOnBg": 104.65062420046232,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  }
+ ],
+ "roleKept": {
+  "dna": {
+   "id": "radix-light",
+   "name": "Radix Colors (light)",
+   "mode": "light",
+   "kinship": 0.612917,
+   "numbering": "nominal"
+  },
+  "selection": {
+   "families": [
+    {
+     "family": "violet",
+     "weight": 0.7208851580464831,
+     "deltaDeg": 4.975753492480521
+    },
+    {
+     "family": "purple",
+     "weight": 0.2791148419535169,
+     "deltaDeg": 12.851150507519492
+    }
+   ],
+   "rule": "nearest-two"
+  },
+  "spacing": {
+   "mode": "even",
+   "cv": 0.16084076243364925,
+   "mean": 0.07093284511211935,
+   "deltaE": [
+    0.06128228718037658,
+    0.06288392606453921,
+    0.06300932355783274,
+    0.06236689906111541,
+    0.06433659966712352,
+    0.06208668956966435,
+    0.06355237414718642,
+    0.07630462156323568,
+    0.09349487374868137,
+    0.08610920784405506,
+    0.08483449382950245
+   ]
+  },
+  "seed": {
+   "stepKey": "9",
+   "referenceStepKey": "9",
+   "gainApplied": 1.2,
+   "gainClamped": true
+  },
+  "mode": 0,
+  "gamut": "srgb",
+  "background": "#ffffff",
+  "warnings": [
+   "seed chroma gain 1.35 clamped to 1.20 — the seed is more chromatic than Radix Colors (light)'s own curve allows; the seed step is exact, its neighbours follow the clamped curve, and the step next to the seed will read as a larger jump than the rest"
+  ],
+  "steps": [
+   {
+    "key": "1",
+    "hex": "#fdfcfe",
+    "native": "#fdfcfe",
+    "L": 0.992388090801302,
+    "C": 0.0028273614491624134,
+    "h": 308.42874123328056,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.0228013416001365,
+    "apcaOnBg": 0,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "2",
+    "hex": "#f0e6ff",
+    "native": "#f0e6ff",
+    "L": 0.9402348398444083,
+    "C": 0.03499745787043215,
+    "h": 303.8122730053983,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.2022114427566137,
+    "apcaOnBg": 9.894895659221357,
+    "mappingDeltaE": 0.004151221716426935,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "3",
+    "hex": "#e0d0ff",
+    "native": "#e0d0ff",
+    "L": 0.885580267080753,
+    "C": 0.06598193785873953,
+    "h": 300.6063538599185,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.4348337982161665,
+    "apcaOnBg": 20.83114522633768,
+    "mappingDeltaE": 0.006992702390020244,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "4",
+    "hex": "#d0baff",
+    "native": "#d0baff",
+    "L": 0.8312133619451442,
+    "C": 0.09774056379034683,
+    "h": 298.8874220075397,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.7284558970800203,
+    "apcaOnBg": 31.235310607835103,
+    "mappingDeltaE": 0.0010840367647196737,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "5",
+    "hex": "#bfa4fa",
+    "native": "#bfa4fa",
+    "L": 0.7742931552489878,
+    "C": 0.1231604428479547,
+    "h": 297.9034924225799,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 2.1199466972021566,
+    "apcaOnBg": 41.48559284163,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "6",
+    "hex": "#ae8df5",
+    "native": "#ae8df5",
+    "L": 0.7159753529921473,
+    "C": 0.15025929263810978,
+    "h": 297.0733959384536,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 2.6487653293781097,
+    "apcaOnBg": 51.4311280403439,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "7",
+    "hex": "#9c77ef",
+    "native": "#9c77ef",
+    "L": 0.658794170629987,
+    "C": 0.17400715863779032,
+    "h": 295.4453776013271,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 3.334008390320486,
+    "apcaOnBg": 60.52280311277318,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "8",
+    "hex": "#8b5fe8",
+    "native": "#8b5fe8",
+    "L": 0.6001553620674821,
+    "C": 0.19830202364803032,
+    "h": 294.46250373851274,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 4.2857826457114,
+    "apcaOnBg": 69.2296770076461,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "9",
+    "hex": "#7c3aed",
+    "native": "#7c3aed",
+    "L": 0.5413370870268791,
+    "C": 0.24658594545285942,
+    "h": 293.00896749248056,
+    "isSeed": true,
+    "detached": false,
+    "wcagVsBg": 5.6985853297405535,
+    "apcaOnBg": 77.46733396020808,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "10",
+    "hex": "#643eb6",
+    "native": "#643eb6",
+    "L": 0.47598095577111116,
+    "C": 0.17973153815354262,
+    "h": 292.84663761935906,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 7.225453568831327,
+    "apcaOnBg": 84.54582155300213,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "11",
+    "hex": "#4c2e8e",
+    "native": "#4c2e8e",
+    "L": 0.3950374401728755,
+    "C": 0.1503704652472627,
+    "h": 292.521491749347,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 10.054127372251823,
+    "apcaOnBg": 92.82130245851945,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "12",
+    "hex": "#351f69",
+    "native": "#351f69",
+    "L": 0.315078834794925,
+    "C": 0.12213543560701212,
+    "h": 291.46064019805635,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 13.536570475095447,
+    "apcaOnBg": 99.59678013882639,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   }
+  ]
+ },
+ "reconstruction": {
+  "real": [
+   {
+    "key": "50",
+    "hex": "#eff6ff"
+   },
+   {
+    "key": "100",
+    "hex": "#dbeafe"
+   },
+   {
+    "key": "200",
+    "hex": "#bfdbfe"
+   },
+   {
+    "key": "300",
+    "hex": "#93c5fd"
+   },
+   {
+    "key": "400",
+    "hex": "#60a5fa"
+   },
+   {
+    "key": "500",
+    "hex": "#3b82f6"
+   },
+   {
+    "key": "600",
+    "hex": "#2563eb"
+   },
+   {
+    "key": "700",
+    "hex": "#1d4ed8"
+   },
+   {
+    "key": "800",
+    "hex": "#1e40af"
+   },
+   {
+    "key": "900",
+    "hex": "#1e3a8a"
+   },
+   {
+    "key": "950",
+    "hex": "#172554"
+   }
+  ],
+  "generated": {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "blue",
+      "weight": 0.9999665287215572,
+      "deltaDeg": 0.0004714745185765423
+     },
+     {
+      "family": "indigo",
+      "weight": 0.000033471278442775976,
+      "deltaDeg": 14.085471474518613
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.014553645718293031,
+    "mean": 0.07811509413368825,
+    "deltaE": [
+     0.07775151643430182,
+     0.08006442305379005,
+     0.07836940030812044,
+     0.0775782695386081,
+     0.07747013692329338,
+     0.07946516956675632,
+     0.07701036201931108,
+     0.07600655280274772,
+     0.0786519934435045,
+     0.07878311724644903
+    ]
+   },
+   "seed": {
+    "stepKey": "500",
+    "referenceStepKey": "500",
+    "gainApplied": 0.8787551782949209,
+    "gainClamped": false
+   },
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#ffffff",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#f0f6fe",
+     "native": "#f0f6fe",
+     "L": 0.9709261823873626,
+     "C": 0.012478190704702423,
+     "h": 255.50465561025612,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0870430894674372,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#cbe0fb",
+     "native": "#cbe0fb",
+     "L": 0.8996196607874613,
+     "C": 0.04347148317880303,
+     "h": 254.74998372677328,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.346635402802206,
+     "apcaOnBg": 17.030871996594936,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#a1cbfb",
+     "native": "#a1cbfb",
+     "L": 0.8290814662462181,
+     "C": 0.08125160144971225,
+     "h": 252.138306839498,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.6866724218096054,
+     "apcaOnBg": 29.907593630054073,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#79b5fa",
+     "native": "#79b5fa",
+     "L": 0.7597915826921727,
+     "C": 0.11785177547827777,
+     "h": 252.75301848485037,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.1422718966251035,
+     "apcaOnBg": 41.91325036027897,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#559df8",
+     "native": "#559df8",
+     "L": 0.6908951218925495,
+     "C": 0.15300322522496837,
+     "h": 255.31478720479913,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.7762262903707553,
+     "apcaOnBg": 53.25223694645048,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#3b82f6",
+     "native": "#3b82f6",
+     "L": 0.6230830326348528,
+     "C": 0.18801473450792208,
+     "h": 259.81452852548136,
+     "isSeed": true,
+     "detached": false,
+     "wcagVsBg": 3.678060493755863,
+     "apcaOnBg": 63.89421014416412,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#2664ec",
+     "native": "#2664ec",
+     "L": 0.549160857203325,
+     "C": 0.21510284753944328,
+     "h": 262.8895120546796,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 5.101650971670137,
+     "apcaOnBg": 74.46795053335595,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#1d4acf",
+     "native": "#1d4acf",
+     "L": 0.4725800104187436,
+     "C": 0.2104728728363146,
+     "h": 264.6865644734694,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.160823781721662,
+     "apcaOnBg": 83.9700654451607,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#2040a2",
+     "native": "#2040a2",
+     "L": 0.4133136419831142,
+     "C": 0.16298890391025342,
+     "h": 265.65331972685954,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.0656971643503,
+     "apcaOnBg": 90.24047223850562,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#203675",
+     "native": "#203675",
+     "L": 0.35370253370478527,
+     "C": 0.11169986513748399,
+     "h": 266.2666753411669,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 11.376480376397092,
+     "apcaOnBg": 95.90448602103521,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#182650",
+     "native": "#182650",
+     "L": 0.28198516039195726,
+     "C": 0.07913647412726105,
+     "h": 267.3263406372588,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 14.665793958653918,
+     "apcaOnBg": 101.30591710644327,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  "deltaE": [
+   0.001773887436607092,
+   0.034418074500364736,
+   0.05854749071908756,
+   0.054097216076893787,
+   0.02485307876729209,
+   0,
+   0.003013131844621845,
+   0.01703122481592643,
+   0.021061860910822013,
+   0.036397134889248846,
+   0.008364366502839192
+  ]
+ },
+ "modes": [
+  {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "red",
+      "weight": 0.8060329200203022,
+      "deltaDeg": 2.6750000000000114
+     },
+     {
+      "family": "orange",
+      "weight": 0.19396707997969775,
+      "deltaDeg": 11.115999999999985
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.025814660109582784,
+    "mean": 0.08222219257215972,
+    "deltaE": [
+     0.08249327599835515,
+     0.08483773151515789,
+     0.08238553914951514,
+     0.08337682252812634,
+     0.0805672849259423,
+     0.07727845458049548,
+     0.08462641103065133,
+     0.08261823407781797,
+     0.08335669699138339,
+     0.08068147492415222
+    ]
+   },
+   "seed": null,
+   "mode": 0,
+   "gamut": "srgb",
+   "background": "#efe9dc",
+   "warnings": [],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#fff3f1",
+     "native": "#fff3f1",
+     "L": 0.9729734703466953,
+     "C": 0.013245919488802797,
+     "h": 28.864535885087207,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.114248819482512,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#ffd2ca",
+     "native": "#ffd2ca",
+     "L": 0.9002289344112367,
+     "C": 0.05214529254683083,
+     "h": 29.867986560055215,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.13282936917876,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0.0017062607183993606,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#ffafa3",
+     "native": "#ffafa3",
+     "L": 0.827704615147494,
+     "C": 0.09614169950267151,
+     "h": 28.729319876408738,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.457128200477023,
+     "apcaOnBg": 19.3781806289792,
+     "mappingDeltaE": 0.00521945004164896,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#ff8b7c",
+     "native": "#ff8b7c",
+     "L": 0.7601261506246529,
+     "C": 0.14326298741716073,
+     "h": 28.56563080523489,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8793787498524595,
+     "apcaOnBg": 31.650146621591112,
+     "mappingDeltaE": 0.005808952255501823,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#ff6151",
+     "native": "#ff6151",
+     "L": 0.6950890645641873,
+     "C": 0.19542904226459237,
+     "h": 28.825215760994013,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.451387761569669,
+     "apcaOnBg": 42.485994723965916,
+     "mappingDeltaE": 0.002680241675741617,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#fe200f",
+     "native": "#fe200f",
+     "L": 0.6346732436401322,
+     "C": 0.24858769272248055,
+     "h": 29.837825297798418,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.197833856527423,
+     "apcaOnBg": 50.96132343597524,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#db0000",
+     "native": "#db0000",
+     "L": 0.5597790951022371,
+     "C": 0.22970697427654654,
+     "h": 29.23388027962784,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.326214774231661,
+     "apcaOnBg": 60.20524217910482,
+     "mappingDeltaE": 0.008678498123629195,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#b30000",
+     "native": "#b30000",
+     "L": 0.48148804827466807,
+     "C": 0.1975800162728367,
+     "h": 29.23388027962784,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 5.950864537551208,
+     "apcaOnBg": 69.4417411998762,
+     "mappingDeltaE": 0.00039134927079973304,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#8b1814",
+     "native": "#8b1814",
+     "L": 0.41365004552404633,
+     "C": 0.15052891468893825,
+     "h": 28.184737627274103,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.7540047066401945,
+     "apcaOnBg": 77.33104653360036,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#67120f",
+     "native": "#67120f",
+     "L": 0.3365819482760677,
+     "C": 0.11877703726277651,
+     "h": 27.835151903107032,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 10.39328477731617,
+     "apcaOnBg": 84.44433148125424,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#470907",
+     "native": "#470907",
+     "L": 0.2603749567262962,
+     "C": 0.09228261197196068,
+     "h": 27.9449643643066,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 13.250217585152141,
+     "apcaOnBg": 89.33824104274396,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "red",
+      "weight": 0.8060329200203022,
+      "deltaDeg": 2.6750000000000114
+     },
+     {
+      "family": "orange",
+      "weight": 0.19396707997969775,
+      "deltaDeg": 11.115999999999985
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.31597357334640996,
+    "mean": 0.09185943878406108,
+    "deltaE": [
+     0.0887725637365568,
+     0.08632934098639886,
+     0.08653580785795496,
+     0.09600754390877231,
+     0.07105844880837965,
+     0.08170451960190546,
+     0.09374484360520595,
+     0.10925072123162828,
+     0.16287218218019409,
+     0.04231841592361452
+    ]
+   },
+   "seed": null,
+   "mode": 0.5,
+   "gamut": "srgb",
+   "background": "#efe9dc",
+   "warnings": [
+    "step 900: reference contrast (|Lc| 97) is unreachable on this background; lightness clamped to 0.000",
+    "step 950: reference contrast (|Lc| 102) is unreachable on this background; lightness clamped to 0.000"
+   ],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#fbe7e4",
+     "native": "#fbe7e4",
+     "L": 0.9431653395204057,
+     "C": 0.022314210179005867,
+     "h": 27.812241221533498,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0169021000593397,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#fdc3bb",
+     "native": "#fdc3bb",
+     "L": 0.8669696135641735,
+     "C": 0.06786355777035302,
+     "h": 27.53151670741113,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.2670512156019536,
+     "apcaOnBg": 11.812358947731555,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#fe9f91",
+     "native": "#fe9f91",
+     "L": 0.7953243290667201,
+     "C": 0.11597612264405636,
+     "h": 28.959621890773462,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.6403242869191548,
+     "apcaOnBg": 25.332698285821692,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#ff7767",
+     "native": "#ff7767",
+     "L": 0.7269261400354488,
+     "C": 0.1689829487194178,
+     "h": 28.69750300308891,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.1464985255396094,
+     "apcaOnBg": 37.32160880618193,
+     "mappingDeltaE": 0.0004847943799211287,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#fe3c30",
+     "native": "#fe3c30",
+     "L": 0.6532565837698551,
+     "C": 0.2305466518892307,
+     "h": 28.811941980934478,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.94028286892116,
+     "apcaOnBg": 48.67552425149112,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#e51001",
+     "native": "#e51001",
+     "L": 0.5824130884101567,
+     "C": 0.23422310654667416,
+     "h": 29.82814275724644,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.939221351321595,
+     "apcaOnBg": 57.66115916866633,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#bf0000",
+     "native": "#bf0000",
+     "L": 0.5052893199682003,
+     "C": 0.20734693710373459,
+     "h": 29.233880279627897,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 5.398306504624267,
+     "apcaOnBg": 66.7432398514158,
+     "mappingDeltaE": 0.010663766763300714,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#940000",
+     "native": "#940000",
+     "L": 0.41856247132658625,
+     "C": 0.17175832337322944,
+     "h": 29.233880279627954,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 7.683075175824785,
+     "apcaOnBg": 76.1009789823648,
+     "mappingDeltaE": 0.002855236253969435,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#630b09",
+     "native": "#630b09",
+     "L": 0.32211697456159627,
+     "C": 0.12050746042733447,
+     "h": 28.155251889701503,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 10.969923233512567,
+     "apcaOnBg": 85.44855492547583,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#250101",
+     "native": "#250101",
+     "L": 0.16887141976508996,
+     "C": 0.06534320217821124,
+     "h": 28.007625872142512,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 16.022069162942316,
+     "apcaOnBg": 92.33425636406984,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#170000",
+     "native": "#170000",
+     "L": 0.12849632771555347,
+     "C": 0.05272884054342277,
+     "h": 29.23388027962784,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 16.74892106303105,
+     "apcaOnBg": 92.94904566365977,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  },
+  {
+   "dna": {
+    "id": "tailwind-v4",
+    "name": "Tailwind CSS v4",
+    "mode": "light",
+    "kinship": 0.868316,
+    "numbering": "nominal"
+   },
+   "selection": {
+    "families": [
+     {
+      "family": "red",
+      "weight": 0.8060329200203022,
+      "deltaDeg": 2.6750000000000114
+     },
+     {
+      "family": "orange",
+      "weight": 0.19396707997969775,
+      "deltaDeg": 11.115999999999985
+     }
+    ],
+    "rule": "nearest-two"
+   },
+   "spacing": {
+    "mode": "even",
+    "cv": 0.5699478472151888,
+    "mean": 0.10233692057344915,
+    "deltaE": [
+     0.09125480733202936,
+     0.09133427252776631,
+     0.09178504960174494,
+     0.09252554042228918,
+     0.0822417630873824,
+     0.0884857063303035,
+     0.10156923120796317,
+     0.13556420554262744,
+     0.24860862968238512,
+     0
+    ]
+   },
+   "seed": null,
+   "mode": 1,
+   "gamut": "srgb",
+   "background": "#efe9dc",
+   "warnings": [
+    "step 900: reference contrast (|Lc| 97) is unreachable on this background; lightness clamped to 0.000",
+    "step 950: reference contrast (|Lc| 102) is unreachable on this background; lightness clamped to 0.000",
+    "lightness is not monotone between steps 900 and 950 (0.000 → 0.000)"
+   ],
+   "steps": [
+    {
+     "key": "50",
+     "hex": "#f7dad6",
+     "native": "#f7dad6",
+     "L": 0.9112029141913129,
+     "C": 0.03280586538561517,
+     "h": 27.107365674889706,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.0880399257044329,
+     "apcaOnBg": 0,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "100",
+     "hex": "#f9b5ab",
+     "native": "#f9b5ab",
+     "L": 0.8337593162906931,
+     "C": 0.08106283507247947,
+     "h": 28.32138283375366,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.41986842169172,
+     "apcaOnBg": 18.050840738376937,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "200",
+     "hex": "#fa8e7f",
+     "native": "#fa8e7f",
+     "L": 0.759061211849929,
+     "C": 0.13360810608236517,
+     "h": 28.908442659365846,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 1.8784997975218303,
+     "apcaOnBg": 31.684179087855295,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "300",
+     "hex": "#fc6051",
+     "native": "#fc6051",
+     "L": 0.689312318247664,
+     "C": 0.193262631005945,
+     "h": 28.565545908424156,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 2.504314276409623,
+     "apcaOnBg": 43.34407830026597,
+     "mappingDeltaE": 0,
+     "promises": [],
+     "nudge": null
+    },
+    {
+     "key": "400",
+     "hex": "#f21914",
+     "native": "#f21914",
+     "L": 0.610129650889792,
+     "C": 0.24110854963000486,
+     "h": 28.926455829044528,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 3.524509265196208,
+     "apcaOnBg": 54.21503913293012,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "500",
+     "hex": "#cc0300",
+     "native": "#cc0300",
+     "L": 0.5314906293633027,
+     "C": 0.21710315455045667,
+     "h": 29.385014035924144,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 4.847632811785586,
+     "apcaOnBg": 63.74601030991197,
+     "mappingDeltaE": 0.001713114009880749,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "600",
+     "hex": "#a30000",
+     "native": "#a30000",
+     "L": 0.44928544025106965,
+     "C": 0.1843655827263973,
+     "h": 29.233880279627897,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 6.787331925882743,
+     "apcaOnBg": 72.936889405347,
+     "mappingDeltaE": 0.012704624142102673,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "700",
+     "hex": "#760000",
+     "native": "#760000",
+     "L": 0.3553199590272155,
+     "C": 0.14580657513353779,
+     "h": 29.233880279627897,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 9.804969106052907,
+     "apcaOnBg": 82.0730339566709,
+     "mappingDeltaE": 0.005416877537411862,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "800",
+     "hex": "#3e0202",
+     "native": "#3e0202",
+     "L": 0.2314465474518927,
+     "C": 0.09076754059217466,
+     "h": 28.27115821731246,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 14.294208664470453,
+     "apcaOnBg": 90.37346235366746,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "900",
+     "hex": "#000000",
+     "native": "#000000",
+     "L": 0,
+     "C": 0,
+     "h": 28.03828865851915,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 17.359224182402382,
+     "apcaOnBg": 93.25319295924179,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    },
+    {
+     "key": "950",
+     "hex": "#000000",
+     "native": "#000000",
+     "L": 0,
+     "C": 0,
+     "h": 28.023761656152544,
+     "isSeed": false,
+     "detached": false,
+     "wcagVsBg": 17.359224182402382,
+     "apcaOnBg": 93.25319295924179,
+     "mappingDeltaE": 0,
+     "promises": [
+      {
+       "threshold": 3,
+       "met": true
+      },
+      {
+       "threshold": 4.5,
+       "met": true
+      },
+      {
+       "threshold": 7,
+       "met": true
+      }
+     ],
+     "nudge": null
+    }
+   ]
+  }
+ ],
+ "radixYellow": {
+  "dna": {
+   "id": "radix-light",
+   "name": "Radix Colors (light)",
+   "mode": "light",
+   "kinship": 0.612917,
+   "numbering": "nominal"
+  },
+  "selection": {
+   "families": [
+    {
+     "family": "yellow",
+     "weight": 0.9999999697883601,
+     "deltaDeg": 5.014394446334336e-7
+    },
+    {
+     "family": "amber",
+     "weight": 3.0211639856503325e-8,
+     "deltaDeg": 16.59755750143944
+    }
+   ],
+   "rule": "nearest-two"
+  },
+  "spacing": {
+   "mode": "even",
+   "cv": 0.03952657867331693,
+   "mean": 0.08415151274600657,
+   "deltaE": [
+    0.08625295482476505,
+    0.08067931180639361,
+    0.0879309588078237,
+    0.08386593153761998,
+    0.07679819176273962,
+    0.08538961500874974,
+    0.0833504114507146,
+    0.08584020348220317,
+    0.08725603603304957
+   ]
+  },
+  "seed": {
+   "stepKey": "9",
+   "referenceStepKey": "9",
+   "gainApplied": 0.9999998683847355,
+   "gainClamped": false
+  },
+  "mode": 0,
+  "gamut": "srgb",
+  "background": "#ffffff",
+  "warnings": [
+   "seed sits on detached step 9 (solid background), which is off the spine and so outside the even spacing"
+  ],
+  "steps": [
+   {
+    "key": "1",
+    "hex": "#fdfdf9",
+    "native": "#fdfdf9",
+    "L": 0.9929449343629914,
+    "C": 0.005259247397854832,
+    "h": 106.49499479072637,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.0196868897917644,
+    "apcaOnBg": 0,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "2",
+    "hex": "#fff9b3",
+    "native": "#fff9b3",
+    "L": 0.970592414850582,
+    "C": 0.08855924568905488,
+    "h": 103.77771044528788,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.0795069853637937,
+    "apcaOnBg": 0,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "3",
+    "hex": "#fce26a",
+    "native": "#fce26a",
+    "L": 0.911382340133758,
+    "C": 0.14183888780983736,
+    "h": 97.21538313261055,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.2942180186002339,
+    "apcaOnBg": 14.486008563897846,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "4",
+    "hex": "#e2c464",
+    "native": "#e2c464",
+    "L": 0.826808532337439,
+    "C": 0.12058702532692558,
+    "h": 92.26731576331184,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.705380258906982,
+    "apcaOnBg": 30.46438184907298,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "5",
+    "hex": "#cea91e",
+    "native": "#cea91e",
+    "L": 0.746945535891514,
+    "C": 0.14618537218490044,
+    "h": 92.1172606839653,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 2.2535749142935786,
+    "apcaOnBg": 44.22833878291357,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "6",
+    "hex": "#ac9600",
+    "native": "#ac9600",
+    "L": 0.6722632190997875,
+    "C": 0.1392254744512944,
+    "h": 98.74547818998468,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 2.9507641757467793,
+    "apcaOnBg": 55.806644372017686,
+    "mappingDeltaE": 0.01661536480729778,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "7",
+    "hex": "#a87600",
+    "native": "#a87600",
+    "L": 0.6012114483042172,
+    "C": 0.1248878335646084,
+    "h": 79.03524342911282,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 3.995029793395327,
+    "apcaOnBg": 66.97771500635774,
+    "mappingDeltaE": 0.008802900651721261,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "8",
+    "hex": "#896118",
+    "native": "#896118",
+    "L": 0.5219313670974979,
+    "C": 0.09936109279455778,
+    "h": 77.38084005397582,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 5.545492762242665,
+    "apcaOnBg": 77.51124425293662,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "9",
+    "hex": "#ffe629",
+    "native": "#ffe629",
+    "L": 0.9175794438570772,
+    "C": 0.18377091036473578,
+    "h": 100.93612550143945,
+    "isSeed": true,
+    "detached": true,
+    "wcagVsBg": 1.2648296877251395,
+    "apcaOnBg": 12.944736474136912,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "10",
+    "hex": "#aa8f00",
+    "native": "#aa8f00",
+    "L": 0.6552259889639468,
+    "C": 0.13467211902109266,
+    "h": 95.55827941867915,
+    "isSeed": false,
+    "detached": true,
+    "wcagVsBg": 3.163443694517168,
+    "apcaOnBg": 58.539334497581386,
+    "mappingDeltaE": 0.01546639647613284,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "11",
+    "hex": "#664f21",
+    "native": "#664f21",
+    "L": 0.4416256224603314,
+    "C": 0.06993984617779363,
+    "h": 82.42931431569883,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 7.762361106189943,
+    "apcaOnBg": 86.86342302491138,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "12",
+    "hex": "#473b1f",
+    "native": "#473b1f",
+    "L": 0.3578176306928784,
+    "C": 0.04605654462815229,
+    "h": 86.87968204436663,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 10.975744099540682,
+    "apcaOnBg": 95.36971988161568,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   }
+  ]
+ },
+ "p3": {
+  "dna": {
+   "id": "tailwind-v4",
+   "name": "Tailwind CSS v4",
+   "mode": "light",
+   "kinship": 0.868316,
+   "numbering": "nominal"
+  },
+  "selection": {
+   "families": [
+    {
+     "family": "violet",
+     "weight": 0.999996509096597,
+     "deltaDeg": 0.00003250751944960939
+    },
+    {
+     "family": "purple",
+     "weight": 0.000003490903403013945,
+     "deltaDeg": 9.312032507519461
+    }
+   ],
+   "rule": "nearest-two"
+  },
+  "spacing": {
+   "mode": "even",
+   "cv": 0.060242486749954846,
+   "mean": 0.07760299742263514,
+   "deltaE": [
+    0.0819207373267512,
+    0.07908040545101006,
+    0.0835501467175031,
+    0.08080527401995963,
+    0.07999713034495357,
+    0.08186635099303308,
+    0.06933452173225617,
+    0.07254384687690904,
+    0.07342474640532755,
+    0.07350681435864789
+   ]
+  },
+  "seed": {
+   "stepKey": "600",
+   "referenceStepKey": "600",
+   "gainApplied": 0.8780406605202731,
+   "gainClamped": false
+  },
+  "mode": 0,
+  "gamut": "p3",
+  "background": "#ffffff",
+  "warnings": [],
+  "steps": [
+   {
+    "key": "50",
+    "hex": "#f5f3fe",
+    "native": "color(display-p3 0.9608 0.9529 0.9922)",
+    "L": 0.9690012438042901,
+    "C": 0.014823143167231125,
+    "h": 296.6577852017674,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.0972474552096503,
+    "apcaOnBg": 0,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "100",
+    "hex": "#ddd7fb",
+    "native": "color(display-p3 0.8627 0.8431 0.9725)",
+    "L": 0.8947844086196652,
+    "C": 0.049471509754870004,
+    "h": 293.4074948866497,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.3845542716646915,
+    "apcaOnBg": 18.717791429147727,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "200",
+    "hex": "#c8bcfb",
+    "native": "color(display-p3 0.7765 0.7373 0.9647)",
+    "L": 0.825944591707403,
+    "C": 0.088391566885259,
+    "h": 293.5278235894863,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 1.7493006079139206,
+    "apcaOnBg": 31.882743641066412,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "300",
+    "hex": "#b49efa",
+    "native": "color(display-p3 0.6902 0.6235 0.9569)",
+    "L": 0.7541452884005679,
+    "C": 0.13111658348014132,
+    "h": 293.65820922583816,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 2.2778228716587616,
+    "apcaOnBg": 44.83321284559935,
+    "mappingDeltaE": 0,
+    "promises": [],
+    "nudge": null
+   },
+   {
+    "key": "400",
+    "hex": "#a081f8",
+    "native": "color(display-p3 0.6078 0.5098 0.9451)",
+    "L": 0.6843418140255254,
+    "C": 0.17181315277670145,
+    "h": 293.32617944772994,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 3.006780119432289,
+    "apcaOnBg": 56.56255027355551,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "500",
+    "hex": "#8e61f7",
+    "native": "color(display-p3 0.5294 0.3882 0.9373)",
+    "L": 0.6164508874000806,
+    "C": 0.21406257240540374,
+    "h": 292.635171989529,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 4.035004488184538,
+    "apcaOnBg": 67.14064743277885,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "600",
+    "hex": "#7c3aed",
+    "native": "color(display-p3 0.45324 0.24165 0.89502)",
+    "L": 0.5413370870268791,
+    "C": 0.24658594545285942,
+    "h": 293.00896749248056,
+    "isSeed": true,
+    "detached": false,
+    "wcagVsBg": 5.6985853297405535,
+    "apcaOnBg": 77.46733396020808,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "700",
+    "hex": "#6829cd",
+    "native": "color(display-p3 0.3765 0.1765 0.7725)",
+    "L": 0.47465708952371105,
+    "C": 0.22763151948245103,
+    "h": 292.68599295312026,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 7.54286187015165,
+    "apcaOnBg": 85.02882993380729,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "800",
+    "hex": "#5524a5",
+    "native": "color(display-p3 0.3098 0.1529 0.6235)",
+    "L": 0.4129567882244946,
+    "C": 0.18958354003661115,
+    "h": 293.46774671406024,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 9.595490126242376,
+    "apcaOnBg": 91.24774343939266,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "900",
+    "hex": "#421f80",
+    "native": "color(display-p3 0.2392 0.1294 0.4824)",
+    "L": 0.35036812123557626,
+    "C": 0.15120390025717237,
+    "h": 293.154760007513,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 12.081499974583439,
+    "apcaOnBg": 96.88481137801047,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   },
+   {
+    "key": "950",
+    "hex": "#2d1560",
+    "native": "color(display-p3 0.1647 0.0863 0.3608)",
+    "L": 0.28245736539868016,
+    "C": 0.12340541036962863,
+    "h": 291.3445049922477,
+    "isSeed": false,
+    "detached": false,
+    "wcagVsBg": 15.143426604779052,
+    "apcaOnBg": 101.51004450321611,
+    "mappingDeltaE": 0,
+    "promises": [
+     {
+      "threshold": 3,
+      "met": true
+     },
+     {
+      "threshold": 4.5,
+      "met": true
+     },
+     {
+      "threshold": 7,
+      "met": true
+     }
+    ],
+    "nudge": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,214 @@
+{
+ "$schema": "palette-dna/centroids/1",
+ "source": "color-js/palettes@6583c31 (11 palettes)",
+ "families": [
+  {
+   "family": "blue",
+   "published": {
+    "mean": 257.7101,
+    "sd": 6.491,
+    "n": 15
+   },
+   "peak": {
+    "mean": 256.7017,
+    "sd": 5.025,
+    "n": 11
+   }
+  },
+  {
+   "family": "green",
+   "published": {
+    "mean": 149.9245,
+    "sd": 4.3451,
+    "n": 15
+   },
+   "peak": {
+    "mean": 150.6544,
+    "sd": 5.0565,
+    "n": 11
+   }
+  },
+  {
+   "family": "orange",
+   "published": {
+    "mean": 49.3789,
+    "sd": 10.9029,
+    "n": 15
+   },
+   "peak": {
+    "mean": 48.721,
+    "sd": 11.9624,
+    "n": 11
+   }
+  },
+  {
+   "family": "red",
+   "published": {
+    "mean": 24.7746,
+    "sd": 3.6313,
+    "n": 15
+   },
+   "peak": {
+    "mean": 26.0796,
+    "sd": 2.4197,
+    "n": 11
+   }
+  },
+  {
+   "family": "yellow",
+   "published": {
+    "mean": 81.051,
+    "sd": 12.1018,
+    "n": 15
+   },
+   "peak": {
+    "mean": 92.9554,
+    "sd": 5.9087,
+    "n": 11
+   }
+  },
+  {
+   "family": "purple",
+   "published": {
+    "mean": 305.3222,
+    "sd": 8.8984,
+    "n": 14
+   },
+   "peak": {
+    "mean": 303.7117,
+    "sd": 10.1705,
+    "n": 10
+   }
+  },
+  {
+   "family": "cyan",
+   "published": {
+    "mean": 216.4471,
+    "sd": 14.6978,
+    "n": 13
+   },
+   "peak": {
+    "mean": 213.1229,
+    "sd": 17.2541,
+    "n": 9
+   }
+  },
+  {
+   "family": "teal",
+   "published": {
+    "mean": 183.4304,
+    "sd": 16.0338,
+    "n": 11
+   },
+   "peak": {
+    "mean": 185.3796,
+    "sd": 16.9741,
+    "n": 8
+   }
+  },
+  {
+   "family": "indigo",
+   "published": {
+    "mean": 274.3005,
+    "sd": 3.7247,
+    "n": 11
+   },
+   "peak": {
+    "mean": 273.4538,
+    "sd": 3.7137,
+    "n": 7
+   }
+  },
+  {
+   "family": "lime",
+   "published": {
+    "mean": 130.4844,
+    "sd": 6.3619,
+    "n": 10
+   },
+   "peak": {
+    "mean": 129.0922,
+    "sd": 7.5615,
+    "n": 7
+   }
+  },
+  {
+   "family": "pink",
+   "published": {
+    "mean": 358.6943,
+    "sd": 5.944,
+    "n": 11
+   },
+   "peak": {
+    "mean": 0.5212,
+    "sd": 6.8726,
+    "n": 7
+   }
+  },
+  {
+   "family": "magenta",
+   "published": {
+    "mean": 348.1035,
+    "sd": 13.7467,
+    "n": 4
+   },
+   "peak": {
+    "mean": 348.5453,
+    "sd": 13.1664,
+    "n": 4
+   }
+  },
+  {
+   "family": "violet",
+   "published": {
+    "mean": 291.0716,
+    "sd": 2.1332,
+    "n": 7
+   },
+   "peak": {
+    "mean": 290.7842,
+    "sd": 2.2248,
+    "n": 4
+   }
+  },
+  {
+   "family": "amber",
+   "published": {
+    "mean": 68.3461,
+    "sd": 9.8212,
+    "n": 5
+   },
+   "peak": {
+    "mean": 67.0462,
+    "sd": 15.656,
+    "n": 3
+   }
+  },
+  {
+   "family": "fuchsia",
+   "published": {
+    "mean": 323.5611,
+    "sd": 2.1028,
+    "n": 5
+   },
+   "peak": {
+    "mean": 324.0037,
+    "sd": 2.6226,
+    "n": 3
+   }
+  },
+  {
+   "family": "rose",
+   "published": {
+    "mean": 13.6702,
+    "sd": 6.7031,
+    "n": 5
+   },
+   "peak": {
+    "mean": 12.108,
+    "sd": 7.7694,
+    "n": 3
+   }
+  }
+ ]
+}

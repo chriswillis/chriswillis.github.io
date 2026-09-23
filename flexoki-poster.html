@@ -30,7 +30,7 @@
 <meta name="twitter:image:alt" content="Chris Willis — Designing technology for humans">
 
 <style>
-  /* Flexoki Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
+  /* Flexoki — Poster. Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
 
   :root {
     color-scheme: light dark;
@@ -58,11 +58,55 @@
     }
   }
 
-  :root { --divider: #E6E4D9; }
-  :root[data-theme="dark"] { --divider: #282726; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --divider: #282726; }
+  :root {
+    --divider: #E6E4D9;
   }
+
+  :root[data-theme="dark"] {
+    --divider: #282726;
+  }
+
+  :root {
+    --accent: var(--cy);
+    --link: var(--tx);
+    --underline: var(--tx-3);
+    --surface: var(--bg-2);
+    --tile-radius: 0;
+  }
+  body {
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
+  }
+  main { max-width: 44rem; }
+  .masthead { flex-direction: row; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .avatar { width: 3rem; height: 3rem; }
+  h1 { font-size: 1.1rem; font-weight: 400; color: var(--tx-1); }
+  /* the opening line is the display element */
+  .masthead + p {
+    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
+    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
+    margin-bottom: 1.5rem; max-width: 24ch;
+  }
+  .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
+  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
+  p { margin-bottom: 1.25rem; }
+  ul { display: grid; gap: 0.5rem;}
+  ul li { padding-left: 1.4rem; margin-bottom: 0; }
+  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
+  a, .experiment .title { font-weight: 400; }
+  .experiment .blurb { font-size: 1.05rem; }
+  .brands { gap: 2px; }
+  .brands li { background: var(--bg-2); min-height: 5rem; }
+  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, 1fr); } }
+  hr {
+    border: 0;
+    height: 1px;
+    background: var(--divider);
+    margin: 2.5rem 0 1.75rem;
+  }
+  nav a { margin-right: 1.5rem; }
+
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -179,58 +223,6 @@
   .experiment:hover img { opacity: 0.92; }
   .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--tile-radius, 0.85rem); }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
-
-  :root {
-    --accent: var(--cy);
-    --link: var(--tx);
-    --underline: var(--tx-3);
-    --surface: var(--bg-2);
-    --tile-radius: 0;
-  }
-  body {
-    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
-    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
-  }
-  main { max-width: 44rem; }
-  .masthead { flex-direction: row; align-items: center; gap: 1rem; margin-bottom: 3rem; }
-  .avatar { width: 3rem; height: 3rem; }
-  h1 { font-size: 1.1rem; font-weight: 400; color: var(--tx-2); }
-  /* the opening line is the display element */
-  .masthead + p {
-    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
-    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
-    margin-bottom: 1.5rem; max-width: 24ch;
-  }
-  .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
-  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
-  p { margin-bottom: 1.25rem; }
-  ul { display: grid; gap: 0.5rem; }
-  ul li { padding-left: 1.4rem; margin-bottom: 0; }
-  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
-  a, .experiment .title { font-weight: 400; }
-  .experiment .blurb { font-size: 1.05rem; }
-  .brands { gap: 2px; }
-  .brands li { background: var(--bg-2); min-height: 5rem; }
-  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, 1fr); } }
-  hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
-  nav a { margin-right: 1.5rem; }
-
-  /* Mark links that leave the site (footer nav excluded) */
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
-    content: "";
-    display: inline-block;
-    width: 0.55em; height: 0.55em;
-    margin-left: 0.2em;
-    vertical-align: 0.15em;
-    background: currentColor;
-    opacity: 0.55;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-    transition: opacity 0.2s ease-out;
-  }
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a):hover::after { opacity: 1; }
-
 </style>
 
 <script>
@@ -269,33 +261,34 @@
   <p>I'm a strategic design leader building products that feel genuinely human.</p>
   <p>I'm currently the Chief Design Officer at <a href="https://www.domo.com">Domo</a> in American Fork, Utah.</p>
 
-  <p>I'm the founding Chief Design Officer and Futurist at <a href="https://www.domo.com">Domo</a>. For 15 years I've helped build one of the first cloud-native, mobile-first data platforms, and now governed, agentic AI that real people can actually use. My focus is technology that solves human problems, not just cool demos.</p>
+  <p>As Chief Design Officer and Futurist at Domo, I devoted nearly 15 years to build one of the first cloud-native, mobile-first data platforms, with governed AI that real people can actually use. My focus is always designing technology to solve human problems, not just cool demos.</p>
 
   <h2>What I'm known for</h2>
   <ul>
-    <li>Founding CDO at Domo: $0 to $330M ARR, a Nasdaq IPO and an acquisition by Progress Software</li>
-    <li>Product design lead for Intent Engine, Domo's high-definition context engine for agentic AI</li>
-    <li>Domo's AI experiences, including natural-language AI Chat and a framework that runs nearly any LLM</li>
-    <li>The Domo COVID-19 Tracker, a <a href="https://winners.webbyawards.com/2021/apps-and-software/software-services-platforms/data-management/168780/domo-covid19-tracker">Webby Award</a> winner, and a pandemic-response app for the White House</li>
+    <li>Founding CDO at Domo. Helping to build it from $0 to $330M+ in revenue</li>
+    <li>Domo's AI experiences, including its natural-language AI Chat and a framework that runs nearly any LLM on the platform</li>
+    <li><a href="https://www.domo.com/news/press/domos-chris-willis-wins-executive-excellence-award">2025 Executive Excellence Award</a>, Utah Business Magazine</li>
+    <li>Forbes Technology Council member</li>
     <li>Six U.S. patents for data visualization, analytics and interfaces</li>
-    <li><a href="https://www.domo.com/news/press/domos-chris-willis-wins-executive-excellence-award">2025 Executive Excellence Award</a>, Utah Business Magazine, and Forbes Technology Council member</li>
   </ul>
 
   <h2>In the media</h2>
   <ul>
-    <li>50+ TV and podcast appearances in 2026 on human-AI collaboration, the future of work and emotional design</li>
-    <li>Recent: <a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">Fox News</a> segment on how Domo powers human-AI collaboration and the future of work</li>
+    <li>Made over 50 appearances, so far, this year from TV to podcasts</li>
+    <li>Topics: Human-AI collaboration, the future of work and emotional design</li>
+    <li>Recent: <a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">FoxNews</a> segment on how Domo powers human-AI collaboration and the future of work</li>
+    <li><a href="https://winners.webbyawards.com/2021/apps-and-software/software-services-platforms/data-management/168780/domo-covid19-tracker">Webby Award</a> winner and <a href="https://techcrunch.com/2008/09/08/announcing-the-techcrunch50-finalists/">TechCrunch50</a> Finalist</li>
   </ul>
 
   <h2>Before Domo</h2>
   <ul>
     <li>Co-founded Footnote.com (now <a href="https://www.fold3.com/publication/485/us-vietnam-veterans-memorial">Fold3.com</a>), a TechCrunch50 finalist that put 670M+ National Archives documents online. Acquired by Ancestry.com for $27M.</li>
-    <li>Led design at Ancestry.com, the world's largest genealogy site, raising subscriber conversion by $12M a year</li>
-    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a> (Peachpit Press) and <a href="https://hypergene.net/wemedia/download/we_media.pdf">We Media</a> (American Press Institute)</li>
-    <li>Co-founded <a href="https://www.hourdetroit.com/">Hour Media and Hour Detroit Magazine</a>; original concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, The Oprah Magazine</a></li>
-    <li>Award-winning newspaper designer and illustrator, including redesigns of <a href="https://en.wikipedia.org/wiki/The_Detroit_News">The Detroit News</a> and the Cleveland Plain Dealer</li>
+    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a> (Peachpit Press)</li>
+    <li>Co-founded <a href="https://www.hourdetroit.com/">Hour Media and Hour Detroit Magazine</a></li>
+    <li>Award-winning newspaper redesigns of <a href="https://en.wikipedia.org/wiki/The_Detroit_News">The Detroit News</a> and Cleveland Plain Dealer</li>
+    <li>Award-winning designer, illustrator and journalist</li>
+    <li>Original concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, Oprah Magazine</a></li>
   </ul>
-  <p>The full story is on <a href="https://www.linkedin.com/in/cwillis/">LinkedIn</a>.</p>
 
   <h2>Brands I've worked with</h2>
 
@@ -335,7 +328,7 @@
   <h2>Outside of work</h2>
   <ul>
     <li>Chaired the board of a <a href="https://www.deseret.com/2011/9/15/20387620/midway-school-celebrates-nature-receives-national-recognition/">National Blue Ribbon-winning charter school</a></li>
-    <li>2,000+ hour pilot; flew humanitarian medical flights to remote Baja, Mexico</li>
+    <li>Piloted humanitarian flights of medical care to remote parts of Baja, Mexico</li>
     <li>Coached youth hockey in Park City, UT for more than a decade</li>
   </ul>
 
@@ -348,7 +341,7 @@
         <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
         <figcaption>
           <span class="title">A tribute to Luminet's first portrait of a black hole</span>
-          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
+          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and paint the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
         </figcaption>
       </figure>
     </a>

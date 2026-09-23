@@ -1,0 +1,745 @@
+{
+ "roles": [
+  {
+   "name": "background/page",
+   "radixStep": 1,
+   "source": "given — the page background the ramp is solved against"
+  },
+  {
+   "name": "background/subtle",
+   "radixStep": 2,
+   "source": "calibrated: Radix's step 2 sits ΔEOK 0.010–0.015 from its step 1 in light mode, 0.019–0.036 in dark"
+  },
+  {
+   "name": "surface/normal",
+   "radixStep": 3,
+   "source": "CSS Color 4 gamut-mapping JND, ΔEOK 0.02"
+  },
+  {
+   "name": "surface/hover",
+   "radixStep": 4,
+   "source": "CSS Color 4 gamut-mapping JND, ΔEOK 0.02"
+  },
+  {
+   "name": "surface/active",
+   "radixStep": 5,
+   "source": "CSS Color 4 gamut-mapping JND, ΔEOK 0.02"
+  },
+  {
+   "name": "border/subtle",
+   "radixStep": 6,
+   "source": "CSS Color 4 gamut-mapping JND, ΔEOK 0.02"
+  },
+  {
+   "name": "border/normal",
+   "radixStep": 7,
+   "source": "CSS Color 4 gamut-mapping JND, ΔEOK 0.02"
+  },
+  {
+   "name": "border/strong",
+   "radixStep": 8,
+   "source": "WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state"
+  },
+  {
+   "name": "border/focus",
+   "radixStep": null,
+   "source": "WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state"
+  },
+  {
+   "name": "background/solid",
+   "radixStep": 9,
+   "source": "measured — the peak-chroma step, which the DNA records as `peakIndex`"
+  },
+  {
+   "name": "background/solid/hover",
+   "radixStep": 10,
+   "source": "measured — one step past the peak, the direction every reference moves its solid on hover"
+  },
+  {
+   "name": "indicator/normal",
+   "radixStep": null,
+   "source": "measured — the same step as the solid"
+  },
+  {
+   "name": "icon/normal",
+   "radixStep": null,
+   "source": "WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text"
+  },
+  {
+   "name": "content/subtle",
+   "radixStep": 11,
+   "source": "WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text"
+  },
+  {
+   "name": "content/normal",
+   "radixStep": 12,
+   "source": "WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze"
+  },
+  {
+   "name": "content/on-solid",
+   "radixStep": null,
+   "source": "WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text"
+  },
+  {
+   "name": "content/disabled",
+   "radixStep": null,
+   "source": "WCAG 2.1 exempts disabled controls from 1.4.3 and 1.4.11, so nothing published applies; the floor here is APCA Lc 30, its spot-reading level — a licence to be quiet, not to disappear"
+  }
+ ],
+ "recovery": {
+  "light": {
+   "background/page": {
+    "page": 25
+   },
+   "background/subtle": {
+    "2": 25
+   },
+   "surface/normal": {
+    "3": 25
+   },
+   "surface/hover": {
+    "4": 25
+   },
+   "surface/active": {
+    "5": 25
+   },
+   "border/subtle": {
+    "6": 25
+   },
+   "border/normal": {
+    "7": 25
+   },
+   "border/strong": {
+    "6": 4,
+    "7": 21
+   },
+   "border/focus": {
+    "6": 4,
+    "7": 21
+   },
+   "background/solid": {
+    "9": 25
+   },
+   "background/solid/hover": {
+    "10": 25
+   },
+   "indicator/normal": {
+    "9": 25
+   },
+   "icon/normal": {
+    "6": 4,
+    "7": 21
+   },
+   "content/subtle": {
+    "8": 14,
+    "11": 11
+   },
+   "content/normal": {
+    "12": 25
+   },
+   "content/on-solid": {
+    "white": 20,
+    "black": 5
+   },
+   "content/disabled": {
+    "6": 25
+   }
+  },
+  "dark": {
+   "background/page": {
+    "page": 25
+   },
+   "background/subtle": {
+    "2": 25
+   },
+   "surface/normal": {
+    "3": 25
+   },
+   "surface/hover": {
+    "4": 25
+   },
+   "surface/active": {
+    "5": 25
+   },
+   "border/subtle": {
+    "6": 25
+   },
+   "border/normal": {
+    "7": 25
+   },
+   "border/strong": {
+    "6": 5,
+    "7": 15,
+    "8": 5
+   },
+   "border/focus": {
+    "6": 5,
+    "7": 15,
+    "8": 5
+   },
+   "background/solid": {
+    "9": 25
+   },
+   "background/solid/hover": {
+    "10": 25
+   },
+   "indicator/normal": {
+    "9": 25
+   },
+   "icon/normal": {
+    "7": 5,
+    "8": 3,
+    "9": 17
+   },
+   "content/subtle": {
+    "8": 5,
+    "11": 20
+   },
+   "content/normal": {
+    "12": 25
+   },
+   "content/on-solid": {
+    "black": 20,
+    "background/page": 5
+   },
+   "content/disabled": {
+    "6": 5,
+    "7": 15,
+    "8": 5
+   }
+  }
+ },
+ "onSolid": [
+  {
+   "family": "indigo",
+   "hex": "#3a5ac2",
+   "L": 0.5033875431475575,
+   "whiteW": 6.138074589806242,
+   "blackW": 3.4212682972076567,
+   "whiteA": 85.40435590768186,
+   "blackA": 23.835129101612164
+  },
+  {
+   "family": "iris",
+   "hex": "#5551c3",
+   "L": 0.5037746295093226,
+   "whiteW": 6.266426298271664,
+   "blackW": 3.3511923703294766,
+   "whiteA": 85.9864729591027,
+   "blackA": 23.218405147952762
+  },
+  {
+   "family": "violet",
+   "hex": "#6450b8",
+   "L": 0.5062255207317548,
+   "whiteW": 6.210366094164588,
+   "blackW": 3.381443168017438,
+   "whiteA": 85.82133603940578,
+   "blackA": 23.393557095450433
+  },
+  {
+   "family": "grass",
+   "hex": "#2a7839",
+   "L": 0.509070743183255,
+   "whiteW": 5.4630421129821025,
+   "blackW": 3.8440121027250784,
+   "whiteA": 82.26749881201914,
+   "blackA": 27.126639589572964
+  },
+  {
+   "family": "purple",
+   "hex": "#7e44b1",
+   "L": 0.5092498806770827,
+   "whiteW": 6.270721781690725,
+   "blackW": 3.34889678271421,
+   "whiteA": 85.91366498472472,
+   "blackA": 23.295648133344073
+  },
+  {
+   "family": "green",
+   "hex": "#237752",
+   "L": 0.5092777462205631,
+   "whiteW": 5.480282689002417,
+   "blackW": 3.8319191165342326,
+   "whiteA": 82.35470103562687,
+   "blackA": 27.035827933622297
+  },
+  {
+   "family": "jade",
+   "hex": "#25765f",
+   "L": 0.5106320194375078,
+   "whiteW": 5.475645428601142,
+   "blackW": 3.8351643242474953,
+   "whiteA": 82.36023372409889,
+   "blackA": 27.030064961928087
+  },
+  {
+   "family": "bronze",
+   "hex": "#7d5e54",
+   "L": 0.510854137479785,
+   "whiteW": 5.8314362633677375,
+   "blackW": 3.6011711440488567,
+   "whiteA": 84.36602536184222,
+   "blackA": 24.930460944143686
+  },
+  {
+   "family": "teal",
+   "hex": "#0b7768",
+   "L": 0.5111468693169127,
+   "whiteW": 5.450693416129163,
+   "blackW": 3.852720818576738,
+   "whiteA": 82.05361330728202,
+   "blackA": 27.34921851648374
+  },
+  {
+   "family": "brown",
+   "hex": "#815e46",
+   "L": 0.5122011644279377,
+   "whiteW": 5.796240809927057,
+   "blackW": 3.6230378772451766,
+   "whiteA": 84.1670509966718,
+   "blackA": 25.139684625722687
+  },
+  {
+   "family": "gold",
+   "hex": "#74644d",
+   "L": 0.5122738506151402,
+   "whiteW": 5.717897335333617,
+   "blackW": 3.672678743325971,
+   "whiteA": 83.85580295796706,
+   "blackA": 25.466540086506743
+  },
+  {
+   "family": "cyan",
+   "hex": "#13748c",
+   "L": 0.5185442145794855,
+   "whiteW": 5.378559413384582,
+   "blackW": 3.9043911921361962,
+   "whiteA": 81.71399713200745,
+   "blackA": 27.702176384819694
+  },
+  {
+   "family": "blue",
+   "hex": "#1669bc",
+   "L": 0.5197924915593218,
+   "whiteW": 5.554448696981393,
+   "blackW": 3.780753256648602,
+   "whiteA": 82.51340543351967,
+   "blackA": 26.870457201800914
+  },
+  {
+   "family": "red",
+   "hex": "#bc2932",
+   "L": 0.5224198298947648,
+   "whiteW": 5.9967791172062155,
+   "blackW": 3.5018798574297803,
+   "whiteA": 83.72025354539754,
+   "blackA": 25.60872587234229
+  },
+  {
+   "family": "tomato",
+   "hex": "#b73621",
+   "L": 0.5236224099358558,
+   "whiteW": 5.8932022451945025,
+   "blackW": 3.5634276792594433,
+   "whiteA": 83.55926004112499,
+   "blackA": 25.77747584695571
+  },
+  {
+   "family": "ruby",
+   "hex": "#bd234a",
+   "L": 0.5241715881946841,
+   "whiteW": 5.994118074119783,
+   "blackW": 3.5034344903330537,
+   "whiteA": 83.59971206181382,
+   "blackA": 25.735087682821405
+  },
+  {
+   "family": "plum",
+   "hex": "#963fa4",
+   "L": 0.5247178189539223,
+   "whiteW": 5.925464894550161,
+   "blackW": 3.544025721815407,
+   "whiteA": 84.22929228376272,
+   "blackA": 25.07426014936545
+  },
+  {
+   "family": "crimson",
+   "hex": "#bd1e5f",
+   "L": 0.5264947589488524,
+   "whiteW": 5.974244830638064,
+   "blackW": 3.5150886171093085,
+   "whiteA": 83.41580180632377,
+   "blackA": 25.92773149104592
+  },
+  {
+   "family": "pink",
+   "hex": "#b72782",
+   "L": 0.5344834833367026,
+   "whiteW": 5.790983404651288,
+   "blackW": 3.626327090340631,
+   "whiteA": 82.85816335862239,
+   "blackA": 26.510781603349653
+  },
+  {
+   "family": "orange",
+   "hex": "#b14918",
+   "L": 0.5365217671047335,
+   "whiteW": 5.474553661938612,
+   "blackW": 3.835929154553873,
+   "whiteA": 81.89822313994914,
+   "blackA": 27.51078316114606
+  },
+  {
+   "family": "amber",
+   "hex": "#a87a00",
+   "L": 0.6092597697902696,
+   "whiteW": 3.8539441911983423,
+   "blackW": 5.448963181137883,
+   "whiteA": 71.25149169014541,
+   "blackA": 38.33118582077329
+  },
+  {
+   "family": "sky",
+   "hex": "#1998b4",
+   "L": 0.6289150987354954,
+   "whiteW": 3.391786501113425,
+   "blackW": 6.191427435985813,
+   "whiteA": 66.37392576952055,
+   "blackA": 43.14918142103185
+  },
+  {
+   "family": "mint",
+   "hex": "#4f9d8d",
+   "L": 0.6415922213928669,
+   "whiteW": 3.211172378789471,
+   "blackW": 6.539667611340268,
+   "whiteA": 64.58488002176618,
+   "blackA": 44.89785859164919
+  },
+  {
+   "family": "lime",
+   "hex": "#7ea334",
+   "L": 0.6658570471956694,
+   "whiteW": 2.9266188641132116,
+   "blackW": 7.175515834161464,
+   "whiteA": 60.87754177143238,
+   "blackA": 48.49253737844571
+  },
+  {
+   "family": "yellow",
+   "hex": "#ac9800",
+   "L": 0.6765824908164281,
+   "whiteW": 2.8983303434892473,
+   "blackW": 7.24555089007503,
+   "whiteA": 60.397581063101946,
+   "blackA": 48.955183957398255
+  }
+ ],
+ "set": {
+  "name": "Brand · Radix DNA",
+  "semantics": [
+   {
+    "role": "background/page",
+    "light": {
+     "hex": "#fdfdfc",
+     "step": null,
+     "met": true,
+     "wcag": 1,
+     "apca": 0
+    },
+    "dark": {
+     "hex": "#111110",
+     "step": null,
+     "met": true,
+     "wcag": 1,
+     "apca": 0
+    }
+   },
+   {
+    "role": "background/subtle",
+    "light": {
+     "hex": "#eee3ff",
+     "step": "2",
+     "met": true,
+     "wcag": 1.2088920321242955,
+     "apca": 10.148641062065296
+    },
+    "dark": {
+     "hex": "#151120",
+     "step": "1",
+     "met": true,
+     "wcag": 1.0192776840672058,
+     "apca": 0
+    }
+   },
+   {
+    "role": "surface/normal",
+    "light": {
+     "hex": "#dccaff",
+     "step": "3",
+     "met": true,
+     "wcag": 1.224731613088766,
+     "apca": 9.816500780135229
+    },
+    "dark": {
+     "hex": "#251837",
+     "step": "2",
+     "met": true,
+     "wcag": 1.1161280101228934,
+     "apca": 0
+    }
+   },
+   {
+    "role": "surface/hover",
+    "light": {
+     "hex": "#c8b0fd",
+     "step": "4",
+     "met": true,
+     "wcag": 1.2572057516271613,
+     "apca": 10.0130714614835
+    },
+    "dark": {
+     "hex": "#321e55",
+     "step": "3",
+     "met": true,
+     "wcag": 1.1486951333059803,
+     "apca": 0
+    }
+   },
+   {
+    "role": "surface/active",
+    "light": {
+     "hex": "#b597f7",
+     "step": "5",
+     "met": true,
+     "wcag": 1.269037133688201,
+     "apca": 9.120698408054333
+    },
+    "dark": {
+     "hex": "#40276f",
+     "step": "4",
+     "met": true,
+     "wcag": 1.1963761399978066,
+     "apca": 0
+    }
+   },
+   {
+    "role": "border/subtle",
+    "light": {
+     "hex": "#a17df1",
+     "step": "6",
+     "met": true,
+     "wcag": 1.2999605911670478,
+     "apca": 8.777308497088743
+    },
+    "dark": {
+     "hex": "#523784",
+     "step": "5",
+     "met": true,
+     "wcag": 1.2881260681988553,
+     "apca": 0
+    }
+   },
+   {
+    "role": "border/normal",
+    "light": {
+     "hex": "#8d63e9",
+     "step": "7",
+     "met": true,
+     "wcag": 1.3190322738727749,
+     "apca": 7.898719963472654
+    },
+    "dark": {
+     "hex": "#63459d",
+     "step": "6",
+     "met": true,
+     "wcag": 1.2815413982112402,
+     "apca": 0
+    }
+   },
+   {
+    "role": "border/strong",
+    "light": {
+     "hex": "#a17df1",
+     "step": "6",
+     "met": true,
+     "wcag": 3.070713649481852,
+     "apca": 56.838337114855676
+    },
+    "dark": {
+     "hex": "#9a6af7",
+     "step": "9",
+     "met": true,
+     "wcag": 5.199047712920468,
+     "apca": 37.62286894074896
+    }
+   },
+   {
+    "role": "border/focus",
+    "light": {
+     "hex": "#a17df1",
+     "step": "6",
+     "met": true,
+     "wcag": 3.070713649481852,
+     "apca": 56.838337114855676
+    },
+    "dark": {
+     "hex": "#9a6af7",
+     "step": "9",
+     "met": true,
+     "wcag": 5.199047712920468,
+     "apca": 37.62286894074896
+    }
+   },
+   {
+    "role": "background/solid",
+    "light": {
+     "hex": "#7c3aed",
+     "step": "8",
+     "met": true,
+     "wcag": 5.598798972099022,
+     "apca": 76.2240506350608
+    },
+    "dark": {
+     "hex": "#7c3aed",
+     "step": "8",
+     "met": true,
+     "wcag": 3.3154659940276847,
+     "apca": 23.796660128747174
+    }
+   },
+   {
+    "role": "background/solid/hover",
+    "light": {
+     "hex": "#6b41c0",
+     "step": "9",
+     "met": true,
+     "wcag": 1.1726979086525855,
+     "apca": 0
+    },
+    "dark": {
+     "hex": "#9a6af7",
+     "step": "9",
+     "met": true,
+     "wcag": 1.5681197521813746,
+     "apca": 13.009814222784602
+    }
+   },
+   {
+    "role": "indicator/normal",
+    "light": {
+     "hex": "#7c3aed",
+     "step": "8",
+     "met": true,
+     "wcag": 5.598798972099022,
+     "apca": 76.2240506350608
+    },
+    "dark": {
+     "hex": "#7c3aed",
+     "step": "8",
+     "met": true,
+     "wcag": 3.3154659940276847,
+     "apca": 23.796660128747174
+    }
+   },
+   {
+    "role": "icon/normal",
+    "light": {
+     "hex": "#a17df1",
+     "step": "6",
+     "met": true,
+     "wcag": 3.070713649481852,
+     "apca": 56.838337114855676
+    },
+    "dark": {
+     "hex": "#ba8fff",
+     "step": "10",
+     "met": true,
+     "wcag": 7.612143412308358,
+     "apca": 52.88156035984811
+    }
+   },
+   {
+    "role": "content/subtle",
+    "light": {
+     "hex": "#5836a2",
+     "step": "10",
+     "met": true,
+     "wcag": 8.372358080937657,
+     "apca": 87.54522186613522
+    },
+    "dark": {
+     "hex": "#d2b6ff",
+     "step": "11",
+     "met": true,
+     "wcag": 10.684311698354703,
+     "apca": 69.7443085046032
+    }
+   },
+   {
+    "role": "content/normal",
+    "light": {
+     "hex": "#351f69",
+     "step": "12",
+     "met": true,
+     "wcag": 13.299535319086093,
+     "apca": 98.35349681367912
+    },
+    "dark": {
+     "hex": "#e6dbff",
+     "step": "12",
+     "met": true,
+     "wcag": 14.342143186126771,
+     "apca": 87.53541703124553
+    }
+   },
+   {
+    "role": "content/on-solid",
+    "light": {
+     "hex": "#ffffff",
+     "step": "white",
+     "met": true,
+     "wcag": 5.6985853297405535,
+     "apca": 82.77067556672101
+    },
+    "dark": {
+     "hex": "#ffffff",
+     "step": "white",
+     "met": true,
+     "wcag": 5.6985853297405535,
+     "apca": 82.77067556672101
+    }
+   },
+   {
+    "role": "content/disabled",
+    "light": {
+     "hex": "#a17df1",
+     "step": "6",
+     "met": true,
+     "wcag": 3.070713649481852,
+     "apca": 56.838337114855676
+    },
+    "dark": {
+     "hex": "#ba8fff",
+     "step": "10",
+     "met": true,
+     "wcag": 7.612143412308358,
+     "apca": 52.88156035984811
+    }
+   }
+  ],
+  "backgrounds": {
+   "light": {
+    "l": 0.99377,
+    "c": 0.001316,
+    "h": 106.42352900000003
+   },
+   "dark": {
+    "l": 0.177218,
+    "c": 0.002019,
+    "h": 106.60385500000001
+   }
+  }
+ }
+}

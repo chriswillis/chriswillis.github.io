@@ -1,0 +1,1098 @@
+{
+  "$schema": "palette-dna/figma-variables/1",
+  "note": "Figma has no wide-gamut colour, so these are the sRGB siblings; OKLCH stays canonical in the DTCG file. Variables are keyed by `id`: match on that, not on `name`, so a rename stays a rename.",
+  "collections": [
+    {
+      "name": "Brand · Radix DNA — primitives",
+      "modes": [
+        "Light",
+        "Dark"
+      ],
+      "variables": [
+        {
+          "id": "18pl8hg0mffhi",
+          "name": "brand/1",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 1",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9921568627450981,
+              "g": 0.9882352941176471,
+              "b": 0.996078431372549,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.08235294117647059,
+              "g": 0.06666666666666667,
+              "b": 0.12549019607843137,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-1)"
+          }
+        },
+        {
+          "id": "19jk1kd0llgof",
+          "name": "brand/2",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 2",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9333333333333333,
+              "g": 0.8901960784313725,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.1450980392156863,
+              "g": 0.09411764705882353,
+              "b": 0.21568627450980393,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-2)"
+          }
+        },
+        {
+          "id": "199kfve0lvga4",
+          "name": "brand/3",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 3",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.8627450980392157,
+              "g": 0.792156862745098,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.19607843137254902,
+              "g": 0.11764705882352941,
+              "b": 0.3333333333333333,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-3)"
+          }
+        },
+        {
+          "id": "17vmfej0l1hh1",
+          "name": "brand/4",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 4",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7843137254901961,
+              "g": 0.6901960784313725,
+              "b": 0.9921568627450981,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.25098039215686274,
+              "g": 0.15294117647058825,
+              "b": 0.43529411764705883,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-4)"
+          }
+        },
+        {
+          "id": "17lmtpk0lbh2q",
+          "name": "brand/5",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 5",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7098039215686275,
+              "g": 0.592156862745098,
+              "b": 0.9686274509803922,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.3215686274509804,
+              "g": 0.21568627450980393,
+              "b": 0.5176470588235295,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-5)"
+          }
+        },
+        {
+          "id": "18flmsh0khi9n",
+          "name": "brand/6",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 6",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.38823529411764707,
+              "g": 0.27058823529411763,
+              "b": 0.615686274509804,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-6)"
+          }
+        },
+        {
+          "id": "185m13i0krhvc",
+          "name": "brand/7",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 7",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.5529411764705883,
+              "g": 0.38823529411764707,
+              "b": 0.9137254901960784,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.4470588235294118,
+              "g": 0.30980392156862746,
+              "b": 0.7333333333333333,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-7)"
+          }
+        },
+        {
+          "id": "16ro0mn0odcpd",
+          "name": "brand/8",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 8 — the seed",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-8)"
+          }
+        },
+        {
+          "id": "16hoexo0oncb2",
+          "name": "brand/9",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 9",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.4196078431372549,
+              "g": 0.2549019607843137,
+              "b": 0.7529411764705882,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6039215686274509,
+              "g": 0.41568627450980394,
+              "b": 0.9686274509803922,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-9)"
+          }
+        },
+        {
+          "id": "1cr624s0rsmv8",
+          "name": "brand/10",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 10",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.34509803921568627,
+              "g": 0.21176470588235294,
+              "b": 0.6352941176470588,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7294117647058823,
+              "g": 0.5607843137254902,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-10)"
+          }
+        },
+        {
+          "id": "1d15ntr0smlob",
+          "name": "brand/11",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 11",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.27450980392156865,
+              "g": 0.16470588235294117,
+              "b": 0.5215686274509804,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.8235294117647058,
+              "g": 0.7137254901960784,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-11)"
+          }
+        },
+        {
+          "id": "1db59iq0scm2m",
+          "name": "brand/12",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "chromatic primitive, step 12",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.20784313725490197,
+              "g": 0.12156862745098039,
+              "b": 0.4117647058823529,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.9019607843137255,
+              "g": 0.8588235294117647,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-brand-12)"
+          }
+        },
+        {
+          "id": "1yaxs9t15oypt",
+          "name": "mauve/1",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 1",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9921568627450981,
+              "g": 0.9882352941176471,
+              "b": 0.9921568627450981,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.07058823529411765,
+              "g": 0.06666666666666667,
+              "b": 0.07450980392156863,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-1)"
+          }
+        },
+        {
+          "id": "1xgyz6w15ez44",
+          "name": "mauve/2",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 2",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9058823529411765,
+              "g": 0.8980392156862745,
+              "b": 0.9176470588235294,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.13333333333333333,
+              "g": 0.12941176470588237,
+              "b": 0.1411764705882353,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-2)"
+          }
+        },
+        {
+          "id": "1xqykvv154zif",
+          "name": "mauve/3",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 3",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.8156862745098039,
+              "g": 0.807843137254902,
+              "b": 0.8470588235294118,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.2,
+              "g": 0.19607843137254902,
+              "b": 0.21568627450980393,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-3)"
+          }
+        },
+        {
+          "id": "003sjdm14uzwq",
+          "name": "mauve/4",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 4",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7254901960784313,
+              "g": 0.7254901960784313,
+              "b": 0.7764705882352941,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.27058823529411763,
+              "g": 0.26666666666666666,
+              "b": 0.29411764705882354,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-4)"
+          }
+        },
+        {
+          "id": "00ds52l14l0b1",
+          "name": "mauve/5",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 5",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6431372549019608,
+              "g": 0.6392156862745098,
+              "b": 0.6941176470588235,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.34509803921568627,
+              "g": 0.3411764705882353,
+              "b": 0.3764705882352941,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-5)"
+          }
+        },
+        {
+          "id": "1ykxdys14b0pc",
+          "name": "mauve/6",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 6",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.5607843137254902,
+              "g": 0.5568627450980392,
+              "b": 0.611764705882353,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.4196078431372549,
+              "g": 0.41568627450980394,
+              "b": 0.4588235294117647,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-6)"
+          }
+        },
+        {
+          "id": "1yuwznr14113n",
+          "name": "mauve/7",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 7",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.4823529411764706,
+              "g": 0.47843137254901963,
+              "b": 0.5254901960784314,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.4980392156862745,
+              "g": 0.4980392156862745,
+              "b": 0.5411764705882353,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-7)"
+          }
+        },
+        {
+          "id": "1vt1d1213r1hy",
+          "name": "mauve/8",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 8",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.403921568627451,
+              "g": 0.403921568627451,
+              "b": 0.44313725490196076,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.5843137254901961,
+              "g": 0.5803921568627451,
+              "b": 0.6235294117647059,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-8)"
+          }
+        },
+        {
+          "id": "1w30yq113h1w9",
+          "name": "mauve/9",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 9",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.32941176470588235,
+              "g": 0.32941176470588235,
+              "b": 0.36470588235294116,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6705882352941176,
+              "g": 0.6627450980392157,
+              "b": 0.7058823529411765,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-9)"
+          }
+        },
+        {
+          "id": "0dlckn71wuv3h",
+          "name": "mauve/10",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 10",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.25882352941176473,
+              "g": 0.2549019607843137,
+              "b": 0.2901960784313726,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7529411764705882,
+              "g": 0.7529411764705882,
+              "b": 0.788235294117647,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-10)"
+          }
+        },
+        {
+          "id": "0dbcyy81w0wae",
+          "name": "mauve/11",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 11",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.19215686274509805,
+              "g": 0.18823529411764706,
+              "b": 0.2196078431372549,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.8431372549019608,
+              "g": 0.8431372549019608,
+              "b": 0.8627450980392157,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-11)"
+          }
+        },
+        {
+          "id": "0e5bs151wavw3",
+          "name": "mauve/12",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "neutral primitive, step 12",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.12549019607843137,
+              "g": 0.12156862745098039,
+              "b": 0.14901960784313725,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.9333333333333333,
+              "g": 0.9333333333333333,
+              "b": 0.9411764705882353,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-mauve-12)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Brand · Radix DNA — semantic",
+      "modes": [
+        "Light",
+        "Dark"
+      ],
+      "variables": [
+        {
+          "id": "1oxoyff0zn94w",
+          "name": "background/page",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The app background. Not taken from the ramp; it is the surface everything else is measured against. Requirement: given — the page background the ramp is solved against.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9921568627450981,
+              "g": 0.9921568627450981,
+              "b": 0.9882352941176471,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.06666666666666667,
+              "g": 0.06666666666666667,
+              "b": 0.06274509803921569,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-page)"
+          }
+        },
+        {
+          "id": "1pvacjh15jkra",
+          "name": "background/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "A tinted band behind a section — readable as a different surface, not as an element. Requirement: calibrated: Radix's step 2 sits ΔEOK 0.010–0.015 from its step 1 in light mode, 0.019–0.036 in dark.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.9333333333333333,
+              "g": 0.8901960784313725,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.08235294117647059,
+              "g": 0.06666666666666667,
+              "b": 0.12549019607843137,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-subtle)"
+          }
+        },
+        {
+          "id": "1xuktho0m55ry",
+          "name": "surface/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The resting fill of a component — a card, an input, an unpressed button. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.8627450980392157,
+              "g": 0.792156862745098,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.1450980392156863,
+              "g": 0.09411764705882353,
+              "b": 0.21568627450980393,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-normal)"
+          }
+        },
+        {
+          "id": "0uelis30b4d0s",
+          "name": "surface/hover",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The same component under the pointer. A JND is the floor for a state change to register at all. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7843137254901961,
+              "g": 0.6901960784313725,
+              "b": 0.9921568627450981,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.19607843137254902,
+              "g": 0.11764705882352941,
+              "b": 0.3333333333333333,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-hover)"
+          }
+        },
+        {
+          "id": "1ylu6p90vbj79",
+          "name": "surface/active",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "Pressed, or selected. Also used for `surface/selected`. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.7098039215686275,
+              "g": 0.592156862745098,
+              "b": 0.9686274509803922,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.25098039215686274,
+              "g": 0.15294117647058825,
+              "b": 0.43529411764705883,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-surface-active)"
+          }
+        },
+        {
+          "id": "0fcd1u30qbyo7",
+          "name": "border/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "A separator or a decorative hairline — not required to identify anything, so no 3:1 claim. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.3215686274509804,
+              "g": 0.21568627450980393,
+              "b": 0.5176470588235295,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-subtle)"
+          }
+        },
+        {
+          "id": "1xqlb4d00nhc4",
+          "name": "border/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "The edge of a component whose fill already identifies it. Requirement: CSS Color 4 gamut-mapping JND, ΔEOK 0.02.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.5529411764705883,
+              "g": 0.38823529411764707,
+              "b": 0.9137254901960784,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.38823529411764707,
+              "g": 0.27058823529411763,
+              "b": 0.615686274509804,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-normal)"
+          }
+        },
+        {
+          "id": "0dp8jfl1p02b8",
+          "name": "border/strong",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "A boundary that is the only thing identifying a control. This is a requirement, not a position, so it can land well past the step a system uses for its strong border — on most hues it lands on the brand fill, which is where a focus ring belongs anyway. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6039215686274509,
+              "g": 0.41568627450980394,
+              "b": 0.9686274509803922,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-strong)"
+          }
+        },
+        {
+          "id": "1s7dhvm1m54d2",
+          "name": "border/focus",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "STROKE_COLOR"
+          ],
+          "description": "The focus ring. Same requirement as a strong border; usually the same step. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6039215686274509,
+              "g": 0.41568627450980394,
+              "b": 0.9686274509803922,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-border-focus)"
+          }
+        },
+        {
+          "id": "0segw9j1azvb7",
+          "name": "background/solid",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The brand fill. Found by chroma, not contrast: across Radix its contrast against the background spans 1.46–5.07 in light mode, so no threshold identifies it. Requirement: measured — the peak-chroma step, which the DNA records as `peakIndex`.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-solid)"
+          }
+        },
+        {
+          "id": "0k39tii10c4i3",
+          "name": "background/solid/hover",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "description": "The brand fill under the pointer. Requirement: measured — one step past the peak, the direction every reference moves its solid on hover.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.4196078431372549,
+              "g": 0.2549019607843137,
+              "b": 0.7529411764705882,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.6039215686274509,
+              "g": 0.41568627450980394,
+              "b": 0.9686274509803922,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-background-solid-hover)"
+          }
+        },
+        {
+          "id": "0hgvt3m07v4pg",
+          "name": "indicator/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "description": "A status dot, a badge fill, a chart series marker. The brand color at full strength. Requirement: measured — the same step as the solid.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.48627450980392156,
+              "g": 0.22745098039215686,
+              "b": 0.9294117647058824,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-indicator-normal)"
+          }
+        },
+        {
+          "id": "11vw5v40ej4dq",
+          "name": "icon/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "SHAPE_FILL",
+            "FRAME_FILL"
+          ],
+          "description": "A glyph carrying meaning. Non-text, so 3:1 — but APCA asks Lc 45 of anything with strokes that fine, and the assignment takes whichever step clears both. Requirement: WCAG 2.1 SC 1.4.11 Non-text Contrast, AA: 3:1 for information required to identify a control or its state; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7294117647058823,
+              "g": 0.5607843137254902,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-icon-normal)"
+          }
+        },
+        {
+          "id": "1v9rr6c0n6ou4",
+          "name": "content/subtle",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Secondary text. \"Subtle\" names its role, not a discount on legibility: it still has to clear body-text contrast. Requirement: WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.34509803921568627,
+              "g": 0.21176470588235294,
+              "b": 0.6352941176470588,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.8235294117647058,
+              "g": 0.7137254901960784,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-subtle)"
+          }
+        },
+        {
+          "id": "172wsj21a5wbz",
+          "name": "content/normal",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Primary text: the most contrasting step the ramp has. The thresholds are checked rather than used to select, so the report says whether the darkest step actually reaches AAA — on Radix's dark scale it clears 7:1 easily and reaches Lc 86–96, short of the Lc 90 APCA wants for fluent text in 18 of 25 families. Requirement: WCAG 2.1 SC 1.4.6 Contrast (Enhanced), AAA: 7:1 for body text; APCA-W3 Lc 75, the practical body-text level above bronze.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.20784313725490197,
+              "g": 0.12156862745098039,
+              "b": 0.4117647058823529,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.9019607843137255,
+              "g": 0.8588235294117647,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-normal)"
+          }
+        },
+        {
+          "id": "1gd8kb21d7ebd",
+          "name": "content/on-solid",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Text or an icon on the brand fill, and the role where palettes actually break. White clears 4.5:1 on only 5 of Radix's 25 light solids, and black covers the rest — so WCAG alone is always satisfiable. Satisfying WCAG and APCA with the *same* colour is not: on blue-9 white reaches 3.26:1 / Lc 65 and black 6.43:1 / Lc 45, and on 15 of the 25 solids the two measures prefer opposite foregrounds and neither clears both. The assignment resolves per family, says which measure prefers what, and reports the lightness the fill would need for one colour to satisfy both. Requirement: WCAG 2.1 SC 1.4.3 Contrast (Minimum), AA: 4.5:1 for body text; APCA-W3 bronze: Lc 60 for body text, Lc 45 for large text, Lc 30 for non-text.",
+          "valuesByMode": {
+            "Light": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            },
+            "Dark": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-on-solid)"
+          }
+        },
+        {
+          "id": "1kod0011gfi8s",
+          "name": "content/disabled",
+          "resolvedType": "COLOR",
+          "scopes": [
+            "TEXT_FILL"
+          ],
+          "description": "Text in a disabled control. The one role with no criterion behind it, so it takes the quietest step that is still readable at all. Requirement: WCAG 2.1 exempts disabled controls from 1.4.3 and 1.4.11, so nothing published applies; the floor here is APCA Lc 30, its spot-reading level — a licence to be quiet, not to disappear.",
+          "valuesByMode": {
+            "Light": {
+              "r": 0.6313725490196078,
+              "g": 0.49019607843137253,
+              "b": 0.9450980392156862,
+              "a": 1
+            },
+            "Dark": {
+              "r": 0.7294117647058823,
+              "g": 0.5607843137254902,
+              "b": 1,
+              "a": 1
+            }
+          },
+          "codeSyntax": {
+            "WEB": "var(--color-content-disabled)"
+          }
+        }
+      ]
+    }
+  ]
+}

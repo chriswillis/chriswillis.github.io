@@ -1,0 +1,213 @@
+{
+ "$schema": "palette-dna/index/1",
+ "systems": [
+  {
+   "id": "opencolor",
+   "name": "Open Color",
+   "mode": "light",
+   "families": 12,
+   "neutrals": 1,
+   "steps": [
+    10
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.22066252776809916,
+   "nativeShell": "srgb",
+   "wMean": 0.5950000000000001,
+   "kinship": 0.796969696969697,
+   "license": "MIT"
+  },
+  {
+   "id": "openprops",
+   "name": "Open Props",
+   "mode": "light",
+   "families": 16,
+   "neutrals": 3,
+   "steps": [
+    13
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.2160866101556604,
+   "nativeShell": "srgb",
+   "wMean": 0.7076923076923076,
+   "kinship": 0.6775641025641026,
+   "license": "MIT"
+  },
+  {
+   "id": "tailwind",
+   "name": "Tailwind CSS",
+   "mode": "light",
+   "families": 17,
+   "neutrals": 5,
+   "steps": [
+    11
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.1409872026467448,
+   "nativeShell": "srgb",
+   "wMean": 0.8090909090909091,
+   "kinship": 0.8863636363636364,
+   "license": "MIT"
+  },
+  {
+   "id": "tailwind-v4",
+   "name": "Tailwind CSS v4",
+   "mode": "light",
+   "families": 17,
+   "neutrals": 9,
+   "steps": [
+    11
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.14611439998288483,
+   "nativeShell": "srgb",
+   "wMean": 0.8045454545454547,
+   "kinship": 0.8683155080213903,
+   "license": "MIT"
+  },
+  {
+   "id": "material",
+   "name": "Material Design",
+   "mode": "light",
+   "families": 13,
+   "neutrals": 1,
+   "steps": [
+    10
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.42447785653751813,
+   "nativeShell": "srgb",
+   "wMean": 0.48999999999999994,
+   "kinship": 0.5756410256410256,
+   "license": "Apache-2.0"
+  },
+  {
+   "id": "spectrum",
+   "name": "Adobe Spectrum",
+   "mode": "light",
+   "families": 13,
+   "neutrals": 1,
+   "steps": [
+    14
+   ],
+   "numbering": "contrast-bearing",
+   "sigmaLogCR": 0.003070626284761017,
+   "nativeShell": "srgb",
+   "wMean": 0.8428571428571427,
+   "kinship": 0.7843406593406593,
+   "license": "Apache-2.0"
+  },
+  {
+   "id": "primer",
+   "name": "GitHub Primer",
+   "mode": "light",
+   "families": 8,
+   "neutrals": 1,
+   "steps": [
+    10
+   ],
+   "numbering": "contrast-bearing",
+   "sigmaLogCR": 0.024967377671769923,
+   "nativeShell": "srgb",
+   "wMean": 0.6850000000000002,
+   "kinship": 0.8339285714285715,
+   "license": "MIT"
+  },
+  {
+   "id": "polaris",
+   "name": "Shopify Polaris",
+   "mode": "light",
+   "families": 12,
+   "neutrals": 1,
+   "steps": [
+    16
+   ],
+   "numbering": "contrast-bearing",
+   "sigmaLogCR": 0.0352292447353742,
+   "nativeShell": "srgb",
+   "wMean": 0.978125,
+   "kinship": 0.868844696969697,
+   "license": "MIT"
+  },
+  {
+   "id": "carbon",
+   "name": "IBM Carbon",
+   "mode": "light",
+   "families": 9,
+   "neutrals": 3,
+   "steps": [
+    10
+   ],
+   "numbering": "contrast-bearing",
+   "sigmaLogCR": 0.007358963816789416,
+   "nativeShell": "srgb",
+   "wMean": 0.8350000000000002,
+   "kinship": 0.8458333333333333,
+   "license": "Apache-2.0"
+  },
+  {
+   "id": "atlassian",
+   "name": "Atlassian Design System",
+   "mode": "light",
+   "families": 9,
+   "neutrals": 1,
+   "steps": [
+    12
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.0896806904636798,
+   "nativeShell": "srgb",
+   "wMean": 0.6708333333333334,
+   "kinship": 0.6805555555555556,
+   "license": "Apache-2.0"
+  },
+  {
+   "id": "webawesome",
+   "name": "Web Awesome",
+   "mode": "light",
+   "families": 9,
+   "neutrals": 1,
+   "steps": [
+    11
+   ],
+   "numbering": "contrast-bearing",
+   "sigmaLogCR": 0.0026823097983679853,
+   "nativeShell": "srgb",
+   "wMean": 0.6363636363636364,
+   "kinship": 0.7954545454545454,
+   "license": "unverified — check webawesome.com"
+  },
+  {
+   "id": "radix-light",
+   "name": "Radix Colors (light)",
+   "mode": "light",
+   "families": 25,
+   "neutrals": 6,
+   "steps": [
+    12
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.11789554484201295,
+   "nativeShell": "srgb",
+   "wMean": 0.37083333333333335,
+   "kinship": 0.6129166666666667,
+   "license": "MIT"
+  },
+  {
+   "id": "radix-dark",
+   "name": "Radix Colors (dark)",
+   "mode": "dark",
+   "families": 25,
+   "neutrals": 6,
+   "steps": [
+    12
+   ],
+   "numbering": "nominal",
+   "sigmaLogCR": 0.14214383281731724,
+   "nativeShell": "srgb",
+   "wMean": 0.4958333333333333,
+   "kinship": 0.6440277777777778,
+   "license": "MIT"
+  }
+ ]
+}
