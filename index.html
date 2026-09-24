@@ -240,6 +240,15 @@
     :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); }
   }
 
+  /* Flying photos under the pilot bullet: stacked on phones, one equal-height row on wider screens.
+     --ar is each photo's aspect ratio, so flex-grow gives both the same height. */
+  .flying { display: grid; gap: 2px; margin: 0.9rem 0 0.6rem; }
+  .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
+  @media (min-width: 40rem) {
+    .flying { display: flex; }
+    .flying img { flex: var(--ar) 1 0; }
+  }
+
   /* Mark links that leave the site (footer nav excluded) */
   main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
     content: "";
@@ -409,7 +418,20 @@
   <h2>Outside of work</h2>
   <ul>
     <li>Chaired the board of a <a href="https://www.deseret.com/2011/9/15/20387620/midway-school-celebrates-nature-receives-national-recognition/">National Blue Ribbon-winning charter school</a></li>
-    <li>2,000+ hour pilot; flew humanitarian medical flights to remote Baja, Mexico</li>
+    <li>2,000+ hour pilot; flew humanitarian medical flights to remote Baja, Mexico
+      <figure class="flying">
+        <img src="assets/flying/t210-baja-800.webp"
+             srcset="assets/flying/t210-baja-800.webp 800w, assets/flying/t210-baja-1600.webp 1600w"
+             sizes="(min-width: 47rem) 26rem, (min-width: 40rem) 58vw, calc(100vw - 4.4rem)"
+             width="1791" height="878" loading="lazy" decoding="async" style="--ar: 2.04"
+             alt="A Cessna T210 parked on a dirt airstrip in Baja California Sur, the sun low on the horizon" />
+        <img src="assets/flying/baja-medical-flight-800.webp"
+             srcset="assets/flying/baja-medical-flight-800.webp 800w, assets/flying/baja-medical-flight-1448.webp 1448w"
+             sizes="(min-width: 47rem) 17rem, (min-width: 40rem) 38vw, calc(100vw - 4.4rem)"
+             width="1448" height="1086" loading="lazy" decoding="async" style="--ar: 1.333"
+             alt="Above: the wing over snowy mountains in low golden light. Below: a mother holds her sleeping baby in the Baja desert." />
+      </figure>
+    </li>
     <li>Coached youth hockey in Park City, UT for more than a decade</li>
   </ul>
 
