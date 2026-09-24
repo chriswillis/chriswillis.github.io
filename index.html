@@ -216,6 +216,30 @@
   hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
   nav a { margin-right: 1.5rem; }
 
+  /* Selected projects: teaser cards with the screenshot peeking up from the bottom edge.
+     Wrap an article in <a class="project" href="..."> once a project page exists; hover states are ready. */
+  .project { display: block; margin-top: 1rem; background: var(--bg-2); color: inherit; font-weight: inherit; text-decoration: none; overflow: hidden; }
+  .project-text { padding: 1.1rem 1.25rem 0; }
+  .project h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
+  .project .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
+  .project p { margin: 0.3rem 0 0; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .project-shot { height: clamp(8.5rem, 32vw, 13.5rem); margin-top: 1.25rem; padding: 0 1.25rem; overflow: hidden; }
+  /* The screenshot fills the width and is cropped vertically; set --shot-y on an img to move the focal point down */
+  .project-shot img {
+    display: block; width: 100%; height: calc(100% + 0.5rem);
+    object-fit: cover; object-position: 50% var(--shot-y, 0%);
+    box-shadow: 0 0 0 1px var(--ui);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  a.project .name { text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out; }
+  a.project:hover .name, a.project:focus-visible .name { color: var(--accent); text-decoration-color: var(--accent); }
+  a.project:hover .project-shot img, a.project:focus-visible .project-shot img { transform: translateY(-0.35rem); }
+  a.project:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  :root[data-theme="dark"] .project-shot img { filter: brightness(0.9); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); }
+  }
+
   /* Mark links that leave the site (footer nav excluded) */
   main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
     content: "";
@@ -270,6 +294,8 @@
 
   <p>I'm the founding Chief Design Officer and Futurist at <a href="https://www.domo.com">Domo</a>. For 15 years I've helped build one of the first cloud-native, mobile-first data platforms, and now governed, agentic AI that real people can actually use. I take a first-principles approach to AI and innovation, starting with the human problem instead of the cool demo.</p>
 
+
+
   <h2>What I'm known for</h2>
   <ul>
     <li>Founding CDO at Domo: $0 to $330M ARR, a Nasdaq IPO and an acquisition by Progress Software</li>
@@ -279,6 +305,55 @@
     <li>Six U.S. patents for data visualization, analytics and interfaces</li>
     <li><a href="https://www.domo.com/news/press/domos-chris-willis-wins-executive-excellence-award">2025 Executive Excellence Award</a>, Utah Business Magazine, and Forbes Technology Council member</li>
   </ul>
+
+  <section class="projects" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Selected projects</h2>
+    <p>A curated selection of work, with more on the way...</p>
+
+    <article class="project">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <span class="name">Intent Engine</span></h3>
+        <p>Giving AI agents the business context to act on what people mean</p>
+      </div>
+      <div class="project-shot">
+        <a href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&t=341">
+        <img src="assets/portfolio/intent-engine-800.webp"
+             srcset="assets/portfolio/intent-engine-800.webp 800w, assets/portfolio/intent-engine-1440.webp 1440w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1440" height="810" loading="lazy" decoding="async" style="--shot-y: 55%"
+             alt="A supply chain app flags a delayed part while Intent Engine maps the people, orders and suppliers it affects" />
+        </a>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <span class="name">App Studio</span></h3>
+        <p>A visual canvas for designing, generating and publishing data apps</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/app-studio-800.webp"
+             srcset="assets/portfolio/app-studio-800.webp 800w, assets/portfolio/app-studio-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1032" loading="lazy" decoding="async"
+             alt="Domo App Studio editor with a block library, a page in progress and a properties panel" />
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-text">
+        <h3><span class="year">2024</span> <span class="name">AI Readiness</span></h3>
+        <p>Showing people what to fix before their data meets AI</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/ai-readiness-800.webp"
+             srcset="assets/portfolio/ai-readiness-800.webp 800w, assets/portfolio/ai-readiness-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1039" loading="lazy" decoding="async"
+             alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
+      </div>
+    </article>
+  </section>
 
   <h2>In the media</h2>
   <ul>
