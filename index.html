@@ -231,10 +231,60 @@
     box-shadow: 0 0 0 1px var(--ui);
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-  a.project .name { text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out; }
-  a.project:hover .name, a.project:focus-visible .name { color: var(--accent); text-decoration-color: var(--accent); }
-  a.project:hover .project-shot img, a.project:focus-visible .project-shot img { transform: translateY(-0.35rem); }
-  a.project:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  a.project .name, .project-open { text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out; }
+  a.project:hover .name, a.project:focus-visible .name,
+  .project.is-clickable:hover .project-open, .project-open:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
+  a.project:hover .project-shot img, a.project:focus-visible .project-shot img,
+  .project.is-clickable:hover .project-shot img, .project.is-clickable:focus-within .project-shot img { transform: translateY(-0.35rem); }
+  a.project:focus-visible, .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  /* A card that opens an image gallery: the title button stretches over the whole card */
+  .project.is-clickable { position: relative; cursor: pointer; }
+  .project-open { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .project-open::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .project-open:focus-visible { outline: none; }
+  .project-count {
+    position: absolute; right: 2rem; bottom: 0.75rem;
+    padding: 0.1rem 0.5rem; font-size: 0.85rem; color: var(--tx-2);
+    background: var(--bg); box-shadow: 0 0 0 1px var(--ui);
+  }
+
+  /* Gallery modal: a scroll-snap carousel inside a native <dialog> */
+  html:has(.gallery[open]) { overflow: hidden; }
+  .gallery {
+    width: min(100% - 2rem, 76rem); max-width: none; max-height: calc(100dvh - 2rem);
+    margin: auto; padding: 0; overflow: hidden;
+    background: var(--bg); color: var(--tx); border: 1px solid var(--ui);
+  }
+  .gallery::backdrop { background: rgb(16 15 15 / 0.75); }
+  /* Grid rows let the image row shrink so the header, caption and arrows always fit on screen */
+  .gallery-inner { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 1rem; max-height: calc(100dvh - 2rem); padding: 1.25rem clamp(1rem, 3vw, 1.5rem); }
+  .gallery-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .gallery-head h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
+  .gallery-head .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
+  .gallery-head p { margin: 0.3rem 0 0; max-width: 62ch; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .gallery-track {
+    display: flex; min-height: 0; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+  }
+  .gallery-track::-webkit-scrollbar { display: none; }
+  .gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .gallery-slide { flex: 0 0 100%; min-width: 0; min-height: 0; scroll-snap-align: center; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: center; gap: 0.75rem; }
+  .gallery-slide img {
+    display: block; width: auto; height: auto; max-width: 100%; max-height: 100%;
+    background: var(--bg-2); box-shadow: 0 0 0 1px var(--ui);
+  }
+  .gallery-slide figcaption { color: var(--tx-2); font-size: 1rem; text-align: center; }
+  .gallery-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+  .gallery-count { min-width: 3.5rem; text-align: center; color: var(--tx-2); font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .gallery button {
+    flex: none; display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
+    background: none; border: 1px solid var(--ui-2); color: var(--tx); font: inherit; font-size: 1.1rem; line-height: 1; cursor: pointer;
+    transition: color 0.2s ease-out, border-color 0.2s ease-out;
+  }
+  .gallery button:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+  .gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .gallery button:disabled { opacity: 0.35; cursor: default; }
   :root[data-theme="dark"] .project-shot img { filter: brightness(0.9); }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); }
@@ -349,6 +399,68 @@
       </div>
     </article>
 
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="supergrid-gallery" aria-label="SuperGrid, view 4 images">SuperGrid</button></h3>
+        <p>A unified data grid for fast, frictionless exploration of DataSets of any size</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/supergrid-explore-800.webp"
+             srcset="assets/portfolio/supergrid-explore-800.webp 800w, assets/portfolio/supergrid-explore-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="997" loading="lazy" decoding="async"
+             alt="SuperGrid showing value distributions in every column header, column stats and a column menu" />
+      </div>
+      <span class="project-count" aria-hidden="true">4 images</span>
+    </article>
+
+    <dialog class="gallery" id="supergrid-gallery" aria-labelledby="supergrid-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="supergrid-title"><span class="year">2026</span> SuperGrid</h3>
+            <p>Establish a unified visual data grid exploration and app experience throughout the platform, enhancing customer familiarity with fast and frictionless EDA interaction for DataSets of any size.</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="SuperGrid images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-explore-1600.webp"
+                 srcset="assets/portfolio/supergrid-explore-1600.webp 1600w, assets/portfolio/supergrid-explore-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid Explorer: value distributions in every column header, a stats popover and the column menu" />
+            <figcaption>Explore: distributions, nulls and column stats at a glance</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-map-1600.webp"
+                 srcset="assets/portfolio/supergrid-map-1600.webp 1600w, assets/portfolio/supergrid-map-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid Visualize panel mapping ZIP codes as points beside the grouped grid" />
+            <figcaption>Visualize: map ZIP codes straight from the grid</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-groupby-1600.webp"
+                 srcset="assets/portfolio/supergrid-groupby-1600.webp 1600w, assets/portfolio/supergrid-groupby-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid grouped by state with menus for sorting, grouping and choosing how each column aggregates" />
+            <figcaption>Group by any column and choose how each one aggregates</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-anatomy-1600.webp"
+                 srcset="assets/portfolio/supergrid-anatomy-1600.webp 1600w, assets/portfolio/supergrid-anatomy-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="930" loading="lazy" decoding="async"
+                 alt="Annotated anatomy of SuperGrid labeling the table source, toolbar, formulas, context menu, appearance panel, status bar and aggregation bar" />
+            <figcaption>Anatomy of the grid, from toolbar to aggregation bar</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 4</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
     <article class="project">
       <div class="project-text">
         <h3><span class="year">2024</span> <span class="name">AI Readiness</span></h3>
@@ -360,6 +472,20 @@
              sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
              width="1600" height="1039" loading="lazy" decoding="async"
              alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-text">
+        <h3><span class="year">2023</span> <span class="name">Improved Domo Workflow Engine</span></h3>
+        <p>Turning business automation into flows anyone can read and edit</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/workflow-engine-800.webp"
+             srcset="assets/portfolio/workflow-engine-800.webp 800w, assets/portfolio/workflow-engine-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="916" loading="lazy" decoding="async"
+             alt="A Domo workflow for new hire onboarding: when Workday approves a new hire, Outlook sends them a welcome email" />
       </div>
     </article>
   </section>
@@ -476,6 +602,48 @@
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "d" && !e.metaKey && !e.ctrlKey && !e.altKey && document.activeElement === document.body) btn.click();
+    });
+  })();
+</script>
+<script>
+  // Project galleries: open from the card, arrows or swipe to move, Esc or backdrop click to close
+  (function () {
+    document.querySelectorAll("dialog.gallery").forEach(function (dlg) {
+      var track = dlg.querySelector(".gallery-track");
+      var slides = track.children;
+      var count = dlg.querySelector(".gallery-count");
+      var prev = dlg.querySelector("[data-prev]");
+      var next = dlg.querySelector("[data-next]");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+      function index() { return Math.round(track.scrollLeft / track.clientWidth) || 0; }
+      function update() {
+        var i = index();
+        count.textContent = (i + 1) + " / " + slides.length;
+        prev.disabled = i === 0;
+        next.disabled = i === slides.length - 1;
+      }
+      function go(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        track.scrollTo({ left: i * track.clientWidth, behavior: reduce.matches ? "auto" : "smooth" });
+      }
+      var raf;
+      track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
+      prev.addEventListener("click", function () { go(index() - 1); });
+      next.addEventListener("click", function () { go(index() + 1); });
+      dlg.querySelector(".gallery-close").addEventListener("click", function () { dlg.close(); });
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { e.preventDefault(); go(index() + 1); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); go(index() - 1); }
+      });
+      document.querySelectorAll('[aria-controls="' + dlg.id + '"]').forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          dlg.querySelectorAll("img").forEach(function (img) { img.loading = "eager"; });
+          dlg.showModal();
+          track.scrollLeft = 0;
+          update();
+        });
+      });
     });
   })();
 </script>
