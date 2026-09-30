@@ -11,8 +11,8 @@
 <meta property="og:site_name" content="Outline echo">
 <meta property="og:title" content="Outline echo">
 <meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.">
-<meta property="og:url" content="https://cewillis.com/outline-echo.html">
-<meta property="og:image" content="https://cewillis.com/og-image.png">
+<meta property="og:url" content="https://your-site.example/outline-echo.html">
+<meta property="og:image" content="https://your-site.example/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -123,6 +123,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
       <button class="btn primary" id="play" aria-pressed="false">Play</button>
       <button class="btn" id="shuffle">Shuffle</button>
       <button class="btn" id="reset">Reset</button>
+      <button class="btn" id="copyLink" hidden>Copy link</button>
       <button class="btn" id="save" hidden>Save PNG</button>
     </div>
   </div>
@@ -296,18 +297,6 @@ var DEFAULTS = {
   format:"4:5", speed:1, exportScale:"2"
 };
 var state = JSON.parse(JSON.stringify(DEFAULTS));
-var STORE_KEY="outline-echo:v1";
-try{
-  var saved=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
-  if(saved&&typeof saved==="object") Object.keys(DEFAULTS).forEach(function(k){
-    if(k in saved&&typeof saved[k]===typeof DEFAULTS[k]) state[k]=saved[k];
-  });
-}catch(e){}
-var persistTimer=0;
-function persist(){
-  clearTimeout(persistTimer);
-  persistTimer=setTimeout(function(){ try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){} },300);
-}
 
 var SLIDERS = {
   textSliders:[
@@ -335,6 +324,99 @@ var SLIDERS = {
     ["speed","Motion speed",0.1,4,0.05,function(v){return v.toFixed(2)+"×"}]
   ]
 };
+
+/* ---------- Shareable links: design settings in the URL hash ---------- */
+var STANDALONE=!(window.claude&&typeof window.claude.use==="function");
+var URL_KEYS={text:"t",font:"f",weight:"w",italic:"i",textCase:"cs",size:"sz",leading:"ld",tracking:"tr",
+  margin:"m",align:"al",valign:"va",group:"g",count:"n",spacing:"sp",gap:"gp",line:"lw",opacity:"op",fade:"fd",
+  dx:"dx",dy:"dy",bgMode:"bm",gradType:"gt",gradAngle:"ga",stops:"st",bg:"bg",type:"tc",ring:"rc",
+  blend:"bl",showType:"ty",ringsOver:"ov",format:"fm",speed:"spd",exportScale:"ex"};
+var COLOR_KEYS=["bg","type","ring"];
+var ENUMS={
+  font:FONTS.map(function(f){return f[0];}), weight:["300","400","500","600","700","800"],
+  textCase:["as","upper","lower"], align:["left","center","right"], valign:["top","middle","bottom"],
+  group:["letter","word","line"], bgMode:["solid","gradient"], gradType:["linear","radial"],
+  blend:["source-over","lighter","screen","multiply","difference"], format:Object.keys(FORMATS), exportScale:["1","2","3"]
+};
+var RANGES={};
+Object.keys(SLIDERS).forEach(function(b){ SLIDERS[b].forEach(function(sl){ RANGES[sl[0]]=[sl[2],sl[3]]; }); });
+var HEX=/^[0-9a-f]{6}$/i;
+
+function num(v){ return String(Math.round(v*1000)/1000); }
+function encStops(stops){ return stops.map(function(st){return st[0].slice(1).toUpperCase()+"-"+num(st[1]*100);}).join("~"); }
+function decStops(raw){
+  var parts=raw.split("~").slice(0,8), out=[];
+  for(var i=0;i<parts.length;i++){
+    var m=/^([0-9a-f]{6})-(-?[\d.]+)$/i.exec(parts[i]);
+    if(!m) return null;
+    var pos=parseFloat(m[2]); if(!isFinite(pos)) return null;
+    out.push(["#"+m[1].toUpperCase(),Math.max(0,Math.min(100,pos))/100]);
+  }
+  return out.length>=2?out:null;
+}
+function encodeState(st){
+  var p=new URLSearchParams();
+  Object.keys(URL_KEYS).forEach(function(k){
+    var v=st[k], d=DEFAULTS[k], out;
+    if(k==="stops"){ out=encStops(v); if(out!==encStops(d)) p.set(URL_KEYS[k],out); return; }
+    if(typeof d==="number"){ if(num(v)===num(d)) return; out=num(v); }
+    else if(v===d) return;
+    else if(typeof d==="boolean") out=v?"1":"0";
+    else if(COLOR_KEYS.indexOf(k)>=0) out=String(v).slice(1).toUpperCase();
+    else out=String(v);
+    p.set(URL_KEYS[k],out);
+  });
+  return p.toString().replace(/%7E/gi,"~");
+}
+function decodeState(hash){
+  var p=new URLSearchParams(String(hash||"").replace(/^#/,"")), out={}, any=false;
+  Object.keys(URL_KEYS).forEach(function(k){
+    var raw=p.get(URL_KEYS[k]); if(raw===null) return;
+    var d=DEFAULTS[k], v;
+    if(k==="stops"){ v=decStops(raw); if(!v) return; }
+    else if(typeof d==="boolean"){ if(raw!=="1"&&raw!=="0") return; v=raw==="1"; }
+    else if(typeof d==="number"){
+      v=parseFloat(raw); if(!isFinite(v)) return;
+      var r=RANGES[k]; if(r) v=Math.max(r[0],Math.min(r[1],v));
+    }
+    else if(COLOR_KEYS.indexOf(k)>=0){ if(!HEX.test(raw)) return; v="#"+raw.toUpperCase(); }
+    else if(ENUMS[k]){ if(ENUMS[k].indexOf(raw)<0) return; v=raw; }
+    else v=raw.slice(0,2000);
+    out[k]=v; any=true;
+  });
+  return {values:any?out:null, play:p.get("p")==="1"};
+}
+function shareURL(withPlay){
+  var q=encodeState(state);
+  if(withPlay) q+=(q?"&":"")+"p=1";
+  return location.href.split("#")[0]+(q?"#"+q:"");
+}
+function writeURL(){
+  if(!STANDALONE) return;
+  try{ history.replaceState(null,"",shareURL(false)); }catch(e){}
+}
+
+// Starting state: a design link wins (so it reproduces exactly), otherwise the last session.
+var STORE_KEY="outline-echo:v1";
+var initialLink=decodeState(location.hash);
+if(initialLink.values){
+  Object.keys(initialLink.values).forEach(function(k){ state[k]=initialLink.values[k]; });
+} else {
+  try{
+    var saved=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
+    if(saved&&typeof saved==="object") Object.keys(DEFAULTS).forEach(function(k){
+      if(k in saved&&typeof saved[k]===typeof DEFAULTS[k]) state[k]=saved[k];
+    });
+  }catch(e){}
+}
+var persistTimer=0;
+function persist(){
+  clearTimeout(persistTimer);
+  persistTimer=setTimeout(function(){
+    try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}
+    writeURL();
+  },300);
+}
 
 var $ = function(id){return document.getElementById(id)};
 var canvas = $("poster"), ctx = canvas.getContext("2d");
@@ -888,7 +970,7 @@ $("reset").addEventListener("click",function(){
 
 /* ---------- Export ---------- */
 var downloads=null;
-var standalone=!(window.claude&&typeof window.claude.use==="function");
+var standalone=STANDALONE;
 function setupExport(){
   if(standalone){ $("save").hidden=false; $("exportRow").hidden=false; return; }
   window.claude.use("downloads").then(function(d){
@@ -923,6 +1005,35 @@ $("save").addEventListener("click",function(){
   },20);
 });
 
+/* ---------- Copy link + following pasted links ---------- */
+function copyText(t){
+  if(navigator.clipboard&&window.isSecureContext) return navigator.clipboard.writeText(t);
+  return new Promise(function(res,rej){
+    var ta=document.createElement("textarea"); ta.value=t; ta.setAttribute("readonly","");
+    ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select();
+    var ok=false; try{ok=document.execCommand("copy");}catch(e){}
+    ta.remove(); ok?res():rej();
+  });
+}
+var copyTimer=0;
+$("copyLink").addEventListener("click",function(){
+  var btn=this, url=shareURL(playing);
+  writeURL();
+  copyText(url).then(function(){
+    btn.textContent="Link copied"; statusEl.textContent="";
+    clearTimeout(copyTimer); copyTimer=setTimeout(function(){btn.textContent="Copy link";},2000);
+  },function(){
+    window.prompt("Copy this link:",url);
+  });
+});
+window.addEventListener("hashchange",function(){
+  var link=decodeState(location.hash);
+  if(!link.values) return;
+  state=JSON.parse(JSON.stringify(DEFAULTS));
+  Object.keys(link.values).forEach(function(k){ state[k]=link.values[k]; });
+  syncAll(); sizeCanvas(); loadFont().then(requestRender); requestRender();
+});
+
 /* ---------- Init ---------- */
 buildSliders(); buildSegs(); buildOthers(); syncAll();
 sizeCanvas();
@@ -932,6 +1043,9 @@ render(ctx,1,0);
 loadFont().then(function(){ requestRender(); });
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){layoutCache.key=null;sdfStore.base=null;requestRender();});
 setupExport();
+if(STANDALONE) $("copyLink").hidden=false;
+var reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(initialLink.play&&!reduceMotion) $("play").click();
 })();
 </script>
 </body>
