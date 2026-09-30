@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Outline echo</title>
 <meta name="description" content="Grow concentric offset outlines around type and export posters as PNG.">
+<!-- Open Graph / link previews. Replace https://your-site.example/ with the address where you host
+     this file, and upload og-image.png next to it. Scrapers need absolute URLs. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Outline echo">
+<meta property="og:title" content="Outline echo">
+<meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.">
+<meta property="og:url" content="https://your-site.example/outline-echo.html">
+<meta property="og:image" content="https://your-site.example/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Outline echo">
+<meta name="twitter:description" content="Grow concentric offset outlines around type and export posters as PNG.">
+<meta name="twitter:image" content="https://your-site.example/og-image.png">
+<meta name="twitter:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
+<meta name="theme-color" content="#BE2420">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23BE2420'/%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.55' stroke-width='2'%3E%3Ccircle cx='32' cy='34' r='14'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Ccircle cx='32' cy='36' r='26'/%3E%3C/g%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -220,6 +238,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
         <option value="1:1">Square · 1400 × 1400</option>
         <option value="9:16">Story 9:16 · 1080 × 1920</option>
         <option value="16:9">Landscape 16:9 · 1920 × 1080</option>
+        <option value="og">Share image · 1200 × 630</option>
       </select>
     </div>
     <div id="motionSliders"></div>
@@ -247,7 +266,7 @@ var FONTS = [
   ["Bebas Neue","condensed","Condensed display"],["Oswald","condensed","Condensed display"],
   ["Anton","condensed","Condensed display"],["League Gothic","condensed","Condensed display"]
 ];
-var FORMATS = {"4:5":[1200,1500],"A":[1200,1697],"1:1":[1400,1400],"9:16":[1080,1920],"16:9":[1920,1080]};
+var FORMATS = {"og":[1200,630],"4:5":[1200,1500],"A":[1200,1697],"1:1":[1400,1400],"9:16":[1080,1920],"16:9":[1920,1080]};
 var PRESETS = [
   {name:"Protest",bg:"#BE2420", type:"#FFFFFF", ring:"#FFFFFF", blend:"source-over"},
   {name:"Cobalt",   bg:"#1B3FB8", type:"#F3EFE4", ring:"#BFD0FF", blend:"screen"},
