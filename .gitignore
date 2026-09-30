@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Dependencies and build tooling
+node_modules/
+
+# Drafts and old versions kept locally, not published
+index-old.html
+index-old-1.html
+luminet-tribute-old.html
+flexoki-poster.html
+*.skill

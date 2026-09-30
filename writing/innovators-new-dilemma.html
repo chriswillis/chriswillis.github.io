@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The innovator's new dilemma — Chris Willis</title>
+<meta name="description" content="Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day." />
+<!-- Republished from Utah Business; the canonical link credits the original for search engines -->
+<link rel="canonical" href="https://www.utahbusiness.com/thought-leadership/2026/01/09/innovators-dilemma-ceo-moonshot-innovation-difference-improving-1-percent/" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cewillis.com/writing/innovators-new-dilemma.html">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="The innovator's new dilemma">
+<meta property="og:description" content="Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.">
+<meta property="og:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Chris Willis — Designing technology for humans">
+<meta property="article:published_time" content="2026-01-09">
+<meta property="article:author" content="Chris Willis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The innovator's new dilemma">
+<meta name="twitter:description" content="Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.">
+<meta name="twitter:image" content="https://cewillis.com/og-cewillis.jpg">
+
+<style>
+  /* Flexoki Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
+  :root {
+    color-scheme: light dark;
+    --bg: #FFFCF0; --bg-2: #F2F0E5;
+    --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
+    --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
+    --cy: #24837B; --divider: #E6E4D9;
+  }
+  :root[data-theme="dark"] {
+    --bg: #100F0F; --bg-2: #1C1B1A;
+    --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+    --cy: #3AA99F; --divider: #282726;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #100F0F; --bg-2: #1C1B1A;
+      --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+      --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+      --cy: #3AA99F; --divider: #282726;
+    }
+  }
+  :root { --accent: var(--cy); --link: var(--tx); --underline: var(--tx-3); }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--tx);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+  }
+  main { max-width: 44rem; margin: 0 auto; position: relative; }
+
+  a {
+    color: var(--link); font-weight: 400;
+    text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  /* Masthead, matching the home page; the whole row links home */
+  .masthead { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .masthead a { display: flex; align-items: center; gap: 1rem; color: var(--tx-2); text-decoration: none; }
+  .masthead a:hover { color: var(--accent); }
+  .masthead .crumb { font-size: 1.1rem; font-weight: 400; }
+  .avatar {
+    display: block; width: 3rem; height: 3rem; object-fit: cover; flex-shrink: 0;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+  @supports (corner-shape: squircle) {
+    .avatar { -webkit-mask-image: none; mask-image: none; border-radius: 28%; corner-shape: squircle; }
+  }
+
+  .controls { position: absolute; top: 0; right: 0; z-index: 1; }
+  .controls button {
+    background: none; border: none; cursor: pointer; padding: 0.35rem; line-height: 1;
+    color: var(--tx-2); font-size: 1.1rem; border-radius: 0.35rem; transition: color 0.2s ease-out;
+  }
+  .controls button:hover { color: var(--accent); }
+  .controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .theme-toggle .icon-sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  }
+
+  /* Article: the title uses the home page's display line; the body keeps a ~65ch measure */
+  .essay-head { margin-bottom: 2.5rem; }
+  .essay-head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 300; line-height: 1.15;
+    letter-spacing: -0.02em; max-width: 20ch; text-wrap: balance;
+  }
+  .dek { margin-top: 1rem; color: var(--tx-2); max-width: 42ch; text-wrap: pretty; }
+  .meta { margin-top: 1.25rem; font-size: 1rem; color: var(--tx-2); font-variant-numeric: tabular-nums; }
+  .meta a { font-weight: 300; color: var(--tx-2); }
+  .meta a:hover { color: var(--accent); }
+
+  .essay-body { max-width: 38rem; }
+  .essay-body p { margin-bottom: 1.25rem; text-wrap: pretty; }
+  .essay-body h2 { font-size: 1.35rem; font-weight: 400; line-height: 1.3; margin: 2.75rem 0 0.9rem; }
+  .essay-body cite { font-style: italic; }
+  /* Section break: a short centered rule */
+  .essay-body hr.break { border: 0; height: 1px; width: 4rem; background: var(--ui-3); margin: 2.75rem auto; }
+
+  /* The two equations read as a pair of display lines */
+  .math {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2em 0.5em;
+    margin: 0.25rem 0 1.5rem; padding: 1rem 1.25rem; background: var(--bg-2);
+    font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 300; line-height: 1.2;
+    letter-spacing: -0.01em; font-variant-numeric: tabular-nums lining-nums;
+  }
+  .math sup { font-size: 0.5em; vertical-align: 0.9em; line-height: 0; }
+  .math .eq { color: var(--tx-3); }
+  .math .result { color: var(--accent); font-weight: 400; }
+
+  .essay-end { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--divider); max-width: 38rem; }
+  .essay-end p { color: var(--tx-2); font-size: 1.05rem; margin-bottom: 1rem; }
+  .essay-end a.back { font-size: 1.05rem; }
+
+  /* Mark links that leave the site */
+  main a[href^="http"]:not([href*="cewillis.com"])::after {
+    content: ""; display: inline-block; width: 0.55em; height: 0.55em; margin-left: 0.2em; vertical-align: 0.15em;
+    background: currentColor; opacity: 0.55;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+
+<script>
+  // Apply saved theme before paint to avoid a flash
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The innovator's new dilemma",
+  "description": "Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.",
+  "datePublished": "2026-01-09",
+  "url": "https://cewillis.com/writing/innovators-new-dilemma.html",
+  "image": "https://cewillis.com/og-cewillis.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Willis",
+    "url": "https://cewillis.com/"
+  },
+  "isBasedOn": "https://www.utahbusiness.com/thought-leadership/2026/01/09/innovators-dilemma-ceo-moonshot-innovation-difference-improving-1-percent/"
+}
+</script>
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed, and cross-fade between pages -->
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+<style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
+</head>
+<body>
+<main>
+  <div class="controls">
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <header class="masthead">
+    <a href="../index.html#writings-heading">
+      <picture>
+        <source type="image/webp"
+                srcset="../assets/avatar/chris-willis-72.webp 1x,
+                        ../assets/avatar/chris-willis-144.webp 2x,
+                        ../assets/avatar/chris-willis-216.webp 3x" />
+        <img class="avatar" src="../assets/avatar/chris-willis-72.png"
+             srcset="../assets/avatar/chris-willis-144.png 2x,
+                     ../assets/avatar/chris-willis-216.png 3x"
+             width="72" height="72" alt="" />
+      </picture>
+      <span class="crumb">Chris Willis / Writing</span>
+    </a>
+  </header>
+
+  <article>
+    <header class="essay-head">
+      <h1>The innovator's new dilemma</h1>
+      <p class="dek">Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</p>
+      <p class="meta"><time datetime="2026-01-09">January 9, 2026</time> · 3 min read · First published in <a href="https://www.utahbusiness.com/thought-leadership/2026/01/09/innovators-dilemma-ceo-moonshot-innovation-difference-improving-1-percent/">Utah Business</a></p>
+    </header>
+
+    <div class="essay-body">
+      <p>My first corporate offsite began, as many do, in a windowless hotel meeting room seemingly designed to disconnect us from the world we were sent to reimagine.</p>
+
+      <p>But there we sat – the "chosen ones" – freshly plucked from our cubicles to participate in an outside-the-box exercise under pale fluorescent light that made everyone look vaguely unwell.</p>
+
+      <p>It was 1999, the height of dot-com fever. Our CEO, freshly inspired by Clayton Christensen's <cite>The Innovator's Dilemma</cite>, was convinced this was our chance to rethink everything before someone else ate our lunch. He began with a "what-if" exercise: write any question on a pastel sticky note – no matter how outlandish – and press it to the beige walls to kick off our creative opus.</p>
+
+      <p>With a theatrical flourish, he plucked the first question from the wall and read it aloud with the deliberate cadence of someone who had not yet processed what they were saying: "What if the people in this room aren't the ones who can solve this problem?"</p>
+
+      <p>It turned out there was at least one question too uncomfortable to consider.</p>
+
+      <hr class="break" />
+
+      <p>We find ourselves, again, in an era of technological upheaval. Leaders are throwing AI tools at teams, demanding they innovate wildly. That is a mistake. Innovation is hard, risky, rare, and time-consuming. And let us be honest: how many of us were actually hired because we were seen as innovators?</p>
+
+      <p>Innovation ranks high on every CEO's wishlist, yet remains notoriously difficult to define and even harder to deliver. Research from Harvard Business School and MIT suggests that roughly 95 percent of new product and AI initiatives fail. McKinsey reports that only 6 percent of executives are satisfied with their innovation performance. The problem isn't a lack of ambition. It is that there is far too much of it.</p>
+
+      <h2>The 1 percent solution</h2>
+
+      <p>In 2003, British Cycling was in crisis. No Olympic gold in 76 years. No Tour de France win in more than a century. Performance was so dismal that a top bike manufacturer refused to sell them equipment, fearing the association.</p>
+
+      <p>When Dave Brailsford took over as performance director, he didn't promise revolution. He introduced what he called "aggregation of marginal gains" – the philosophy of improving every single aspect of cycling by just 1 percent. The seat design. The tire grip. Sleep quality. Nutrition. Hand-washing protocols to prevent colds. He had the team truck's floor painted white so mechanics could spot dirt on the chain.</p>
+
+      <p>None of these changes would win a race on their own. Together, they would compound. British Cycling began winning Olympic gold medals. Brailsford predicted a Tour de France victory within five years. They won in three.</p>
+
+      <h2>The magical math of compounding</h2>
+
+      <p>The power of marginal gains is mathematical, and the mathematics are almost unsettling. Improve by 1 percent every day for a year, and you don't end up 365 percent better – you end up more than 37 times better:</p>
+
+      <p class="math" aria-label="1.01 to the power of 365 equals 37.78"><span>(1.01)<sup>365</sup></span> <span class="eq">=</span> <span class="result">37.78</span></p>
+
+      <p>Slip by 1 percent each day, and you're left with almost nothing:</p>
+
+      <p class="math" aria-label="0.99 to the power of 365 equals 0.03"><span>(0.99)<sup>365</sup></span> <span class="eq">=</span> <span class="result">0.03</span></p>
+
+      <p>Our obsession with moonshot innovation can be dangerous theater. We chase the 10x blockbuster while neglecting ten 1 percent improvements that could take us further, with far less risk. When you pursue radical innovation, you are making one large, concentrated bet. With marginal gains, you make dozens of small, testable ones. The ones that work compound. The ones that don't are easy to abandon and easy to forget.</p>
+
+      <h2>Be patient but persistent</h2>
+
+      <p>Executives don't have an innovation problem. They have an impatience problem – one fueled by a fundamental contradiction: AI may prove more transformative than the internet itself, yet its hype cycle compresses decision timelines faster than any previous technology in history. When something is moving this fast, a wait-and-see posture feels like surrender.</p>
+
+      <p>The impatience is understandable. But the choice is not between urgency and caution. It is a question of what, precisely, you are being urgent about.</p>
+
+      <p>Stop asking, "What is the breakthrough idea?" and start asking, "What is the smallest improvement we can make today that will compound tomorrow?"</p>
+
+      <p>Twenty years from now, no one will remember the offsite with the sticky notes and the pastel-colored aspirations. But they will notice – unmistakably, in the numbers – if you built an organization that got 1 percent better every single day.</p>
+
+      <p>That is the innovator's new dilemma: the courage to aim lower, improve faster, and win bigger.</p>
+    </div>
+  </article>
+
+  <footer class="essay-end">
+    <p>This essay first appeared in <a href="https://www.utahbusiness.com/thought-leadership/2026/01/09/innovators-dilemma-ceo-moonshot-innovation-difference-improving-1-percent/">Utah Business</a> on January 9, 2026.</p>
+    <a class="back" href="../index.html#writings-heading">&larr; More writing</a>
+  </footer>
+</main>
+<script>
+  (function () {
+    var btn = document.querySelector(".theme-toggle");
+    var root = document.documentElement;
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+    function currentTheme() {
+      var set = root.getAttribute("data-theme");
+      if (set === "light" || set === "dark") return set;
+      return systemDark.matches ? "dark" : "light";
+    }
+    btn.addEventListener("click", function () {
+      var next = currentTheme() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "d" && !e.metaKey && !e.ctrlKey && !e.altKey && document.activeElement === document.body) btn.click();
+    });
+  })();
+</script>
+</body>
+</html>

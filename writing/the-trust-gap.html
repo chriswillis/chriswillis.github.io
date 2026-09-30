@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The trust gap — Chris Willis</title>
+<meta name="description" content="Exploring the biggest problem in your company that no one wants to talk about." />
+<!-- Republished from Medium; the canonical link credits the original for search engines -->
+<link rel="canonical" href="https://medium.com/@chriswillis/the-trust-gap-6613cf20c047" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cewillis.com/writing/the-trust-gap.html">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="The Trust Gap: What a Failed Bank Project Taught Me About the Invisible Architecture of Organizations">
+<meta property="og:description" content="Exploring the biggest problem in your company that no one wants to talk about.">
+<meta property="og:image" content="https://cewillis.com/og-trust-gap.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dozens of long white arms tangled together on black, each hand gripping another arm's wrist">
+<meta property="article:published_time" content="2023-02-06">
+<meta property="article:author" content="Chris Willis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Trust Gap: What a Failed Bank Project Taught Me About the Invisible Architecture of Organizations">
+<meta name="twitter:description" content="Exploring the biggest problem in your company that no one wants to talk about.">
+<meta name="twitter:image" content="https://cewillis.com/og-trust-gap.jpg">
+
+<style>
+  /* Flexoki Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
+  :root {
+    color-scheme: light dark;
+    --bg: #FFFCF0; --bg-2: #F2F0E5;
+    --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
+    --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
+    --cy: #24837B; --divider: #E6E4D9;
+  }
+  :root[data-theme="dark"] {
+    --bg: #100F0F; --bg-2: #1C1B1A;
+    --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+    --cy: #3AA99F; --divider: #282726;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #100F0F; --bg-2: #1C1B1A;
+      --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+      --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+      --cy: #3AA99F; --divider: #282726;
+    }
+  }
+  :root { --accent: var(--cy); --link: var(--tx); --underline: var(--tx-3); }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--tx);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
+    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+  }
+  main { max-width: 44rem; margin: 0 auto; position: relative; }
+
+  a {
+    color: var(--link); font-weight: 400;
+    text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  /* Masthead, matching the home page; the whole row links home */
+  .masthead { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .masthead a { display: flex; align-items: center; gap: 1rem; color: var(--tx-2); text-decoration: none; }
+  .masthead a:hover { color: var(--accent); }
+  .masthead .crumb { font-size: 1.1rem; font-weight: 400; }
+  .avatar {
+    display: block; width: 3rem; height: 3rem; object-fit: cover; flex-shrink: 0;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+  @supports (corner-shape: squircle) {
+    .avatar { -webkit-mask-image: none; mask-image: none; border-radius: 28%; corner-shape: squircle; }
+  }
+
+  .controls { position: absolute; top: 0; right: 0; z-index: 1; }
+  .controls button {
+    background: none; border: none; cursor: pointer; padding: 0.35rem; line-height: 1;
+    color: var(--tx-2); font-size: 1.1rem; border-radius: 0.35rem; transition: color 0.2s ease-out;
+  }
+  .controls button:hover { color: var(--accent); }
+  .controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .theme-toggle .icon-sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  }
+
+  /* Article: the title uses the home page's display line; the body keeps a ~65ch measure */
+  .essay-head { margin-bottom: 2.5rem; }
+  .essay-head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 300; line-height: 1.15;
+    letter-spacing: -0.02em; max-width: 20ch; text-wrap: balance;
+  }
+  .dek { margin-top: 1rem; color: var(--tx-2); max-width: 42ch; text-wrap: pretty; }
+  .meta { margin-top: 1.25rem; font-size: 1rem; color: var(--tx-2); font-variant-numeric: tabular-nums; }
+  .meta a { font-weight: 300; color: var(--tx-2); }
+  .meta a:hover { color: var(--accent); }
+
+  .essay-body { max-width: 38rem; }
+  .essay-body p { margin-bottom: 1.25rem; text-wrap: pretty; }
+  .essay-body h2 { font-size: 1.35rem; font-weight: 400; line-height: 1.3; margin: 2.75rem 0 0.9rem; }
+  .essay-body cite { font-style: italic; }
+  /* Section break: a short centered rule */
+  .essay-body hr.break { border: 0; height: 1px; width: 4rem; background: var(--ui-3); margin: 2.75rem auto; }
+
+  /* The two equations read as a pair of display lines */
+  .math {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2em 0.5em;
+    margin: 0.25rem 0 1.5rem; padding: 1rem 1.25rem; background: var(--bg-2);
+    font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 300; line-height: 1.2;
+    letter-spacing: -0.01em; font-variant-numeric: tabular-nums lining-nums;
+  }
+  .math sup { font-size: 0.5em; vertical-align: 0.9em; line-height: 0; }
+  .math .eq { color: var(--tx-3); }
+  .math .result { color: var(--accent); font-weight: 400; }
+
+  .essay-body strong { font-weight: 400; }
+  /* Figures: the illustration spans the full column, charts sit at the text measure */
+  .essay-figure { margin: 2rem 0 2.25rem; }
+  .essay-figure.lead { margin: 0 0 2.5rem; }
+  .essay-figure.bleed { width: min(44rem, calc(100vw - 3rem)); max-width: none; }
+  .essay-figure img { display: block; width: 100%; height: auto; background: var(--bg-2); }
+  .essay-figure figcaption { margin-top: 0.6rem; font-size: 0.95rem; line-height: 1.45; color: var(--tx-2); }
+  :root[data-theme="dark"] .essay-figure img { filter: brightness(0.9); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .essay-figure img { filter: brightness(0.9); } }
+
+  .essay-end { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--divider); max-width: 38rem; }
+  .essay-end p { color: var(--tx-2); font-size: 1.05rem; margin-bottom: 1rem; }
+  .essay-end a.back { font-size: 1.05rem; }
+
+  /* Mark links that leave the site */
+  main a[href^="http"]:not([href*="cewillis.com"])::after {
+    content: ""; display: inline-block; width: 0.55em; height: 0.55em; margin-left: 0.2em; vertical-align: 0.15em;
+    background: currentColor; opacity: 0.55;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+
+<script>
+  // Apply saved theme before paint to avoid a flash
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Trust Gap: What a Failed Bank Project Taught Me About the Invisible Architecture of Organizations",
+  "description": "Exploring the biggest problem in your company that no one wants to talk about.",
+  "datePublished": "2023-02-06",
+  "url": "https://cewillis.com/writing/the-trust-gap.html",
+  "image": "https://cewillis.com/og-trust-gap.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Willis",
+    "url": "https://cewillis.com/"
+  },
+  "isBasedOn": "https://medium.com/@chriswillis/the-trust-gap-6613cf20c047"
+}
+</script>
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed, and cross-fade between pages -->
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+<style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
+</head>
+<body>
+<main>
+  <div class="controls">
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <header class="masthead">
+    <a href="../index.html#writings-heading">
+      <picture>
+        <source type="image/webp"
+                srcset="../assets/avatar/chris-willis-72.webp 1x,
+                        ../assets/avatar/chris-willis-144.webp 2x,
+                        ../assets/avatar/chris-willis-216.webp 3x" />
+        <img class="avatar" src="../assets/avatar/chris-willis-72.png"
+             srcset="../assets/avatar/chris-willis-144.png 2x,
+                     ../assets/avatar/chris-willis-216.png 3x"
+             width="72" height="72" alt="" />
+      </picture>
+      <span class="crumb">Chris Willis / Writing</span>
+    </a>
+  </header>
+
+  <article>
+    <header class="essay-head">
+      <h1>The trust gap</h1>
+      <p class="dek">What a failed bank project taught me about the invisible architecture of organizations</p>
+      <p class="meta"><time datetime="2023-02-06">February 6, 2023</time> · 6 min read · First published on <a href="https://medium.com/@chriswillis/the-trust-gap-6613cf20c047">Medium</a></p>
+    </header>
+
+    <figure class="essay-figure bleed lead">
+      <img src="../assets/writing/trust-gap-hands-800.webp"
+           srcset="../assets/writing/trust-gap-hands-800.webp 800w, ../assets/writing/trust-gap-hands-1400.webp 1400w"
+           sizes="(min-width: 47rem) 44rem, calc(100vw - 3rem)"
+           width="1400" height="985" fetchpriority="high" decoding="async"
+           alt="A black-and-white illustration of dozens of long white arms tangled together, each hand gripping another arm's wrist" />
+    </figure>
+
+    <div class="essay-body">
+      <p>Maybe Machiavelli was right.</p>
+
+      <p>This thought arrived uninvited one fall afternoon as I sat at a small desk overlooking Wall Street, surrounded by the quiet wreckage of a project I had believed in. My team had spent months building an internal chat tool for a global bank – something elegant and modest, designed to let ideas and people find each other across a complex institution. The technology had cooperated. The regulators had cooperated. All that remained was the humans.</p>
+
+      <p>They did not cooperate.</p>
+
+      <h2>What the users actually told me</h2>
+
+      <p>I went out and interviewed the employees before launch – traders, VPs, pricing managers, quants – and the feedback I received was not a list of feature requests. It was something quieter and more definitive: no one was going to use it. The tool was not broken; the organization was operating according to a different logic. Every employee, I came to understand, woke each morning and made the same silent calculation: sharing information was a liability. In a zero-sum environment, what you gave away could be used against you. The tool, by design, made sharing easier. That was not an advantage. It was a threat.</p>
+
+      <p>I went into triage mode – chasing symptoms, proposing fixes – until I finally accepted what the users had been telling me all along. The problem was not the software. It was something far older, embedded in the walls of the institution itself. And that something had a name.</p>
+
+      <h2>The force that decides everything else</h2>
+
+      <p>For years after that project, I found myself drawn back to the same question: why does collaboration work in some organizations and collapse in others? The answers I encountered in the literature were various – culture, incentives, leadership, org design – but they all seemed like symptoms of something more fundamental. Eventually I arrived at what I now believe is the correct diagnosis: trust.</p>
+
+      <p>Not trust in the greeting-card sense, nor in the sense of the vague cultural virtue that appears in every company's stated values. I mean trust as the Harvard-trained anthropologist Karen Stephenson defines it – with the precision the subject demands: the reciprocal exchange of information with others over time. Stephenson, whose career has been devoted to mapping the social architecture of institutions, and who has been praised for her work in publications ranging from <cite>The Economist</cite> to <cite>Wired</cite>, puts the stakes plainly: where trust exists, information moves quickly and freely; when trust is betrayed, information stops. And once stopped, it is nearly impossible to restart.</p>
+
+      <p>This definition is useful because it locates trust not in sentiment but in behavior – in the daily decisions about what to share, with whom, and on what terms. It also explains why scale makes everything harder. In a two-person relationship, trust is direct and relatively legible. Introduce a third person, and you have a network – which means, as Stephenson observes, at least one indirect link. And it is in the indirect links, she writes, "where all politics begins." Culture, in her framework, is simply a network of trust relationships; the org chart is the hanger on which it is draped. Hierarchy is the scaffolding. Trust – or its absence – is the building.</p>
+
+      <figure class="essay-figure">
+        <img src="../assets/writing/gallup-confidence-800.webp"
+             srcset="../assets/writing/gallup-confidence-800.webp 800w, ../assets/writing/gallup-confidence-1220.webp 1220w"
+             sizes="(min-width: 42rem) 38rem, calc(100vw - 3rem)"
+             width="1220" height="1240" loading="lazy" decoding="async"
+             alt="Gallup line chart of Americans' average confidence in core U.S. institutions. The share expressing a great deal or quite a lot of confidence falls from 48 percent in 1979 to 27 percent in 2026, for both the nine institutions tracked since 1979 and the 14 tracked since 1993." />
+        <figcaption>Americans' average confidence in core U.S. institutions has fallen from 48 percent in 1979 to 27 percent in 2026. Source: Gallup.</figcaption>
+      </figure>
+
+      <h2>The species-level evidence</h2>
+
+      <p>If Machiavelli diagnosed the worst of what we are, Yuval Noah Harari mapped something more interesting: the cooperative genius that distinguishes our species from every other. "Sapiens rule the world," he wrote in <cite>A Brief History of Humankind</cite>, "because we are the only animal that can cooperate flexibly in large numbers." The spacecraft, the internet, the global logistical web that makes the modern economy run – these are not achievements of individual brilliance. They are achievements of collective trust, extended across strangers, at a scale that would have seemed incomprehensible to any single human mind.</p>
+
+      <p>The organizational trust deficit affects 94 percent of companies with revenues above $5 billion, according to Bain &amp; Company researchers. All of these companies name internal dysfunction, not competition, as their primary obstacle to growth. This is more than a management problem. It is a failure to deploy the most distinctive capacity our species possesses.</p>
+
+      <p>An EY survey sharpened the picture further: fewer than half of global professionals trust their employer, their boss, or even their immediate teammates. Less than half. In institutions that cannot function without cooperation, the majority of people are operating in a state of low-grade mutual suspicion. The tax this imposes – every decision slowed, every idea filtered, every collaboration hedged – is invisible in the quarterly numbers and devastating in aggregate.</p>
+
+      <h2>What it takes to close the gap</h2>
+
+      <p>Trust accumulates the way a reputation does: slowly, through consistency, fragile against a single betrayal. There is no shortcut, and no technology that substitutes for it. But there are practices that move the needle.</p>
+
+      <p><strong>Leadership has to go first.</strong> Organizations are not democracies; the level of trust inside them follows, more than anything else, from what leadership actually models. Clear communication, visible accountability, promotions that reward trustworthiness rather than political skill, pay that registers as fair – these are not soft culture amenities. They are the structural conditions under which trust either grows or doesn't. The social contract between employees and management is written not in mission statements but in decisions.</p>
+
+      <p><strong>Who gets promoted is a message.</strong> This signal cuts through all the others, and it is consistently underweighted. Trustworthiness tends to lose at promotion time to performance metrics, technical skill, and the capacity to navigate office politics – which means the lesson absorbed by every watching employee is precisely the wrong one. When the people who rise are the ones who play, the organization's stated values become decoration.</p>
+
+      <p><strong>Flatten, and distribute the information.</strong> Siloed structures produce siloed thinking. When data and judgment concentrate in few hands, innovation slows to the speed of permission. The healthiest organizations I have encountered are the ones that treat emerging hierarchy as a problem to be solved rather than a sign of growth to be ratified.</p>
+
+      <p><strong>Phatic communion is not small talk.</strong> Linguists use the term <em>phatic communion</em> for the apparently contentless exchanges that hold social fabric together – the hallway "hey," the thumbs-up on a colleague's post, the two-second acknowledgment that carries no information and all the information. These micro-signals keep communication channels alive between the moments when something genuinely important needs to travel through them. Their absence is not neutrality. It is the beginning of disconnection.</p>
+
+      <p><strong>Give people a story worth believing in.</strong> Strategy documents do not inspire trust; shared stories do. The leaders who sustain trust over time are not necessarily those with the clearest data or the sharpest decks – they are the ones who can translate a strategic vision into a narrative that connects emotionally, that lends the day-to-day work a gravity beyond the quarter. According to analysis published in the <cite>Harvard Business Review</cite>, an inspired employee is 125 percent more productive than a merely satisfied one. That gap does not come from superior tools. It comes from meaning – which is, at its core, what trust in a larger purpose makes possible.</p>
+
+      <h2>What Machiavelli got wrong</h2>
+
+      <p>There is something seductive about the Machiavellian diagnosis: that power is the permanent operating system, that cooperation is always conditional, that the conference room and the Italian court are fundamentally the same institution wearing different clothes. It is not entirely wrong. Politics are inevitable at scale; Stephenson is clear on this, and so is experience.</p>
+
+      <p>But it is not the whole story. The same species that fills organizations with quiet calculation also built the systems that route emergency calls at 3 AM, mapped the human genome, and sent instruments beyond the solar system. None of those things happened because someone navigated politics skillfully. They happened because trust – extended across strangers, institutions, disciplines, and time – made genuine cooperation possible.</p>
+
+      <p>The trust gap inside any organization is not, finally, a structural inevitability. It is a choice, made daily, by the people at the top and then, in cascading consequence, by every person they influence. Closing it does not require a reorganization or a technology platform or a new set of stated values. It requires something simpler and harder: the willingness to go first.</p>
+
+      <p>Trust, as it turns out, is not a virtue we either have or don't. It is a practice – one that compounds, slowly and silently, in either direction.</p>
+    </div>
+  </article>
+
+  <footer class="essay-end">
+    <p>This essay first appeared on <a href="https://medium.com/@chriswillis/the-trust-gap-6613cf20c047">Medium</a> and draws on research and conversations originally published on CEO.com and the Domo blog in December 2018.</p>
+    <a class="back" href="../index.html#writings-heading">&larr; More writing</a>
+  </footer>
+</main>
+<script>
+  (function () {
+    var btn = document.querySelector(".theme-toggle");
+    var root = document.documentElement;
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+    function currentTheme() {
+      var set = root.getAttribute("data-theme");
+      if (set === "light" || set === "dark") return set;
+      return systemDark.matches ? "dark" : "light";
+    }
+    btn.addEventListener("click", function () {
+      var next = currentTheme() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "d" && !e.metaKey && !e.ctrlKey && !e.altKey && document.activeElement === document.body) btn.click();
+    });
+  })();
+</script>
+</body>
+</html>

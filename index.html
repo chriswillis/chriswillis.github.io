@@ -178,6 +178,10 @@
     transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
   }
   .experiment:hover img { opacity: 0.92; }
+  /* A teaser for a page that isn't live yet: same card, no link affordances */
+  .experiment.is-soon .title { text-decoration: none; }
+  .experiment.is-soon:hover .title { color: inherit; }
+  .experiment.is-soon:hover img { opacity: 1; }
   .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--tile-radius, 0.85rem); }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 
@@ -300,6 +304,25 @@
     .flying img { flex: var(--ar) 1 0; }
   }
 
+  /* Selected writings: each essay lives on its own page; the list is title, one-line dek and source */
+  .writing-list { list-style: none; display: grid; gap: 0; margin: 0 0 1.25rem; border-bottom: 1px solid var(--divider); }
+  .writing-list li { padding: 0; margin: 0; }
+  .writing-list li::before { content: none; }
+  .writing-list li + li { border-top: 1px solid var(--divider); }
+  .writing { display: block; padding: 0.9rem 0 1rem; color: inherit; font-weight: inherit; text-decoration: none; }
+  .writing-title {
+    display: block; font-weight: 400; text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .writing-dek { display: block; margin-top: 0.3rem; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .writing-meta { display: block; margin-top: 0.4rem; color: var(--tx-2); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .writing:hover .writing-title, .writing:focus-visible .writing-title {
+    color: var(--accent); text-decoration-color: var(--accent);
+    transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
+  }
+  .writing:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
   /* Mark links that leave the site (footer nav excluded) */
   main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
     content: "";
@@ -326,6 +349,36 @@
     } catch (e) {}
   })();
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": "https://cewillis.com/",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Chris Willis",
+    "url": "https://cewillis.com/",
+    "image": "https://cewillis.com/assets/avatar/chris-willis-216.png",
+    "jobTitle": "Chief Design Officer and Futurist",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Domo",
+      "url": "https://www.domo.com"
+    },
+    "sameAs": [
+      "https://x.com/chriswillis",
+      "https://www.linkedin.com/in/cwillis/",
+      "https://github.com/chriswillis/",
+      "https://www.instagram.com/hypergene/"
+    ]
+  }
+}
+</script>
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed, and cross-fade between pages -->
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+<style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
 </head>
 <body>
 <main>
@@ -497,6 +550,26 @@
     <li>Recent: <a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">Fox News</a> segment on how Domo powers human-AI collaboration and the future of work</li>
   </ul>
 
+  <section class="writings" aria-labelledby="writings-heading">
+    <h2 id="writings-heading">Selected writings</h2>
+    <ol class="writing-list">
+      <li>
+        <a class="writing" href="writing/innovators-new-dilemma.html">
+          <span class="writing-title">The innovator's new dilemma</span>
+          <span class="writing-dek">Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</span>
+          <span class="writing-meta"><time datetime="2026-01-09">Jan 2026</time> · Utah Business</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing" href="writing/the-trust-gap.html">
+          <span class="writing-title">The trust gap</span>
+          <span class="writing-dek">What a failed bank project taught me about the invisible architecture of organizations</span>
+          <span class="writing-meta"><time datetime="2023-02-06">Feb 2023</time> · Medium</span>
+        </a>
+      </li>
+    </ol>
+  </section>
+
   <h2>Before Domo</h2>
   <ul>
     <li>Co-founded Footnote.com (now <a href="https://www.fold3.com/publication/485/us-vietnam-veterans-memorial">Fold3.com</a>), a TechCrunch50 finalist that put 670M+ National Archives documents online. Acquired by Ancestry.com for $27M.</li>
@@ -577,7 +650,19 @@
         </figcaption>
       </figure>
     </a>
-    <a class="experiment" href="color-intelligence.html">
+    <a class="experiment" href="outline-echo.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
+          <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Outline echo, a poster toy for type that ripples</span>
+          <span class="blurb">Inspired by Yves B&eacute;har's page on Design Manifestos, which tells you to stop whining and take matters into your own hands. This little app grows dozens of thin concentric outlines around any words, like rings spreading from a stone dropped in water. Pick a typeface, tune the rings and the ground, and export your own manifesto as a poster.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <div class="experiment is-soon">
       <figure>
         <picture>
           <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
@@ -585,10 +670,10 @@
         </picture>
         <figcaption>
           <span class="title">Mapping the shape of a color palette (coming soon)</span>
-          <span class="blurb">Steph Ango's Flexoki palette is inspired by ink on paper. To see why it work, the colors are wrapped around a 3D surface to see its hidden shape. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</span>
+          <span class="blurb">Steph Ango's Flexoki palette is inspired by ink on paper. To see why it works, the colors are wrapped around a 3D surface to see its hidden shape. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</span>
         </figcaption>
       </figure>
-    </a>
+    </div>
   </section>
 
   <hr />

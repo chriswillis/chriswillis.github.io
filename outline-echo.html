@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Outline echo</title>
 <meta name="description" content="Grow concentric offset outlines around type and export posters as PNG.">
-<!-- Open Graph / link previews. Replace https://your-site.example/ with the address where you host
-     this file, and upload og-image.png next to it. Scrapers need absolute URLs. -->
+<!-- Open Graph / link previews. Scrapers need absolute URLs; og-image.png sits next to this file. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Outline echo">
 <meta property="og:title" content="Outline echo">
 <meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.">
-<meta property="og:url" content="https://your-site.example/outline-echo.html">
-<meta property="og:image" content="https://your-site.example/og-image.png">
+<meta property="og:url" content="https://cewillis.com/outline-echo.html">
+<meta property="og:image" content="https://cewillis.com/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -20,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Outline echo">
 <meta name="twitter:description" content="Grow concentric offset outlines around type and export posters as PNG.">
-<meta name="twitter:image" content="https://your-site.example/og-image.png">
+<meta name="twitter:image" content="https://cewillis.com/og-image.png">
 <meta name="twitter:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
 <meta name="theme-color" content="#BE2420">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23BE2420'/%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.55' stroke-width='2'%3E%3Ccircle cx='32' cy='34' r='14'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Ccircle cx='32' cy='36' r='26'/%3E%3C/g%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
@@ -108,12 +107,39 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
   .panel{border-left:0;border-top:1px solid var(--rule)}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Outline echo",
+  "description": "Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.",
+  "url": "https://cewillis.com/outline-echo.html",
+  "image": "https://cewillis.com/og-image.png",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any modern web browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Chris Willis",
+    "url": "https://cewillis.com/"
+  }
+}
+</script>
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed, and cross-fade between pages -->
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+<style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
 </head>
 <body>
-<div class="stage" id="stage">
+<main class="stage" id="stage">
   <canvas id="poster" aria-label="Poster preview"></canvas>
   <div class="status" id="status" aria-live="polite"></div>
-</div>
+</main>
 
 <aside class="panel">
   <div class="head">
