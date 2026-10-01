@@ -9,18 +9,18 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Yves Outlines">
 <meta property="og:title" content="Yves Outlines">
-<meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.">
+<meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient background, and export posters as PNG.">
 <meta property="og:url" content="https://cewillis.com/outline-echo.html">
 <meta property="og:image" content="https://cewillis.com/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
+<meta property="og:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red background.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Yves Outlines">
 <meta name="twitter:description" content="Grow concentric offset outlines around type and export posters as PNG.">
 <meta name="twitter:image" content="https://cewillis.com/og-image.png">
-<meta name="twitter:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
+<meta name="twitter:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red background.">
 <meta name="theme-color" content="#BE2420">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23BE2420'/%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.55' stroke-width='2'%3E%3Ccircle cx='32' cy='34' r='14'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Ccircle cx='32' cy='36' r='26'/%3E%3C/g%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' fill='%23fff' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Outline echo",
-  "description": "Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.",
+  "description": "Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient background, and export posters as PNG.",
   "url": "https://cewillis.com/outline-echo.html",
   "image": "https://cewillis.com/og-image.png",
   "applicationCategory": "DesignApplication",
@@ -177,7 +177,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
     <div class="row">
       <div class="lab"><span>Case</span></div>
       <div class="seg" data-key="textCase">
-        <button data-v="as">As typed</button><button data-v="upper">Capitals</button><button data-v="lower">Lowercase</button>
+        <button data-v="as">As typed</button><button data-v="upper">Uppercase</button><button data-v="lower">Lowercase</button>
       </div>
     </div>
     <div id="textSliders"></div>
@@ -191,7 +191,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
     <div class="row">
       <div class="lab"><span>Vertical position</span></div>
       <div class="seg" data-key="valign">
-        <button data-v="top">Top</button><button data-v="middle">Middle</button><button data-v="bottom">Bottom</button>
+        <button data-v="top">Top</button><button data-v="middle">Center</button><button data-v="bottom">Bottom</button>
       </div>
     </div>
   </section>
@@ -214,10 +214,10 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
   </section>
 
   <section>
-    <h2>Colour</h2>
+    <h2>Color</h2>
     <div class="row swatches" id="swatches"></div>
     <div class="row">
-      <div class="lab"><span>Ground</span></div>
+      <div class="lab"><span>Background</span></div>
       <div class="seg" data-key="bgMode">
         <button data-v="solid">Solid</button><button data-v="gradient">Gradient</button>
       </div>
@@ -237,7 +237,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
       </div>
     </div>
     <div class="row colors">
-      <label id="bgWrap">Ground<input type="color" id="bg"></label>
+      <label id="bgWrap">Background<input type="color" id="bg"></label>
       <label>Type<input type="color" id="type"></label>
       <label>Outlines<input type="color" id="ring"></label>
     </div>
@@ -500,7 +500,7 @@ function buildOthers(){
   var sw=$("swatches");
   PRESETS.forEach(function(p){
     var b=document.createElement("button");
-    b.className="swatch"; b.title=p.name; b.setAttribute("aria-label","Colour palette: "+p.name);
+    b.className="swatch"; b.title=p.name; b.setAttribute("aria-label","Color palette: "+p.name);
     b.style.background=p.bg;
     b.innerHTML='<span style="color:'+p.type+'">a</span>';
     b.addEventListener("click",function(){
