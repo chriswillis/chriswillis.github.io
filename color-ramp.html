@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Ramp from one color</title>
+<meta name="description" content="Start with one color and get a full ramp shaped like a design system you trust, such as Tailwind, Radix or Flexoki, with an estimate of how close each step is to hand-made.">
+<link rel="canonical" href="https://cewillis.com/color-ramp.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cewillis.com/color-ramp.html">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="Ramp from one color">
+<meta property="og:description" content="One color in, a full ramp out, shaped like Tailwind, Radix, Flexoki or seven other systems, with an estimate of how close it is to hand-made.">
+<meta property="og:image" content="https://cewillis.com/og-color-ramp.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A color ramp of eleven steps generated from one orange-red color, shaped like Tailwind v4.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ramp from one color">
+<meta name="twitter:description" content="One color in, a full ramp out, shaped like a design system you trust.">
+<meta name="twitter:image" content="https://cewillis.com/og-color-ramp.png">
+<meta name="theme-color" content="#FFFCF0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#100F0F" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23100F0F'/%3E%3Crect x='6' y='6' width='4' height='20' rx='1' fill='%23FFE7CE'/%3E%3Crect x='11' y='6' width='4' height='20' rx='1' fill='%23F9AE77'/%3E%3Crect x='16' y='6' width='4' height='20' rx='1' fill='%23DA702C'/%3E%3Crect x='21' y='6' width='4' height='20' rx='1' fill='%23853C17'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* Ramp from one color. Flexoki chrome (stephango.com/flexoki, MIT), IBM Plex like Palette topology.
+     Layout: one working tool on top (controls beside the ramp), then three reference panels, then notes at reading width. */
+  :root {
+    color-scheme: light;
+    --bg: #FFFCF0; --bg-2: #F2F0E5; --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
+    --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
+    --re: #AF3029; --or: #BC5215; --ye: #AD8301; --gr: #66800B; --cy: #24837B; --bl: #205EA6;
+    --accent: var(--cy);
+    --ok: var(--gr); --warn: var(--ye); --bad: var(--or);
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --r: 0.5rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #100F0F; --bg-2: #1C1B1A; --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+      --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+      --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39; --cy: #3AA99F; --bl: #4385BE;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #100F0F; --bg-2: #1C1B1A; --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+    --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39; --cy: #3AA99F; --bl: #4385BE;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--tx);
+    font-family: var(--sans); font-weight: 300; font-size: 0.95rem; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration-thickness: 0.05em; text-underline-offset: 0.15em; }
+  button, input, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mono, code, pre { font-family: var(--mono); font-weight: 400; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- top bar ---------- */
+  .bar {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--ui);
+  }
+  .bar .brand { font-weight: 500; letter-spacing: -0.01em; margin-right: auto; }
+  .bar .brand a { color: inherit; text-decoration: none; }
+  .bar nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+  .bar nav a { color: var(--tx-2); text-decoration: none; }
+  .bar nav a:hover { color: var(--accent); }
+  .icon-btn {
+    width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 999px;
+    border: 1px solid var(--ui-2); background: var(--bg); cursor: pointer; color: var(--tx-2);
+  }
+  .icon-btn:hover { color: var(--tx); border-color: var(--ui-3); }
+
+  .wrap { max-width: 76rem; margin: 0 auto; padding-inline: 1rem; padding-block: 1.75rem 4rem; display: flex; flex-direction: column; gap: 2.75rem; }
+
+  /* ---------- tool ---------- */
+  .tool { display: grid; grid-template-columns: 18.5rem minmax(0, 1fr); gap: 2rem 2.5rem; align-items: start; }
+  .intro { grid-column: 1 / -1; max-width: 44rem; }
+  h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin: 0; text-wrap: balance; }
+  .lede { color: var(--tx-2); font-size: 1.05rem; margin: 0.6rem 0 0; max-width: 40rem; }
+  h2 { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tx-2); margin: 0 0 0.75rem; }
+
+  .controls { display: flex; flex-direction: column; gap: 1.1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field > .lab { font-size: 0.8rem; color: var(--tx-2); display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+  .tag { font-size: 0.7rem; color: var(--tx-2); border: 1px solid var(--ui-2); border-radius: 999px; padding: 0 0.45rem; }
+  .colorrow { display: flex; gap: 0.5rem; align-items: stretch; }
+  .chip {
+    position: relative; flex: none; width: 2.6rem; border-radius: var(--r); border: 1px solid var(--ui-2); overflow: hidden; cursor: pointer;
+  }
+  .chip input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
+  .chip span { position: absolute; inset: 0; }
+  .txt, select {
+    width: 100%; min-width: 0; padding: 0.55rem 0.7rem; border-radius: var(--r); border: 1px solid var(--ui-2);
+    background: var(--bg); font-family: var(--mono); font-size: 0.85rem;
+  }
+  select { font-family: var(--sans); font-size: 0.9rem; padding-right: 2rem; }
+  .txt:hover, select:hover { border-color: var(--ui-3); }
+  .txt[aria-invalid="true"] { border-color: var(--re); }
+  .err { color: var(--re); font-size: 0.8rem; margin: 0; }
+  .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font-size: 0.85rem; text-align: left; }
+  .linkbtn:hover { text-decoration: underline; }
+  .x { flex: none; width: 2.6rem; border-radius: var(--r); border: 1px solid var(--ui-2); background: var(--bg); cursor: pointer; color: var(--tx-2); }
+  .x:hover { color: var(--tx); }
+
+  .seg { display: flex; border: 1px solid var(--ui-2); border-radius: var(--r); overflow: hidden; }
+  .seg button { flex: 1; padding: 0.5rem 0.4rem; background: var(--bg); border: 0; border-right: 1px solid var(--ui-2); cursor: pointer; color: var(--tx-2); font-size: 0.85rem; line-height: 1.25; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--ui); color: var(--tx); font-weight: 400; }
+  .hint { font-size: 0.8rem; color: var(--tx-2); margin: 0; }
+
+  /* ---------- the ramp ---------- */
+  .result { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+  .ramp { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; border-radius: 0.75rem; overflow: hidden; }
+  .sw {
+    position: relative; min-height: 11.5rem; padding: 0.6rem 0.5rem; display: flex; flex-direction: column; justify-content: space-between;
+    font-size: 0.75rem; line-height: 1.3; min-width: 0;
+  }
+  .sw .step { font-weight: 500; font-size: 0.8rem; }
+  .sw .marks { position: absolute; top: 0.55rem; right: 0.5rem; display: flex; gap: 0.2rem; font-size: 0.75rem; }
+  .sw .bottom { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+  .sw .aa { font-size: 0.95rem; font-weight: 400; white-space: nowrap; }
+  .sw .hex { font-family: var(--mono); font-size: 0.68rem; opacity: 0.85; overflow-wrap: anywhere; }
+  .sw.anchor::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 0.8rem; height: 0.8rem; margin: -0.4rem 0 0 -0.4rem;
+    border-radius: 50%; border: 2px solid currentColor;
+  }
+  .sw.ext { background-image: repeating-linear-gradient(135deg, transparent 0 5px, rgba(127,127,127,0.18) 5px 6px); }
+
+  .verdict { display: flex; gap: 0.75rem; align-items: flex-start; flex-wrap: wrap; }
+  .pill {
+    flex: none; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 400;
+    padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid currentColor;
+  }
+  .pill::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
+  .pill.ok { color: var(--ok); } .pill.warn { color: var(--warn); } .pill.bad { color: var(--bad); } .pill.same { color: var(--bl); }
+  .verdict .say { flex: 1 1 20rem; min-width: 0; margin: 0; color: var(--tx); max-width: 46rem; }
+  .verdict .say span { color: var(--tx-2); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; font-size: 0.78rem; color: var(--tx-2); margin: 0; padding: 0; list-style: none; }
+  .legend li { display: flex; gap: 0.4rem; align-items: center; }
+  .legend .k { display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 0.25rem; border: 1px solid var(--ui-3); font-size: 0.7rem; color: var(--tx); }
+  .legend .k.ring::after { content: ""; width: 0.55rem; height: 0.55rem; border: 1.5px solid var(--tx); border-radius: 50%; }
+  .legend .k.hatch { background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--ui-3) 3px 4px); }
+
+  /* ---------- panels ---------- */
+  .panels { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.5rem; }
+  .panel { min-width: 0; }
+  .panel p.note { font-size: 0.82rem; color: var(--tx-2); margin: 0.6rem 0 0; max-width: 40rem; }
+
+  .family { display: grid; gap: 2px; }
+  .family.names { gap: 2px; }
+  .family .col { display: grid; gap: 2px; grid-auto-rows: 1.15rem; }
+  .family .cell { border-radius: 2px; }
+  .family .col.mine { outline: 2px solid var(--tx); outline-offset: 2px; border-radius: 2px; }
+  .family.names { display: grid; gap: 2px; font-size: 0.62rem; color: var(--tx-2); margin-top: 0.35rem; }
+  .family.names span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 4.5rem; justify-self: center; }
+  .family.names span.mine { color: var(--tx); font-weight: 500; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid var(--ui); vertical-align: middle; }
+  th { font-weight: 400; color: var(--tx-2); font-size: 0.75rem; }
+  td .dot { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 0.2rem; border: 1px solid var(--ui-2); vertical-align: -0.1rem; margin-right: 0.4rem; }
+  td.none { color: var(--tx-3); }
+  .tablewrap { overflow-x: auto; }
+
+  /* ---------- export ---------- */
+  .export { display: flex; flex-direction: column; gap: 0.75rem; }
+  .tabs { display: flex; gap: 0.25rem; flex-wrap: wrap; align-items: center; }
+  .tabs button { background: none; border: 1px solid transparent; border-radius: 999px; padding: 0.3rem 0.8rem; cursor: pointer; color: var(--tx-2); font-size: 0.85rem; }
+  .tabs button[aria-selected="true"] { border-color: var(--ui-3); color: var(--tx); background: var(--bg-2); }
+  .tabs .copy { margin-left: auto; border-color: var(--ui-3); color: var(--tx); }
+  .tabs .copy:hover { border-color: var(--accent); color: var(--accent); }
+  pre {
+    margin: 0; padding: 1rem 1.1rem; background: var(--bg-2); border: 1px solid var(--ui); border-radius: var(--r);
+    font-size: 0.78rem; line-height: 1.55; overflow: auto; max-height: 22rem; tab-size: 2;
+  }
+  .status { font-size: 0.8rem; color: var(--tx-2); min-height: 1.2em; }
+
+  /* ---------- notes ---------- */
+  .notes { max-width: 44rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .notes p { margin: 0; color: var(--tx-2); }
+  .notes p b { color: var(--tx); font-weight: 400; }
+  footer { border-top: 1px solid var(--ui); padding-top: 1rem; font-size: 0.8rem; color: var(--tx-2); }
+
+  /* ---------- narrow ---------- */
+  @media (max-width: 62rem) {
+    .tool { grid-template-columns: minmax(0, 1fr); }
+    .panels { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 40rem) {
+    .ramp { grid-auto-flow: row; grid-auto-columns: auto; }
+    .sw { min-height: 0; flex-direction: row; align-items: center; gap: 0.75rem; padding: 0.55rem 0.75rem; }
+    .sw .bottom { flex-direction: row; gap: 0.75rem; align-items: baseline; margin-left: auto; }
+    .sw .marks { position: static; order: 2; }
+    .sw.anchor::after { left: auto; right: auto; position: static; margin: 0; order: 1; flex: none; }
+    .bar nav { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+</style>
+<script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+</head>
+<body>
+
+<header class="bar">
+  <span class="brand"><a href="./">Chris Willis</a> / Ramp from one color</span>
+  <nav aria-label="Related">
+    <a href="color-intelligence.html">Palette topology</a>
+  </nav>
+  <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark">
+    <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 1 0 0 13z" fill="currentColor"/><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+  </button>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Ramp generator">
+    <div class="intro">
+      <h1>Ramp from one color</h1>
+      <p class="lede">Start with one color, such as a brand color. You get a full ramp of light and dark steps shaped like a design system you already trust, and an estimate of how close each step is to what that system's designers would have picked.</p>
+    </div>
+
+    <form class="controls" id="ctl" autocomplete="off">
+      <div class="field">
+        <label class="lab" for="c1"><span>Your color</span><span class="tag" id="c1tag">Example</span></label>
+        <div class="colorrow">
+          <label class="chip" title="Choose a color"><span id="c1sw"></span><input type="color" id="c1pick" aria-label="Choose your color" /></label>
+          <input class="txt" id="c1" spellcheck="false" placeholder="#D9480F or oklch(…)" aria-describedby="c1err" />
+        </div>
+        <p class="err" id="c1err" hidden></p>
+      </div>
+
+      <div class="field" id="c2field" hidden>
+        <label class="lab" for="c2"><span>Second color</span></label>
+        <div class="colorrow">
+          <label class="chip" title="Choose a color"><span id="c2sw"></span><input type="color" id="c2pick" aria-label="Choose a second color" /></label>
+          <input class="txt" id="c2" spellcheck="false" placeholder="A lighter or darker tint" aria-describedby="c2err" />
+          <button class="x" type="button" id="c2x" aria-label="Remove second color">✕</button>
+        </div>
+        <p class="err" id="c2err" hidden></p>
+      </div>
+      <button class="linkbtn" type="button" id="c2add">+ Add a second color, such as a tint you already use</button>
+
+      <div class="field">
+        <label class="lab" for="pal"><span>Shape it like</span></label>
+        <select id="pal"></select>
+      </div>
+
+      <div class="field">
+        <span class="lab" id="modelab"><span>Your color</span></span>
+        <div class="seg" id="mode" role="group" aria-labelledby="modelab">
+          <button type="button" data-v="through" aria-pressed="true">Stays exact</button>
+          <button type="button" data-v="fit" aria-pressed="false">Fits the palette</button>
+        </div>
+        <p class="hint" id="modehint"></p>
+      </div>
+
+      <div class="field">
+        <label class="lab" for="name"><span>Name for export</span></label>
+        <input class="txt" id="name" spellcheck="false" value="brand" maxlength="40" />
+      </div>
+    </form>
+
+    <div class="result" aria-live="polite">
+      <div class="ramp" id="ramp" role="list" aria-label="Generated ramp"></div>
+      <div class="verdict" id="verdict"></div>
+      <ul class="legend" id="legend">
+        <li><span class="k ring" aria-hidden="true"></span>Your color</li>
+        <li><span class="k" aria-hidden="true">↑</span>More vivid than the palette goes</li>
+        <li><span class="k hatch" aria-hidden="true"></span>Lighter or darker than its neighbors, so extrapolated</li>
+        <li><span class="k" aria-hidden="true">Aa</span>Text color that passes, with its contrast</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panels">
+    <div class="panel">
+      <h2>In the family</h2>
+      <div id="family"></div>
+      <p class="note" id="famnote"></p>
+    </div>
+    <div class="panel">
+      <h2>Text contrast</h2>
+      <div class="tablewrap"><table id="contrast"></table></div>
+      <p class="note">The lightest or darkest step of this ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p>
+    </div>
+  </section>
+
+  <section class="export" aria-label="Export">
+    <h2>Export</h2>
+    <div class="tabs" role="tablist" id="tabs">
+      <button type="button" role="tab" data-f="css" aria-selected="true">CSS</button>
+      <button type="button" role="tab" data-f="oklch" aria-selected="false">CSS oklch</button>
+      <button type="button" role="tab" data-f="tw4" aria-selected="false">Tailwind v4</button>
+      <button type="button" role="tab" data-f="tw3" aria-selected="false">Tailwind v3</button>
+      <button type="button" role="tab" data-f="json" aria-selected="false">Design tokens</button>
+      <button type="button" class="copy" id="copy">Copy</button>
+    </div>
+    <pre id="code" tabindex="0"></pre>
+    <div class="status" id="status" role="status"></div>
+  </section>
+
+  <section class="notes">
+    <h2>How it works</h2>
+    <p>Each reference palette is treated as a shape. Its ramps are wrapped around a surface in Oklab, a color space where equal distances look about equally different. Your color is placed on that surface by its hue, lightness and colorfulness. The new ramp follows the surface: the same lightness steps, and the same rise and fall in colorfulness, as the palette's own ramps at that hue.</p>
+    <p><b>Stays exact</b> puts your color into the ramp unchanged, on the step closest to its lightness. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
+    <p>The estimate comes from a hold-out test. Each of the palette's own ramps was hidden, rebuilt from its neighbors and compared with the real one. Differences are in ΔE OK ×100, where 2 is about the smallest difference most people notice. It covers ramps that stay within the palette's colorfulness, so it says less about steps marked ↑.</p>
+    <p>For a deeper look at a palette's shape, open <a href="color-intelligence.html">Palette topology</a>. This page was prompted by <a href="https://meodai.github.io/dittoTones/">dittoTones</a> by David Aerne, which builds ramps from one color by matching the closest ramps in a reference system.</p>
+  </section>
+
+  <footer>Built on the Palette topology engine. Palettes belong to their authors; see each one's license.</footer>
+</main>
+
+<script type="application/json" id="pals">[{"id":"flexoki","name":"Flexoki","version":"2.0","license":"MIT","source":"stephango.com/flexoki","steps":["50","100","150","200","300","400","500","600","700","800","850","900","950"],"ramps":{"red":["#FFE1D5","#FFCABB","#FDB2A2","#F89A8A","#E8705F","#D14D41","#C03E35","#AF3029","#942822","#6C201C","#551B18","#3E1715","#261312"],"orange":["#FFE7CE","#FED3AF","#FCC192","#F9AE77","#EC8B49","#DA702C","#CB6120","#BC5215","#9D4310","#71320D","#59290D","#40200D","#27180E"],"yellow":["#FAEEC6","#F6E2A0","#F1D67E","#ECCB60","#DFB431","#D0A215","#BE9207","#AD8301","#8E6B01","#664D01","#503D02","#3A2D04","#241E08"],"green":["#EDEECF","#DDE2B2","#CDD597","#BEC97E","#A0AF54","#879A39","#768D21","#66800B","#536907","#3D4C07","#313D07","#252D09","#1A1E0C"],"cyan":["#DDF1E4","#BFE8D9","#A2DECE","#87D3C3","#5ABDAC","#3AA99F","#2F968D","#24837B","#1C6C66","#164F4A","#143F3C","#122F2C","#101F1D"],"blue":["#E1ECEB","#C6DDE8","#ABCFE2","#92BFDB","#66A0C8","#4385BE","#3171B2","#205EA6","#1A4F8C","#163B66","#133051","#12253B","#101A24"],"purple":["#F0EAEC","#E2D9E9","#D3CAE6","#C4B9E0","#A699D0","#8B7EC8","#735EB5","#5E409D","#4F3685","#3C2A62","#31234E","#261C39","#1A1623"],"magenta":["#FEE4E5","#FCCFDA","#F9B9CF","#F4A4C2","#E47DA8","#CE5D97","#B74583","#A02F6F","#87285E","#641F46","#4F1B39","#39172B","#24131D"]},"neutrals":{"base":["#F2F0E5","#E6E4D9","#DAD8CE","#CECDC3","#B7B5AC","#9F9D96","#878580","#6F6E69","#575653","#403E3C","#343331","#282726","#1C1B1A"]},"neutral":"base","poles":{"light":"#FFFCF0","dark":"#100F0F"},"text":{"light":"600","dark":"400","basis":"Flexoki docs: 600 in light, 400 in dark"},"gamut":"srgb","poleNames":{"light":"paper","dark":"black"}},{"id":"tailwind4","name":"Tailwind v4","version":"4.3.3","license":"MIT","source":"tailwindcss/theme.css","steps":["50","100","200","300","400","500","600","700","800","900","950"],"ramps":{"red":["oklch(97.1% 0.013 17.38)","oklch(93.6% 0.032 17.717)","oklch(88.5% 0.062 18.334)","oklch(80.8% 0.114 19.571)","oklch(70.4% 0.191 22.216)","oklch(63.7% 0.237 25.331)","oklch(57.7% 0.245 27.325)","oklch(50.5% 0.213 27.518)","oklch(44.4% 0.177 26.899)","oklch(39.6% 0.141 25.723)","oklch(25.8% 0.092 26.042)"],"orange":["oklch(98% 0.016 73.684)","oklch(95.4% 0.038 75.164)","oklch(90.1% 0.076 70.697)","oklch(83.7% 0.128 66.29)","oklch(75% 0.183 55.934)","oklch(70.5% 0.213 47.604)","oklch(64.6% 0.222 41.116)","oklch(55.3% 0.195 38.402)","oklch(47% 0.157 37.304)","oklch(40.8% 0.123 38.172)","oklch(26.6% 0.079 36.259)"],"amber":["oklch(98.7% 0.022 95.277)","oklch(96.2% 0.059 95.617)","oklch(92.4% 0.12 95.746)","oklch(87.9% 0.169 91.605)","oklch(82.8% 0.189 84.429)","oklch(76.9% 0.188 70.08)","oklch(66.6% 0.179 58.318)","oklch(55.5% 0.163 48.998)","oklch(47.3% 0.137 46.201)","oklch(41.4% 0.112 45.904)","oklch(27.9% 0.077 45.635)"],"yellow":["oklch(98.7% 0.026 102.212)","oklch(97.3% 0.071 103.193)","oklch(94.5% 0.129 101.54)","oklch(90.5% 0.182 98.111)","oklch(85.2% 0.199 91.936)","oklch(79.5% 0.184 86.047)","oklch(68.1% 0.162 75.834)","oklch(55.4% 0.135 66.442)","oklch(47.6% 0.114 61.907)","oklch(42.1% 0.095 57.708)","oklch(28.6% 0.066 53.813)"],"lime":["oklch(98.6% 0.031 120.757)","oklch(96.7% 0.067 122.328)","oklch(93.8% 0.127 124.321)","oklch(89.7% 0.196 126.665)","oklch(84.1% 0.238 128.85)","oklch(76.8% 0.233 130.85)","oklch(64.8% 0.2 131.684)","oklch(53.2% 0.157 131.589)","oklch(45.3% 0.124 130.933)","oklch(40.5% 0.101 131.063)","oklch(27.4% 0.072 132.109)"],"green":["oklch(98.2% 0.018 155.826)","oklch(96.2% 0.044 156.743)","oklch(92.5% 0.084 155.995)","oklch(87.1% 0.15 154.449)","oklch(79.2% 0.209 151.711)","oklch(72.3% 0.219 149.579)","oklch(62.7% 0.194 149.214)","oklch(52.7% 0.154 150.069)","oklch(44.8% 0.119 151.328)","oklch(39.3% 0.095 152.535)","oklch(26.6% 0.065 152.934)"],"emerald":["oklch(97.9% 0.021 166.113)","oklch(95% 0.052 163.051)","oklch(90.5% 0.093 164.15)","oklch(84.5% 0.143 164.978)","oklch(76.5% 0.177 163.223)","oklch(69.6% 0.17 162.48)","oklch(59.6% 0.145 163.225)","oklch(50.8% 0.118 165.612)","oklch(43.2% 0.095 166.913)","oklch(37.8% 0.077 168.94)","oklch(26.2% 0.051 172.552)"],"teal":["oklch(98.4% 0.014 180.72)","oklch(95.3% 0.051 180.801)","oklch(91% 0.096 180.426)","oklch(85.5% 0.138 181.071)","oklch(77.7% 0.152 181.912)","oklch(70.4% 0.14 182.503)","oklch(60% 0.118 184.704)","oklch(51.1% 0.096 186.391)","oklch(43.7% 0.078 188.216)","oklch(38.6% 0.063 188.416)","oklch(27.7% 0.046 192.524)"],"cyan":["oklch(98.4% 0.019 200.873)","oklch(95.6% 0.045 203.388)","oklch(91.7% 0.08 205.041)","oklch(86.5% 0.127 207.078)","oklch(78.9% 0.154 211.53)","oklch(71.5% 0.143 215.221)","oklch(60.9% 0.126 221.723)","oklch(52% 0.105 223.128)","oklch(45% 0.085 224.283)","oklch(39.8% 0.07 227.392)","oklch(30.2% 0.056 229.695)"],"sky":["oklch(97.7% 0.013 236.62)","oklch(95.1% 0.026 236.824)","oklch(90.1% 0.058 230.902)","oklch(82.8% 0.111 230.318)","oklch(74.6% 0.16 232.661)","oklch(68.5% 0.169 237.323)","oklch(58.8% 0.158 241.966)","oklch(50% 0.134 242.749)","oklch(44.3% 0.11 240.79)","oklch(39.1% 0.09 240.876)","oklch(29.3% 0.066 243.157)"],"blue":["oklch(97% 0.014 254.604)","oklch(93.2% 0.032 255.585)","oklch(88.2% 0.059 254.128)","oklch(80.9% 0.105 251.813)","oklch(70.7% 0.165 254.624)","oklch(62.3% 0.214 259.815)","oklch(54.6% 0.245 262.881)","oklch(48.8% 0.243 264.376)","oklch(42.4% 0.199 265.638)","oklch(37.9% 0.146 265.522)","oklch(28.2% 0.091 267.935)"],"indigo":["oklch(96.2% 0.018 272.314)","oklch(93% 0.034 272.788)","oklch(87% 0.065 274.039)","oklch(78.5% 0.115 274.713)","oklch(67.3% 0.182 276.935)","oklch(58.5% 0.233 277.117)","oklch(51.1% 0.262 276.966)","oklch(45.7% 0.24 277.023)","oklch(39.8% 0.195 277.366)","oklch(35.9% 0.144 278.697)","oklch(25.7% 0.09 281.288)"],"violet":["oklch(96.9% 0.016 293.756)","oklch(94.3% 0.029 294.588)","oklch(89.4% 0.057 293.283)","oklch(81.1% 0.111 293.571)","oklch(70.2% 0.183 293.541)","oklch(60.6% 0.25 292.717)","oklch(54.1% 0.281 293.009)","oklch(49.1% 0.27 292.581)","oklch(43.2% 0.232 292.759)","oklch(38% 0.189 293.745)","oklch(28.3% 0.141 291.089)"],"purple":["oklch(97.7% 0.014 308.299)","oklch(94.6% 0.033 307.174)","oklch(90.2% 0.063 306.703)","oklch(82.7% 0.119 306.383)","oklch(71.4% 0.203 305.504)","oklch(62.7% 0.265 303.9)","oklch(55.8% 0.288 302.321)","oklch(49.6% 0.265 301.924)","oklch(43.8% 0.218 303.724)","oklch(38.1% 0.176 304.987)","oklch(29.1% 0.149 302.717)"],"fuchsia":["oklch(97.7% 0.017 320.058)","oklch(95.2% 0.037 318.852)","oklch(90.3% 0.076 319.62)","oklch(83.3% 0.145 321.434)","oklch(74% 0.238 322.16)","oklch(66.7% 0.295 322.15)","oklch(59.1% 0.293 322.896)","oklch(51.8% 0.253 323.949)","oklch(45.2% 0.211 324.591)","oklch(40.1% 0.17 325.612)","oklch(29.3% 0.136 325.661)"],"pink":["oklch(97.1% 0.014 343.198)","oklch(94.8% 0.028 342.258)","oklch(89.9% 0.061 343.231)","oklch(82.3% 0.12 346.018)","oklch(71.8% 0.202 349.761)","oklch(65.6% 0.241 354.308)","oklch(59.2% 0.249 0.584)","oklch(52.5% 0.223 3.958)","oklch(45.9% 0.187 3.815)","oklch(40.8% 0.153 2.432)","oklch(28.4% 0.109 3.907)"],"rose":["oklch(96.9% 0.015 12.422)","oklch(94.1% 0.03 12.58)","oklch(89.2% 0.058 10.001)","oklch(81% 0.117 11.638)","oklch(71.2% 0.194 13.428)","oklch(64.5% 0.246 16.439)","oklch(58.6% 0.253 17.585)","oklch(51.4% 0.222 16.935)","oklch(45.5% 0.188 13.697)","oklch(41% 0.159 10.272)","oklch(27.1% 0.105 12.094)"]},"neutrals":{"slate":["oklch(98.4% 0.003 247.858)","oklch(96.8% 0.007 247.896)","oklch(92.9% 0.013 255.508)","oklch(86.9% 0.022 252.894)","oklch(70.4% 0.04 256.788)","oklch(55.4% 0.046 257.417)","oklch(44.6% 0.043 257.281)","oklch(37.2% 0.044 257.287)","oklch(27.9% 0.041 260.031)","oklch(20.8% 0.042 265.755)","oklch(12.9% 0.042 264.695)"],"gray":["oklch(98.5% 0.002 247.839)","oklch(96.7% 0.003 264.542)","oklch(92.8% 0.006 264.531)","oklch(87.2% 0.01 258.338)","oklch(70.7% 0.022 261.325)","oklch(55.1% 0.027 264.364)","oklch(44.6% 0.03 256.802)","oklch(37.3% 0.034 259.733)","oklch(27.8% 0.033 256.848)","oklch(21% 0.034 264.665)","oklch(13% 0.028 261.692)"],"zinc":["oklch(98.5% 0 none)","oklch(96.7% 0.001 286.375)","oklch(92% 0.004 286.32)","oklch(87.1% 0.006 286.286)","oklch(70.5% 0.015 286.067)","oklch(55.2% 0.016 285.938)","oklch(44.2% 0.017 285.786)","oklch(37% 0.013 285.805)","oklch(27.4% 0.006 286.033)","oklch(21% 0.006 285.885)","oklch(14.1% 0.005 285.823)"],"neutral":["oklch(98.5% 0 none)","oklch(97% 0 none)","oklch(92.2% 0 none)","oklch(87% 0 none)","oklch(70.8% 0 none)","oklch(55.6% 0 none)","oklch(43.9% 0 none)","oklch(37.1% 0 none)","oklch(26.9% 0 none)","oklch(20.5% 0 none)","oklch(14.5% 0 none)"],"stone":["oklch(98.5% 0.001 106.423)","oklch(97% 0.001 106.424)","oklch(92.3% 0.003 48.717)","oklch(86.9% 0.005 56.366)","oklch(70.9% 0.01 56.259)","oklch(55.3% 0.013 58.071)","oklch(44.4% 0.011 73.639)","oklch(37.4% 0.01 67.558)","oklch(26.8% 0.007 34.298)","oklch(21.6% 0.006 56.043)","oklch(14.7% 0.004 49.25)"],"mauve":["oklch(98.5% 0 none)","oklch(96% 0.003 325.6)","oklch(92.2% 0.005 325.62)","oklch(86.5% 0.012 325.68)","oklch(71.1% 0.019 323.02)","oklch(54.2% 0.034 322.5)","oklch(43.5% 0.029 321.78)","oklch(36.4% 0.029 323.89)","oklch(26.3% 0.024 320.12)","oklch(21.2% 0.019 322.12)","oklch(14.5% 0.008 326)"],"olive":["oklch(98.8% 0.003 106.5)","oklch(96.6% 0.005 106.5)","oklch(93% 0.007 106.5)","oklch(88% 0.011 106.6)","oklch(73.7% 0.021 106.9)","oklch(58% 0.031 107.3)","oklch(46.6% 0.025 107.3)","oklch(39.4% 0.023 107.4)","oklch(28.6% 0.016 107.4)","oklch(22.8% 0.013 107.4)","oklch(15.3% 0.006 107.1)"],"mist":["oklch(98.7% 0.002 197.1)","oklch(96.3% 0.002 197.1)","oklch(92.5% 0.005 214.3)","oklch(87.2% 0.007 219.6)","oklch(72.3% 0.014 214.4)","oklch(56% 0.021 213.5)","oklch(45% 0.017 213.2)","oklch(37.8% 0.015 216)","oklch(27.5% 0.011 216.9)","oklch(21.8% 0.008 223.9)","oklch(14.8% 0.004 228.8)"],"taupe":["oklch(98.6% 0.002 67.8)","oklch(96% 0.002 17.2)","oklch(92.2% 0.005 34.3)","oklch(86.8% 0.007 39.5)","oklch(71.4% 0.014 41.2)","oklch(54.7% 0.021 43.1)","oklch(43.8% 0.017 39.3)","oklch(36.7% 0.016 35.7)","oklch(26.8% 0.011 36.5)","oklch(21.4% 0.009 43.1)","oklch(14.7% 0.004 49.3)"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"600","dark":"400","basis":"common Tailwind convention (text-*-600, dark:text-*-400)"},"gamut":"p3","poleNames":{"light":"white","dark":"black"}},{"id":"tailwind3","name":"Tailwind v3","version":"3.4.19","license":"MIT","source":"tailwindcss/lib/public/colors.js","steps":["50","100","200","300","400","500","600","700","800","900","950"],"ramps":{"red":["#FEF2F2","#FEE2E2","#FECACA","#FCA5A5","#F87171","#EF4444","#DC2626","#B91C1C","#991B1B","#7F1D1D","#450A0A"],"orange":["#FFF7ED","#FFEDD5","#FED7AA","#FDBA74","#FB923C","#F97316","#EA580C","#C2410C","#9A3412","#7C2D12","#431407"],"amber":["#FFFBEB","#FEF3C7","#FDE68A","#FCD34D","#FBBF24","#F59E0B","#D97706","#B45309","#92400E","#78350F","#451A03"],"yellow":["#FEFCE8","#FEF9C3","#FEF08A","#FDE047","#FACC15","#EAB308","#CA8A04","#A16207","#854D0E","#713F12","#422006"],"lime":["#F7FEE7","#ECFCCB","#D9F99D","#BEF264","#A3E635","#84CC16","#65A30D","#4D7C0F","#3F6212","#365314","#1A2E05"],"green":["#F0FDF4","#DCFCE7","#BBF7D0","#86EFAC","#4ADE80","#22C55E","#16A34A","#15803D","#166534","#14532D","#052E16"],"emerald":["#ECFDF5","#D1FAE5","#A7F3D0","#6EE7B7","#34D399","#10B981","#059669","#047857","#065F46","#064E3B","#022C22"],"teal":["#F0FDFA","#CCFBF1","#99F6E4","#5EEAD4","#2DD4BF","#14B8A6","#0D9488","#0F766E","#115E59","#134E4A","#042F2E"],"cyan":["#ECFEFF","#CFFAFE","#A5F3FC","#67E8F9","#22D3EE","#06B6D4","#0891B2","#0E7490","#155E75","#164E63","#083344"],"sky":["#F0F9FF","#E0F2FE","#BAE6FD","#7DD3FC","#38BDF8","#0EA5E9","#0284C7","#0369A1","#075985","#0C4A6E","#082F49"],"blue":["#EFF6FF","#DBEAFE","#BFDBFE","#93C5FD","#60A5FA","#3B82F6","#2563EB","#1D4ED8","#1E40AF","#1E3A8A","#172554"],"indigo":["#EEF2FF","#E0E7FF","#C7D2FE","#A5B4FC","#818CF8","#6366F1","#4F46E5","#4338CA","#3730A3","#312E81","#1E1B4B"],"violet":["#F5F3FF","#EDE9FE","#DDD6FE","#C4B5FD","#A78BFA","#8B5CF6","#7C3AED","#6D28D9","#5B21B6","#4C1D95","#2E1065"],"purple":["#FAF5FF","#F3E8FF","#E9D5FF","#D8B4FE","#C084FC","#A855F7","#9333EA","#7E22CE","#6B21A8","#581C87","#3B0764"],"fuchsia":["#FDF4FF","#FAE8FF","#F5D0FE","#F0ABFC","#E879F9","#D946EF","#C026D3","#A21CAF","#86198F","#701A75","#4A044E"],"pink":["#FDF2F8","#FCE7F3","#FBCFE8","#F9A8D4","#F472B6","#EC4899","#DB2777","#BE185D","#9D174D","#831843","#500724"],"rose":["#FFF1F2","#FFE4E6","#FECDD3","#FDA4AF","#FB7185","#F43F5E","#E11D48","#BE123C","#9F1239","#881337","#4C0519"]},"neutrals":{"slate":["#F8FAFC","#F1F5F9","#E2E8F0","#CBD5E1","#94A3B8","#64748B","#475569","#334155","#1E293B","#0F172A","#020617"],"gray":["#F9FAFB","#F3F4F6","#E5E7EB","#D1D5DB","#9CA3AF","#6B7280","#4B5563","#374151","#1F2937","#111827","#030712"],"zinc":["#FAFAFA","#F4F4F5","#E4E4E7","#D4D4D8","#A1A1AA","#71717A","#52525B","#3F3F46","#27272A","#18181B","#09090B"],"neutral":["#FAFAFA","#F5F5F5","#E5E5E5","#D4D4D4","#A3A3A3","#737373","#525252","#404040","#262626","#171717","#0A0A0A"],"stone":["#FAFAF9","#F5F5F4","#E7E5E4","#D6D3D1","#A8A29E","#78716C","#57534E","#44403C","#292524","#1C1917","#0C0A09"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"600","dark":"400","basis":"common Tailwind convention"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"atlassian","name":"Atlassian","version":"20.0.0","license":"Apache-2.0","source":"@atlaskit/tokens palettes-raw/palette","steps":["100","200","250","300","400","500","600","700","800","850","900","1000"],"ramps":{"red":["#FFECEB","#FFD5D2","#FFB8B2","#FD9891","#F87168","#F15B50","#E2483D","#C9372C","#AE2E24","#872821","#5D1F1A","#42221F"],"orange":["#FFF5DB","#FCE4A6","#FBD779","#FBC828","#FCA700","#F68909","#E06C00","#BD5B00","#9E4C00","#7A3B00","#693200","#3A2C1F"],"yellow":["#FEF7C8","#F5E989","#EFDD4E","#EED12B","#DDB30E","#CF9F02","#B38600","#946F00","#7F5F01","#614A05","#533F04","#332E1B"],"lime":["#EFFFD6","#D3F1A7","#BDE97C","#B3DF72","#94C748","#82B536","#6A9A23","#5B7F24","#4C6B1F","#3F5224","#37471F","#28311B"],"green":["#DCFFF1","#BAF3DB","#97EDC9","#7EE2B8","#4BCE97","#2ABB7F","#22A06B","#1F845A","#216E4E","#19573D","#164B35","#1C3329"],"teal":["#E7F9FF","#C6EDFB","#B1E4F7","#9DD9EE","#6CC3E0","#42B2D7","#2898BD","#227D9B","#206A83","#1A5265","#164555","#1E3137"],"blue":["#E9F2FE","#CFE1FD","#ADCBFB","#8FB8F6","#669DF1","#4688EC","#357DE8","#1868DB","#1558BC","#144794","#123263","#1C2B42"],"purple":["#F8EEFE","#EED7FC","#E3BDFA","#D8A0F7","#C97CF4","#BF63F3","#AF59E1","#964AC0","#803FA5","#673286","#48245D","#35243F"],"magenta":["#FFECF8","#FDD0EC","#FCB6E1","#F797D2","#E774BB","#DA62AC","#CD519D","#AE4787","#943D73","#77325B","#50253F","#3D2232"]},"neutrals":{"neutral":["#FFFFFF","#F8F8F8","#F0F1F2","#DDDEE1","#B7B9BE","#8C8F97","#7D818A","#6B6E76","#505258","#3B3D42","#292A2E","#1E1F21","#000000"]},"neutralSteps":{"neutral":["0","100","200","300","400","500","600","700","800","900","1000","1100","1200"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"800","dark":"300","basis":"color.text.danger \u2192 Red800 (light) / Red300 (dark)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"polaris","name":"Shopify Polaris","version":"9.4.2","license":"MIT (LICENSE.md)","source":"@shopify/polaris-tokens colors","steps":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"ramps":{"red":["#FFFAFB","#FFF6F8","#FFECEF","#FEE8EB","#FEE1E6","#FED9DF","#FED1D7","#FEC1C7","#FDACB1","#F78086","#E22C38","#C70A24","#A30A24","#8E0B21","#5F0716","#2F040B"],"rose":["#FFFDFD","#FFF6F8","#FFEFF3","#FFE8EE","#FFE1E8","#FFD9E3","#FED1DD","#FEC1D2","#FEB5CA","#FE8EB1","#FD4B92","#E30C76","#B9075F","#8D0448","#640231","#3E011C"],"magenta":["#FFFDFF","#FFF5FF","#FDEFFD","#FEE7FE","#FCDFFC","#FBD7FB","#FBCFFB","#F9BEF9","#F8B1F8","#F68DF6","#E156E1","#C530C5","#9F269F","#791A79","#561056","#340634"],"purple":["#FDFDFF","#F8F7FF","#F3F1FF","#EFECFF","#E9E5FF","#E4DEFF","#DFD9FF","#D4CCFF","#C7BCFF","#AA95FF","#9474FF","#8051FF","#7126FF","#5700D1","#3B0093","#1C004F"],"blue":["#FCFDFF","#F6F8FF","#F0F2FF","#EAEDFF","#E2E7FF","#DBE1FF","#D5DCFF","#C5D0FF","#BAC7FF","#97ADFF","#4188FF","#0071E9","#005BD3","#004299","#002E6A","#001633"],"azure":["#FBFDFF","#F2F9FF","#EAF4FF","#E0F0FF","#D5EBFF","#CAE6FF","#C0E1FF","#A8D8FF","#91D0FF","#51C0FF","#0094D5","#007CB4","#00679B","#00527C","#003A5A","#002133"],"teal":["#F8FFFE","#E8FCFA","#D7FAF7","#C3F7F2","#AAF6EF","#89F5EC","#70F0E5","#5AE6DB","#2CE0D4","#1EC7BC","#00A198","#12837C","#0C6A64","#0C534F","#033C39","#062C29"],"green":["#FAFFFB","#E6FEEA","#CDFED4","#AFFEBF","#92FCAC","#6EF799","#52F490","#2CED83","#11DF7B","#18BF79","#0D9C6A","#047B5D","#035E4C","#014B40","#073630","#022622"],"lime":["#FAFFFA","#E4FFE5","#D0FFD1","#BBFEBE","#9DFEA0","#77FE7A","#38FE3E","#28F22F","#25E82B","#20CF27","#18A81D","#118715","#0C710F","#0B550D","#033D05","#032104"],"yellow":["#FFFDF6","#FFF8DB","#FFF4BF","#FFEF9D","#FFEB78","#FFE600","#F7DF00","#EAD300","#E1CB00","#C5B200","#998A00","#827500","#695F00","#4F4700","#332E00","#1F1C00"],"orange":["#FFFDFA","#FFF7EE","#FFF1E3","#FFEBD5","#FFE4C6","#FFDDB6","#FFD6A4","#FFC879","#FFB800","#E5A500","#B28400","#956F00","#7C5800","#5E4200","#412D00","#251A00"]},"neutrals":{"gray":["#FFFFFF","#FDFDFD","#FAFAFA","#F7F7F7","#F3F3F3","#F1F1F1","#EBEBEB","#E3E3E3","#D4D4D4","#CCCCCC","#B5B5B5","#8A8A8A","#616161","#4A4A4A","#303030","#1A1A1A"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"14","dark":null,"basis":"color-text-critical \u2192 red-14; dark theme reuses the light value"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"material3","name":"Material 3 (generated)","version":"0.4.0","license":"Apache-2.0","source":"material-color-utilities TonalPalette","note":"Twelve HCT hues at 30\u00b0 steps, chroma 48 (CorePalette primary strength), standard tones 99\u219210. Neutral from SchemeTonalSpot on the M3 baseline seed #6750A4.","steps":["99","95","90","80","70","60","50","40","30","20","10"],"ramps":{"hct0":["#FFFBFF","#FFECF0","#FFD9E2","#FFB1C8","#F48BAE","#D57193","#B6587A","#984061","#7B2949","#5E1133","#3E001D"],"hct30":["#FFFBFF","#FFEDE9","#FFDAD3","#FFB4A5","#FB8C76","#DB735E","#BB5A47","#9C4331","#7D2C1C","#5F1609","#3E0400"],"hct60":["#FFFBFF","#FFEEE2","#FFDCC1","#FFB779","#EE9744","#CF7D2C","#B06411","#8F4E00","#6C3A00","#4C2700","#2E1500"],"hct90":["#FFFBFF","#FFEFCF","#FFDF92","#EDC148","#CFA62E","#B28C0E","#937300","#755B00","#594400","#3E2E00","#241A00"],"hct120":["#FBFFE0","#E7FB87","#D9EC7B","#BDD062","#A2B44A","#889931","#6E7E18","#566500","#404C00","#2C3400","#181E00"],"hct150":["#F6FFF1","#C6FFC7","#A3F5AA","#88D990","#6DBC77","#53A15F","#388647","#1A6C31","#00531F","#003913","#002108"],"hct180":["#F3FFFA","#B7FFEC","#78F8DD","#59DBC1","#35BFA6","#00A38C","#008673","#006B5B","#005144","#00382E","#00201A"],"hct210":["#F6FEFF","#D0F8FF","#99F0FF","#4FD8EC","#23BCCF","#009FB1","#008392","#006874","#004F58","#00363D","#001F24"],"hct240":["#FBFCFF","#E5F2FF","#C8E6FF","#88CEFF","#55B4ED","#3399D1","#007FB4","#006590","#004C6D","#00344D","#001E2E"],"hct270":["#FEFBFF","#EEF0FF","#DAE2FF","#B1C5FF","#89A9FC","#6E8EDF","#5474C4","#3A5BA9","#1D438F","#002C72","#001847"],"hct300":["#FFFBFF","#F6EDFF","#E9DDFF","#D0BCFF","#B79DF7","#9C82DA","#8168BF","#684FA4","#50378A","#391E72","#23005C"],"hct330":["#FFFBFF","#FFEBFA","#FFD6FB","#FAACF9","#DC91DC","#BF77C0","#A25EA5","#87458A","#6C2D70","#521458","#36003D"]},"neutrals":{"neutral":["#FFFBFF","#F5EFF7","#E6E0E9","#CAC5CC","#AEA9B1","#938F96","#79767D","#605D64","#48464C","#322F35","#1D1B20"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"40","dark":"80","basis":"M3 roles: primary = tone 40 (light), 80 (dark)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"opencolor","name":"Open Color","version":"1.9.1","license":"MIT","source":"open-color.json","steps":["0","1","2","3","4","5","6","7","8","9"],"ramps":{"red":["#FFF5F5","#FFE3E3","#FFC9C9","#FFA8A8","#FF8787","#FF6B6B","#FA5252","#F03E3E","#E03131","#C92A2A"],"pink":["#FFF0F6","#FFDEEB","#FCC2D7","#FAA2C1","#F783AC","#F06595","#E64980","#D6336C","#C2255C","#A61E4D"],"grape":["#F8F0FC","#F3D9FA","#EEBEFA","#E599F7","#DA77F2","#CC5DE8","#BE4BDB","#AE3EC9","#9C36B5","#862E9C"],"violet":["#F3F0FF","#E5DBFF","#D0BFFF","#B197FC","#9775FA","#845EF7","#7950F2","#7048E8","#6741D9","#5F3DC4"],"indigo":["#EDF2FF","#DBE4FF","#BAC8FF","#91A7FF","#748FFC","#5C7CFA","#4C6EF5","#4263EB","#3B5BDB","#364FC7"],"blue":["#E7F5FF","#D0EBFF","#A5D8FF","#74C0FC","#4DABF7","#339AF0","#228BE6","#1C7ED6","#1971C2","#1864AB"],"cyan":["#E3FAFC","#C5F6FA","#99E9F2","#66D9E8","#3BC9DB","#22B8CF","#15AABF","#1098AD","#0C8599","#0B7285"],"teal":["#E6FCF5","#C3FAE8","#96F2D7","#63E6BE","#38D9A9","#20C997","#12B886","#0CA678","#099268","#087F5B"],"green":["#EBFBEE","#D3F9D8","#B2F2BB","#8CE99A","#69DB7C","#51CF66","#40C057","#37B24D","#2F9E44","#2B8A3E"],"lime":["#F4FCE3","#E9FAC8","#D8F5A2","#C0EB75","#A9E34B","#94D82D","#82C91E","#74B816","#66A80F","#5C940D"],"yellow":["#FFF9DB","#FFF3BF","#FFEC99","#FFE066","#FFD43B","#FCC419","#FAB005","#F59F00","#F08C00","#E67700"],"orange":["#FFF4E6","#FFE8CC","#FFD8A8","#FFC078","#FFA94D","#FF922B","#FD7E14","#F76707","#E8590C","#D9480F"]},"neutrals":{"gray":["#F8F9FA","#F1F3F5","#E9ECEF","#DEE2E6","#CED4DA","#ADB5BD","#868E96","#495057","#343A40","#212529"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"7","dark":"4","basis":"no official rule; step 7 / step 4 used here"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"radix","name":"Radix Colors","version":"3.0.0","license":"MIT","source":"@radix-ui/colors light scales (sRGB)","steps":["1","2","3","4","5","6","7","8","9","10","11","12"],"ramps":{"amber":["#FEFDFB","#FEFBE9","#FFF7C2","#FFEE9C","#FBE577","#F3D673","#E9C162","#E2A336","#FFC53D","#FFBA18","#AB6400","#4F3422"],"blue":["#FBFDFF","#F4FAFF","#E6F4FE","#D5EFFF","#C2E5FF","#ACD8FC","#8EC8F6","#5EB1EF","#0090FF","#0588F0","#0D74CE","#113264"],"bronze":["#FDFCFC","#FDF7F5","#F6EDEA","#EFE4DF","#E7D9D3","#DFCDC5","#D3BCB3","#C2A499","#A18072","#957468","#7D5E54","#43302B"],"brown":["#FEFDFC","#FCF9F6","#F6EEE7","#F0E4D9","#EBDACA","#E4CDB7","#DCBC9F","#CEA37E","#AD7F58","#A07553","#815E46","#3E332E"],"crimson":["#FFFCFD","#FEF7F9","#FFE9F0","#FEDCE7","#FACEDD","#F3BED1","#EAACC3","#E093B2","#E93D82","#DF3478","#CB1D63","#621639"],"cyan":["#FAFDFE","#F2FAFB","#DEF7F9","#CAF1F6","#B5E9F0","#9DDDE7","#7DCEDC","#3DB9CF","#00A2C7","#0797B9","#107D98","#0D3C48"],"gold":["#FDFDFC","#FAF9F2","#F2F0E7","#EAE6DB","#E1DCCF","#D8D0BF","#CBC0AA","#B9A88D","#978365","#8C7A5E","#71624B","#3B352B"],"grass":["#FBFEFB","#F5FBF5","#E9F6E9","#DAF1DB","#C9E8CA","#B2DDB5","#94CE9A","#65BA74","#46A758","#3E9B4F","#2A7E3B","#203C25"],"green":["#FBFEFC","#F4FBF6","#E6F6EB","#D6F1DF","#C4E8D1","#ADDDC0","#8ECEAA","#5BB98B","#30A46C","#2B9A66","#218358","#193B2D"],"indigo":["#FDFDFE","#F7F9FF","#EDF2FE","#E1E9FF","#D2DEFF","#C1D0FF","#ABBDF9","#8DA4EF","#3E63DD","#3358D4","#3A5BC7","#1F2D5C"],"iris":["#FDFDFF","#F8F8FF","#F0F1FE","#E6E7FF","#DADCFF","#CBCDFF","#B8BAF8","#9B9EF0","#5B5BD6","#5151CD","#5753C6","#272962"],"jade":["#FBFEFD","#F4FBF7","#E6F7ED","#D6F1E3","#C3E9D7","#ACDEC8","#8BCEB6","#56BA9F","#29A383","#26997B","#208368","#1D3B31"],"lime":["#FCFDFA","#F8FAF3","#EEF6D6","#E2F0BD","#D3E7A6","#C2DA91","#ABC978","#8DB654","#BDEE63","#B0E64C","#5C7C2F","#37401C"],"mint":["#F9FEFD","#F2FBF9","#DDF9F2","#C8F4E9","#B3ECDE","#9CE0D0","#7ECFBD","#4CBBA5","#86EAD4","#7DE0CB","#027864","#16433C"],"orange":["#FEFCFB","#FFF7ED","#FFEFD6","#FFDFB5","#FFD19A","#FFC182","#F5AE73","#EC9455","#F76B15","#EF5F00","#CC4E00","#582D1D"],"pink":["#FFFCFE","#FEF7FB","#FEE9F5","#FBDCEF","#F6CEE7","#EFBFDD","#E7ACD0","#DD93C2","#D6409F","#CF3897","#C2298A","#651249"],"plum":["#FEFCFF","#FDF7FD","#FBEBFB","#F7DEF8","#F2D1F3","#E9C2EC","#DEADE3","#CF91D8","#AB4ABA","#A144AF","#953EA3","#53195D"],"purple":["#FEFCFE","#FBF7FE","#F7EDFE","#F2E2FC","#EAD5F9","#E0C4F4","#D1AFEC","#BE93E4","#8E4EC6","#8347B9","#8145B5","#402060"],"red":["#FFFCFC","#FFF7F7","#FEEBEC","#FFDBDC","#FFCDCE","#FDBDBE","#F4A9AA","#EB8E90","#E5484D","#DC3E42","#CE2C31","#641723"],"ruby":["#FFFCFD","#FFF7F8","#FEEAED","#FFDCE1","#FFCED6","#F8BFC8","#EFACB8","#E592A3","#E54666","#DC3B5D","#CA244D","#64172B"],"sky":["#F9FEFF","#F1FAFD","#E1F6FD","#D1F0FA","#BEE7F5","#A9DAED","#8DCAE3","#60B3D7","#7CE2FE","#74DAF8","#00749E","#1D3E56"],"teal":["#FAFEFD","#F3FBF9","#E0F8F3","#CCF3EA","#B8EAE0","#A1DED2","#83CDC1","#53B9AB","#12A594","#0D9B8A","#008573","#0D3D38"],"tomato":["#FFFCFC","#FFF8F7","#FEEBE7","#FFDCD3","#FFCDC2","#FDBDAF","#F5A898","#EC8E7B","#E54D2E","#DD4425","#D13415","#5C271F"],"violet":["#FDFCFE","#FAF8FF","#F4F0FE","#EBE4FF","#E1D9FF","#D4CAFE","#C2B5F5","#AA99EC","#6E56CF","#654DC4","#6550B9","#2F265F"],"yellow":["#FDFDF9","#FEFCE9","#FFFAB8","#FFF394","#FFE770","#F3D768","#E4C767","#D5AE39","#FFE629","#FFDC00","#9E6C00","#473B1F"]},"neutrals":{"gray":["#FCFCFC","#F9F9F9","#F0F0F0","#E8E8E8","#E0E0E0","#D9D9D9","#CECECE","#BBBBBB","#8D8D8D","#838383","#646464","#202020"],"mauve":["#FDFCFD","#FAF9FB","#F2EFF3","#EAE7EC","#E3DFE6","#DBD8E0","#D0CDD7","#BCBAC7","#8E8C99","#84828E","#65636D","#211F26"],"olive":["#FCFDFC","#F8FAF8","#EFF1EF","#E7E9E7","#DFE2DF","#D7DAD7","#CCCFCC","#B9BCB8","#898E87","#7F847D","#60655F","#1D211C"],"sage":["#FBFDFC","#F7F9F8","#EEF1F0","#E6E9E8","#DFE2E0","#D7DAD9","#CBCFCD","#B8BCBA","#868E8B","#7C8481","#5F6563","#1A211E"],"sand":["#FDFDFC","#F9F9F8","#F1F0EF","#E9E8E6","#E2E1DE","#DAD9D6","#CFCECA","#BCBBB5","#8D8D86","#82827C","#63635E","#21201C"],"slate":["#FCFCFD","#F9F9FB","#F0F0F3","#E8E8EC","#E0E1E6","#D9D9E0","#CDCED6","#B9BBC6","#8B8D98","#80838D","#60646C","#1C2024"]},"neutral":"gray","note":"Radix ships separate dark scales and P3 variants; this entry uses the sRGB light scales.","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"11","dark":null,"basis":"Radix: step 11 is low-contrast text; dark mode uses separate dark scales"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"carbon","name":"IBM Carbon","version":"11.59.0","license":"Apache-2.0","source":"@carbon/colors","steps":["10","20","30","40","50","60","70","80","90","100"],"ramps":{"red":["#FFF1F1","#FFD7D9","#FFB3B8","#FF8389","#FA4D56","#DA1E28","#A2191F","#750E13","#520408","#2D0709"],"magenta":["#FFF0F7","#FFD6E8","#FFAFD2","#FF7EB6","#EE5396","#D02670","#9F1853","#740937","#510224","#2A0A18"],"purple":["#F6F2FF","#E8DAFF","#D4BBFF","#BE95FF","#A56EFF","#8A3FFC","#6929C4","#491D8B","#31135E","#1C0F30"],"blue":["#EDF5FF","#D0E2FF","#A6C8FF","#78A9FF","#4589FF","#0F62FE","#0043CE","#002D9C","#001D6C","#001141"],"cyan":["#E5F6FF","#BAE6FF","#82CFFF","#33B1FF","#1192E8","#0072C3","#00539A","#003A6D","#012749","#061727"],"teal":["#D9FBFB","#9EF0F0","#3DDBD9","#08BDBA","#009D9A","#007D79","#005D5D","#004144","#022B30","#081A1C"],"green":["#DEFBE6","#A7F0BA","#6FDC8C","#42BE65","#24A148","#198038","#0E6027","#044317","#022D0D","#071908"],"yellow":["#FCF4D6","#FDDC69","#F1C21B","#D2A106","#B28600","#8E6A00","#684E00","#483700","#302400","#1C1500"],"orange":["#FFF2E8","#FFD9BE","#FFB784","#FF832B","#EB6200","#BA4E00","#8A3800","#5E2900","#3E1A00","#231000"]},"neutrals":{"gray":["#F4F4F4","#E0E0E0","#C6C6C6","#A8A8A8","#8D8D8D","#6F6F6F","#525252","#393939","#262626","#161616"],"coolGray":["#F2F4F8","#DDE1E6","#C1C7CD","#A2A9B0","#878D96","#697077","#4D5358","#343A3F","#21272A","#121619"],"warmGray":["#F7F3F2","#E5E0DF","#CAC5C4","#ADA8A8","#8F8B8B","#726E6E","#565151","#3C3838","#272525","#171414"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"60","dark":"40","basis":"text-error: red60 (white theme) / red40 (g100)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"primer","name":"GitHub Primer","version":"11.10.0","license":"MIT","source":"@primer/primitives base/color/light","steps":["0","1","2","3","4","5","6","7","8","9"],"ramps":{"red":["#FFEBE9","#FFCECB","#FFABA8","#FF8182","#FA4549","#CF222E","#A40E26","#82071E","#660018","#4C0014"],"coral":["#FFF0EB","#FFD6CC","#FFB4A1","#FD8C73","#EC6547","#C4432B","#9E2F1C","#801F0F","#691105","#510901"],"orange":["#FFF1E5","#FFD8B5","#FFB77C","#FB8F44","#E16F24","#BC4C00","#953800","#762C00","#5C2200","#471700"],"yellow":["#FFF8C5","#FAE17D","#EAC54F","#D4A72C","#BF8700","#9A6700","#7D4E00","#633C01","#4D2D00","#3B2300"],"green":["#DAFBE1","#ACEEBB","#6FDD8B","#4AC26B","#2DA44E","#1A7F37","#116329","#044F1E","#003D16","#002D11"],"blue":["#DDF4FF","#B6E3FF","#80CCFF","#54AEFF","#218BFF","#0969DA","#0550AE","#033D8B","#0A3069","#002155"],"purple":["#FBEFFF","#ECD8FF","#D8B9FF","#C297FF","#A475F9","#8250DF","#6639BA","#512A97","#3E1F79","#2E1461"],"pink":["#FFEFF7","#FFD3EB","#FFADDA","#FF80C8","#E85AAD","#BF3989","#99286E","#772057","#611347","#4D0336"]},"neutrals":{"neutral":["#FFFFFF","#F6F8FA","#EFF2F5","#E6EAEF","#E0E6EB","#DAE0E7","#D1D9E0","#C8D1DA","#818B98","#59636E","#454C54","#393F46","#25292E","#1F2328"]},"neutralSteps":{"neutral":["0","1","2","3","4","5","6","7","8","9","10","11","12","13"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"5","dark":null,"basis":"fg.danger \u2192 red.5 (light); dark mode uses separate dark scales"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}}]</script>
+<script>
+var Engine = (function () {
+  var PI2 = Math.PI * 2;
+
+  // ---------------- color math ----------------
+  function s2l(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function tr(v) { return v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; }
+  function cl(v) { return Math.min(Math.max(v, 0), 1); }
+  function lin2lab(r, g, b) {
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+            1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+            0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function lab2lin(L, a, b) {
+    var l = L + 0.3963377774 * a + 0.2158037573 * b, m = L - 0.1055613458 * a - 0.0638541728 * b, s = L - 0.0894841775 * a - 1.2914855480 * b;
+    l = l * l * l; m = m * m * m; s = s * s * s;
+    return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+            -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+            -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s];
+  }
+  // linear sRGB -> linear Display P3
+  var S2P = [[0.8224621, 0.177538, 0.0], [0.0331941, 0.9668058, 0.0], [0.0170827, 0.0723974, 0.9105199]];
+  function inv3(m) {
+    var a = m[0][0], b = m[0][1], c = m[0][2], d = m[1][0], e = m[1][1], f = m[1][2], g = m[2][0], h = m[2][1], i = m[2][2];
+    var A = e * i - f * h, B = -(d * i - f * g), C = d * h - e * g, det = a * A + b * B + c * C;
+    return [[A / det, -(b * i - c * h) / det, (b * f - c * e) / det],
+            [B / det, (a * i - c * g) / det, -(a * f - c * d) / det],
+            [C / det, -(a * h - b * g) / det, (a * e - b * d) / det]];
+  }
+  var P2S = inv3(S2P);
+  function mul(m, v) { return [m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2], m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2], m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2]]; }
+  function inG(L, a, b, g) {
+    var c = lab2lin(L, a, b); if (g === 'p3') c = mul(S2P, c);
+    return c[0] >= -1e-4 && c[0] <= 1.0001 && c[1] >= -1e-4 && c[1] <= 1.0001 && c[2] >= -1e-4 && c[2] <= 1.0001;
+  }
+  function maxC(L, H, g) {
+    var ca = Math.cos(H), sa = Math.sin(H), lo = 0, hi = 0.5;
+    for (var n = 0; n < 30; n++) { var mid = (lo + hi) / 2; if (inG(L, mid * ca, mid * sa, g)) lo = mid; else hi = mid; }
+    return lo;
+  }
+  function hexRgb(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  // CSS color parser: hex (3/4/6/8), rgb(), hsl(), oklch(), oklab(), color(srgb | srgb-linear | display-p3 …). Alpha is read but ignored.
+  function num(tok, pctScale) { tok = String(tok).trim(); if (tok === 'none') return 0; if (/%$/.test(tok)) return parseFloat(tok) / 100 * pctScale; return parseFloat(tok); }
+  function hue(tok) { tok = String(tok).trim(); if (tok === 'none') return 0; var v = parseFloat(tok); if (/turn$/.test(tok)) return v * 360; if (/grad$/.test(tok)) return v * 0.9; if (/rad$/.test(tok) && !/grad$/.test(tok)) return v * 180 / Math.PI; return v; }
+  function args(inner) { return inner.replace(/\//g, ' / ').replace(/,/g, ' ').trim().split(/\s+/).filter(function (t) { return t && t !== '/'; }); }
+  function alphaOf(s) {
+    s = String(s).trim().toLowerCase();
+    if (s[0] === '#') { var h = s.slice(1); if (h.length === 4) return parseInt(h[3] + h[3], 16) / 255; if (h.length === 8) return parseInt(h.slice(6, 8), 16) / 255; return 1; }
+    var m = s.match(/\(([^)]*)\)/); if (!m) return 1;
+    var inner = m[1];
+    if (inner.indexOf('/') >= 0) return num(inner.split('/')[1], 1);
+    var a = args(inner); if (/^(rgba|hsla)/.test(s) && a.length >= 4) return num(a[3], 1);
+    return 1;
+  }
+  function parse(s) {
+    s = String(s).trim().toLowerCase(); var m, a;
+    if (s[0] === '#') {
+      var h = s.slice(1);
+      if (h.length === 3 || h.length === 4) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+      if (!/^[0-9a-f]{6,8}$/.test(h)) throw new Error('bad hex ' + s);
+      var c = hexRgb(h.slice(0, 6)); return lin2lab(s2l(c[0]), s2l(c[1]), s2l(c[2]));
+    }
+    if ((m = s.match(/^rgba?\(([^)]*)\)/))) {
+      a = args(m[1]); var r = [0, 1, 2].map(function (i) { return num(a[i], 255); });
+      return lin2lab(s2l(r[0]), s2l(r[1]), s2l(r[2]));
+    }
+    if ((m = s.match(/^hsla?\(([^)]*)\)/))) {
+      a = args(m[1]); var H = ((hue(a[0]) % 360) + 360) % 360, S = num(a[1], 1) > 1 ? num(a[1], 1) / 100 : num(a[1], 1), Lh = num(a[2], 1) > 1 ? num(a[2], 1) / 100 : num(a[2], 1);
+      if (/%/.test(a[1])) S = parseFloat(a[1]) / 100; if (/%/.test(a[2])) Lh = parseFloat(a[2]) / 100;
+      var k = function (n) { return (n + H / 30) % 12; }, A = S * Math.min(Lh, 1 - Lh);
+      var f = function (n) { return Lh - A * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1)); };
+      return lin2lab(s2l(f(0) * 255), s2l(f(8) * 255), s2l(f(4) * 255));
+    }
+    if ((m = s.match(/^oklch\(([^)]*)\)/))) {
+      a = args(m[1]); var L = /%$/.test(a[0]) ? parseFloat(a[0]) / 100 : parseFloat(a[0]), C = num(a[1], 0.4), Hh = hue(a[2]) * Math.PI / 180;
+      return [L, C * Math.cos(Hh), C * Math.sin(Hh)];
+    }
+    if ((m = s.match(/^oklab\(([^)]*)\)/))) {
+      a = args(m[1]); return [/%$/.test(a[0]) ? parseFloat(a[0]) / 100 : parseFloat(a[0]), num(a[1], 0.4), num(a[2], 0.4)];
+    }
+    if ((m = s.match(/^color\(\s*(display-p3|srgb-linear|srgb)\s+([^)]*)\)/))) {
+      a = args(m[2]); var v = [0, 1, 2].map(function (i) { return num(a[i], 1); });
+      if (m[1] === 'srgb') v = v.map(function (x) { return s2l(x * 255); });
+      else if (m[1] === 'display-p3') v = mul(P2S, v.map(function (x) { return s2l(x * 255); }));
+      return lin2lab(v[0], v[1], v[2]);
+    }
+    throw new Error('Unrecognised color: ' + s);
+  }
+  function rgb8(L, a, b) { var c = lab2lin(L, a, b); return [Math.round(tr(cl(c[0])) * 255), Math.round(tr(cl(c[1])) * 255), Math.round(tr(cl(c[2])) * 255)]; }
+  function p3f(L, a, b) { var c = mul(S2P, lab2lin(L, a, b)); return [tr(cl(c[0])), tr(cl(c[1])), tr(cl(c[2]))]; }
+  function p38(L, a, b) { var c = p3f(L, a, b); return [Math.round(c[0] * 255), Math.round(c[1] * 255), Math.round(c[2] * 255)]; }
+  function hex(L, a, b) { return '#' + rgb8(L, a, b).map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('').toUpperCase(); }
+  function Y(L, a, b) {
+    if (inG(L, a, b, 'srgb')) { var r = rgb8(L, a, b); return 0.2126 * s2l(r[0]) + 0.7152 * s2l(r[1]) + 0.0722 * s2l(r[2]); }
+    var c = lab2lin(L, a, b); return Math.max(0, 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]);
+  }
+  function cr(y1, y2) { return (Math.max(y1, y2) + 0.05) / (Math.min(y1, y2) + 0.05); }
+  function cssColor(L, a, b, g) {
+    if (g === 'p3' && !inG(L, a, b, 'srgb')) return 'color(display-p3 ' + p3f(L, a, b).map(function (v) { return v.toFixed(4); }).join(' ') + ')';
+    return hex(L, a, b);
+  }
+  function oklchStr(L, a, b) {
+    var C = Math.hypot(a, b), H = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
+    return 'oklch(' + (L * 100).toFixed(1) + '% ' + C.toFixed(3) + ' ' + (C < 5e-4 ? 'none' : H.toFixed(1)) + ')';
+  }
+
+  // ---------------- interpolants ----------------
+  function sign(v) { return v > 0 ? 1 : v < 0 ? -1 : 0; }
+  function locate(x, q) {
+    var n = x.length; if (q <= x[0]) return 0; if (q >= x[n - 1]) return n - 2;
+    var lo = 0, hi = n - 2; while (lo < hi) { var mid = (lo + hi + 1) >> 1; if (x[mid] <= q) lo = mid; else hi = mid - 1; } return lo;
+  }
+  function hermite(x, y, d) {
+    return function (q) {
+      var k = locate(x, q), h = x[k + 1] - x[k], t = (q - x[k]) / h, t2 = t * t, t3 = t2 * t;
+      return (2 * t3 - 3 * t2 + 1) * y[k] + (t3 - 2 * t2 + t) * h * d[k] + (-2 * t3 + 3 * t2) * y[k + 1] + (t3 - t2) * h * d[k + 1];
+    };
+  }
+  function linear(x, y) { return function (q) { var n = x.length; if (q <= x[0]) return y[0]; if (q >= x[n - 1]) return y[n - 1]; var k = locate(x, q); return y[k] + (q - x[k]) / (x[k + 1] - x[k]) * (y[k + 1] - y[k]); }; }
+  function edge(h0, h1, m0, m1) {
+    var d = ((2 * h0 + h1) * m0 - h0 * m1) / (h0 + h1);
+    if (sign(d) !== sign(m0)) return 0;
+    if (sign(m0) !== sign(m1) && Math.abs(d) > 3 * Math.abs(m0)) return 3 * m0;
+    return d;
+  }
+  // matches scipy.interpolate.PchipInterpolator
+  function pchip(x, y) {
+    var n = x.length, h = [], m = [], d = new Array(n), i;
+    if (n < 3) return linear(x, y);
+    for (i = 0; i < n - 1; i++) { h[i] = x[i + 1] - x[i]; m[i] = (y[i + 1] - y[i]) / h[i]; }
+    for (i = 1; i < n - 1; i++) {
+      if (sign(m[i]) !== sign(m[i - 1]) || m[i] === 0 || m[i - 1] === 0) d[i] = 0;
+      else { var w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1]; d[i] = (w1 + w2) / (w1 / m[i - 1] + w2 / m[i]); }
+    }
+    d[0] = edge(h[0], h[1], m[0], m[1]); d[n - 1] = edge(h[n - 2], h[n - 3], m[n - 2], m[n - 3]);
+    return hermite(x, y, d);
+  }
+  // matches scipy.interpolate.Akima1DInterpolator (method="akima")
+  function akima(x, y) {
+    var n = x.length, i; if (n < 3) return linear(x, y);
+    var m = new Array(n + 3);
+    for (i = 0; i < n - 1; i++) m[i + 2] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
+    m[1] = 2 * m[2] - m[3]; m[0] = 2 * m[1] - m[2]; m[n + 1] = 2 * m[n] - m[n - 1]; m[n + 2] = 2 * m[n + 1] - m[n];
+    var dm = []; for (i = 0; i < n + 2; i++) dm[i] = Math.abs(m[i + 1] - m[i]);
+    var fmax = 0; for (i = 0; i < n; i++) fmax = Math.max(fmax, dm[i + 2] + dm[i]);
+    var t = [];
+    for (i = 0; i < n; i++) {
+      var f1 = dm[i + 2], f2 = dm[i], f12 = f1 + f2;
+      t[i] = f12 > 1e-9 * fmax ? (f1 * m[i + 1] + f2 * m[i + 2]) / f12 : 0.5 * (m[i + 3] + m[i]);
+    }
+    return hermite(x, y, t);
+  }
+  // natural cubic spline
+  function natural(x, y) {
+    var n = x.length, i; if (n < 3) return linear(x, y);
+    var h = [], a = [], b = [], c = [], r = [], M = new Array(n).fill(0);
+    for (i = 0; i < n - 1; i++) h[i] = x[i + 1] - x[i];
+    for (i = 1; i < n - 1; i++) { a[i] = h[i - 1]; b[i] = 2 * (h[i - 1] + h[i]); c[i] = h[i]; r[i] = 6 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]); }
+    for (i = 2; i < n - 1; i++) { var w = a[i] / b[i - 1]; b[i] -= w * c[i - 1]; r[i] -= w * r[i - 1]; }
+    for (i = n - 2; i >= 1; i--) M[i] = (r[i] - (i < n - 2 ? c[i] * M[i + 1] : 0)) / b[i];
+    return function (q) {
+      var k = locate(x, q), hk = h[k], A = (x[k + 1] - q) / hk, B = (q - x[k]) / hk;
+      return A * y[k] + B * y[k + 1] + ((A * A * A - A) * M[k] + (B * B * B - B) * M[k + 1]) * hk * hk / 6;
+    };
+  }
+  // periodic cubic spline (period P), same curve as scipy CubicSpline(bc_type="periodic")
+  function periodic(x, y, P) {
+    var n = x.length, i, j, h = [];
+    for (i = 0; i < n; i++) h[i] = i < n - 1 ? x[i + 1] - x[i] : x[0] + P - x[n - 1];
+    var A = [], r = [];
+    for (i = 0; i < n; i++) {
+      var row = new Array(n).fill(0), im = (i - 1 + n) % n, ip = (i + 1) % n;
+      row[im] += h[im]; row[i] += 2 * (h[im] + h[i]); row[ip] += h[i];
+      A.push(row); r.push(6 * ((y[ip] - y[i]) / h[i] - (y[i] - y[im]) / h[im]));
+    }
+    for (i = 0; i < n; i++) {
+      var p = i; for (j = i + 1; j < n; j++) if (Math.abs(A[j][i]) > Math.abs(A[p][i])) p = j;
+      var tmp = A[i]; A[i] = A[p]; A[p] = tmp; var tr2 = r[i]; r[i] = r[p]; r[p] = tr2;
+      for (j = i + 1; j < n; j++) { var f = A[j][i] / A[i][i]; if (!f) continue; for (var k = i; k < n; k++) A[j][k] -= f * A[i][k]; r[j] -= f * r[i]; }
+    }
+    var M = new Array(n);
+    for (i = n - 1; i >= 0; i--) { var s = r[i]; for (j = i + 1; j < n; j++) s -= A[i][j] * M[j]; M[i] = s / A[i][i]; }
+    var X = x.concat([x[0] + P]);
+    return function (q) {
+      q = ((q - x[0]) % P + P) % P + x[0];
+      var k = n - 1; for (var t = 0; t < n; t++) { if (q < X[t + 1]) { k = t; break; } }
+      var hk = h[k], Aa = (X[k + 1] - q) / hk, Bb = (q - X[k]) / hk, k1 = (k + 1) % n;
+      return Aa * y[k] + Bb * y[k1] + ((Aa * Aa * Aa - Aa) * M[k] + (Bb * Bb * Bb - Bb) * M[k1]) * hk * hk / 6;
+    };
+  }
+  function interp(method, x, y) { return method === 'linear' ? linear(x, y) : method === 'akima' ? akima(x, y) : method === 'cubic' ? natural(x, y) : pchip(x, y); }
+  function unwrap(a) {
+    var o = [a[0]];
+    for (var i = 1; i < a.length; i++) {
+      var dd = a[i] - a[i - 1];
+      if (Math.abs(dd) >= Math.PI) { var dm = ((dd + Math.PI) % PI2 + PI2) % PI2 - Math.PI; if (dm === -Math.PI && dd > 0) dm = Math.PI; dd = dm; }
+      o.push(o[i - 1] + dd);
+    }
+    return o;
+  }
+  function wrapPi(x) { return ((x + Math.PI) % PI2 + PI2) % PI2 - Math.PI; }
+  function pad(arr, shift) { var n = arr.length; return arr.slice(n - 3).map(function (v) { return v - shift; }).concat(arr, arr.slice(0, 3).map(function (v) { return v + shift; })); }
+  function sortDedupe(labs) {
+    var s = labs.slice().sort(function (p, q) { return p[0] - q[0]; }), u = [s[0]];
+    for (var i = 1; i < s.length; i++) if (s[i][0] > u[u.length - 1][0] + 1e-4) u.push(s[i]);
+    return u;
+  }
+  // longest run of steps whose lightness strictly decreases (light → dark)
+  function lis(labs) {
+    var n = labs.length, best = [], prev = [], i, j;
+    for (i = 0; i < n; i++) { best[i] = 1; prev[i] = -1; for (j = 0; j < i; j++) if (labs[i][0] < labs[j][0] - 1e-4 && best[j] + 1 > best[i]) { best[i] = best[j] + 1; prev[i] = j; } }
+    var bi = 0; for (i = 1; i < n; i++) if (best[i] > best[bi]) bi = i;
+    var keep = []; while (bi >= 0) { keep.unshift(bi); bi = prev[bi]; }
+    return keep;
+  }
+
+  // ---------------- model ----------------
+  function build(pal, neutralName, gamut) {
+    var M = { pal: pal, gamut: gamut, neutralName: neutralName, steps: pal.steps };
+    var pl = parse(pal.poles.light), pd = parse(pal.poles.dark), Lp = pl[0], Lk = pd[0];
+    M.Lp = Lp; M.Lk = Lk; M.pl = pl; M.pd = pd;
+    var neuLabs = pal.neutrals[neutralName].map(parse);
+    M.neutral = { name: neutralName, raw: pal.neutrals[neutralName], labs: neuLabs, steps: (pal.neutralSteps && pal.neutralSteps[neutralName]) || pal.steps };
+    var ax = sortDedupe([pl].concat(neuLabs, [pd]));
+    var cAf = pchip(ax.map(function (p) { return p[0]; }), ax.map(function (p) { return p[1]; }));
+    var cBf = pchip(ax.map(function (p) { return p[0]; }), ax.map(function (p) { return p[2]; }));
+    M.axisAt = function (L) { return [cAf(L), cBf(L)]; };
+
+    var R = Object.keys(pal.ramps).map(function (n, idx) {
+      var labs = pal.ramps[n].map(parse), keep = lis(labs), off = [];
+      for (var i = 0; i < labs.length; i++) if (keep.indexOf(i) < 0) off.push(i);
+      var s = sortDedupe(keep.map(function (i) { return labs[i]; }));
+      var z = s.map(function (p) { return p[0]; }), x = s.map(function (p) { return p[1]; }), y = s.map(function (p) { return p[2]; });
+      var C = s.map(function (p) { return Math.hypot(p[1], p[2]); }), H = unwrap(s.map(function (p) { return Math.atan2(p[2], p[1]); }));
+      return { name: n, idx: idx, raw: pal.ramps[n], labs: labs, keep: keep, off: off, z: z, x: x, y: y, C: C, H: H, f: {} };
+    });
+    M.R = R;
+    function curveF(r, m) { if (!r.f[m]) r.f[m] = [interp(m, r.z, r.C), interp(m, r.z, r.H)]; return r.f[m]; }
+    function rampPos(r, L, m) {
+      var z = r.z, n = z.length, f;
+      if (L < z[0]) { f = (L - Lk) / (z[0] - Lk); return [pd[1] + f * (r.x[0] - pd[1]), pd[2] + f * (r.y[0] - pd[2])]; }
+      if (L > z[n - 1]) { f = (L - z[n - 1]) / (Lp - z[n - 1]); return [r.x[n - 1] + f * (pl[1] - r.x[n - 1]), r.y[n - 1] + f * (pl[2] - r.y[n - 1])]; }
+      var cf = curveF(r, m || 'pchip'), c = cf[0](L), t = cf[1](L); return [c * Math.cos(t), c * Math.sin(t)];
+    }
+    M.rampPos = rampPos;
+
+    // ---- hue structure on a 64-level grid ----
+    var NL = 64, grid = [];
+    for (var j = 0; j < NL; j++) grid.push(Lk + (Lp - Lk) * j / (NL - 1));
+    var RA = grid.map(function (L) {
+      var c0 = cAf(L), c1 = cBf(L);
+      return R.map(function (r) { var p = rampPos(r, L), dx = p[0] - c0, dy = p[1] - c1; return [Math.hypot(dx, dy), Math.atan2(dy, dx)]; });
+    });
+    var theta = R.map(function (r, i) { var best = -1, k = 0; for (var jj = 0; jj < NL; jj++) if (RA[jj][i][0] > best) { best = RA[jj][i][0]; k = jj; } r.peakRel = best; return RA[k][i][1]; });
+    R.forEach(function (r, i) { r.theta = theta[i]; });
+    function thMod(i) { return ((theta[i] % PI2) + PI2) % PI2; }
+    function crossings(keep) {
+      var order = keep.slice().sort(function (a, b) { return thMod(a) - thMod(b); }), X = {};
+      for (var jj = 1; jj < NL - 1; jj++) {
+        for (var q = 0; q < order.length; q++) {
+          var k = order[q], n = order[(q + 1) % order.length], ck = RA[jj][k][0], cn = RA[jj][n][0], cm = Math.min(ck, cn);
+          if (order.length < 2 || cm < 0.006) continue;
+          var expd = ((thMod(n) - thMod(k)) % PI2 + PI2) % PI2, adv = expd + wrapPi(RA[jj][n][1] - RA[jj][k][1] - expd);
+          if (adv <= 0) {
+            var kind = cm >= 0.03 ? 'body' : 'pole', key = k + '|' + n + '|' + kind;
+            if (!X[key]) X[key] = { a: k, b: n, kind: kind, Ls: [], inv: 0 };
+            X[key].Ls.push(grid[jj]); X[key].inv = Math.max(X[key].inv, -adv * 180 / Math.PI);
+          }
+        }
+      }
+      // a body crossing is structural when it persists (4+ levels) or swaps hue order by 3°+; smaller ones are local folds
+      Object.keys(X).forEach(function (key) { var x = X[key]; if (x.kind === 'body' && x.Ls.length < 4 && x.inv < 3) x.kind = 'minor'; });
+      return X;
+    }
+    var keep = R.map(function (r, i) { return i; }), interior = [];
+    var X0 = crossings(keep);
+    M.bodyCrossings = []; M.poleFolds = []; M.minorFolds = [];
+    Object.keys(X0).forEach(function (k) { var x = X0[k]; (x.kind === 'body' ? M.bodyCrossings : x.kind === 'minor' ? M.minorFolds : M.poleFolds).push({ a: R[x.a].name, b: R[x.b].name, Lmin: Math.min.apply(null, x.Ls), Lmax: Math.max.apply(null, x.Ls), inv: x.inv }); });
+    for (;;) {
+      var X = crossings(keep), cnt = {}, any = false;
+      Object.keys(X).forEach(function (k) { var x = X[k]; if (x.kind !== 'body') return; any = true; cnt[x.a] = (cnt[x.a] || 0) + x.Ls.length; cnt[x.b] = (cnt[x.b] || 0) + x.Ls.length; });
+      if (!any) break;
+      var worst = null;
+      Object.keys(cnt).forEach(function (k) { k = +k; if (worst === null || cnt[k] > cnt[worst] || (cnt[k] === cnt[worst] && R[k].peakRel < R[worst].peakRel)) worst = k; });
+      keep.splice(keep.indexOf(worst), 1); interior.push(worst);
+    }
+    // loft order starts at the ramp closest to 25° (red), so maps and wheels read the same way across palettes
+    keep.sort(function (a, b) { return thMod(a) - thMod(b); });
+    var start = 0, bd = 9;
+    keep.forEach(function (k, q) { var d = Math.abs(wrapPi(thMod(k) - 25 * Math.PI / 180)); if (d < bd) { bd = d; start = q; } });
+    keep = keep.slice(start).concat(keep.slice(0, start));
+    R.forEach(function (r) { r.interior = false; });
+    interior.forEach(function (i) { R[i].interior = true; });
+    var LR = keep.map(function (i) { return R[i]; }), nL = LR.length;
+    var thetaU = keep.map(function (i) { return theta[i]; });
+    for (var q2 = 1; q2 < thetaU.length; q2++) while (thetaU[q2] <= thetaU[q2 - 1]) thetaU[q2] += PI2;
+    var TH = thetaU.concat([thetaU[0] + PI2]);
+    M.loft = LR; M.interior = interior.map(function (i) { return R[i]; }); M.thetaU = thetaU;
+    var gaps = LR.map(function (r, q) { return { a: r.name, b: LR[(q + 1) % nL].name, deg: (TH[q + 1] - TH[q]) * 180 / Math.PI }; });
+    M.gaps = gaps;
+
+    function norm(u) { var v = (u - thetaU[0]) % PI2; if (v < 0) v += PI2; return v + thetaU[0]; }
+    function seg(u) { u = norm(u); var i = nL - 1; for (var k = 0; k < nL; k++) { if (u < TH[k + 1]) { i = k; break; } } return [i, (u - TH[i]) / (TH[i + 1] - TH[i])]; }
+    function angDist(a, b) { var d = ((a - b) % PI2 + PI2) % PI2; return Math.min(d, PI2 - d); }
+    M.norm = norm; M.seg = seg; M.angDist = angDist;
+    M.nearestLoft = function (u) { var bi = 0, bdd = 9; thetaU.forEach(function (t, i) { var d = angDist(u, t); if (d < bdd) { bdd = d; bi = i; } }); return bi; };
+
+    M.poleFixLevels = 0;
+    function level(L) {
+      var c0 = cAf(L), c1 = cBf(L), rel = [], rC = [], rH = [], i;
+      for (i = 0; i < nL; i++) { var p = rampPos(LR[i], L), dx = p[0] - c0, dy = p[1] - c1; rel.push([dx, dy]); rC.push(Math.hypot(dx, dy)); rH.push(Math.atan2(dy, dx)); }
+      var pole = L <= Lk + 1e-9 || L >= Lp - 1e-9 || Math.max.apply(null, rC) < 1e-7;
+      var lev = { L: L, cA: c0, cB: c1, rel: rel, rC: rC, pole: pole, fixed: false };
+      if (!pole) {
+        var Hj = rH.map(function (h, q) { return thetaU[q] + wrapPi(h - thetaU[q]); });
+        for (i = 1; i < nL; i++) if (Hj[i] <= Hj[i - 1] + 1e-6) { Hj[i] = Hj[i - 1] + 1e-4; lev.fixed = true; }
+        if (Hj[nL - 1] >= Hj[0] + PI2 - 1e-4) { var off = Hj[0] - thetaU[0]; Hj = thetaU.map(function (t) { return t + off; }); lev.fixed = true; }
+        lev.Hn = Hj.concat([Hj[0] + PI2]); lev.pc = pchip(pad(Hj, PI2), pad(rC, 0));
+      }
+      return lev;
+    }
+    grid.forEach(function (L) { if (level(L).fixed) M.poleFixLevels++; });
+    M.level = level;
+    function clip(L, a, b) {
+      var clipped = false, over = 0;
+      if (L > 1e-3 && L < 1 - 1e-4 && !inG(L, a, b, gamut)) {
+        var Ca = Math.hypot(a, b);
+        if (Ca > 1e-4) { var mc = maxC(L, Math.atan2(b, a), gamut), k = mc / Ca; over = Ca - mc; a *= k; b *= k; clipped = true; }
+      }
+      return [a, b, clipped, over];
+    }
+    function relAt(i, f, u, lev, method) {
+      if (lev.pole) return [0, 0];
+      if (method === 'chord') { var p1 = lev.rel[i], p2 = lev.rel[(i + 1) % nL]; return [p1[0] + f * (p2[0] - p1[0]), p1[1] + f * (p2[1] - p1[1])]; }
+      if (method === 'cubic') {
+        if (!lev.cs) lev.cs = [periodic(thetaU, lev.rel.map(function (p) { return p[0]; }), PI2), periodic(thetaU, lev.rel.map(function (p) { return p[1]; }), PI2)];
+        return [lev.cs[0](u), lev.cs[1](u)];
+      }
+      var Hq = lev.Hn[i] + f * (lev.Hn[i + 1] - lev.Hn[i]), C = Math.max(lev.pc(Hq), 0);
+      return [C * Math.cos(Hq), C * Math.sin(Hq)];
+    }
+    function pointSeg(i, f, u, lev, s, method) {
+      var d = relAt(i, f, u, lev, method), dx = d[0], dy = d[1];
+      var c = clip(lev.L, lev.cA + s * dx, lev.cB + s * dy), r1 = LR[i], r2 = LR[(i + 1) % nL], L = lev.L;
+      // extrapolated: neither neighbouring ramp has a real step this dark / this light
+      var ext = L < Math.min(r1.z[0], r2.z[0]) - 1e-6 || L > Math.max(r1.z[r1.z.length - 1], r2.z[r2.z.length - 1]) + 1e-6;
+      return { L: L, a: c[0], b: c[1], clipped: c[2], over: c[3], ext: ext };
+    }
+    M.pointSeg = pointSeg;
+    M.point = function (u, L, s, method) { var sg = seg(u); return pointSeg(sg[0], sg[1], norm(u), level(L), s, method || 'pchip'); };
+
+    // step lightness across hue (periodic PCHIP over the lofted ramps)
+    var stepF = pal.steps.map(function (_, k) { return pchip(pad(thetaU, PI2), pad(LR.map(function (r) { return r.labs[k][0]; }), 0)); });
+    M.genSteps = function (u, s, method) {
+      u = norm(u); var near = LR[M.nearestLoft(u)];
+      return stepF.map(function (f, k) {
+        var L = Math.min(Math.max(f(u), Lk + 1e-4), Lp - 1e-4), p = M.point(u, L, s, method);
+        p.step = pal.steps[k]; p.hex = hex(p.L, p.a, p.b); p.css = cssColor(p.L, p.a, p.b, gamut); p.inSrgb = inG(p.L, p.a, p.b, 'srgb');
+        p.offNear = near.off.indexOf(k) >= 0; return p;
+      });
+    };
+
+    // ---- seed colors: invert the surface ----
+    // map a color to (hue position u, lightness L, saturation s); s > 1 means more vivid than the palette at that hue and lightness
+    var stepLmin = Math.min.apply(null, LR.map(function (r) { return r.z[0]; })), stepLmax = Math.max.apply(null, LR.map(function (r) { return r.z[r.z.length - 1]; }));
+    M.seedMap = function (lab) {
+      var L0 = lab[0], L = Math.min(Math.max(L0, Lk + 1e-4), Lp - 1e-4), lev = level(L);
+      var dx = lab[1] - lev.cA, dy = lab[2] - lev.cB, Crel = Math.hypot(dx, dy);
+      var out = { L: L, Lseed: L0, clampedL: L !== L0, Crel: Crel, neutral: false };
+      // a seed that is (almost) a real step of a lofted ramp is recognised as that step, so its own ramp comes back exactly
+      var bestQ = -1, bestK = -1, bestE = 0.3, also = [];
+      for (var qi = 0; qi < nL; qi++) {
+        var rr = LR[qi];
+        for (var qk = 0; qk < rr.keep.length; qk++) {
+          var ee = dE(rr.labs[rr.keep[qk]], lab);
+          if (ee < 0.6) also.push({ name: rr.name + '-' + pal.steps[rr.keep[qk]], e: ee });
+          if (ee < bestE) { bestE = ee; bestQ = qi; bestK = rr.keep[qk]; }
+        }
+      }
+      if (bestQ >= 0) {
+        var sp = LR[bestQ].labs[bestK], lv2 = level(sp[0]), exact = LR[bestQ].name + '-' + pal.steps[bestK];
+        return { L: sp[0], Lseed: L0, clampedL: false, Crel: Crel, neutral: false, u: thetaU[bestQ], sRaw: 1, s: 1, Csurf: Math.hypot(sp[1] - lv2.cA, sp[2] - lv2.cB), ext: false,
+          exact: exact, exactE: bestE, also: also.filter(function (a) { return a.name !== exact; }).map(function (a) { return a.name; }) };
+      }
+      if (lev.pole || Crel < 0.012) { out.neutral = true; out.s = 0; out.sRaw = 0; return out; }
+      // undo the per-level hue warp: find the segment whose level hues bracket the seed's hue
+      var h = Math.atan2(dy, dx), H0 = lev.Hn[0]; h = H0 + (((h - H0) % PI2) + PI2) % PI2;
+      var i = nL - 1; for (var k = 0; k < nL; k++) if (h < lev.Hn[k + 1]) { i = k; break; }
+      var f = (h - lev.Hn[i]) / (lev.Hn[i + 1] - lev.Hn[i]);
+      out.u = norm(TH[i] + f * (TH[i + 1] - TH[i]));
+      out.Csurf = Math.max(lev.pc(h), 0);
+      out.sRaw = out.Csurf > 1e-4 ? Crel / out.Csurf : Infinity; out.s = Math.min(out.sRaw, 1);
+      out.ext = pointSeg(i, f, out.u, lev, out.s, 'pchip').ext;
+      return out;
+    };
+    // a ramp shaped by the palette at hue u, scaled to saturation s, with the step nearest seedL moved onto it exactly
+    M.genThrough = function (u, s, seedL) {
+      u = norm(u);
+      var Ls = stepF.map(function (f) { return Math.min(Math.max(f(u), Lk + 1e-4), Lp - 1e-4); }), n = Ls.length, ks = 0;
+      for (var k = 1; k < n; k++) if (Math.abs(Ls[k] - seedL) < Math.abs(Ls[ks] - seedL)) ks = k;
+      // rescale each side of the anchor proportionally between the anchor and that end, so lightness order can't break
+      var Lt = Ls.slice(); Lt[ks] = seedL;
+      var L0e = Ls[0], L1e = Ls[n - 1];
+      var top = ks === 0 ? Math.max(seedL, L0e) : L0e, bot = ks === n - 1 ? Math.min(seedL, L1e) : L1e;
+      for (var q0 = 0; q0 < ks; q0++) Lt[q0] = top + (Ls[q0] - L0e) / ((Ls[ks] - L0e) || 1e-9) * (seedL - top);
+      for (q0 = ks + 1; q0 < n; q0++) Lt[q0] = seedL + (Ls[q0] - Ls[ks]) / ((L1e - Ls[ks]) || 1e-9) * (bot - seedL);
+      if (ks === 0) for (q0 = 1; q0 < n; q0++) Lt[q0] = seedL + (Ls[q0] - Ls[0]) / ((L1e - Ls[0]) || 1e-9) * (L1e - seedL);
+      if (ks === n - 1) for (q0 = 0; q0 < n - 1; q0++) Lt[q0] = L0e + (Ls[q0] - L0e) / ((Ls[n - 1] - L0e) || 1e-9) * (seedL - L0e);
+      var near = LR[M.nearestLoft(u)];
+      return Ls.map(function (L0, q) {
+        var L = q === ks ? seedL : Math.min(Math.max(Lt[q], Lk + 1e-4), Lp - 1e-4), p = M.point(u, L, s);
+        p.step = pal.steps[q]; p.hex = hex(p.L, p.a, p.b); p.css = cssColor(p.L, p.a, p.b, gamut); p.inSrgb = inG(p.L, p.a, p.b, 'srgb');
+        p.offNear = near.off.indexOf(q) >= 0; p.anchor = q === ks; return p;
+      });
+    };
+
+    // ---- anchored ramps (one or more seeds) ----
+    // furthest distance from the neutral axis, along a direction, that stays in the gamut
+    function maxRel(L, cA, cB, ux, uy) {
+      if (!inG(L, cA, cB, gamut)) return 0;
+      var lo = 0, hi = 0.6; for (var q = 0; q < 30; q++) { var m = (lo + hi) / 2; if (inG(L, cA + m * ux, cB + m * uy, gamut)) lo = m; else hi = m; } return lo;
+    }
+    function surfAt(u, L) {
+      var sg = seg(u), lev = level(L), d = relAt(sg[0], sg[1], norm(u), lev, 'pchip'), C = Math.hypot(d[0], d[1]);
+      var ux = C > 1e-9 ? d[0] / C : 1, uy = C > 1e-9 ? d[1] / C : 0, cm = maxRel(L, lev.cA, lev.cB, ux, uy);
+      return { lev: lev, i: sg[0], f: sg[1], C: C, ux: ux, uy: uy, cmax: cm, rho: cm > 1e-6 ? C / cm : 0 };
+    }
+    var RHOCAP = 0.9995, KNEE = 0.98;
+    // soft knee: identity below the knee, smooth compression toward (never reaching) the gamut edge above it
+    function knee(x) { if (x <= KNEE) return x; var w = 1 - KNEE; return KNEE + w * (1 - Math.exp(-(x - KNEE) / w)); }
+    // scale factor k such that knee(k * rA) = rS
+    function kFor(rA, rS) {
+      rA = Math.max(rA, 1e-6); rS = Math.min(Math.max(rS, 0), RHOCAP);
+      if (rS <= KNEE) return rS / rA;
+      var lo = rS / rA, hi = lo; while (knee(hi * rA) < rS && hi < 1e6) hi *= 2;
+      for (var q = 0; q < 60; q++) { var m = (lo + hi) / 2; if (knee(m * rA) < rS) lo = m; else hi = m; } return (lo + hi) / 2;
+    }
+    M.setKnee = function (v) { KNEE = v; };
+    // chroma as a share of the gamut (rho); rho' = 1 - (1 - rho)^beta is ~linear for pastels and can never reach the gamut edge
+    function betaFor(rA, rS) {
+      rA = Math.min(Math.max(rA, 1e-6), RHOCAP); rS = Math.min(Math.max(rS, 1e-9), RHOCAP);
+      return Math.log(1 - rS) / Math.log(1 - rA);
+    }
+    M.genAnchors = function (seeds, opts) {
+      opts = opts || {}; var uniform = opts.curve === 'uniform', cap = !!opts.cap;
+      var S = seeds.filter(function (s) { return s.map && !s.map.neutral && isFinite(s.map.sRaw) && s.map.u !== undefined; });
+      if (!S.length) return null;
+      // one seed per lightness: drop near-duplicates, then order light → dark
+      S = S.slice().sort(function (a, b) { return b.map.L - a.map.L; }).filter(function (s, j, arr) { return !j || arr[j - 1].map.L - s.map.L > 0.012; });
+      var sx = 0, sy = 0; S.forEach(function (s) { sx += Math.cos(s.map.u); sy += Math.sin(s.map.u); });
+      var u0 = S.length === 1 ? S[0].map.u : norm(Math.atan2(sy, sx));
+      var Ls = stepF.map(function (f) { return Math.min(Math.max(f(norm(u0)), Lk + 1e-4), Lp - 1e-4); }), n = Ls.length;
+      if (S.length > n) S = S.slice(0, n);
+      // each seed claims the nearest free step, keeping order
+      var idx = [], prev = -1;
+      S.forEach(function (s, j) { var best = prev + 1, bd = 9; for (var k = prev + 1; k <= n - (S.length - j); k++) { var d = Math.abs(Ls[k] - s.map.L); if (d < bd) { bd = d; best = k; } } idx.push(best); prev = best; });
+      // lightness: proportional between control points (ends stay unless a seed goes past them)
+      var ck = [], cl = [];
+      if (idx[0] > 0) { ck.push(0); cl.push(Math.max(Ls[0], S[0].map.L + 0.004 * idx[0])); }
+      S.forEach(function (s, j) { ck.push(idx[j]); cl.push(s.map.L); });
+      if (idx[idx.length - 1] < n - 1) { ck.push(n - 1); cl.push(Math.min(Ls[n - 1], S[S.length - 1].map.L - 0.004 * (n - 1 - idx[idx.length - 1]))); }
+      var Lt = Ls.map(function (L0, k) {
+        for (var c = 0; c < ck.length - 1; c++) if (k >= ck[c] && k <= ck[c + 1]) {
+          var a = ck[c], b = ck[c + 1]; if (a === b) return cl[c];
+          var den = Ls[b] - Ls[a]; return Math.abs(den) < 1e-9 ? cl[c] + (k - a) / (b - a) * (cl[c + 1] - cl[c]) : cl[c] + (L0 - Ls[a]) / den * (cl[c + 1] - cl[c]);
+        }
+        return L0;
+      });
+      // per-anchor hue position and chroma curve; interpolate between anchors along the step index
+      var au = S.map(function (s) { return u0 + wrapPi(s.map.u - u0); });
+      var ab = S.map(function (s, j) {
+        var sf = surfAt(s.map.u, s.map.L), rS = sf.rho * s.map.sRaw;
+        return uniform ? Math.log(Math.max(s.map.sRaw, 1e-6)) : Math.log(Math.max(kFor(sf.rho, rS), 1e-6));
+      });
+      if (cap) ab = ab.map(function (v) { return Math.min(v, 0); });
+      function along(vals, k) {
+        if (k <= idx[0]) return vals[0]; if (k >= idx[idx.length - 1]) return vals[vals.length - 1];
+        for (var j = 0; j < idx.length - 1; j++) if (k >= idx[j] && k <= idx[j + 1]) return vals[j] + (k - idx[j]) / (idx[j + 1] - idx[j]) * (vals[j + 1] - vals[j]);
+      }
+      var near = LR[M.nearestLoft(u0)];
+      return Lt.map(function (Lq, k) {
+        var aj = idx.indexOf(k), uq = aj >= 0 ? au[aj] : along(au, k), L = aj >= 0 ? S[aj].map.L : Math.min(Math.max(Lq, Lk + 1e-4), Lp - 1e-4);
+        var sf = surfAt(uq, L), lb = aj >= 0 ? ab[aj] : along(ab, k), C2;
+        if (uniform) C2 = Math.exp(lb) * sf.C;
+        else C2 = knee(Math.exp(lb) * sf.rho) * sf.cmax;
+        var c = clip(L, sf.lev.cA + C2 * sf.ux, sf.lev.cB + C2 * sf.uy);
+        var p = { L: L, a: c[0], b: c[1], clipped: c[2], ext: pointSeg(sf.i, sf.f, norm(uq), sf.lev, 1, 'pchip').ext };
+        p.beyond = C2 > sf.C * 1.002 && sf.C > 1e-4; p.step = pal.steps[k]; p.hex = hex(p.L, p.a, p.b); p.css = cssColor(p.L, p.a, p.b, gamut);
+        p.inSrgb = inG(p.L, p.a, p.b, 'srgb'); p.offNear = near.off.indexOf(k) >= 0; p.anchor = aj >= 0; p.seedIndex = aj >= 0 ? seeds.indexOf(S[aj]) : -1;
+        return p;
+      });
+    };
+
+    // nearest color on a named ramp (or the neutral): nearest real step, and nearest point along its curve
+    M.nearestOnRamp = function (name, lab) {
+      var labs, steps, raws, pts = [];
+      var r = R.filter(function (x) { return x.name === name; })[0];
+      if (r) {
+        labs = r.labs; steps = pal.steps; raws = r.raw;
+        var cf = curveF(r, 'pchip'), z0 = r.z[0], z1 = r.z[r.z.length - 1];
+        for (var q = 0; q <= 400; q++) { var L = z0 + (z1 - z0) * q / 400, C = Math.max(cf[0](L), 0), H = cf[1](L), c = clip(L, C * Math.cos(H), C * Math.sin(H)); pts.push([L, c[0], c[1]]); }
+      } else {
+        labs = M.neutral.labs; steps = M.neutral.steps; raws = M.neutral.raw;
+        var s = sortDedupe(labs), zz = s.map(function (p) { return p[0]; }), fa = pchip(zz, s.map(function (p) { return p[1]; })), fb = pchip(zz, s.map(function (p) { return p[2]; }));
+        for (q = 0; q <= 400; q++) { L = zz[0] + (zz[zz.length - 1] - zz[0]) * q / 400; pts.push([L, fa(L), fb(L)]); }
+      }
+      var bk = 0, be = 1e9; labs.forEach(function (p, k) { var e = dE(p, lab); if (e < be) { be = e; bk = k; } });
+      var bp = pts[0], ce = 1e9; pts.forEach(function (p) { var e = dE(p, lab); if (e < ce) { ce = e; bp = p; } });
+      // which two real steps bracket the nearest point's lightness
+      var lo = null, hi = null;
+      labs.forEach(function (p, k) { if (p[0] >= bp[0] && (lo === null || p[0] < labs[lo][0])) lo = k; if (p[0] <= bp[0] && (hi === null || p[0] > labs[hi][0])) hi = k; });
+      return { step: steps[bk], stepLab: labs[bk], stepRaw: raws[bk], stepE: be, lab: bp, e: ce, between: [lo === null ? null : steps[lo], hi === null ? null : steps[hi]] };
+    };
+
+    var ALL = [{ name: pal.poleNames.light, lab: pl, raw: pal.poles.light }, { name: pal.poleNames.dark, lab: pd, raw: pal.poles.dark }];
+    R.forEach(function (r) { r.labs.forEach(function (lab, k) { ALL.push({ name: r.name + '-' + pal.steps[k], lab: lab, raw: r.raw[k] }); }); });
+    neuLabs.forEach(function (lab, k) { ALL.push({ name: neutralName + '-' + M.neutral.steps[k], lab: lab, raw: M.neutral.raw[k] }); });
+    M.nearest = function (L, a, b) {
+      var best = null, bdd = 9;
+      ALL.forEach(function (e) { var d = Math.hypot(e.lab[0] - L, e.lab[1] - a, e.lab[2] - b); if (d < bdd) { bdd = d; best = e; } });
+      return { name: best.name, lab: best.lab, raw: best.raw, d: bdd * 100 };
+    };
+
+    // ---- 3D geometry (cached) ----
+    var cache = { curve: {}, mesh: {}, hull: null };
+    M.curve = function (r, m) {
+      var key = r.idx + '|' + m; if (cache.curve[key]) return cache.curve[key];
+      var N = 80, z0 = r.z[0], z1 = r.z[r.z.length - 1], cf = curveF(r, m), out = { x: [], y: [], z: [], color: [], relc: [], clipped: 0, overshoot: 0 }, cmax = 0;
+      for (var q = 0; q < N; q++) {
+        var L = z0 + (z1 - z0) * q / (N - 1), C = Math.max(cf[0](L), 0), H = cf[1](L), c = clip(L, C * Math.cos(H), C * Math.sin(H));
+        if (c[2]) out.clipped++;
+        var Cc = Math.hypot(c[0], c[1]), mc = maxC(L, H, gamut); cmax = Math.max(cmax, Cc);
+        out.x.push(c[0]); out.y.push(c[1]); out.z.push(L); out.color.push(hex(L, c[0], c[1])); out.relc.push(mc > 1e-4 ? Cc / mc : 0);
+      }
+      out.overshoot = Math.max(cmax - Math.max.apply(null, r.C), 0);
+      return (cache.curve[key] = out);
+    };
+    M.mesh = function (method) {
+      if (cache.mesh[method]) return cache.mesh[method];
+      var NU = nL > 12 ? 128 : 96, x = [], y = [], z = [], color = [], relc = [], ext = [], clipped = 0, over = 0, i, jj;
+      var us = []; for (i = 0; i < NU; i++) us.push(thetaU[0] + i * PI2 / NU);
+      var segs = us.map(seg);
+      for (jj = 0; jj < NL; jj++) {
+        var lev = level(grid[jj]);
+        for (i = 0; i < NU; i++) {
+          var p = pointSeg(segs[i][0], segs[i][1], us[i], lev, 1, method), C = Math.hypot(p.a, p.b), mc = maxC(p.L, Math.atan2(p.b, p.a), gamut);
+          if (p.clipped) { clipped++; over = Math.max(over, p.over); }
+          x.push(p.a); y.push(p.b); z.push(p.L); color.push(hex(p.L, p.a, p.b)); relc.push(mc > 1e-4 ? Math.min(C / mc, 1) : 0); ext.push(p.ext);
+        }
+      }
+      var I = [], J = [], K = [], cI = [], cJ = [], cK = [];
+      function tri(a, b, c) { if (ext[a] && ext[b] && ext[c]) { cI.push(a); cJ.push(b); cK.push(c); } else { I.push(a); J.push(b); K.push(c); } }
+      for (jj = 0; jj < NL - 1; jj++) for (i = 0; i < NU; i++) {
+        var p0 = jj * NU + i, q0 = jj * NU + (i + 1) % NU, r0 = (jj + 1) * NU + i, s0 = (jj + 1) * NU + (i + 1) % NU;
+        tri(p0, q0, r0); tri(q0, s0, r0);
+      }
+      var mean = relc.reduce(function (s, v) { return s + v; }, 0) / relc.length;
+      return (cache.mesh[method] = { x: x, y: y, z: z, i: I, j: J, k: K, ci: cI, cj: cJ, ck: cK, color: color, relc: relc, NU: NU, NL: NL,
+        clipPct: 100 * clipped / (NL * NU), maxOver: over, meanRelC: mean });
+    };
+    M.hull = function () {
+      if (cache.hull) return cache.hull;
+      var G = 18, x = [], y = [], z = [], I = [], J = [], K = [];
+      var faces = [function (u, v) { return [0, u, v]; }, function (u, v) { return [1, u, v]; }, function (u, v) { return [u, 0, v]; }, function (u, v) { return [u, 1, v]; }, function (u, v) { return [u, v, 0]; }, function (u, v) { return [u, v, 1]; }];
+      faces.forEach(function (fn) {
+        var base = x.length;
+        for (var u = 0; u <= G; u++) for (var v = 0; v <= G; v++) {
+          var c = fn(u / G, v / G); if (gamut === 'p3') c = mul(P2S, c);
+          var lab = lin2lab(c[0], c[1], c[2]); x.push(lab[1]); y.push(lab[2]); z.push(lab[0]);
+        }
+        for (u = 0; u < G; u++) for (v = 0; v < G; v++) { var p = base + u * (G + 1) + v; I.push(p, p + 1); J.push(p + 1, p + G + 2); K.push(p + G + 1, p + G + 1); }
+      });
+      return (cache.hull = { x: x, y: y, z: z, i: I, j: J, k: K });
+    };
+    M.volume = function (method) {
+      var m = M.mesh(method || 'pchip'), x = m.x, y = m.y, z = m.z, v = 0;
+      function tri(i, j, k) { v += x[i] * (y[j] * z[k] - z[j] * y[k]) - y[i] * (x[j] * z[k] - z[j] * x[k]) + z[i] * (x[j] * y[k] - y[j] * x[k]); }
+      for (var q = 0; q < m.i.length; q++) tri(m.i[q], m.j[q], m.k[q]);
+      for (q = 0; q < m.ci.length; q++) tri(m.ci[q], m.cj[q], m.ck[q]);
+      return Math.abs(v) / 6;
+    };
+    M.gamutVolume = function () { return gamutVolume(gamut); };
+    // mean surface chroma at each lightness level (the palette's "reach" profile)
+    M.reach = function (method) {
+      var m = M.mesh(method || 'pchip'), out = [];
+      for (var jj = 0; jj < m.NL; jj++) { var s = 0; for (var i = 0; i < m.NU; i++) { var n = jj * m.NU + i; s += Math.hypot(m.x[n], m.y[n]); } out.push([m.z[jj * m.NU], s / m.NU]); }
+      return out;
+    };
+    M.axisCurve = grid.map(function (L) { var c = M.axisAt(L); return [c[0], c[1], L]; });
+
+    // ---- per-ramp metrics ----
+    R.forEach(function (r) {
+      var k = 0; for (var q = 1; q < r.C.length; q++) if (r.C[q] > r.C[k]) k = q;
+      r.peakL = r.z[k]; r.peakC = r.C[k];
+      r.hueDrift = (Math.max.apply(null, r.H) - Math.min.apply(null, r.H)) * 180 / Math.PI;
+      var rel = r.labs.map(function (p) { var C = Math.hypot(p[1], p[2]), mc = maxC(p[0], Math.atan2(p[2], p[1]), gamut); return mc > 1e-4 ? C / mc : 0; });
+      r.meanRelC = rel.reduce(function (s, v) { return s + v; }, 0) / rel.length;
+      r.outSrgb = r.labs.filter(function (p) { return !inG(p[0], p[1], p[2], 'srgb'); }).length;
+      r.outGamut = r.labs.filter(function (p) { return !inG(p[0], p[1], p[2], gamut); }).length;
+      r.display = r.labs.map(function (p) { return hex(p[0], p[1], p[2]); });
+      r.css = r.labs.map(function (p) { return cssColor(p[0], p[1], p[2], gamut); });
+    });
+    M.outSrgb = R.reduce(function (s, r) { return s + r.outSrgb; }, 0);
+    M.outGamut = R.reduce(function (s, r) { return s + r.outGamut; }, 0);
+    M.nColors = R.reduce(function (s, r) { return s + r.labs.length; }, 0);
+    return M;
+  }
+
+
+  var GV = {};
+  function gamutVolume(g) {
+    if (GV[g]) return GV[g];
+    var G = 24, v = 0, signs = [1, -1, -1, 1, 1, -1];
+    var faces = [function (u, w) { return [0, u, w]; }, function (u, w) { return [1, u, w]; }, function (u, w) { return [u, 0, w]; }, function (u, w) { return [u, 1, w]; }, function (u, w) { return [u, w, 0]; }, function (u, w) { return [u, w, 1]; }];
+    function P(fn, u, w) { var c = fn(u / G, w / G); if (g === 'p3') c = mul(P2S, c); var lab = lin2lab(c[0], c[1], c[2]); return [lab[1], lab[2], lab[0]]; }
+    function t(p, q, r) { return p[0] * (q[1] * r[2] - q[2] * r[1]) - p[1] * (q[0] * r[2] - q[2] * r[0]) + p[2] * (q[0] * r[1] - q[1] * r[0]); }
+    faces.forEach(function (fn, fi) {
+      var s = 0;
+      for (var u = 0; u < G; u++) for (var w = 0; w < G; w++) {
+        var a = P(fn, u, w), b = P(fn, u, w + 1), c = P(fn, u + 1, w), d = P(fn, u + 1, w + 1);
+        s += t(a, b, c) + t(b, d, c);
+      }
+      v += signs[fi] * s;
+    });
+    return (GV[g] = Math.abs(v) / 6);
+  }
+
+  // ---------------- validation (leave-one-out) ----------------
+  // pooled per-step error bands from the offline stress test: 10 palettes, 375 hold-outs (one and two ramps removed), PCHIP.
+  // Made non-decreasing in gap width; ΔE_OK ×100, 2 ≈ one just-noticeable difference.
+  var CAL = { gap: [25.3, 39.2, 54.0, 69.2, 96.0, 131.4], med: [0.84, 1.11, 1.35, 1.77, 1.77, 1.94], p90: [2.84, 3.72, 3.85, 4.59, 5.33, 5.33] };
+  function calAt(key, gapDeg) { return linear(CAL.gap, CAL[key])(gapDeg); }
+  function dE(p, q) { return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]) * 100; }
+  // model with one lofted ramp removed; the full model's interior ramps stay out, so nothing gets promoted into its place
+  function holdOut(M, rampName) {
+    var pal = M.pal, p2 = {}; Object.keys(pal).forEach(function (k) { p2[k] = pal[k]; });
+    p2.ramps = {}; M.loft.forEach(function (r) { if (r.name !== rampName) p2.ramps[r.name] = pal.ramps[r.name]; });
+    return build(p2, M.neutralName, M.gamut);
+  }
+  function rotateNearest(M2, u) {
+    var nr = M2.loft[M2.nearestLoft(u)];
+    return nr.labs.map(function (p) {
+      var c = M2.axisAt(p[0]), dx = p[1] - c[0], dy = p[2] - c[1], C = Math.hypot(dx, dy), a = c[0] + C * Math.cos(u), b = c[1] + C * Math.sin(u);
+      if (!inG(p[0], a, b, M2.gamut)) { var Ca = Math.hypot(a, b); if (Ca > 1e-4) { var k = maxC(p[0], Math.atan2(b, a), M2.gamut) / Ca; a *= k; b *= k; } }
+      return [p[0], a, b];
+    });
+  }
+  function looOne(M, r) {
+    var M2 = holdOut(M, r.name), u = r.theta, sg = M2.seg(u), gap = M2.gaps[sg[0]].deg;
+    var dNear = Math.min.apply(null, M2.thetaU.map(function (t) { return M2.angDist(u, t); })) * 180 / Math.PI;
+    var res = { ramp: r.name, gap: gap, dNear: dNear, methods: {}, M2: M2 };
+    ['pchip', 'cubic', 'chord', 'nearest'].forEach(function (m) {
+      var gen = m === 'nearest' ? rotateNearest(M2, u) : M2.genSteps(u, 1, m).map(function (g) { return [g.L, g.a, g.b]; });
+      var steps = r.keep.map(function (k) {
+        var p = gen[k], q = r.labs[k], C1 = Math.hypot(p[1], p[2]), C2 = Math.hypot(q[1], q[2]);
+        var dh = Math.atan2(p[2], p[1]) - Math.atan2(q[2], q[1]); dh = ((dh + Math.PI) % PI2 + PI2) % PI2 - Math.PI;
+        return { k: k, e: dE(p, q), dL: (p[0] - q[0]) * 100, dC: (C1 - C2) * 100, dH: 2 * Math.sqrt(C1 * C2) * Math.sin(Math.abs(dh) / 2) * 100 };
+      });
+      res.methods[m] = { steps: steps, mean: steps.reduce(function (s, x) { return s + x.e; }, 0) / steps.length, gen: gen };
+    });
+    res.pred = r.keep.map(function () { return calAt('med', gap); });
+    return res;
+  }
+  function quant(a, p) { var s = a.slice().sort(function (x, y) { return x - y; }); return s.length ? s[Math.min(s.length - 1, Math.floor(p * s.length))] : 0; }
+  // summarise a palette's hold-outs; factor = how this palette's errors compare to the pooled calibration at the same gaps
+  function summarise(rows) {
+    var out = { methods: {} };
+    ['pchip', 'cubic', 'chord', 'nearest'].forEach(function (m) {
+      var e = []; rows.forEach(function (r) { r.methods[m].steps.forEach(function (x) { e.push(x.e); }); });
+      out.methods[m] = { med: quant(e, 0.5), p90: quant(e, 0.9), within1: e.filter(function (v) { return v < 2; }).length / e.length, within2: e.filter(function (v) { return v < 4; }).length / e.length };
+    });
+    var obs = [], pred = [], dull = 0, vivid = 0, dark = 0, light = 0, n = 0, cL = [], cC = [], cH = [];
+    rows.forEach(function (r) { r.methods.pchip.steps.forEach(function (x, i) {
+      obs.push(x.e); pred.push(r.pred[i]); cL.push(Math.abs(x.dL)); cC.push(Math.abs(x.dC)); cH.push(x.dH);
+      if (x.dC < -0.5) dull++; else if (x.dC > 0.5) vivid++;
+      if (x.dL < -0.5) dark++; else if (x.dL > 0.5) light++; n++; }); });
+    out.comp = { L: quant(cL, 0.5), C: quant(cC, 0.5), H: quant(cH, 0.5) }; out.dark = dark / n; out.light = light / n;
+    out.factor = Math.min(Math.max(quant(obs, 0.5) / Math.max(quant(pred, 0.5), 0.05), 0.25), 2.5);
+    out.dull = dull / n; out.vivid = vivid / n;
+    out.worst = rows.slice().sort(function (a, b) { return b.methods.pchip.mean - a.methods.pchip.mean; });
+    return out;
+  }
+
+  return { gamutVolume: gamutVolume, alphaOf: alphaOf, build: build, holdOut: holdOut, looOne: looOne, summarise: summarise, calAt: calAt, dE: dE, quant: quant, parse: parse, hex: hex, rgb8: rgb8, p38: p38, cssColor: cssColor, oklchStr: oklchStr, Y: Y, cr: cr, inG: inG, maxC: maxC, hexRgb: hexRgb };
+})();
+
+</script>
+<script>
+// Ramp from one color: one or two seed colors → a ramp shaped like a reference palette, with a calibrated error estimate.
+// Uses Engine (src/engine.js) unchanged: build(), seedMap(), genAnchors(), looOne()/summarise(), calAt().
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement;
+  var PALS = JSON.parse($('pals').textContent);
+  var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
+  var EXAMPLE = '#9D58BA';
+  var st = { c1: EXAMPLE, c2: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true };
+  var models = {}, loo = {}, last = null;
+
+  // ---------- small helpers ----------
+  function fx(v, d) { return (+v).toFixed(d === undefined ? 1 : d); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function palById(id) { return PALS.filter(function (p) { return p.id === id; })[0]; }
+  function cap1(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function slug(s) { s = String(s || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); return s || 'brand'; }
+  function parse(txt) { try { var p = Engine.parse(String(txt).trim()); return p && isFinite(p[0]) ? p : null; } catch (e) { return null; } }
+  function lch(p) { var C = Math.hypot(p[1], p[2]); return { L: p[0], C: C, H: (Math.atan2(p[2], p[1]) * R2D + 360) % 360 }; }
+  function oklch(p) { var o = lch(p); return 'oklch(' + fx(o.L * 100, 2) + '% ' + fx(o.C, 4) + ' ' + (o.C < 5e-4 ? 'none' : fx(o.H, 2)) + ')'; }
+  function hexOf(p) { return Engine.hex(p[0], p[1], p[2]); }
+  function inSrgb(p) { return Engine.inG(p[0], p[1], p[2], 'srgb'); }
+  function Yof(p) { return Engine.Y(p[0], p[1], p[2]); }
+  function model(id) { if (!models[id]) { var p = palById(id); models[id] = Engine.build(p, p.neutral, p.gamut); } return models[id]; }
+  function poleName(pal, which) { var n = pal.poleNames && pal.poleNames[which]; return cap1(n || (which === 'light' ? 'white' : 'black')); }
+
+  // ---------- validation (leave-one-out), computed once per palette after the first paint ----------
+  function looFor(id) {
+    if (!loo[id]) {
+      var M = model(id), rows = M.loft.map(function (r) { var x = Engine.looOne(M, r); delete x.M2; return x; });
+      loo[id] = { rows: rows, summary: Engine.summarise(rows) };
+    }
+    return loo[id];
+  }
+  // how hard the two ramps either side were to regenerate, relative to the pooled calibration (same rule as Palette topology)
+  function localFactor(id, M, i) {
+    var V = loo[id]; if (!V) return 1;
+    var n = M.loft.length, names = [M.loft[i].name, M.loft[(i + 1) % n].name], rs = [];
+    names.forEach(function (nm) { var row = V.rows.filter(function (x) { return x.ramp === nm; })[0]; if (row) rs.push(row.methods.pchip.mean / Math.max(Engine.calAt('med', row.gap), 0.05)); });
+    if (!rs.length) return V.summary.factor;
+    var g = Math.exp(rs.reduce(function (s, v) { return s + Math.log(Math.max(v, 0.05)); }, 0) / rs.length);
+    return Math.min(Math.max(g, 0.2), 4);
+  }
+  function band(id, M, u) {
+    var sg = M.seg(u), gap = M.gaps[sg[0]].deg, n = M.loft.length;
+    var dists = M.thetaU.map(function (t) { return M.angDist(u, t) * R2D; });
+    var d = Math.min.apply(null, dists), w = Math.min(1, d / 5), f = localFactor(id, M, sg[0]);
+    return { med: Engine.calAt('med', gap) * f * w, p90: Engine.calAt('p90', gap) * f * w, gap: gap, d: d, i: sg[0],
+      a: M.loft[sg[0]].name, b: M.loft[(sg[0] + 1) % n].name, near: M.loft[dists.indexOf(d)].name, ready: !!loo[id] };
+  }
+  function meanU(us) { var x = 0, y = 0; us.forEach(function (u) { x += Math.cos(u); y += Math.sin(u); }); return Math.atan2(y, x); }
+
+  // ---------- generate ----------
+  function generate() {
+    var pal = palById(st.pal), M = model(st.pal), g = pal.gamut;
+    var s1 = parse(st.c1), s2 = st.c2 ? parse(st.c2) : null;
+    if (!s1) return null;
+    var seeds = [s1].concat(s2 ? [s2] : []).map(function (lab) { return { lab: lab, map: M.seedMap(lab) }; });
+    var out = { pal: pal, M: M, seeds: seeds, notes: [] };
+    var live = seeds.filter(function (s) { return !s.map.neutral; });
+    if (s2 && seeds[1].map.neutral && !seeds[0].map.neutral) out.notes.push('The second color is close to gray, so it was left out.');
+    // the palette's own ramp, when the color is one of its real steps
+    if (seeds.length === 1 && seeds[0].map.exact) {
+      var nm = seeds[0].map.exact.replace(/-[^-]+$/, ''), r = M.R.filter(function (x) { return x.name === nm; })[0];
+      if (r) {
+        var at = pal.steps.indexOf(seeds[0].map.exact.slice(nm.length + 1));
+        out.kind = 'exact'; out.rampName = nm; out.steps = pal.steps;
+        out.cells = r.labs.map(function (p, k) { return { lab: p, step: pal.steps[k], anchor: k === at, seedIndex: k === at ? 0 : -1, beyond: false, ext: false }; });
+        return out;
+      }
+    }
+    if (!live.length) {
+      out.kind = 'neutral'; out.steps = M.neutral.steps;
+      out.cells = M.neutral.labs.map(function (p, k) { return { lab: p, step: M.neutral.steps[k], anchor: false, seedIndex: -1, beyond: false, ext: false }; });
+      return out;
+    }
+    var gen = M.genAnchors(seeds, { cap: st.mode === 'fit' });
+    if (!gen) { out.kind = 'neutral'; out.steps = M.neutral.steps; out.cells = M.neutral.labs.map(function (p, k) { return { lab: p, step: M.neutral.steps[k], anchor: false, seedIndex: -1 }; }); return out; }
+    out.kind = 'gen'; out.steps = pal.steps;
+    out.cells = gen.map(function (x) { return { lab: [x.L, x.a, x.b], step: x.step, anchor: x.anchor, seedIndex: x.seedIndex, beyond: !!x.beyond, ext: !!x.ext, clipped: !!x.clipped }; });
+    if (live.length === 2 && out.cells.filter(function (c) { return c.anchor; }).length < 2) out.notes.push('The two colors are almost the same lightness, so only the first one was used.');
+    out.band = band(st.pal, M, meanU(live.map(function (s) { return s.map.u; })));
+    out.moved = out.cells.filter(function (c) { return c.anchor; }).map(function (c) { return { step: c.step, e: Engine.dE(c.lab, seeds[c.seedIndex].lab) }; });
+    out.clampedL = live.some(function (s) { return s.map.clampedL; });
+    return out;
+  }
+
+  // ---------- render ----------
+  function textOn(pal, p) {
+    var yl = Yof(Engine.parse(pal.poles.light)), yd = Yof(Engine.parse(pal.poles.dark)), y = Yof(p);
+    var cl = Engine.cr(y, yl), cd = Engine.cr(y, yd);
+    return cl >= cd ? { color: pal.poles.light, ratio: cl } : { color: pal.poles.dark, ratio: cd };
+  }
+  function renderRamp(o) {
+    var g = o.pal.gamut, name = slug(st.name);
+    $('ramp').innerHTML = o.cells.map(function (c) {
+      var p = c.lab, t = textOn(o.pal, p), hx = hexOf(p), p3 = !inSrgb(p);
+      var marks = (c.beyond ? '<span title="More vivid than the palette goes at this hue and lightness">↑</span>' : '') + (p3 ? '<span title="Outside sRGB; shown in Display P3">P3</span>' : '');
+      var tip = name + '-' + c.step + '  ' + hx + (p3 ? ' (sRGB fallback; ' + oklch(p) + ')' : '') + (c.anchor ? '  · your color' : '') + (c.beyond ? '  · more vivid than the palette' : '') + (c.ext ? '  · extrapolated' : '') + '  · text ' + fx(t.ratio, 1) + ':1';
+      return '<div class="sw' + (c.anchor ? ' anchor' : '') + (c.ext ? ' ext' : '') + '" role="listitem" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + ';color:' + t.color + '" title="' + esc(tip) + '">' +
+        '<span class="step num">' + esc(c.step) + '</span>' + (marks ? '<span class="marks">' + marks + '</span>' : '') +
+        '<span class="bottom"><span class="aa num">Aa ' + fx(t.ratio, 1) + '</span><span class="hex">' + hx + '</span></span></div>';
+    }).join('');
+  }
+  function renderVerdict(o) {
+    var pal = o.pal, pill, cls, say = [];
+    if (o.kind === 'exact') {
+      cls = 'same'; pill = 'The palette’s own ramp';
+      say.push('Your color is ' + esc(pal.name) + ' ' + esc(o.rampName) + '-' + esc(o.cells.filter(function (c) { return c.anchor; })[0].step) + ', so this is the ramp its designers made.');
+    } else if (o.kind === 'neutral') {
+      cls = 'same'; pill = 'Gray';
+      say.push('Your color is close to gray, so this is ' + esc(pal.name) + '’s own neutral ramp. Add a little color to get a tinted ramp.');
+    } else {
+      var b = o.band, beyond = o.cells.filter(function (c) { return c.beyond; }).length, ext = o.cells.filter(function (c) { return c.ext; }).length;
+      var tier = b.med < 1.5 ? 0 : b.med < 3 ? 1 : 2;
+      if (beyond && tier < 1) tier = 1;
+      if (ext > o.cells.length / 3 && tier < 1) tier = 1;
+      cls = ['ok', 'warn', 'bad'][tier]; pill = ['Close to hand-made', 'Mostly close', 'Partly guesswork'][tier];
+      var amt = function (v) { return v < 0.5 ? 'under 0.5' : fx(v); };
+      say.push('Steps typically land within <b class="num">' + amt(b.med) + '</b> of a ramp the palette’s designers would make, and 1 in 10 miss by more than <b class="num">' + amt(b.p90) + '</b>. <span>A difference of 2 is about the smallest most people notice.' + (b.ready ? '' : ' Refining for this palette…') + '</span>');
+      var where = b.d < 1 ? 'right on ' + esc(b.near) : 'between ' + esc(b.a) + ' and ' + esc(b.b) + ', ' + Math.round(b.d) + '° from ' + esc(b.near);
+      var at = o.moved.map(function (m) { return m.step; });
+      say.push('It sits ' + where + '. ' + (at.length > 1 ? 'Your colors are steps ' + at.join(' and ') + '.' : 'Your color is step ' + esc(at[0]) + '.'));
+      var moved = o.moved.filter(function (m) { return m.e > 0.3; });
+      if (st.mode === 'fit' && moved.length) say.push('Fitting toned it down by ' + moved.map(function (m) { return fx(m.e); }).join(' and ') + ' to match the palette. Choose <b>Stays exact</b> to keep it as is.');
+      if (beyond) say.push(beyond + (beyond === 1 ? ' step is' : ' steps are') + ' more vivid than the palette goes, marked ↑. The estimate says less about those. Choose <b>Fits the palette</b> to stay within it.');
+      if (ext) say.push(ext + (ext === 1 ? ' step is' : ' steps are') + ' lighter or darker than the neighboring ramps reach, so they are extrapolated.');
+      if (o.clampedL) say.push('Your color is lighter or darker than anything in the palette, so it was moved to the palette’s end.');
+    }
+    o.notes.forEach(function (n) { say.push(esc(n)); });
+    $('verdict').innerHTML = '<span class="pill ' + cls + '">' + pill + '</span><p class="say">' + say.join(' ') + '</p>';
+  }
+  function renderFamily(o) {
+    var M = o.M, g = o.pal.gamut, cols = M.loft.map(function (r) { return { name: r.name, labs: r.labs, mine: false }; });
+    var mine = { name: slug(st.name), labs: o.cells.map(function (c) { return c.lab; }), mine: true };
+    if (o.kind === 'exact') cols.forEach(function (c) { if (c.name === o.rampName) c.mine = true; });
+    else if (o.kind === 'gen') cols.splice(o.band.i + 1, 0, mine);
+    else cols.push(mine);
+    var tpl = 'grid-template-columns:repeat(' + cols.length + ',minmax(0,1fr))';
+    var cell = function (p) { return '<span class="cell" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + '"></span>'; };
+    $('family').innerHTML = '<div class="family" style="' + tpl + '">' + cols.map(function (c) { return '<div class="col' + (c.mine ? ' mine' : '') + '">' + c.labs.map(cell).join('') + '</div>'; }).join('') + '</div>' +
+      '<div class="family names" style="' + tpl + '" aria-hidden="true">' + cols.map(function (c) { return '<span' + (c.mine ? ' class="mine"' : '') + '>' + esc(c.name) + '</span>'; }).join('') + '</div>';
+    $('famnote').textContent = o.kind === 'exact' ? 'Your color is already one of ' + o.pal.name + '’s ramps (outlined).' :
+      o.kind === 'neutral' ? 'Gray ramps sit outside the hue circle, so the neutral is shown at the end.' :
+      'Your ramp (outlined) slotted into ' + o.pal.name + '’s ramps in hue order. Its steps should line up in lightness with the columns beside it.';
+  }
+  function renderContrast(o) {
+    var pal = o.pal, ys = o.cells.map(function (c) { return Yof(c.lab); }), n = o.cells.length, name = slug(st.name);
+    var bgs = [
+      { label: poleName(pal, 'light'), lab: Engine.parse(pal.poles.light) },
+      { label: name + '-' + o.cells[0].step, lab: o.cells[0].lab },
+      { label: poleName(pal, 'dark'), lab: Engine.parse(pal.poles.dark) },
+      { label: name + '-' + o.cells[n - 1].step, lab: o.cells[n - 1].lab }
+    ];
+    function first(bg, min) {
+      var yb = Yof(bg), best = -1, br = 1e9;
+      ys.forEach(function (y, k) { var r = Engine.cr(y, yb); if (r >= min && r < br) { br = r; best = k; } });
+      if (best < 0) return '<td class="none">None</td>';
+      var lighter = ys[best] > yb, c = o.cells[best];
+      return '<td><span class="dot" style="background-color:' + Engine.cssColor(c.lab[0], c.lab[1], c.lab[2], pal.gamut) + '"></span><span class="num">' + esc(c.step) + '</span> <span class="num" style="color:var(--tx-2)">' + fx(br, 1) + ':1</span> <span style="color:var(--tx-2)">and ' + (lighter ? 'lighter' : 'darker') + '</span></td>';
+    }
+    $('contrast').innerHTML = '<thead><tr><th>On</th><th>Body text</th><th>Large text, icons</th></tr></thead><tbody>' + bgs.map(function (b) {
+      return '<tr><td><span class="dot" style="background-color:' + Engine.cssColor(b.lab[0], b.lab[1], b.lab[2], pal.gamut) + '"></span>' + esc(b.label) + '</td>' + first(b.lab, 4.5) + first(b.lab, 3) + '</tr>';
+    }).join('') + '</tbody>';
+  }
+  function exportText(o, fmt) {
+    var name = slug(st.name), rows = o.cells.map(function (c) { return { step: c.step, hex: hexOf(c.lab), ok: oklch(c.lab), p3: !inSrgb(c.lab) }; });
+    var anyP3 = rows.some(function (r) { return r.p3; }), key = function (s) { return /^\d+$|^[A-Za-z_]\w*$/.test(s) ? s : "'" + s + "'"; };
+    if (fmt === 'css') return (anyP3 ? '/* Steps marked P3 are clipped to sRGB here. Use the oklch version for the full color. */\n' : '') +
+      ':root {\n' + rows.map(function (r) { return '  --' + name + '-' + r.step + ': ' + r.hex + ';' + (r.p3 ? ' /* P3 */' : ''); }).join('\n') + '\n}\n';
+    if (fmt === 'oklch') return ':root {\n' + rows.map(function (r) { return '  --' + name + '-' + r.step + ': ' + r.ok + ';'; }).join('\n') + '\n}\n';
+    if (fmt === 'tw4') return '@theme {\n' + rows.map(function (r) { return '  --color-' + name + '-' + r.step + ': ' + r.ok + ';'; }).join('\n') + '\n}\n';
+    if (fmt === 'tw3') return '// tailwind.config.js → theme.extend.colors\n' + key(name.replace(/-/g, '_')) + ': {\n' + rows.map(function (r) { return '  ' + key(r.step) + ": '" + r.hex + "',"; }).join('\n') + '\n},\n';
+    var tok = {}; tok[name] = { $type: 'color' };
+    rows.forEach(function (r) { tok[name][r.step] = { $value: r.hex }; if (r.p3) tok[name][r.step].$extensions = { oklch: r.ok }; });
+    return JSON.stringify(tok, null, 2) + '\n';
+  }
+  function renderExport(o) { $('code').textContent = exportText(o, st.fmt); }
+
+  function renderControls() {
+    $('pal').value = st.pal;
+    $('mode').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === st.mode ? 'true' : 'false'); });
+    $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'Your color goes into the ramp unchanged.';
+    $('c1tag').hidden = !st.example;
+    $('c2field').hidden = st.c2 === null; $('c2add').hidden = st.c2 !== null;
+    [['c1', st.c1], ['c2', st.c2]].forEach(function (x) {
+      var p = x[1] ? parse(x[1]) : null;
+      $(x[0] + 'sw').style.backgroundColor = p ? Engine.cssColor(p[0], p[1], p[2], 'p3') : 'transparent';
+      if (p) $(x[0] + 'pick').value = hexOf(p).toLowerCase();
+    });
+  }
+  function render() {
+    renderControls();
+    var o = generate(); if (!o) return;
+    last = o;
+    renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderExport(o);
+    save();
+    if (!loo[st.pal]) { var id = st.pal; setTimeout(function () { looFor(id); if (st.pal === id) { var o2 = generate(); if (o2) { last = o2; renderVerdict(o2); } } }, 30); }
+  }
+
+  // ---------- state: hash (shareable), then this browser's last visit ----------
+  function hashOf() {
+    var a = parse(st.c1), b = st.c2 ? parse(st.c2) : null; if (!a) return '';
+    return '#c-' + hexOf(a).slice(1).toLowerCase() + (b ? '-' + hexOf(b).slice(1).toLowerCase() : '') + '.' + st.pal + '.' + st.mode;
+  }
+  function save() {
+    try { localStorage.setItem('rk.state', JSON.stringify({ c1: st.c1, c2: st.c2, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt, example: st.example })); } catch (e) {}
+    try { var h = hashOf(); if (h && h !== location.hash) history.replaceState(null, '', h); } catch (e) {}
+  }
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem('rk.state') || 'null');
+      if (s && typeof s === 'object') {
+        if (s.c1 && parse(s.c1)) st.c1 = s.c1;
+        st.c2 = s.c2 && parse(s.c2) ? s.c2 : null;
+        if (palById(s.pal)) st.pal = s.pal;
+        if (s.mode === 'fit' || s.mode === 'through') st.mode = s.mode;
+        if (typeof s.name === 'string') st.name = s.name;
+        if (/^(css|oklch|tw4|tw3|json)$/.test(s.fmt)) st.fmt = s.fmt;
+        st.example = s.example !== false && st.c1 === EXAMPLE;
+      }
+    } catch (e) {}
+    var m = /^#c-([0-9a-f]{6})(?:-([0-9a-f]{6}))?\.([a-z0-9]+)\.(through|fit)$/i.exec(location.hash || '');
+    if (m && palById(m[3])) { st.c1 = '#' + m[1].toUpperCase(); st.c2 = m[2] ? '#' + m[2].toUpperCase() : null; st.pal = m[3]; st.mode = m[4]; st.example = false; }
+  }
+
+  // ---------- controls ----------
+  $('pal').innerHTML = PALS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.name) + '</option>'; }).join('');
+  function bindColor(k) {
+    var txt = $(k), pick = $(k + 'pick'), err = $(k + 'err'), timer = null;
+    function apply(show) {
+      var v = txt.value.trim(), p = parse(v);
+      if (p) { err.hidden = true; txt.removeAttribute('aria-invalid'); if (st[k] !== v) { st[k] = v; if (k === 'c1') st.example = false; render(); } }
+      else if (show && v) { err.textContent = 'That isn’t a color this page can read. Try a hex code like #9D58BA, or rgb(), hsl() or oklch().'; err.hidden = false; txt.setAttribute('aria-invalid', 'true'); }
+    }
+    txt.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { apply(false); }, 120); });
+    txt.addEventListener('change', function () { apply(true); });
+    txt.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); apply(true); } });
+    pick.addEventListener('input', function () { txt.value = pick.value.toUpperCase(); err.hidden = true; txt.removeAttribute('aria-invalid'); st[k] = txt.value; if (k === 'c1') st.example = false; render(); });
+  }
+  bindColor('c1'); bindColor('c2');
+  $('ctl').addEventListener('submit', function (e) { e.preventDefault(); });
+  $('c2add').addEventListener('click', function () {
+    var p = parse(st.c1), base = p || [0.6, 0.1, 0];
+    var t = [Math.min(base[0] + 0.3, 0.95), base[1] * 0.35, base[2] * 0.35];   // a pale tint of the first color as a starting point
+    st.c2 = hexOf(t); $('c2').value = st.c2; render(); $('c2').focus(); $('c2').select();
+  });
+  $('c2x').addEventListener('click', function () { st.c2 = null; $('c2err').hidden = true; render(); $('c2add').focus(); });
+  $('pal').addEventListener('change', function () { st.pal = $('pal').value; render(); });
+  $('mode').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; st.mode = b.dataset.v; render(); });
+  $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); save(); } });
+  $('tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-f]'); if (!b) return; st.fmt = b.dataset.f; syncTabs(); if (last) renderExport(last); save();
+  });
+  function syncTabs() { $('tabs').querySelectorAll('button[data-f]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.f === st.fmt ? 'true' : 'false'); }); }
+  $('copy').addEventListener('click', function () {
+    var text = $('code').textContent, status = $('status');
+    function selectIt() { try { var r = document.createRange(); r.selectNodeContents($('code')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {} status.textContent = 'Selected. Press ⌘C or Ctrl+C to copy.'; }
+    try { navigator.clipboard.writeText(text).then(function () { status.textContent = 'Copied ' + $('tabs').querySelector('[aria-selected="true"]').textContent + '.'; }, selectIt); } catch (e) { selectIt(); }
+  });
+  var tbtn = $('theme'), sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+  tbtn.addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme') || (sysDark.matches ? 'dark' : 'light'), next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next); try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  load();
+  $('c1').value = st.c1; $('c2').value = st.c2 || ''; $('name').value = st.name; syncTabs();
+  render();
+  window.__ramp = { st: st, generate: generate, render: render, exportText: exportText, last: function () { return last; }, looFor: looFor };
+})();
+
+</script>
+</body>
+</html>
