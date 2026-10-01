@@ -88,6 +88,14 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
 .check input{accent-color:var(--ink);width:15px;height:15px;margin:0}
 .colors{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
 [hidden]{display:none!important}
+.btn:disabled{opacity:.45;cursor:default}
+.lab[data-tip]>span:first-child,.lab[data-tip]>label:first-child,.check[data-tip]{text-decoration:underline dotted var(--rule);text-underline-offset:3px;cursor:help}
+.lab[data-tip]>label:first-child{cursor:help}
+.tip{position:fixed;z-index:50;left:0;top:0;max-width:232px;padding:6px 9px;border-radius:6px;background:var(--ink);color:var(--panel);
+  font-size:12px;line-height:1.4;pointer-events:none;opacity:0;transform:translateY(2px);transition:opacity .12s,transform .12s}
+.tip.on{opacity:1;transform:none}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (prefers-reduced-motion:reduce){.tip{transition:none}}
 .stop{display:grid;grid-template-columns:40px minmax(0,1fr) 38px 28px;align-items:center;gap:8px;margin-bottom:6px}
 .stop input[type=color]{height:28px}
 .stop output{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
@@ -144,19 +152,18 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
 <aside class="panel">
   <div class="head">
     <h1>Yves Outlines</h1>
-    <p>Concentric outlines grow from each letterform or word.</p>
+    <p>Grow rippling outlines from your type, then save it as a poster.</p>
     <div class="actions">
-      <button class="btn primary" id="play" aria-pressed="false">Play</button>
-      <button class="btn" id="shuffle">🎲 Shuffle</button>
+      <button class="btn primary" id="save" hidden>Save PNG</button>
+      <button class="btn" id="copyLink" hidden><span aria-hidden="true">🔗</span> Copy link</button>
+      <button class="btn" id="shuffle"><span aria-hidden="true">🎲</span> Shuffle</button>
       <button class="btn" id="reset">Reset</button>
-      <button class="btn" id="copyLink" hidden>🔗 Copy link</button>
-      <button class="btn" id="save" hidden>Save PNG</button>
     </div>
   </div>
 
   <section>
     <h2>Text</h2>
-    <div class="row"><textarea id="text" spellcheck="false" aria-label="Text"></textarea></div>
+    <div class="row"><textarea id="text" spellcheck="false" aria-label="Poster text" placeholder="Type your text. Press Return for a new line."></textarea></div>
     <div class="row">
       <div class="lab"><span>Typeface</span></div>
       <select id="font" aria-label="Typeface"></select>
@@ -181,7 +188,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
       </div>
     </div>
     <div id="textSliders"></div>
-    <div class="row"><button class="btn" id="fit">Fit text to canvas</button></div>
+    <div class="row"><button class="btn" id="fit">Fit text to poster</button></div>
     <div class="row">
       <div class="lab"><span>Alignment</span></div>
       <div class="seg" data-key="align">
@@ -210,12 +217,15 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
   <section>
     <h2>Drift</h2>
     <div id="driftSliders"></div>
-    <p class="note">How far each ring shifts from the one before it, as a share of spacing.</p>
+    <p class="note">How far each outline shifts from the one before it, as a share of spacing.</p>
   </section>
 
   <section>
     <h2>Color</h2>
+    <div class="lab"><span>Classic</span></div>
     <div class="row swatches" id="swatches"></div>
+    <div class="lab fx"><span>Flexoki</span></div>
+    <div class="row swatches" id="swatchesFx"></div>
     <div class="row">
       <div class="lab"><span>Background</span></div>
       <div class="seg" data-key="bgMode">
@@ -223,7 +233,10 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
       </div>
     </div>
     <div id="gradPanel" hidden>
+      <div class="lab"><span>Classic</span></div>
       <div class="row swatches" id="gradSwatches"></div>
+      <div class="lab fx"><span>Flexoki</span></div>
+      <div class="row swatches" id="gradSwatchesFx"></div>
       <div class="row">
         <div class="seg" data-key="gradType">
           <button data-v="linear">Linear</button><button data-v="radial">Radial</button>
@@ -243,20 +256,20 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
     </div>
     <div class="row">
       <div class="lab"><span>Overlap</span></div>
-      <select id="blend" aria-label="Overlap blending">
+      <select id="blend" aria-label="Overlap blend">
         <option value="source-over">Normal</option>
-        <option value="lighter">Add (glows where rings cross)</option>
-        <option value="screen">Screen</option>
-        <option value="multiply">Multiply (for dark lines on light)</option>
-        <option value="difference">Difference</option>
+        <option value="lighter">Add: glows where outlines cross</option>
+        <option value="screen">Screen: lightens where outlines cross</option>
+        <option value="multiply">Multiply: darkens, best on light colors</option>
+        <option value="difference">Difference: inverts where outlines cross</option>
       </select>
     </div>
-    <label class="check"><input type="checkbox" id="showType"> Show type</label>
-    <label class="check"><input type="checkbox" id="ringsOver"> Outlines over type</label>
+    <label class="check" id="showTypeWrap"><input type="checkbox" id="showType"> Show type</label>
+    <label class="check" id="ringsOverWrap"><input type="checkbox" id="ringsOver"> Outlines over type</label>
   </section>
 
   <section>
-    <h2>Canvas and motion</h2>
+    <h2>Size</h2>
     <div class="row">
       <div class="lab"><span>Format</span></div>
       <select id="format" aria-label="Format">
@@ -268,7 +281,6 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
         <option value="og">Share image · 1200 × 630</option>
       </select>
     </div>
-    <div id="motionSliders"></div>
     <div class="row" id="exportRow" hidden>
       <div class="lab"><span>Export size</span></div>
       <div class="seg" data-key="exportScale">
@@ -309,6 +321,35 @@ var GRADIENTS = [
   {name:"Citrus",   type:"radial", angle:180, stops:[["#FFF3A0",0],["#FFC24B",0.5],["#F2672E",1]]},
   {name:"Midnight", type:"linear", angle:180, stops:[["#0B1633",0],["#233B80",0.6],["#5C6FD1",1]]}
 ];
+// Flexoki palette by Steph Ango: https://stephango.com/flexoki
+var PRESETS_FX = [
+  {name:"Paper",    bg:"#FFFCF0", type:"#100F0F", ring:"#6F6E69", blend:"multiply"},
+  {name:"Ink",      bg:"#100F0F", type:"#FFFCF0", ring:"#878580", blend:"screen"},
+  {name:"Brick",    bg:"#AF3029", type:"#FFFCF0", ring:"#FFCABB", blend:"screen"},
+  {name:"Marigold", bg:"#DA702C", type:"#27180E", ring:"#71320D", blend:"multiply"},
+  {name:"Mustard",  bg:"#DFB431", type:"#241E08", ring:"#664D01", blend:"multiply"},
+  {name:"Moss",     bg:"#252D09", type:"#CDD597", ring:"#879A39", blend:"lighter"},
+  {name:"Mint",     bg:"#DDF1E4", type:"#164F4A", ring:"#2F968D", blend:"multiply"},
+  {name:"Harbor",   bg:"#163B66", type:"#E1ECEB", ring:"#66A0C8", blend:"screen"},
+  {name:"Violet",   bg:"#1A1623", type:"#C4B9E0", ring:"#8B7EC8", blend:"lighter"},
+  {name:"Peony",    bg:"#F9B9CF", type:"#641F46", ring:"#A02F6F", blend:"multiply"},
+  {name:"Ember",    bg:"#100F0F", type:"#DA702C", ring:"#D14D41", blend:"lighter"},
+  {name:"Sage",     bg:"#F2F0E5", type:"#536907", ring:"#24837B", blend:"multiply"}
+];
+var GRADIENTS_FX = [
+  {name:"Flexoki spectrum", type:"linear", angle:180, stops:[["#D14D41",0],["#DA702C",0.14],["#D0A215",0.29],["#879A39",0.43],["#3AA99F",0.57],["#4385BE",0.71],["#8B7EC8",0.86],["#CE5D97",1]]},
+  {name:"Ember",     type:"linear", angle:180, stops:[["#100F0F",0],["#942822",0.4],["#DA702C",0.72],["#ECCB60",1]]},
+  {name:"Tide",      type:"linear", angle:180, stops:[["#101A24",0],["#1A4F8C",0.45],["#3AA99F",0.78],["#DDF1E4",1]]},
+  {name:"Meadow",    type:"linear", angle:180, stops:[["#1A1E0C",0],["#536907",0.4],["#A0AF54",0.7],["#F6E2A0",1]]},
+  {name:"Twilight",  type:"linear", angle:180, stops:[["#1A1623",0],["#5E409D",0.4],["#CE5D97",0.72],["#F9AE77",1]]},
+  {name:"Rust",      type:"linear", angle:180, stops:[["#261312",0],["#6C201C",0.35],["#C03E35",0.7],["#F89A8A",1]]},
+  {name:"Rosewater", type:"linear", angle:200, stops:[["#FEE4E5",0],["#F4A4C2",0.5],["#C4B9E0",1]]},
+  {name:"Parchment", type:"linear", angle:180, stops:[["#FFFCF0",0],["#FAEEC6",0.55],["#FED3AF",1]]},
+  {name:"Glacier",   type:"linear", angle:160, stops:[["#E1ECEB",0],["#92BFDB",0.55],["#3171B2",1]]},
+  {name:"Solar",     type:"radial", angle:180, stops:[["#FAEEC6",0],["#ECCB60",0.35],["#DA702C",0.7],["#6C201C",1]]},
+  {name:"Abyss",     type:"radial", angle:180, stops:[["#2F968D",0],["#164F4A",0.45],["#101F1D",1]]},
+  {name:"Orchid",    type:"radial", angle:180, stops:[["#FCCFDA",0],["#CE5D97",0.5],["#31234E",1]]}
+];
 var DEFAULTS = {
   text:"stop\nwhining\nand take\nmatters into\nyour own\nhands",
   font:"EB Garamond", weight:"400", italic:false,
@@ -320,7 +361,7 @@ var DEFAULTS = {
   stops:[["#6DEEE8",0],["#A3D98A",0.22],["#E8CE4C",0.42],["#E08A4A",0.62],["#CD3645",0.83],["#B22F6C",1]],
   textCase:"as",
   bg:"#BE2420", type:"#FFFFFF", ring:"#FFFFFF", blend:"source-over", showType:true, ringsOver:false,
-  format:"4:5", speed:1, exportScale:"2"
+  format:"4:5", exportScale:"2"
 };
 var state = JSON.parse(JSON.stringify(DEFAULTS));
 
@@ -332,7 +373,7 @@ var SLIDERS = {
     ["margin","Margin",0,400,1,function(v){return v+" px"}]
   ],
   ringSliders:[
-    ["count","Rings",1,48,1,function(v){return v}],
+    ["count","Count",1,48,1,function(v){return v}],
     ["spacing","Spacing",1,40,0.5,function(v){return v+" px"}],
     ["gap","Start gap",0,80,0.5,function(v){return v+" px"}],
     ["line","Line weight",0.25,10,0.25,function(v){return v+" px"}],
@@ -345,9 +386,6 @@ var SLIDERS = {
   ],
   gradSliders:[
     ["gradAngle","Angle",0,360,1,function(v){return Math.round(v)+"°"}]
-  ],
-  motionSliders:[
-    ["speed","Motion speed",0.1,4,0.05,function(v){return v.toFixed(2)+"×"}]
   ]
 };
 
@@ -356,7 +394,7 @@ var STANDALONE=!(window.claude&&typeof window.claude.use==="function");
 var URL_KEYS={text:"t",font:"f",weight:"w",italic:"i",textCase:"cs",size:"sz",leading:"ld",tracking:"tr",
   margin:"m",align:"al",valign:"va",group:"g",count:"n",spacing:"sp",gap:"gp",line:"lw",opacity:"op",fade:"fd",
   dx:"dx",dy:"dy",bgMode:"bm",gradType:"gt",gradAngle:"ga",stops:"st",bg:"bg",type:"tc",ring:"rc",
-  blend:"bl",showType:"ty",ringsOver:"ov",format:"fm",speed:"spd",exportScale:"ex"};
+  blend:"bl",showType:"ty",ringsOver:"ov",format:"fm",exportScale:"ex"};
 var COLOR_KEYS=["bg","type","ring"];
 var ENUMS={
   font:FONTS.map(function(f){return f[0];}), weight:["300","400","500","600","700","800"],
@@ -410,16 +448,15 @@ function decodeState(hash){
     else v=raw.slice(0,2000);
     out[k]=v; any=true;
   });
-  return {values:any?out:null, play:p.get("p")==="1"};
+  return {values:any?out:null};
 }
-function shareURL(withPlay){
+function shareURL(){
   var q=encodeState(state);
-  if(withPlay) q+=(q?"&":"")+"p=1";
   return location.href.split("#")[0]+(q?"#"+q:"");
 }
 function writeURL(){
   if(!STANDALONE) return;
-  try{ history.replaceState(null,"",shareURL(false)); }catch(e){}
+  try{ history.replaceState(null,"",shareURL()); }catch(e){}
 }
 
 // Starting state: a design link wins (so it reproduces exactly), otherwise the last session.
@@ -497,21 +534,20 @@ function buildOthers(){
       requestRender();
     });
   });
-  var sw=$("swatches");
-  PRESETS.forEach(function(p){
+  function addPresets(list,host){ list.forEach(function(p){
     var b=document.createElement("button");
-    b.className="swatch"; b.title=p.name; b.setAttribute("aria-label","Color palette: "+p.name);
+    b.className="swatch"; b.dataset.tip=p.name; b.setAttribute("aria-label","Color preset: "+p.name);
     b.style.background=p.bg;
     b.innerHTML='<span style="color:'+p.type+'">a</span>';
     b.addEventListener("click",function(){
       state.bg=p.bg;state.type=p.type;state.ring=p.ring;state.blend=p.blend;state.bgMode="solid";syncAll();requestRender();
     });
-    sw.appendChild(b);
-  });
-  var gs=$("gradSwatches");
-  GRADIENTS.forEach(function(p){
+    host.appendChild(b);
+  }); }
+  addPresets(PRESETS,$("swatches")); addPresets(PRESETS_FX,$("swatchesFx"));
+  function addGradients(list,host){ list.forEach(function(p){
     var b=document.createElement("button");
-    b.className="swatch"; b.title=p.name; b.setAttribute("aria-label","Gradient preset: "+p.name);
+    b.className="swatch"; b.dataset.tip=p.name; b.setAttribute("aria-label","Gradient preset: "+p.name);
     b.style.background=p.type==="radial"
       ?"radial-gradient(circle,"+p.stops.map(function(st){return st[0]+" "+Math.round(st[1]*100)+"%";}).join(",")+")"
       :gradCSS(p.stops,p.angle);
@@ -520,8 +556,9 @@ function buildOthers(){
       state.stops=p.stops.map(function(st){return st.slice();});
       syncAll(); requestRender();
     });
-    gs.appendChild(b);
-  });
+    host.appendChild(b);
+  }); }
+  addGradients(GRADIENTS,$("gradSwatches")); addGradients(GRADIENTS_FX,$("gradSwatchesFx"));
   controls.stops={sync:buildStops};
   $("addStop").addEventListener("click",function(){
     if(state.stops.length>=8) return;
@@ -555,9 +592,9 @@ function buildStops(){
   var host=$("stops"); host.innerHTML="";
   state.stops.forEach(function(st,i){
     var row=document.createElement("div"); row.className="stop";
-    row.innerHTML='<input type="color" aria-label="Stop '+(i+1)+' colour">'+
+    row.innerHTML='<input type="color" aria-label="Stop '+(i+1)+' color">'+
       '<input type="range" min="0" max="100" step="1" aria-label="Stop '+(i+1)+' position"><output></output>'+
-      '<button class="x" aria-label="Remove stop '+(i+1)+'" title="Remove stop">×</button>';
+      '<button class="x" aria-label="Remove stop '+(i+1)+'" data-tip="Remove stop">×</button>';
     var col=row.children[0], pos=row.children[1], out=row.children[2], del=row.children[3];
     col.value=st[0]; pos.value=Math.round(st[1]*100); out.textContent=Math.round(st[1]*100)+"%";
     del.disabled=state.stops.length<=2;
@@ -567,6 +604,83 @@ function buildStops(){
     host.appendChild(row);
   });
   $("addStop").disabled=state.stops.length>=8;
+}
+
+/* ---------- Tooltips ---------- */
+var TIPS={
+  shuffle:"Randomize the outline and drift settings. Your text and colors stay the same.",
+  reset:"Return every setting to the starting design. This can't be undone.",
+  copyLink:"Copy a link that opens this exact design.",
+  save:"Download the poster as a PNG at the export size below.",
+  weight:"If a typeface doesn't include this weight, the closest one is used.",
+  fit:"Set the largest type size that fits inside the margins.",
+  s_leading:"Space between lines, as a multiple of the type size.",
+  s_tracking:"Space between letters, in thousandths of the type size. Negative values pull letters together.",
+  s_margin:"Space kept clear around the poster's edges.",
+  group:"Letter gives each letter its own outlines. Word and Line merge them around larger shapes.",
+  s_count:"How many outlines surround each shape.",
+  s_spacing:"Distance between neighboring outlines.",
+  s_gap:"Space between the type and its first outline.",
+  s_fade:"How much the outlines fade as they move away from the type.",
+  s_dx:"Shift each outline sideways. Negative values drift left.",
+  s_dy:"Shift each outline up or down. Negative values drift up.",
+  s_gradAngle:"Direction of the gradient. 180° runs top to bottom.",
+  addStop:"Add a color midway between the two stops farthest apart. Gradients can have up to 8 stops.",
+  revStops:"Flip the gradient so the first color becomes the last.",
+  blend:"How outlines mix where they cross each other and the background.",
+  showTypeWrap:"Turn off to show only the outlines.",
+  ringsOverWrap:"Draw outlines on top of the letters instead of behind them.",
+  format:"Share image fits link previews on social sites and messaging apps.",
+  exportScale:"Multiplies the format size. Use 2× or 3× for sharper prints."
+};
+var FX_TIP="Colors from the Flexoki palette by Steph Ango.";
+function initTips(){
+  Object.keys(TIPS).forEach(function(id){
+    var el=$(id)||document.querySelector('.seg[data-key="'+id+'"]'); if(!el) return;
+    el.dataset.tip=TIPS[id];
+    var lab=el.parentElement&&el.parentElement.querySelector(":scope > .lab");
+    if(lab) lab.dataset.tip=TIPS[id];
+  });
+  document.querySelectorAll(".lab.fx").forEach(function(l){l.dataset.tip=FX_TIP;});
+  var tip=document.createElement("div"); tip.className="tip"; tip.setAttribute("aria-hidden","true"); document.body.appendChild(tip);
+  var srHost=document.createElement("div"); srHost.className="sr-only"; document.body.appendChild(srHost);
+  var descIds={}, n=0;
+  function describe(ctl,text){
+    if(ctl.hasAttribute("aria-describedby")||(ctl.getAttribute("aria-label")||"").indexOf(text)>=0) return;
+    var id=descIds[text]; if(!id){ id=descIds[text]="tipd"+(n++); var d=document.createElement("span"); d.id=id; d.textContent=text; srHost.appendChild(d); }
+    ctl.setAttribute("aria-describedby",id);
+  }
+  function wire(){
+    document.querySelectorAll("[data-tip]").forEach(function(el){
+      var ctl=el.matches("button,input,select,textarea")?[el]:[].slice.call(el.querySelectorAll("button,input,select,textarea"));
+      ctl.forEach(function(c){ if(!c.dataset.tip||c===el) describe(c,el.dataset.tip); });
+    });
+  }
+  wire(); new MutationObserver(wire).observe($("stops"),{childList:true});
+  var cur=null, timer=0, warm=0;
+  function place(el){
+    var r=el.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight, vw=innerWidth, vh=innerHeight;
+    var x=Math.max(8,Math.min(vw-tw-8,r.left+r.width/2-tw/2)), y=r.bottom+6;
+    if(y+th>vh-8) y=r.top-th-6;
+    tip.style.transform=""; tip.style.left=x+"px"; tip.style.top=Math.max(8,y)+"px";
+  }
+  function show(el){ cur=el; tip.textContent=el.dataset.tip; tip.classList.add("on"); place(el); }
+  function hide(){ clearTimeout(timer); if(cur) warm=Date.now(); cur=null; tip.classList.remove("on"); }
+  function target(e){ var t=e.target.closest&&e.target.closest("[data-tip]"); return t; }
+  document.addEventListener("pointerover",function(e){
+    if(e.pointerType&&e.pointerType!=="mouse") return;
+    var t=target(e); if(t===cur) return; hide(); if(!t) return;
+    clearTimeout(timer); timer=setTimeout(function(){show(t);},Date.now()-warm<400?0:450);
+  });
+  document.addEventListener("pointerout",function(e){ var t=target(e); if(t&&!t.contains(e.relatedTarget)) hide(); });
+  document.addEventListener("pointerdown",hide,true);
+  document.addEventListener("focusin",function(e){
+    var t=target(e); hide(); if(t&&e.target.matches(":focus-visible")) show(t);
+  });
+  document.addEventListener("focusout",hide);
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") hide(); });
+  document.addEventListener("scroll",hide,true);
+  window.addEventListener("resize",hide);
 }
 
 /* ---------- Fonts ---------- */
@@ -583,7 +697,7 @@ function loadFont(){
   statusEl.textContent="Loading "+state.font+"…";
   var sample=state.text.slice(0,200)||"abc";
   return document.fonts.load(fontString(64),sample).then(function(){statusEl.textContent="";layoutCache.key=null;if(sdfStore)sdfStore.base=null;},function(){
-    statusEl.textContent="Couldn't load "+state.font+"; showing a fallback typeface.";
+    statusEl.textContent="Couldn't load "+state.font+". Showing a similar fallback typeface.";
   });
 }
 
@@ -936,28 +1050,14 @@ function fitCanvas(){
   canvas.style.height=Math.floor(canvas.height*r)+"px";
 }
 
-/* ---------- Loop ---------- */
-var pending=false, playing=false, phase=0, lastT=0;
+/* ---------- Render scheduling ---------- */
+var pending=false;
 function requestRender(){
   persist();
-  if(playing||pending) return;
+  if(pending) return;
   pending=true;
   requestAnimationFrame(function(){ pending=false; render(ctx,1,0); });
 }
-function tick(t){
-  if(!playing) return;
-  var dt=lastT?Math.min(0.1,(t-lastT)/1000):0; lastT=t;
-  phase=(phase+dt*state.speed*1.5)%1;
-  render(ctx,1,phase);
-  requestAnimationFrame(tick);
-}
-$("play").addEventListener("click",function(){
-  playing=!playing;
-  this.textContent=playing?"Pause":"Play";
-  this.setAttribute("aria-pressed",String(playing));
-  if(playing){ lastT=0; requestAnimationFrame(tick); }
-  else { phase=0; requestRender(); }
-});
 
 function rnd(a,b,step){var v=a+Math.random()*(b-a);return step?Math.round(v/step)*step:v;}
 $("shuffle").addEventListener("click",function(){
@@ -1015,16 +1115,16 @@ $("save").addEventListener("click",function(){
   if(!downloads&&!standalone) return;
   var s=parseFloat(state.exportScale)||1, fmt=FORMATS[state.format];
   var off=document.createElement("canvas"); off.width=fmt[0]*s; off.height=fmt[1]*s;
-  statusEl.textContent="Rendering "+off.width+" × "+off.height+"…";
+  statusEl.textContent="Rendering "+off.width+" × "+off.height+" PNG…";
   setTimeout(function(){
-    render(off.getContext("2d"),s,playing?phase:0,Math.min(1.5,s));
+    render(off.getContext("2d"),s,0,Math.min(1.5,s));
     off.toBlob(function(blob){
-      if(!blob){statusEl.textContent="Export failed at this size. Try a smaller export size.";return;}
+      if(!blob){statusEl.textContent="Couldn't create a PNG this large. Try a smaller export size.";return;}
       var name=(state.text.trim().split(/\s+/).slice(0,3).join("-").toLowerCase().replace(/[^a-z0-9-]/g,"")||"outline-echo")+".png";
       if(standalone){ browserSave(name,blob); return; }
       downloads.save({filename:name,data:blob}).then(function(){statusEl.textContent="Saved "+name;},function(e){
         var code=e&&e.code;
-        statusEl.textContent=code==="declined"?"":code==="too_large"?"That file is too large here. Try a smaller export size.":"Saving isn't available in this view.";
+        statusEl.textContent=code==="declined"?"":code==="too_large"?"This file is too large to save here. Try a smaller export size.":"Saving isn't available in this view.";
         if(code==="unavailable"||code==="not_granted"){$("save").hidden=true;$("exportRow").hidden=true;}
       });
     },"image/png");
@@ -1043,11 +1143,11 @@ function copyText(t){
 }
 var copyTimer=0;
 $("copyLink").addEventListener("click",function(){
-  var btn=this, url=shareURL(playing);
+  var btn=this, url=shareURL();
   writeURL();
   copyText(url).then(function(){
     btn.textContent="Link copied"; statusEl.textContent="";
-    clearTimeout(copyTimer); copyTimer=setTimeout(function(){btn.textContent="Copy link";},2000);
+    clearTimeout(copyTimer); copyTimer=setTimeout(function(){btn.innerHTML='<span aria-hidden="true">🔗</span> Copy link';},2000);
   },function(){
     window.prompt("Copy this link:",url);
   });
@@ -1061,7 +1161,7 @@ window.addEventListener("hashchange",function(){
 });
 
 /* ---------- Init ---------- */
-buildSliders(); buildSegs(); buildOthers(); syncAll();
+buildSliders(); buildSegs(); buildOthers(); syncAll(); initTips();
 sizeCanvas();
 if(window.ResizeObserver) new ResizeObserver(fitCanvas).observe($("stage"));
 else window.addEventListener("resize",fitCanvas);
@@ -1070,8 +1170,6 @@ loadFont().then(function(){ requestRender(); });
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){layoutCache.key=null;sdfStore.base=null;requestRender();});
 setupExport();
 if(STANDALONE) $("copyLink").hidden=false;
-var reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if(initialLink.play&&!reduceMotion) $("play").click();
 })();
 </script>
 </body>
