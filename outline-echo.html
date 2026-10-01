@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Outline echo</title>
+<title>Yves Outlines: Ripple type poster generator</title>
 <meta name="description" content="Grow concentric offset outlines around type and export posters as PNG.">
 <!-- Open Graph / link previews. Scrapers need absolute URLs; og-image.png sits next to this file. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Outline echo">
-<meta property="og:title" content="Outline echo">
+<meta property="og:site_name" content="Yves Outlines">
+<meta property="og:title" content="Yves Outlines">
 <meta property="og:description" content="Grow concentric offset outlines around type. Pick a typeface, set a solid or gradient ground, and export posters as PNG.">
 <meta property="og:url" content="https://cewillis.com/outline-echo.html">
 <meta property="og:image" content="https://cewillis.com/og-image.png">
@@ -17,7 +17,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Outline echo">
+<meta name="twitter:title" content="Yves Outlines">
 <meta name="twitter:description" content="Grow concentric offset outlines around type and export posters as PNG.">
 <meta name="twitter:image" content="https://cewillis.com/og-image.png">
 <meta name="twitter:image:alt" content="The words outline echo in white serif type, wrapped in dozens of thin concentric outlines on a red ground.">
@@ -143,13 +143,13 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
 
 <aside class="panel">
   <div class="head">
-    <h1>Outline echo</h1>
-    <p>Concentric offset outlines grown from each letterform.</p>
+    <h1>Yves Outlines</h1>
+    <p>Concentric outlines grow from each letterform or word.</p>
     <div class="actions">
       <button class="btn primary" id="play" aria-pressed="false">Play</button>
-      <button class="btn" id="shuffle">Shuffle</button>
+      <button class="btn" id="shuffle">🎲 Shuffle</button>
       <button class="btn" id="reset">Reset</button>
-      <button class="btn" id="copyLink" hidden>Copy link</button>
+      <button class="btn" id="copyLink" hidden>🔗 Copy link</button>
       <button class="btn" id="save" hidden>Save PNG</button>
     </div>
   </div>
@@ -185,7 +185,7 @@ input[type=color]{width:100%;height:30px;border:1px solid var(--rule);border-rad
     <div class="row">
       <div class="lab"><span>Alignment</span></div>
       <div class="seg" data-key="align">
-        <button data-v="left">Left</button><button data-v="center">Centre</button><button data-v="right">Right</button>
+        <button data-v="left">Left</button><button data-v="center">Center</button><button data-v="right">Right</button>
       </div>
     </div>
     <div class="row">
