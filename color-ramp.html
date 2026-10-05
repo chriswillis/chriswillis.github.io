@@ -195,6 +195,28 @@
   .notes p b { color: var(--tx); font-weight: 400; }
   footer { border-top: 1px solid var(--ui); padding-top: 1rem; font-size: 0.8rem; color: var(--tx-2); }
 
+  /* ---------- import ---------- */
+  dialog { border: 1px solid var(--ui-2); border-radius: 0.75rem; padding: 0; background: var(--bg); color: var(--tx); width: min(40rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); }
+  dialog::backdrop { background: rgba(16, 15, 15, 0.45); }
+  .imp { display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem; }
+  .imphead { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .imphead h2 { margin: 0; font-size: 1rem; letter-spacing: -0.01em; text-transform: none; color: var(--tx); font-weight: 500; }
+  .imphead .x { height: 2rem; width: 2rem; }
+  .impbtns { display: flex; gap: 1rem; }
+  textarea.txt { resize: vertical; min-height: 9rem; line-height: 1.45; font-size: 0.78rem; }
+  .impfoot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .primary { background: var(--tx); color: var(--bg); border: 0; border-radius: var(--r); padding: 0.55rem 1.1rem; cursor: pointer; font-weight: 400; }
+  .primary:disabled { opacity: 0.35; cursor: default; }
+  .impmsg { margin: 0; font-size: 0.85rem; }
+  .impmsg.bad { color: var(--re); }
+  .impmsg b { font-weight: 500; }
+  .ipgrid { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 0.75rem; align-items: center; margin-top: 0.6rem; max-height: 14rem; overflow-y: auto; }
+  .ipgrid .n { font-size: 0.75rem; color: var(--tx-2); font-family: var(--mono); max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ipgrid .n.gray { font-style: italic; }
+  .ipgrid .s { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; height: 1rem; }
+  .ipgrid .s i { border-radius: 2px; }
+  code { font-size: 0.85em; background: var(--bg-2); padding: 0 0.25em; border-radius: 0.2rem; }
+
   /* ---------- narrow ---------- */
   @media (max-width: 62rem) {
     .tool { grid-template-columns: minmax(0, 1fr); }
@@ -229,7 +251,7 @@
   <section class="tool" aria-label="Ramp generator">
     <div class="intro">
       <h1>Ramp from one color</h1>
-      <p class="lede">Start with one color, such as a brand color. You get a full ramp of light and dark steps shaped like a design system you already trust, and an estimate of how close each step is to what that system's designers would have picked.</p>
+      <p class="lede">Start with one color, such as a brand color. You get a full ramp of light and dark steps shaped like a design system you already trust, and an estimate of how close each step is to what that system's designers would have picked. You can also import your own palette.</p>
     </div>
 
     <form class="controls" id="ctl" autocomplete="off">
@@ -256,6 +278,7 @@
       <div class="field">
         <label class="lab" for="pal"><span>Shape it like</span></label>
         <select id="pal"></select>
+        <p class="hint" id="palmeta"></p>
       </div>
 
       <div class="field">
@@ -316,6 +339,7 @@
     <h2>How it works</h2>
     <p>Each reference palette is treated as a shape. Its ramps are wrapped around a surface in Oklab, a color space where equal distances look about equally different. Your color is placed on that surface by its hue, lightness and colorfulness. The new ramp follows the surface: the same lightness steps, and the same rise and fall in colorfulness, as the palette's own ramps at that hue.</p>
     <p><b>Stays exact</b> puts your color into the ramp unchanged, on the step closest to its lightness. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
+    <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page checks them, runs the same hold-out test on them, and keeps the palette in this browser only.</p>
     <p>The estimate comes from a hold-out test. Each of the palette's own ramps was hidden, rebuilt from its neighbors and compared with the real one. Differences are in ΔE OK ×100, where 2 is about the smallest difference most people notice. It covers ramps that stay within the palette's colorfulness, so it says less about steps marked ↑.</p>
     <p>For a deeper look at a palette's shape, open <a href="color-intelligence.html">Palette topology</a>. This page was prompted by <a href="https://meodai.github.io/dittoTones/">dittoTones</a> by David Aerne, which builds ramps from one color by matching the closest ramps in a reference system.</p>
   </section>
@@ -323,6 +347,20 @@
   <footer>Built on the Palette topology engine. Palettes belong to their authors; see each one's license.</footer>
 </main>
 
+<dialog id="imp" aria-labelledby="imph">
+  <form method="dialog" class="imp" id="impform">
+    <div class="imphead"><h2 id="imph">Import your palette</h2><button class="x" type="submit" value="cancel" id="impx" aria-label="Close">✕</button></div>
+    <p class="hint">Paste your color variables or tokens, or upload the file. CSS, SCSS, Less and JSON all work, as long as names end in a step, like <code>blue-500</code> or <code>blue.500</code>.</p>
+    <div class="field"><label class="lab" for="impn"><span>Name</span></label><input class="txt" id="impn" value="My palette" maxlength="60" spellcheck="false" /></div>
+    <div class="field">
+      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><label class="linkbtn" for="impf">Upload a file</label><button class="linkbtn" type="button" id="impex">Load an example</button></span></label>
+      <input type="file" id="impf" accept=".css,.scss,.less,.json,.js,.ts,.txt,text/*,application/json" hidden />
+      <textarea class="txt" id="impt" rows="8" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
+    </div>
+    <div id="impp" aria-live="polite"></div>
+    <div class="impfoot"><span class="hint">Saved in this browser only. Nothing is uploaded.</span><button class="primary" type="button" id="impok" disabled>Add palette</button></div>
+  </form>
+</dialog>
 <script type="application/json" id="pals">[{"id":"flexoki","name":"Flexoki","version":"2.0","license":"MIT","source":"stephango.com/flexoki","steps":["50","100","150","200","300","400","500","600","700","800","850","900","950"],"ramps":{"red":["#FFE1D5","#FFCABB","#FDB2A2","#F89A8A","#E8705F","#D14D41","#C03E35","#AF3029","#942822","#6C201C","#551B18","#3E1715","#261312"],"orange":["#FFE7CE","#FED3AF","#FCC192","#F9AE77","#EC8B49","#DA702C","#CB6120","#BC5215","#9D4310","#71320D","#59290D","#40200D","#27180E"],"yellow":["#FAEEC6","#F6E2A0","#F1D67E","#ECCB60","#DFB431","#D0A215","#BE9207","#AD8301","#8E6B01","#664D01","#503D02","#3A2D04","#241E08"],"green":["#EDEECF","#DDE2B2","#CDD597","#BEC97E","#A0AF54","#879A39","#768D21","#66800B","#536907","#3D4C07","#313D07","#252D09","#1A1E0C"],"cyan":["#DDF1E4","#BFE8D9","#A2DECE","#87D3C3","#5ABDAC","#3AA99F","#2F968D","#24837B","#1C6C66","#164F4A","#143F3C","#122F2C","#101F1D"],"blue":["#E1ECEB","#C6DDE8","#ABCFE2","#92BFDB","#66A0C8","#4385BE","#3171B2","#205EA6","#1A4F8C","#163B66","#133051","#12253B","#101A24"],"purple":["#F0EAEC","#E2D9E9","#D3CAE6","#C4B9E0","#A699D0","#8B7EC8","#735EB5","#5E409D","#4F3685","#3C2A62","#31234E","#261C39","#1A1623"],"magenta":["#FEE4E5","#FCCFDA","#F9B9CF","#F4A4C2","#E47DA8","#CE5D97","#B74583","#A02F6F","#87285E","#641F46","#4F1B39","#39172B","#24131D"]},"neutrals":{"base":["#F2F0E5","#E6E4D9","#DAD8CE","#CECDC3","#B7B5AC","#9F9D96","#878580","#6F6E69","#575653","#403E3C","#343331","#282726","#1C1B1A"]},"neutral":"base","poles":{"light":"#FFFCF0","dark":"#100F0F"},"text":{"light":"600","dark":"400","basis":"Flexoki docs: 600 in light, 400 in dark"},"gamut":"srgb","poleNames":{"light":"paper","dark":"black"}},{"id":"tailwind4","name":"Tailwind v4","version":"4.3.3","license":"MIT","source":"tailwindcss/theme.css","steps":["50","100","200","300","400","500","600","700","800","900","950"],"ramps":{"red":["oklch(97.1% 0.013 17.38)","oklch(93.6% 0.032 17.717)","oklch(88.5% 0.062 18.334)","oklch(80.8% 0.114 19.571)","oklch(70.4% 0.191 22.216)","oklch(63.7% 0.237 25.331)","oklch(57.7% 0.245 27.325)","oklch(50.5% 0.213 27.518)","oklch(44.4% 0.177 26.899)","oklch(39.6% 0.141 25.723)","oklch(25.8% 0.092 26.042)"],"orange":["oklch(98% 0.016 73.684)","oklch(95.4% 0.038 75.164)","oklch(90.1% 0.076 70.697)","oklch(83.7% 0.128 66.29)","oklch(75% 0.183 55.934)","oklch(70.5% 0.213 47.604)","oklch(64.6% 0.222 41.116)","oklch(55.3% 0.195 38.402)","oklch(47% 0.157 37.304)","oklch(40.8% 0.123 38.172)","oklch(26.6% 0.079 36.259)"],"amber":["oklch(98.7% 0.022 95.277)","oklch(96.2% 0.059 95.617)","oklch(92.4% 0.12 95.746)","oklch(87.9% 0.169 91.605)","oklch(82.8% 0.189 84.429)","oklch(76.9% 0.188 70.08)","oklch(66.6% 0.179 58.318)","oklch(55.5% 0.163 48.998)","oklch(47.3% 0.137 46.201)","oklch(41.4% 0.112 45.904)","oklch(27.9% 0.077 45.635)"],"yellow":["oklch(98.7% 0.026 102.212)","oklch(97.3% 0.071 103.193)","oklch(94.5% 0.129 101.54)","oklch(90.5% 0.182 98.111)","oklch(85.2% 0.199 91.936)","oklch(79.5% 0.184 86.047)","oklch(68.1% 0.162 75.834)","oklch(55.4% 0.135 66.442)","oklch(47.6% 0.114 61.907)","oklch(42.1% 0.095 57.708)","oklch(28.6% 0.066 53.813)"],"lime":["oklch(98.6% 0.031 120.757)","oklch(96.7% 0.067 122.328)","oklch(93.8% 0.127 124.321)","oklch(89.7% 0.196 126.665)","oklch(84.1% 0.238 128.85)","oklch(76.8% 0.233 130.85)","oklch(64.8% 0.2 131.684)","oklch(53.2% 0.157 131.589)","oklch(45.3% 0.124 130.933)","oklch(40.5% 0.101 131.063)","oklch(27.4% 0.072 132.109)"],"green":["oklch(98.2% 0.018 155.826)","oklch(96.2% 0.044 156.743)","oklch(92.5% 0.084 155.995)","oklch(87.1% 0.15 154.449)","oklch(79.2% 0.209 151.711)","oklch(72.3% 0.219 149.579)","oklch(62.7% 0.194 149.214)","oklch(52.7% 0.154 150.069)","oklch(44.8% 0.119 151.328)","oklch(39.3% 0.095 152.535)","oklch(26.6% 0.065 152.934)"],"emerald":["oklch(97.9% 0.021 166.113)","oklch(95% 0.052 163.051)","oklch(90.5% 0.093 164.15)","oklch(84.5% 0.143 164.978)","oklch(76.5% 0.177 163.223)","oklch(69.6% 0.17 162.48)","oklch(59.6% 0.145 163.225)","oklch(50.8% 0.118 165.612)","oklch(43.2% 0.095 166.913)","oklch(37.8% 0.077 168.94)","oklch(26.2% 0.051 172.552)"],"teal":["oklch(98.4% 0.014 180.72)","oklch(95.3% 0.051 180.801)","oklch(91% 0.096 180.426)","oklch(85.5% 0.138 181.071)","oklch(77.7% 0.152 181.912)","oklch(70.4% 0.14 182.503)","oklch(60% 0.118 184.704)","oklch(51.1% 0.096 186.391)","oklch(43.7% 0.078 188.216)","oklch(38.6% 0.063 188.416)","oklch(27.7% 0.046 192.524)"],"cyan":["oklch(98.4% 0.019 200.873)","oklch(95.6% 0.045 203.388)","oklch(91.7% 0.08 205.041)","oklch(86.5% 0.127 207.078)","oklch(78.9% 0.154 211.53)","oklch(71.5% 0.143 215.221)","oklch(60.9% 0.126 221.723)","oklch(52% 0.105 223.128)","oklch(45% 0.085 224.283)","oklch(39.8% 0.07 227.392)","oklch(30.2% 0.056 229.695)"],"sky":["oklch(97.7% 0.013 236.62)","oklch(95.1% 0.026 236.824)","oklch(90.1% 0.058 230.902)","oklch(82.8% 0.111 230.318)","oklch(74.6% 0.16 232.661)","oklch(68.5% 0.169 237.323)","oklch(58.8% 0.158 241.966)","oklch(50% 0.134 242.749)","oklch(44.3% 0.11 240.79)","oklch(39.1% 0.09 240.876)","oklch(29.3% 0.066 243.157)"],"blue":["oklch(97% 0.014 254.604)","oklch(93.2% 0.032 255.585)","oklch(88.2% 0.059 254.128)","oklch(80.9% 0.105 251.813)","oklch(70.7% 0.165 254.624)","oklch(62.3% 0.214 259.815)","oklch(54.6% 0.245 262.881)","oklch(48.8% 0.243 264.376)","oklch(42.4% 0.199 265.638)","oklch(37.9% 0.146 265.522)","oklch(28.2% 0.091 267.935)"],"indigo":["oklch(96.2% 0.018 272.314)","oklch(93% 0.034 272.788)","oklch(87% 0.065 274.039)","oklch(78.5% 0.115 274.713)","oklch(67.3% 0.182 276.935)","oklch(58.5% 0.233 277.117)","oklch(51.1% 0.262 276.966)","oklch(45.7% 0.24 277.023)","oklch(39.8% 0.195 277.366)","oklch(35.9% 0.144 278.697)","oklch(25.7% 0.09 281.288)"],"violet":["oklch(96.9% 0.016 293.756)","oklch(94.3% 0.029 294.588)","oklch(89.4% 0.057 293.283)","oklch(81.1% 0.111 293.571)","oklch(70.2% 0.183 293.541)","oklch(60.6% 0.25 292.717)","oklch(54.1% 0.281 293.009)","oklch(49.1% 0.27 292.581)","oklch(43.2% 0.232 292.759)","oklch(38% 0.189 293.745)","oklch(28.3% 0.141 291.089)"],"purple":["oklch(97.7% 0.014 308.299)","oklch(94.6% 0.033 307.174)","oklch(90.2% 0.063 306.703)","oklch(82.7% 0.119 306.383)","oklch(71.4% 0.203 305.504)","oklch(62.7% 0.265 303.9)","oklch(55.8% 0.288 302.321)","oklch(49.6% 0.265 301.924)","oklch(43.8% 0.218 303.724)","oklch(38.1% 0.176 304.987)","oklch(29.1% 0.149 302.717)"],"fuchsia":["oklch(97.7% 0.017 320.058)","oklch(95.2% 0.037 318.852)","oklch(90.3% 0.076 319.62)","oklch(83.3% 0.145 321.434)","oklch(74% 0.238 322.16)","oklch(66.7% 0.295 322.15)","oklch(59.1% 0.293 322.896)","oklch(51.8% 0.253 323.949)","oklch(45.2% 0.211 324.591)","oklch(40.1% 0.17 325.612)","oklch(29.3% 0.136 325.661)"],"pink":["oklch(97.1% 0.014 343.198)","oklch(94.8% 0.028 342.258)","oklch(89.9% 0.061 343.231)","oklch(82.3% 0.12 346.018)","oklch(71.8% 0.202 349.761)","oklch(65.6% 0.241 354.308)","oklch(59.2% 0.249 0.584)","oklch(52.5% 0.223 3.958)","oklch(45.9% 0.187 3.815)","oklch(40.8% 0.153 2.432)","oklch(28.4% 0.109 3.907)"],"rose":["oklch(96.9% 0.015 12.422)","oklch(94.1% 0.03 12.58)","oklch(89.2% 0.058 10.001)","oklch(81% 0.117 11.638)","oklch(71.2% 0.194 13.428)","oklch(64.5% 0.246 16.439)","oklch(58.6% 0.253 17.585)","oklch(51.4% 0.222 16.935)","oklch(45.5% 0.188 13.697)","oklch(41% 0.159 10.272)","oklch(27.1% 0.105 12.094)"]},"neutrals":{"slate":["oklch(98.4% 0.003 247.858)","oklch(96.8% 0.007 247.896)","oklch(92.9% 0.013 255.508)","oklch(86.9% 0.022 252.894)","oklch(70.4% 0.04 256.788)","oklch(55.4% 0.046 257.417)","oklch(44.6% 0.043 257.281)","oklch(37.2% 0.044 257.287)","oklch(27.9% 0.041 260.031)","oklch(20.8% 0.042 265.755)","oklch(12.9% 0.042 264.695)"],"gray":["oklch(98.5% 0.002 247.839)","oklch(96.7% 0.003 264.542)","oklch(92.8% 0.006 264.531)","oklch(87.2% 0.01 258.338)","oklch(70.7% 0.022 261.325)","oklch(55.1% 0.027 264.364)","oklch(44.6% 0.03 256.802)","oklch(37.3% 0.034 259.733)","oklch(27.8% 0.033 256.848)","oklch(21% 0.034 264.665)","oklch(13% 0.028 261.692)"],"zinc":["oklch(98.5% 0 none)","oklch(96.7% 0.001 286.375)","oklch(92% 0.004 286.32)","oklch(87.1% 0.006 286.286)","oklch(70.5% 0.015 286.067)","oklch(55.2% 0.016 285.938)","oklch(44.2% 0.017 285.786)","oklch(37% 0.013 285.805)","oklch(27.4% 0.006 286.033)","oklch(21% 0.006 285.885)","oklch(14.1% 0.005 285.823)"],"neutral":["oklch(98.5% 0 none)","oklch(97% 0 none)","oklch(92.2% 0 none)","oklch(87% 0 none)","oklch(70.8% 0 none)","oklch(55.6% 0 none)","oklch(43.9% 0 none)","oklch(37.1% 0 none)","oklch(26.9% 0 none)","oklch(20.5% 0 none)","oklch(14.5% 0 none)"],"stone":["oklch(98.5% 0.001 106.423)","oklch(97% 0.001 106.424)","oklch(92.3% 0.003 48.717)","oklch(86.9% 0.005 56.366)","oklch(70.9% 0.01 56.259)","oklch(55.3% 0.013 58.071)","oklch(44.4% 0.011 73.639)","oklch(37.4% 0.01 67.558)","oklch(26.8% 0.007 34.298)","oklch(21.6% 0.006 56.043)","oklch(14.7% 0.004 49.25)"],"mauve":["oklch(98.5% 0 none)","oklch(96% 0.003 325.6)","oklch(92.2% 0.005 325.62)","oklch(86.5% 0.012 325.68)","oklch(71.1% 0.019 323.02)","oklch(54.2% 0.034 322.5)","oklch(43.5% 0.029 321.78)","oklch(36.4% 0.029 323.89)","oklch(26.3% 0.024 320.12)","oklch(21.2% 0.019 322.12)","oklch(14.5% 0.008 326)"],"olive":["oklch(98.8% 0.003 106.5)","oklch(96.6% 0.005 106.5)","oklch(93% 0.007 106.5)","oklch(88% 0.011 106.6)","oklch(73.7% 0.021 106.9)","oklch(58% 0.031 107.3)","oklch(46.6% 0.025 107.3)","oklch(39.4% 0.023 107.4)","oklch(28.6% 0.016 107.4)","oklch(22.8% 0.013 107.4)","oklch(15.3% 0.006 107.1)"],"mist":["oklch(98.7% 0.002 197.1)","oklch(96.3% 0.002 197.1)","oklch(92.5% 0.005 214.3)","oklch(87.2% 0.007 219.6)","oklch(72.3% 0.014 214.4)","oklch(56% 0.021 213.5)","oklch(45% 0.017 213.2)","oklch(37.8% 0.015 216)","oklch(27.5% 0.011 216.9)","oklch(21.8% 0.008 223.9)","oklch(14.8% 0.004 228.8)"],"taupe":["oklch(98.6% 0.002 67.8)","oklch(96% 0.002 17.2)","oklch(92.2% 0.005 34.3)","oklch(86.8% 0.007 39.5)","oklch(71.4% 0.014 41.2)","oklch(54.7% 0.021 43.1)","oklch(43.8% 0.017 39.3)","oklch(36.7% 0.016 35.7)","oklch(26.8% 0.011 36.5)","oklch(21.4% 0.009 43.1)","oklch(14.7% 0.004 49.3)"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"600","dark":"400","basis":"common Tailwind convention (text-*-600, dark:text-*-400)"},"gamut":"p3","poleNames":{"light":"white","dark":"black"}},{"id":"tailwind3","name":"Tailwind v3","version":"3.4.19","license":"MIT","source":"tailwindcss/lib/public/colors.js","steps":["50","100","200","300","400","500","600","700","800","900","950"],"ramps":{"red":["#FEF2F2","#FEE2E2","#FECACA","#FCA5A5","#F87171","#EF4444","#DC2626","#B91C1C","#991B1B","#7F1D1D","#450A0A"],"orange":["#FFF7ED","#FFEDD5","#FED7AA","#FDBA74","#FB923C","#F97316","#EA580C","#C2410C","#9A3412","#7C2D12","#431407"],"amber":["#FFFBEB","#FEF3C7","#FDE68A","#FCD34D","#FBBF24","#F59E0B","#D97706","#B45309","#92400E","#78350F","#451A03"],"yellow":["#FEFCE8","#FEF9C3","#FEF08A","#FDE047","#FACC15","#EAB308","#CA8A04","#A16207","#854D0E","#713F12","#422006"],"lime":["#F7FEE7","#ECFCCB","#D9F99D","#BEF264","#A3E635","#84CC16","#65A30D","#4D7C0F","#3F6212","#365314","#1A2E05"],"green":["#F0FDF4","#DCFCE7","#BBF7D0","#86EFAC","#4ADE80","#22C55E","#16A34A","#15803D","#166534","#14532D","#052E16"],"emerald":["#ECFDF5","#D1FAE5","#A7F3D0","#6EE7B7","#34D399","#10B981","#059669","#047857","#065F46","#064E3B","#022C22"],"teal":["#F0FDFA","#CCFBF1","#99F6E4","#5EEAD4","#2DD4BF","#14B8A6","#0D9488","#0F766E","#115E59","#134E4A","#042F2E"],"cyan":["#ECFEFF","#CFFAFE","#A5F3FC","#67E8F9","#22D3EE","#06B6D4","#0891B2","#0E7490","#155E75","#164E63","#083344"],"sky":["#F0F9FF","#E0F2FE","#BAE6FD","#7DD3FC","#38BDF8","#0EA5E9","#0284C7","#0369A1","#075985","#0C4A6E","#082F49"],"blue":["#EFF6FF","#DBEAFE","#BFDBFE","#93C5FD","#60A5FA","#3B82F6","#2563EB","#1D4ED8","#1E40AF","#1E3A8A","#172554"],"indigo":["#EEF2FF","#E0E7FF","#C7D2FE","#A5B4FC","#818CF8","#6366F1","#4F46E5","#4338CA","#3730A3","#312E81","#1E1B4B"],"violet":["#F5F3FF","#EDE9FE","#DDD6FE","#C4B5FD","#A78BFA","#8B5CF6","#7C3AED","#6D28D9","#5B21B6","#4C1D95","#2E1065"],"purple":["#FAF5FF","#F3E8FF","#E9D5FF","#D8B4FE","#C084FC","#A855F7","#9333EA","#7E22CE","#6B21A8","#581C87","#3B0764"],"fuchsia":["#FDF4FF","#FAE8FF","#F5D0FE","#F0ABFC","#E879F9","#D946EF","#C026D3","#A21CAF","#86198F","#701A75","#4A044E"],"pink":["#FDF2F8","#FCE7F3","#FBCFE8","#F9A8D4","#F472B6","#EC4899","#DB2777","#BE185D","#9D174D","#831843","#500724"],"rose":["#FFF1F2","#FFE4E6","#FECDD3","#FDA4AF","#FB7185","#F43F5E","#E11D48","#BE123C","#9F1239","#881337","#4C0519"]},"neutrals":{"slate":["#F8FAFC","#F1F5F9","#E2E8F0","#CBD5E1","#94A3B8","#64748B","#475569","#334155","#1E293B","#0F172A","#020617"],"gray":["#F9FAFB","#F3F4F6","#E5E7EB","#D1D5DB","#9CA3AF","#6B7280","#4B5563","#374151","#1F2937","#111827","#030712"],"zinc":["#FAFAFA","#F4F4F5","#E4E4E7","#D4D4D8","#A1A1AA","#71717A","#52525B","#3F3F46","#27272A","#18181B","#09090B"],"neutral":["#FAFAFA","#F5F5F5","#E5E5E5","#D4D4D4","#A3A3A3","#737373","#525252","#404040","#262626","#171717","#0A0A0A"],"stone":["#FAFAF9","#F5F5F4","#E7E5E4","#D6D3D1","#A8A29E","#78716C","#57534E","#44403C","#292524","#1C1917","#0C0A09"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"600","dark":"400","basis":"common Tailwind convention"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"atlassian","name":"Atlassian","version":"20.0.0","license":"Apache-2.0","source":"@atlaskit/tokens palettes-raw/palette","steps":["100","200","250","300","400","500","600","700","800","850","900","1000"],"ramps":{"red":["#FFECEB","#FFD5D2","#FFB8B2","#FD9891","#F87168","#F15B50","#E2483D","#C9372C","#AE2E24","#872821","#5D1F1A","#42221F"],"orange":["#FFF5DB","#FCE4A6","#FBD779","#FBC828","#FCA700","#F68909","#E06C00","#BD5B00","#9E4C00","#7A3B00","#693200","#3A2C1F"],"yellow":["#FEF7C8","#F5E989","#EFDD4E","#EED12B","#DDB30E","#CF9F02","#B38600","#946F00","#7F5F01","#614A05","#533F04","#332E1B"],"lime":["#EFFFD6","#D3F1A7","#BDE97C","#B3DF72","#94C748","#82B536","#6A9A23","#5B7F24","#4C6B1F","#3F5224","#37471F","#28311B"],"green":["#DCFFF1","#BAF3DB","#97EDC9","#7EE2B8","#4BCE97","#2ABB7F","#22A06B","#1F845A","#216E4E","#19573D","#164B35","#1C3329"],"teal":["#E7F9FF","#C6EDFB","#B1E4F7","#9DD9EE","#6CC3E0","#42B2D7","#2898BD","#227D9B","#206A83","#1A5265","#164555","#1E3137"],"blue":["#E9F2FE","#CFE1FD","#ADCBFB","#8FB8F6","#669DF1","#4688EC","#357DE8","#1868DB","#1558BC","#144794","#123263","#1C2B42"],"purple":["#F8EEFE","#EED7FC","#E3BDFA","#D8A0F7","#C97CF4","#BF63F3","#AF59E1","#964AC0","#803FA5","#673286","#48245D","#35243F"],"magenta":["#FFECF8","#FDD0EC","#FCB6E1","#F797D2","#E774BB","#DA62AC","#CD519D","#AE4787","#943D73","#77325B","#50253F","#3D2232"]},"neutrals":{"neutral":["#FFFFFF","#F8F8F8","#F0F1F2","#DDDEE1","#B7B9BE","#8C8F97","#7D818A","#6B6E76","#505258","#3B3D42","#292A2E","#1E1F21","#000000"]},"neutralSteps":{"neutral":["0","100","200","300","400","500","600","700","800","900","1000","1100","1200"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"800","dark":"300","basis":"color.text.danger \u2192 Red800 (light) / Red300 (dark)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"polaris","name":"Shopify Polaris","version":"9.4.2","license":"MIT (LICENSE.md)","source":"@shopify/polaris-tokens colors","steps":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"ramps":{"red":["#FFFAFB","#FFF6F8","#FFECEF","#FEE8EB","#FEE1E6","#FED9DF","#FED1D7","#FEC1C7","#FDACB1","#F78086","#E22C38","#C70A24","#A30A24","#8E0B21","#5F0716","#2F040B"],"rose":["#FFFDFD","#FFF6F8","#FFEFF3","#FFE8EE","#FFE1E8","#FFD9E3","#FED1DD","#FEC1D2","#FEB5CA","#FE8EB1","#FD4B92","#E30C76","#B9075F","#8D0448","#640231","#3E011C"],"magenta":["#FFFDFF","#FFF5FF","#FDEFFD","#FEE7FE","#FCDFFC","#FBD7FB","#FBCFFB","#F9BEF9","#F8B1F8","#F68DF6","#E156E1","#C530C5","#9F269F","#791A79","#561056","#340634"],"purple":["#FDFDFF","#F8F7FF","#F3F1FF","#EFECFF","#E9E5FF","#E4DEFF","#DFD9FF","#D4CCFF","#C7BCFF","#AA95FF","#9474FF","#8051FF","#7126FF","#5700D1","#3B0093","#1C004F"],"blue":["#FCFDFF","#F6F8FF","#F0F2FF","#EAEDFF","#E2E7FF","#DBE1FF","#D5DCFF","#C5D0FF","#BAC7FF","#97ADFF","#4188FF","#0071E9","#005BD3","#004299","#002E6A","#001633"],"azure":["#FBFDFF","#F2F9FF","#EAF4FF","#E0F0FF","#D5EBFF","#CAE6FF","#C0E1FF","#A8D8FF","#91D0FF","#51C0FF","#0094D5","#007CB4","#00679B","#00527C","#003A5A","#002133"],"teal":["#F8FFFE","#E8FCFA","#D7FAF7","#C3F7F2","#AAF6EF","#89F5EC","#70F0E5","#5AE6DB","#2CE0D4","#1EC7BC","#00A198","#12837C","#0C6A64","#0C534F","#033C39","#062C29"],"green":["#FAFFFB","#E6FEEA","#CDFED4","#AFFEBF","#92FCAC","#6EF799","#52F490","#2CED83","#11DF7B","#18BF79","#0D9C6A","#047B5D","#035E4C","#014B40","#073630","#022622"],"lime":["#FAFFFA","#E4FFE5","#D0FFD1","#BBFEBE","#9DFEA0","#77FE7A","#38FE3E","#28F22F","#25E82B","#20CF27","#18A81D","#118715","#0C710F","#0B550D","#033D05","#032104"],"yellow":["#FFFDF6","#FFF8DB","#FFF4BF","#FFEF9D","#FFEB78","#FFE600","#F7DF00","#EAD300","#E1CB00","#C5B200","#998A00","#827500","#695F00","#4F4700","#332E00","#1F1C00"],"orange":["#FFFDFA","#FFF7EE","#FFF1E3","#FFEBD5","#FFE4C6","#FFDDB6","#FFD6A4","#FFC879","#FFB800","#E5A500","#B28400","#956F00","#7C5800","#5E4200","#412D00","#251A00"]},"neutrals":{"gray":["#FFFFFF","#FDFDFD","#FAFAFA","#F7F7F7","#F3F3F3","#F1F1F1","#EBEBEB","#E3E3E3","#D4D4D4","#CCCCCC","#B5B5B5","#8A8A8A","#616161","#4A4A4A","#303030","#1A1A1A"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"14","dark":null,"basis":"color-text-critical \u2192 red-14; dark theme reuses the light value"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"material3","name":"Material 3 (generated)","version":"0.4.0","license":"Apache-2.0","source":"material-color-utilities TonalPalette","note":"Twelve HCT hues at 30\u00b0 steps, chroma 48 (CorePalette primary strength), standard tones 99\u219210. Neutral from SchemeTonalSpot on the M3 baseline seed #6750A4.","steps":["99","95","90","80","70","60","50","40","30","20","10"],"ramps":{"hct0":["#FFFBFF","#FFECF0","#FFD9E2","#FFB1C8","#F48BAE","#D57193","#B6587A","#984061","#7B2949","#5E1133","#3E001D"],"hct30":["#FFFBFF","#FFEDE9","#FFDAD3","#FFB4A5","#FB8C76","#DB735E","#BB5A47","#9C4331","#7D2C1C","#5F1609","#3E0400"],"hct60":["#FFFBFF","#FFEEE2","#FFDCC1","#FFB779","#EE9744","#CF7D2C","#B06411","#8F4E00","#6C3A00","#4C2700","#2E1500"],"hct90":["#FFFBFF","#FFEFCF","#FFDF92","#EDC148","#CFA62E","#B28C0E","#937300","#755B00","#594400","#3E2E00","#241A00"],"hct120":["#FBFFE0","#E7FB87","#D9EC7B","#BDD062","#A2B44A","#889931","#6E7E18","#566500","#404C00","#2C3400","#181E00"],"hct150":["#F6FFF1","#C6FFC7","#A3F5AA","#88D990","#6DBC77","#53A15F","#388647","#1A6C31","#00531F","#003913","#002108"],"hct180":["#F3FFFA","#B7FFEC","#78F8DD","#59DBC1","#35BFA6","#00A38C","#008673","#006B5B","#005144","#00382E","#00201A"],"hct210":["#F6FEFF","#D0F8FF","#99F0FF","#4FD8EC","#23BCCF","#009FB1","#008392","#006874","#004F58","#00363D","#001F24"],"hct240":["#FBFCFF","#E5F2FF","#C8E6FF","#88CEFF","#55B4ED","#3399D1","#007FB4","#006590","#004C6D","#00344D","#001E2E"],"hct270":["#FEFBFF","#EEF0FF","#DAE2FF","#B1C5FF","#89A9FC","#6E8EDF","#5474C4","#3A5BA9","#1D438F","#002C72","#001847"],"hct300":["#FFFBFF","#F6EDFF","#E9DDFF","#D0BCFF","#B79DF7","#9C82DA","#8168BF","#684FA4","#50378A","#391E72","#23005C"],"hct330":["#FFFBFF","#FFEBFA","#FFD6FB","#FAACF9","#DC91DC","#BF77C0","#A25EA5","#87458A","#6C2D70","#521458","#36003D"]},"neutrals":{"neutral":["#FFFBFF","#F5EFF7","#E6E0E9","#CAC5CC","#AEA9B1","#938F96","#79767D","#605D64","#48464C","#322F35","#1D1B20"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"40","dark":"80","basis":"M3 roles: primary = tone 40 (light), 80 (dark)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"opencolor","name":"Open Color","version":"1.9.1","license":"MIT","source":"open-color.json","steps":["0","1","2","3","4","5","6","7","8","9"],"ramps":{"red":["#FFF5F5","#FFE3E3","#FFC9C9","#FFA8A8","#FF8787","#FF6B6B","#FA5252","#F03E3E","#E03131","#C92A2A"],"pink":["#FFF0F6","#FFDEEB","#FCC2D7","#FAA2C1","#F783AC","#F06595","#E64980","#D6336C","#C2255C","#A61E4D"],"grape":["#F8F0FC","#F3D9FA","#EEBEFA","#E599F7","#DA77F2","#CC5DE8","#BE4BDB","#AE3EC9","#9C36B5","#862E9C"],"violet":["#F3F0FF","#E5DBFF","#D0BFFF","#B197FC","#9775FA","#845EF7","#7950F2","#7048E8","#6741D9","#5F3DC4"],"indigo":["#EDF2FF","#DBE4FF","#BAC8FF","#91A7FF","#748FFC","#5C7CFA","#4C6EF5","#4263EB","#3B5BDB","#364FC7"],"blue":["#E7F5FF","#D0EBFF","#A5D8FF","#74C0FC","#4DABF7","#339AF0","#228BE6","#1C7ED6","#1971C2","#1864AB"],"cyan":["#E3FAFC","#C5F6FA","#99E9F2","#66D9E8","#3BC9DB","#22B8CF","#15AABF","#1098AD","#0C8599","#0B7285"],"teal":["#E6FCF5","#C3FAE8","#96F2D7","#63E6BE","#38D9A9","#20C997","#12B886","#0CA678","#099268","#087F5B"],"green":["#EBFBEE","#D3F9D8","#B2F2BB","#8CE99A","#69DB7C","#51CF66","#40C057","#37B24D","#2F9E44","#2B8A3E"],"lime":["#F4FCE3","#E9FAC8","#D8F5A2","#C0EB75","#A9E34B","#94D82D","#82C91E","#74B816","#66A80F","#5C940D"],"yellow":["#FFF9DB","#FFF3BF","#FFEC99","#FFE066","#FFD43B","#FCC419","#FAB005","#F59F00","#F08C00","#E67700"],"orange":["#FFF4E6","#FFE8CC","#FFD8A8","#FFC078","#FFA94D","#FF922B","#FD7E14","#F76707","#E8590C","#D9480F"]},"neutrals":{"gray":["#F8F9FA","#F1F3F5","#E9ECEF","#DEE2E6","#CED4DA","#ADB5BD","#868E96","#495057","#343A40","#212529"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"7","dark":"4","basis":"no official rule; step 7 / step 4 used here"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"radix","name":"Radix Colors","version":"3.0.0","license":"MIT","source":"@radix-ui/colors light scales (sRGB)","steps":["1","2","3","4","5","6","7","8","9","10","11","12"],"ramps":{"amber":["#FEFDFB","#FEFBE9","#FFF7C2","#FFEE9C","#FBE577","#F3D673","#E9C162","#E2A336","#FFC53D","#FFBA18","#AB6400","#4F3422"],"blue":["#FBFDFF","#F4FAFF","#E6F4FE","#D5EFFF","#C2E5FF","#ACD8FC","#8EC8F6","#5EB1EF","#0090FF","#0588F0","#0D74CE","#113264"],"bronze":["#FDFCFC","#FDF7F5","#F6EDEA","#EFE4DF","#E7D9D3","#DFCDC5","#D3BCB3","#C2A499","#A18072","#957468","#7D5E54","#43302B"],"brown":["#FEFDFC","#FCF9F6","#F6EEE7","#F0E4D9","#EBDACA","#E4CDB7","#DCBC9F","#CEA37E","#AD7F58","#A07553","#815E46","#3E332E"],"crimson":["#FFFCFD","#FEF7F9","#FFE9F0","#FEDCE7","#FACEDD","#F3BED1","#EAACC3","#E093B2","#E93D82","#DF3478","#CB1D63","#621639"],"cyan":["#FAFDFE","#F2FAFB","#DEF7F9","#CAF1F6","#B5E9F0","#9DDDE7","#7DCEDC","#3DB9CF","#00A2C7","#0797B9","#107D98","#0D3C48"],"gold":["#FDFDFC","#FAF9F2","#F2F0E7","#EAE6DB","#E1DCCF","#D8D0BF","#CBC0AA","#B9A88D","#978365","#8C7A5E","#71624B","#3B352B"],"grass":["#FBFEFB","#F5FBF5","#E9F6E9","#DAF1DB","#C9E8CA","#B2DDB5","#94CE9A","#65BA74","#46A758","#3E9B4F","#2A7E3B","#203C25"],"green":["#FBFEFC","#F4FBF6","#E6F6EB","#D6F1DF","#C4E8D1","#ADDDC0","#8ECEAA","#5BB98B","#30A46C","#2B9A66","#218358","#193B2D"],"indigo":["#FDFDFE","#F7F9FF","#EDF2FE","#E1E9FF","#D2DEFF","#C1D0FF","#ABBDF9","#8DA4EF","#3E63DD","#3358D4","#3A5BC7","#1F2D5C"],"iris":["#FDFDFF","#F8F8FF","#F0F1FE","#E6E7FF","#DADCFF","#CBCDFF","#B8BAF8","#9B9EF0","#5B5BD6","#5151CD","#5753C6","#272962"],"jade":["#FBFEFD","#F4FBF7","#E6F7ED","#D6F1E3","#C3E9D7","#ACDEC8","#8BCEB6","#56BA9F","#29A383","#26997B","#208368","#1D3B31"],"lime":["#FCFDFA","#F8FAF3","#EEF6D6","#E2F0BD","#D3E7A6","#C2DA91","#ABC978","#8DB654","#BDEE63","#B0E64C","#5C7C2F","#37401C"],"mint":["#F9FEFD","#F2FBF9","#DDF9F2","#C8F4E9","#B3ECDE","#9CE0D0","#7ECFBD","#4CBBA5","#86EAD4","#7DE0CB","#027864","#16433C"],"orange":["#FEFCFB","#FFF7ED","#FFEFD6","#FFDFB5","#FFD19A","#FFC182","#F5AE73","#EC9455","#F76B15","#EF5F00","#CC4E00","#582D1D"],"pink":["#FFFCFE","#FEF7FB","#FEE9F5","#FBDCEF","#F6CEE7","#EFBFDD","#E7ACD0","#DD93C2","#D6409F","#CF3897","#C2298A","#651249"],"plum":["#FEFCFF","#FDF7FD","#FBEBFB","#F7DEF8","#F2D1F3","#E9C2EC","#DEADE3","#CF91D8","#AB4ABA","#A144AF","#953EA3","#53195D"],"purple":["#FEFCFE","#FBF7FE","#F7EDFE","#F2E2FC","#EAD5F9","#E0C4F4","#D1AFEC","#BE93E4","#8E4EC6","#8347B9","#8145B5","#402060"],"red":["#FFFCFC","#FFF7F7","#FEEBEC","#FFDBDC","#FFCDCE","#FDBDBE","#F4A9AA","#EB8E90","#E5484D","#DC3E42","#CE2C31","#641723"],"ruby":["#FFFCFD","#FFF7F8","#FEEAED","#FFDCE1","#FFCED6","#F8BFC8","#EFACB8","#E592A3","#E54666","#DC3B5D","#CA244D","#64172B"],"sky":["#F9FEFF","#F1FAFD","#E1F6FD","#D1F0FA","#BEE7F5","#A9DAED","#8DCAE3","#60B3D7","#7CE2FE","#74DAF8","#00749E","#1D3E56"],"teal":["#FAFEFD","#F3FBF9","#E0F8F3","#CCF3EA","#B8EAE0","#A1DED2","#83CDC1","#53B9AB","#12A594","#0D9B8A","#008573","#0D3D38"],"tomato":["#FFFCFC","#FFF8F7","#FEEBE7","#FFDCD3","#FFCDC2","#FDBDAF","#F5A898","#EC8E7B","#E54D2E","#DD4425","#D13415","#5C271F"],"violet":["#FDFCFE","#FAF8FF","#F4F0FE","#EBE4FF","#E1D9FF","#D4CAFE","#C2B5F5","#AA99EC","#6E56CF","#654DC4","#6550B9","#2F265F"],"yellow":["#FDFDF9","#FEFCE9","#FFFAB8","#FFF394","#FFE770","#F3D768","#E4C767","#D5AE39","#FFE629","#FFDC00","#9E6C00","#473B1F"]},"neutrals":{"gray":["#FCFCFC","#F9F9F9","#F0F0F0","#E8E8E8","#E0E0E0","#D9D9D9","#CECECE","#BBBBBB","#8D8D8D","#838383","#646464","#202020"],"mauve":["#FDFCFD","#FAF9FB","#F2EFF3","#EAE7EC","#E3DFE6","#DBD8E0","#D0CDD7","#BCBAC7","#8E8C99","#84828E","#65636D","#211F26"],"olive":["#FCFDFC","#F8FAF8","#EFF1EF","#E7E9E7","#DFE2DF","#D7DAD7","#CCCFCC","#B9BCB8","#898E87","#7F847D","#60655F","#1D211C"],"sage":["#FBFDFC","#F7F9F8","#EEF1F0","#E6E9E8","#DFE2E0","#D7DAD9","#CBCFCD","#B8BCBA","#868E8B","#7C8481","#5F6563","#1A211E"],"sand":["#FDFDFC","#F9F9F8","#F1F0EF","#E9E8E6","#E2E1DE","#DAD9D6","#CFCECA","#BCBBB5","#8D8D86","#82827C","#63635E","#21201C"],"slate":["#FCFCFD","#F9F9FB","#F0F0F3","#E8E8EC","#E0E1E6","#D9D9E0","#CDCED6","#B9BBC6","#8B8D98","#80838D","#60646C","#1C2024"]},"neutral":"gray","note":"Radix ships separate dark scales and P3 variants; this entry uses the sRGB light scales.","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"11","dark":null,"basis":"Radix: step 11 is low-contrast text; dark mode uses separate dark scales"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"carbon","name":"IBM Carbon","version":"11.59.0","license":"Apache-2.0","source":"@carbon/colors","steps":["10","20","30","40","50","60","70","80","90","100"],"ramps":{"red":["#FFF1F1","#FFD7D9","#FFB3B8","#FF8389","#FA4D56","#DA1E28","#A2191F","#750E13","#520408","#2D0709"],"magenta":["#FFF0F7","#FFD6E8","#FFAFD2","#FF7EB6","#EE5396","#D02670","#9F1853","#740937","#510224","#2A0A18"],"purple":["#F6F2FF","#E8DAFF","#D4BBFF","#BE95FF","#A56EFF","#8A3FFC","#6929C4","#491D8B","#31135E","#1C0F30"],"blue":["#EDF5FF","#D0E2FF","#A6C8FF","#78A9FF","#4589FF","#0F62FE","#0043CE","#002D9C","#001D6C","#001141"],"cyan":["#E5F6FF","#BAE6FF","#82CFFF","#33B1FF","#1192E8","#0072C3","#00539A","#003A6D","#012749","#061727"],"teal":["#D9FBFB","#9EF0F0","#3DDBD9","#08BDBA","#009D9A","#007D79","#005D5D","#004144","#022B30","#081A1C"],"green":["#DEFBE6","#A7F0BA","#6FDC8C","#42BE65","#24A148","#198038","#0E6027","#044317","#022D0D","#071908"],"yellow":["#FCF4D6","#FDDC69","#F1C21B","#D2A106","#B28600","#8E6A00","#684E00","#483700","#302400","#1C1500"],"orange":["#FFF2E8","#FFD9BE","#FFB784","#FF832B","#EB6200","#BA4E00","#8A3800","#5E2900","#3E1A00","#231000"]},"neutrals":{"gray":["#F4F4F4","#E0E0E0","#C6C6C6","#A8A8A8","#8D8D8D","#6F6F6F","#525252","#393939","#262626","#161616"],"coolGray":["#F2F4F8","#DDE1E6","#C1C7CD","#A2A9B0","#878D96","#697077","#4D5358","#343A3F","#21272A","#121619"],"warmGray":["#F7F3F2","#E5E0DF","#CAC5C4","#ADA8A8","#8F8B8B","#726E6E","#565151","#3C3838","#272525","#171414"]},"neutral":"gray","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"60","dark":"40","basis":"text-error: red60 (white theme) / red40 (g100)"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}},{"id":"primer","name":"GitHub Primer","version":"11.10.0","license":"MIT","source":"@primer/primitives base/color/light","steps":["0","1","2","3","4","5","6","7","8","9"],"ramps":{"red":["#FFEBE9","#FFCECB","#FFABA8","#FF8182","#FA4549","#CF222E","#A40E26","#82071E","#660018","#4C0014"],"coral":["#FFF0EB","#FFD6CC","#FFB4A1","#FD8C73","#EC6547","#C4432B","#9E2F1C","#801F0F","#691105","#510901"],"orange":["#FFF1E5","#FFD8B5","#FFB77C","#FB8F44","#E16F24","#BC4C00","#953800","#762C00","#5C2200","#471700"],"yellow":["#FFF8C5","#FAE17D","#EAC54F","#D4A72C","#BF8700","#9A6700","#7D4E00","#633C01","#4D2D00","#3B2300"],"green":["#DAFBE1","#ACEEBB","#6FDD8B","#4AC26B","#2DA44E","#1A7F37","#116329","#044F1E","#003D16","#002D11"],"blue":["#DDF4FF","#B6E3FF","#80CCFF","#54AEFF","#218BFF","#0969DA","#0550AE","#033D8B","#0A3069","#002155"],"purple":["#FBEFFF","#ECD8FF","#D8B9FF","#C297FF","#A475F9","#8250DF","#6639BA","#512A97","#3E1F79","#2E1461"],"pink":["#FFEFF7","#FFD3EB","#FFADDA","#FF80C8","#E85AAD","#BF3989","#99286E","#772057","#611347","#4D0336"]},"neutrals":{"neutral":["#FFFFFF","#F6F8FA","#EFF2F5","#E6EAEF","#E0E6EB","#DAE0E7","#D1D9E0","#C8D1DA","#818B98","#59636E","#454C54","#393F46","#25292E","#1F2328"]},"neutralSteps":{"neutral":["0","1","2","3","4","5","6","7","8","9","10","11","12","13"]},"neutral":"neutral","poles":{"light":"#FFFFFF","dark":"#000000"},"text":{"light":"5","dark":null,"basis":"fg.danger \u2192 red.5 (light); dark mode uses separate dark scales"},"gamut":"srgb","poleNames":{"light":"white","dark":"black"}}]</script>
 <script>
 var Engine = (function () {
@@ -1015,13 +1053,172 @@ var Engine = (function () {
 
 </script>
 <script>
+var Importer = (function () {
+  var COLOR_RE = /(#[0-9a-fA-F]{3,8}\b|(?:rgba?|hsla?|oklch|oklab|color)\([^)]*\))/;
+  var NEUTRAL_NAME = /(^|[-_ ])(gr[ae]y|neutral|slate|zinc|stone|sand|mauve|sage|olive|base|mist|taupe|cool-?gr[ae]y|warm-?gr[ae]y|ink|paper)([-_ ]|$)/i;
+
+  function tryColor(v) {
+    if (typeof v !== 'string') return null;
+    var m = v.match(COLOR_RE); if (!m) return null;
+    try { Engine.parse(m[1]); return { raw: m[1].trim(), alpha: Engine.alphaOf(m[1]) }; } catch (e) { return null; }
+  }
+  // split "red-500", "red500", "Red_500", "oc-red-5" into ramp + step
+  function splitName(n) {
+    var m = String(n).match(/^(.*?)[-_. ]?(\d+(?:\.\d+)?)$/);
+    return m && m[1] ? { ramp: m[1].replace(/[-_. ]+$/, ''), step: m[2] } : null;
+  }
+
+  // ---- collectors: each returns a list of { ramp, step, raw, alpha } ----
+  function fromJSON(obj) {
+    var out = [];
+    function walk(o, path) {
+      if (o == null) return;
+      if (typeof o === 'string') {
+        var c = tryColor(o); if (!c) return;
+        var last = path[path.length - 1], parent = path.slice(0, -1);
+        if (/^\d+(\.\d+)?$/.test(String(last)) && parent.length) out.push({ ramp: parent.join('-'), step: String(last), raw: c.raw, alpha: c.alpha });
+        else { var sp = splitName(last); if (sp) out.push({ ramp: parent.concat([sp.ramp]).join('-'), step: sp.step, raw: c.raw, alpha: c.alpha }); }
+        return;
+      }
+      if (Array.isArray(o)) { o.forEach(function (v, i) { walk(typeof v === 'object' && v && ('$value' in v || 'value' in v) ? (v.$value || v.value) : v, path.concat([String(i)])); }); return; }
+      if (typeof o === 'object') {
+        if ('$value' in o || ('value' in o && typeof o.value === 'string' && Object.keys(o).length <= 6)) { walk(o.$value !== undefined ? o.$value : o.value, path); return; }
+        Object.keys(o).forEach(function (k) { if (k[0] === '$') return; walk(o[k], path.concat([k])); });
+      }
+    }
+    walk(obj, []);
+    return out;
+  }
+  function fromVars(text) {
+    var out = [], re = /(?:--|\$|@)([A-Za-z][\w-]*?)[-_]?(\d+(?:\.\d+)?)\s*:\s*([^;\n]+)/g, m;
+    while ((m = re.exec(text))) { var c = tryColor(m[3]); if (c) out.push({ ramp: m[1].replace(/[-_]+$/, ''), step: m[2], raw: c.raw, alpha: c.alpha }); }
+    return out;
+  }
+  // SCSS maps: $name: ("0": #fff, "1": #eee, …) or ($key: value) pairs
+  function fromMaps(text) {
+    var out = [], re = /\$([A-Za-z][\w-]*)\s*:\s*\(([^)]*(?:\([^)]*\)[^)]*)*)\)/g, m;
+    while ((m = re.exec(text))) {
+      var ramp = m[1].replace(/[-_](list|map|palette|scale|colou?rs?)$/i, ''), body = m[2], er = /["']?([\w.-]+)["']?\s*:\s*((?:#[0-9a-fA-F]{3,8}\b)|(?:(?:rgba?|hsla?|oklch|oklab|color)\([^)]*\)))/g, e;
+      while ((e = er.exec(body))) { var c = tryColor(e[2]); if (c) out.push({ ramp: ramp, step: e[1], raw: c.raw, alpha: c.alpha }); }
+    }
+    return out;
+  }
+  function fromLines(text) {
+    var out = [];
+    text.split(/\n/).forEach(function (line) {
+      var m = line.match(/^\s*["']?([A-Za-z][\w -]*?)["']?\s*[:=]\s*(.+)$/); if (!m) return;
+      var vals = (m[2].match(new RegExp(COLOR_RE.source, 'g')) || []);
+      vals.forEach(function (v, i) { var c = tryColor(v); if (c) out.push({ ramp: m[1].trim(), step: String(i + 1), raw: c.raw, alpha: c.alpha }); });
+    });
+    return out;
+  }
+
+  function commonPrefix(names) {
+    if (names.length < 2) return '';
+    var parts = names.map(function (n) { return n.split('-'); }), pre = [];
+    for (var i = 0; ; i++) { var t = parts[0][i]; if (t === undefined || !parts.every(function (p) { return p[i] === t && p.length > i + 1; })) break; pre.push(t); }
+    return pre.length ? pre.join('-') + '-' : '';
+  }
+
+  function analyse(text, opts) {
+    opts = opts || {};
+    var src = String(text || '').trim(), entries = [], format = '';
+    if (!src) return { ok: false, error: 'Paste a palette to begin.' };
+    var json = null; try { json = JSON.parse(src); } catch (e) {}
+    if (json && typeof json === 'object') { entries = fromJSON(json); format = 'JSON'; }
+    if (!entries.length) { entries = fromVars(src); format = 'CSS/SCSS/LESS variables'; }
+    if (!entries.length) { entries = fromMaps(src); format = 'SCSS maps'; }
+    if (!entries.length) { entries = fromLines(src); format = 'one ramp per line'; }
+    if (!entries.length) return { ok: false, error: 'No colors found. Use CSS variables like --red-500: #e11d48; JSON like {"red": {"500": "#e11d48"}}; or lines like red: #fee #fcc #f88 #e44.' };
+    var notes = [];
+    var translucent = entries.filter(function (e) { return e.alpha < 0.999; }).length;
+    entries = entries.filter(function (e) { return e.alpha >= 0.999; });
+    if (translucent) notes.push(translucent + ' translucent color' + (translucent > 1 ? 's' : '') + ' skipped');
+    if (!entries.length) return { ok: false, error: 'Every color found is translucent (alpha below 1). Import the solid scales instead, for example the non-alpha files.' };
+    // group, strip a shared prefix (color-, oc-, palette-)
+    var pre = commonPrefix(Array.from(new Set(entries.map(function (e) { return e.ramp.toLowerCase(); }))));
+    var groups = {}, order = [], redefined = 0;
+    entries.forEach(function (e) {
+      var name = e.ramp.toLowerCase().replace(pre, '').replace(/^(colou?rs?|palette|base|tokens?)[-_.]/, '') || e.ramp;
+      if (!groups[name]) { groups[name] = { name: name, steps: {}, keys: [] }; order.push(name); }
+      if (!(e.step in groups[name].steps)) groups[name].keys.push(e.step); else redefined++;
+      groups[name].steps[e.step] = e.raw;
+    });
+    if (redefined) notes.push(redefined + ' color' + (redefined > 1 ? 's were' : ' was') + ' defined more than once (for example a P3 block after the sRGB one); the last definition was used');
+    var ramps = order.map(function (n) { return groups[n]; }).filter(function (g) { return g.keys.length >= 3; });
+    var short = order.length - ramps.length; if (short) notes.push(short + ' group' + (short > 1 ? 's' : '') + ' with fewer than 3 steps skipped');
+    if (!ramps.length) return { ok: false, error: 'Found colors, but no ramp has 3 or more steps.' };
+    ramps.forEach(function (g) {
+      var numeric = g.keys.every(function (k) { return /^\d+(\.\d+)?$/.test(k); });
+      if (numeric) g.keys.sort(function (a, b) { return parseFloat(a) - parseFloat(b); });
+      g.labs = g.keys.map(function (k) { return Engine.parse(g.steps[k]); });
+      g.meanC = g.labs.reduce(function (s, p) { return s + Math.hypot(p[1], p[2]); }, 0) / g.labs.length;
+      g.maxC = Math.max.apply(null, g.labs.map(function (p) { return Math.hypot(p[1], p[2]); }));
+    });
+    // light → dark: flip if most ramps start dark
+    var darkFirst = ramps.filter(function (g) { return g.labs[0][0] < g.labs[g.labs.length - 1][0]; }).length;
+    var flip = darkFirst > ramps.length / 2;
+    if (flip) ramps.forEach(function (g) { g.keys.reverse(); g.labs.reverse(); });
+    // neutrals: low chroma, or a neutral-sounding name with modest chroma
+    ramps.forEach(function (g) { g.neutral = (g.meanC < 0.02 && g.maxC < 0.045) || (NEUTRAL_NAME.test(g.name) && g.meanC < 0.05); });
+    var chrom = ramps.filter(function (g) { return !g.neutral; }), neus = ramps.filter(function (g) { return g.neutral; });
+    // one shared step scale for chromatic ramps: the most common
+    var sig = {}; chrom.forEach(function (g) { var k = g.keys.join('|'); sig[k] = (sig[k] || 0) + 1; });
+    var best = Object.keys(sig).sort(function (a, b) { return sig[b] - sig[a]; })[0];
+    if (!best) return { ok: false, error: 'Only neutral ramps found; at least four hued ramps are needed.' };
+    var steps = best.split('|'), odd = chrom.filter(function (g) { return g.keys.join('|') !== best; });
+    chrom = chrom.filter(function (g) { return g.keys.join('|') === best; });
+    if (odd.length) notes.push('skipped ' + odd.map(function (g) { return g.name; }).join(', ') + ' (different steps from the rest)');
+    if (chrom.length < 4) return { ok: false, error: 'Found ' + chrom.length + ' hued ramp' + (chrom.length === 1 ? '' : 's') + ' sharing one step scale; at least 4 are needed to build a surface.' };
+    var neutrals = {}, neutralSteps = {};
+    neus.forEach(function (g) { neutrals[g.name] = g.keys.map(function (k) { return g.steps[k]; }); neutralSteps[g.name] = g.keys.slice(); });
+    var neutral;
+    if (neus.length) neutral = neus.slice().sort(function (a, b) { return a.meanC - b.meanC; })[0].name;
+    else {
+      // no neutral supplied: a pure grey at each step's median lightness
+      neutral = 'pure gray';
+      neutrals[neutral] = steps.map(function (s, k) { var Ls = chrom.map(function (g) { return g.labs[k][0]; }).sort(function (a, b) { return a - b; }); return 'oklch(' + (Ls[Math.floor(Ls.length / 2)] * 100).toFixed(1) + '% 0 none)'; });
+      neutralSteps[neutral] = steps.slice();
+      notes.push('no neutral ramp found, so a pure gray axis is used');
+    }
+    var outSrgb = 0;
+    chrom.forEach(function (g) { g.labs.forEach(function (p) { if (!Engine.inG(p[0], p[1], p[2], 'srgb')) outSrgb++; }); });
+    var name = (opts.name || 'My palette').trim().slice(0, 60) || 'My palette';
+    var pal = {
+      id: 'user-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36),
+      name: name, version: 'imported', license: '—', source: 'Imported ' + new Date().toISOString().slice(0, 10) + ' · ' + format,
+      steps: steps, ramps: {}, neutrals: neutrals, neutralSteps: neutralSteps, neutral: neutral,
+      poles: { light: '#FFFFFF', dark: '#000000' }, poleNames: { light: 'white', dark: 'black' },
+      text: { light: opts.textLight || null, dark: opts.textDark || null, basis: 'set on import' },
+      gamut: outSrgb ? 'p3' : 'srgb', user: true
+    };
+    chrom.forEach(function (g) { pal.ramps[g.name] = g.keys.map(function (k) { return g.steps[k]; }); });
+    if (flip) notes.push('steps listed dark → light, reordered');
+    if (outSrgb) notes.push(outSrgb + ' color' + (outSrgb > 1 ? 's' : '') + ' outside sRGB, so P3 is the default gamut');
+    // must build and loft
+    var M;
+    try { M = Engine.build(pal, neutral, pal.gamut); } catch (e) { return { ok: false, error: 'These ramps could not be built into a surface (' + e.message + ').' }; }
+    if (M.loft.length < 3) return { ok: false, error: 'Too many ramps overlap in hue: only ' + M.loft.length + ' could be lofted.' };
+    return { ok: true, pal: pal, format: format, notes: notes, nRamps: chrom.length, nSteps: steps.length, neutrals: Object.keys(neutrals), M: M };
+  }
+  return { analyse: analyse };
+})();
+
+</script>
+<script>
 // Ramp from one color: one or two seed colors → a ramp shaped like a reference palette, with a calibrated error estimate.
 // Uses Engine (src/engine.js) unchanged: build(), seedMap(), genAnchors(), looOne()/summarise(), calAt().
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
   var root = document.documentElement;
-  var PALS = JSON.parse($('pals').textContent);
+  var BUILTIN = JSON.parse($('pals').textContent), PALS = BUILTIN.slice();
+  // imported palettes: same key as Palette topology, so on one site both tools see the same list
+  var USER_KEY = 'pt.user';
+  function validUser(p) { return p && typeof p.id === 'string' && p.ramps && Array.isArray(p.steps) && p.neutrals && p.neutral && p.poles; }
+  function loadUser() { try { var u = JSON.parse(localStorage.getItem(USER_KEY) || '[]'); return Array.isArray(u) ? u.filter(validUser) : []; } catch (e) { return []; } }
+  function saveUser() { try { localStorage.setItem(USER_KEY, JSON.stringify(PALS.filter(function (p) { return p.user; }))); } catch (e) {} }
+  PALS = BUILTIN.concat(loadUser());
   var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
   var EXAMPLE = '#9D58BA';
   var st = { c1: EXAMPLE, c2: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true };
@@ -1195,8 +1392,14 @@ var Engine = (function () {
   }
   function renderExport(o) { $('code').textContent = exportText(o, st.fmt); }
 
+  var removeArmed = false, removeTimer = 0;
+  function renderPalMeta() {
+    var p = palById(st.pal), el = $('palmeta');
+    if (!p.user) { el.textContent = p.name + ' ' + p.version + ' \u00b7 ' + p.license; return; }
+    el.innerHTML = esc((p.source || 'Imported').replace(/^Imported /, 'Imported ')) + ' \u00b7 ' + Object.keys(p.ramps).length + ' ramps \u00b7 <button class="linkbtn" type="button" id="palrm">' + (removeArmed ? 'Select again to remove it' : 'Remove') + '</button>';
+  }
   function renderControls() {
-    $('pal').value = st.pal;
+    $('pal').value = st.pal; renderPalMeta();
     $('mode').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === st.mode ? 'true' : 'false'); });
     $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'Your color goes into the ramp unchanged.';
     $('c1tag').hidden = !st.example;
@@ -1238,12 +1441,19 @@ var Engine = (function () {
         st.example = s.example !== false && st.c1 === EXAMPLE;
       }
     } catch (e) {}
-    var m = /^#c-([0-9a-f]{6})(?:-([0-9a-f]{6}))?\.([a-z0-9]+)\.(through|fit)$/i.exec(location.hash || '');
+    var m = /^#c-([0-9a-f]{6})(?:-([0-9a-f]{6}))?\.([a-z0-9-]+)\.(through|fit)$/i.exec(location.hash || '');
     if (m && palById(m[3])) { st.c1 = '#' + m[1].toUpperCase(); st.c2 = m[2] ? '#' + m[2].toUpperCase() : null; st.pal = m[3]; st.mode = m[4]; st.example = false; }
   }
 
   // ---------- controls ----------
-  $('pal').innerHTML = PALS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.name) + '</option>'; }).join('');
+  function fillPalSelect() {
+    var opt = function (p) { return '<option value="' + esc(p.id) + '">' + esc(p.name) + '</option>'; }, mine = PALS.filter(function (p) { return p.user; });
+    $('pal').innerHTML = '<optgroup label="Design systems">' + BUILTIN.map(opt).join('') + '</optgroup>' +
+      (mine.length ? '<optgroup label="Your palettes">' + mine.map(opt).join('') + '</optgroup>' : '') +
+      '<optgroup label="Your own"><option value="__import">Import your palette\u2026</option></optgroup>';
+    $('pal').value = st.pal;
+  }
+  fillPalSelect();
   function bindColor(k) {
     var txt = $(k), pick = $(k + 'pick'), err = $(k + 'err'), timer = null;
     function apply(show) {
@@ -1264,7 +1474,67 @@ var Engine = (function () {
     st.c2 = hexOf(t); $('c2').value = st.c2; render(); $('c2').focus(); $('c2').select();
   });
   $('c2x').addEventListener('click', function () { st.c2 = null; $('c2err').hidden = true; render(); $('c2add').focus(); });
-  $('pal').addEventListener('change', function () { st.pal = $('pal').value; render(); });
+  $('pal').addEventListener('change', function () {
+    if ($('pal').value === '__import') { $('pal').value = st.pal; openImport(); return; }
+    st.pal = $('pal').value; removeArmed = false; render();
+  });
+  $('palmeta').addEventListener('click', function (e) {
+    if (!e.target.closest('#palrm')) return;
+    if (!removeArmed) { removeArmed = true; renderPalMeta(); clearTimeout(removeTimer); removeTimer = setTimeout(function () { removeArmed = false; renderPalMeta(); }, 4000); return; }
+    var id = st.pal; removeArmed = false; PALS = PALS.filter(function (p) { return p.id !== id; }); delete models[id]; delete loo[id];
+    saveUser(); st.pal = 'tailwind4'; fillPalSelect(); render(); $('pal').focus();
+  });
+  // another tab or Palette topology on the same site changed the imported list
+  window.addEventListener('storage', function (e) {
+    if (e.key !== USER_KEY) return;
+    PALS = BUILTIN.concat(loadUser()); if (!palById(st.pal)) st.pal = 'tailwind4'; fillPalSelect(); render();
+  });
+
+  // ---------- import ----------
+  var impLast = null, impTimer = 0, dlg = $('imp');
+  function openImport() { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } $('impt').focus(); previewImport(); }
+  function closeImport() { try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } }
+  function previewImport() {
+    var text = $('impt').value, out = $('impp'), ok = $('impok');
+    impLast = null; ok.disabled = true;
+    if (!text.trim()) { out.innerHTML = '<p class="impmsg hint">Your palette needs at least four color ramps that share the same steps. A gray ramp helps; without one, a pure gray is used.</p>'; return; }
+    if (text.length > 200000) { out.innerHTML = '<p class="impmsg bad">That\u2019s more than 200,000 characters. Paste just the color part of the file.</p>'; return; }
+    var r; try { r = Importer.analyse(text, { name: $('impn').value }); } catch (e) { r = { ok: false, error: 'This couldn\u2019t be read as a palette (' + e.message + ').' }; }
+    if (!r.ok) { out.innerHTML = '<p class="impmsg bad">' + esc(r.error) + '</p>'; return; }
+    impLast = r; ok.disabled = false;
+    var M = r.M, g = r.pal.gamut, css = function (raw) { var q = Engine.parse(raw); return Engine.cssColor(q[0], q[1], q[2], g); };
+    var rows = Object.keys(r.pal.ramps).slice(0, 40).map(function (n) { return '<span class="n" title="' + esc(n) + '">' + esc(n) + '</span><span class="s">' + r.pal.ramps[n].map(function (c) { return '<i style="background:' + css(c) + '"></i>'; }).join('') + '</span>'; });
+    rows.push('<span class="n gray" title="gray">' + esc(r.pal.neutral) + '</span><span class="s">' + r.pal.neutrals[r.pal.neutral].map(function (c) { return '<i style="background:' + css(c) + '"></i>'; }).join('') + '</span>');
+    var wide = M.gaps.reduce(function (x, y) { return x.deg > y.deg ? x : y; }), warn = [];
+    if (wide.deg > 90) warn.push('The widest gap in hue is ' + Math.round(wide.deg) + '\u00b0, between ' + esc(wide.a) + ' and ' + esc(wide.b) + '. Colors in that range will be rough guesses.');
+    if (M.interior.length) warn.push(M.interior.map(function (x) { return esc(x.name || x); }).join(', ') + (M.interior.length > 1 ? ' overlap' : ' overlaps') + ' other ramps in hue, so ' + (M.interior.length > 1 ? 'they' : 'it') + ' won\u2019t shape new ramps.');
+    out.innerHTML = '<p class="impmsg">Found <b>' + r.nRamps + ' ramps \u00d7 ' + r.nSteps + ' steps</b> (' + esc(r.format) + '), gray: <b>' + esc(r.pal.neutral) + '</b>, gamut ' + (g === 'p3' ? 'Display P3' : 'sRGB') + '.' +
+      (r.notes.length ? ' <span class="hint">' + esc(cap1(r.notes.join('; '))) + '.</span>' : '') + '</p>' +
+      (warn.length ? '<p class="impmsg hint">' + warn.join(' ') + '</p>' : '') + '<div class="ipgrid">' + rows.join('') + '</div>';
+  }
+  function schedulePreview() { clearTimeout(impTimer); impTimer = setTimeout(previewImport, 200); }
+  $('impt').addEventListener('input', schedulePreview);
+  $('impn').addEventListener('input', schedulePreview);
+  $('impf').addEventListener('change', function () {
+    var f = this.files && this.files[0]; if (!f) return;
+    if (f.size > 2e6) { $('impp').innerHTML = '<p class="impmsg bad">That file is over 2 MB. Upload just the file with your color tokens.</p>'; return; }
+    var rd = new FileReader();
+    rd.onload = function () { $('impt').value = String(rd.result || ''); if ($('impn').value === 'My palette') $('impn').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_.]+/g, ' ').slice(0, 60); previewImport(); };
+    rd.onerror = function () { $('impp').innerHTML = '<p class="impmsg bad">That file couldn\u2019t be read. Try pasting its contents instead.</p>'; };
+    rd.readAsText(f); this.value = '';
+  });
+  $('impex').addEventListener('click', function () {
+    var oc = palById('opencolor'), lines = [':root {'];
+    Object.keys(oc.ramps).forEach(function (n) { oc.ramps[n].forEach(function (c, k) { lines.push('  --oc-' + n + '-' + k + ': ' + c.toLowerCase() + ';'); }); });
+    oc.neutrals.gray.forEach(function (c, k) { lines.push('  --oc-gray-' + k + ': ' + c.toLowerCase() + ';'); });
+    lines.push('}'); $('impt').value = lines.join('\n'); $('impn').value = 'Open Color (example)'; previewImport();
+  });
+  $('impok').addEventListener('click', function () {
+    if (!impLast || !impLast.ok) return;
+    var p = impLast.pal; PALS.push(p); saveUser(); st.pal = p.id; fillPalSelect(); closeImport();
+    $('impt').value = ''; $('impn').value = 'My palette'; impLast = null; render();
+  });
+  $('impform').addEventListener('submit', function () { /* the close button submits method=dialog */ });
   $('mode').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; st.mode = b.dataset.v; render(); });
   $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); save(); } });
   $('tabs').addEventListener('click', function (e) {
