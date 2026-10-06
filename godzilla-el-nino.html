@@ -445,6 +445,38 @@ footer p {
     .plot-fig, .plate-wrap img { transition: opacity .45s ease; }
     .plot-fig:empty { opacity: 0; }
   }
+
+  /* ---- more experiments: teaser cards linking to other pages on the site ---- */
+  .more { padding: 10px 0 0; }
+  .more .eyebrow { margin-top: 24px; max-width: none; }
+  .teasers {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 34px 28px; margin-top: 18px;
+  }
+  .teaser { display: block; color: inherit; text-decoration: none; }
+  .teaser figure { margin: 0; }
+  .teaser img {
+    display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover;
+    background: var(--paper-2); box-shadow: 0 0 0 1px var(--hair);
+    transition: opacity 0.2s ease-out;
+  }
+  .teaser figcaption { margin-top: 12px; }
+  .teaser .t {
+    display: block; font-family: var(--font-headline); font-weight: 700;
+    font-size: 1.12em; line-height: 1.25;
+    text-decoration: underline; text-decoration-color: var(--hair);
+    text-decoration-thickness: 1px; text-underline-offset: 3px;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .teaser .b {
+    display: block; margin-top: 6px; font-family: var(--font-graphic);
+    font-size: 14px; line-height: 1.5; color: var(--ink-soft);
+  }
+  .teaser:hover .t, .teaser:focus-visible .t { color: var(--accent); text-decoration-color: var(--accent); }
+  .teaser:hover img { opacity: 0.92; }
+  .teaser:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  @media (max-width: 640px) { .teasers { grid-template-columns: 1fr; } }
+  @media print { .more { display: none; } }
 </style>
 <script type="application/ld+json">
 {
@@ -650,6 +682,59 @@ footer p {
         <p>Godzilla is going to return, and return, and return&hellip; we won&rsquo;t be able to walk out of the theater.</p>
         <cite>Eliot Jacobson, The Climate Casino, July 8, 2026</cite>
       </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="more" aria-labelledby="more-heading">
+  <div class="wide">
+    <p class="eyebrow" id="more-heading">More experiments</p>
+    <div class="teasers">
+      <a class="teaser" href="luminet-tribute.html">
+        <figure>
+          <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
+          <figcaption>
+            <span class="t">A tribute to Luminet&rsquo;s first portrait of a black hole</span>
+            <span class="b">In 1978 Jean-Pierre Luminet computed the view of a black hole on an IBM 7040 and painted it by hand. His original equations, rebuilt in the browser.</span>
+          </figcaption>
+        </figure>
+      </a>
+      <a class="teaser" href="outline-echo.html#t=supersonic&amp;f=Inter&amp;sz=207&amp;ld=1&amp;tr=-92&amp;m=100&amp;al=center&amp;va=middle&amp;g=word&amp;n=26&amp;sp=16&amp;gp=3.5&amp;lw=2.75&amp;op=0.54&amp;fd=0.97&amp;dx=-1.5&amp;dy=0.05&amp;ga=176&amp;st=100F0F-0~942822-40~DA702C-72~ECCB60-100&amp;bg=1B3FB8&amp;tc=F3EFE4&amp;rc=496DD0&amp;bl=screen&amp;fm=16%3A9">
+        <figure>
+          <picture>
+            <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
+            <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+          </picture>
+          <figcaption>
+            <span class="t">Yves Outlines. Posters with type that ripples</span>
+            <span class="b">After Yves B&eacute;har&rsquo;s Design Manifestos: thin concentric outlines grow around any words, like rings from a stone dropped in water.</span>
+          </figcaption>
+        </figure>
+      </a>
+      <a class="teaser" href="color-intelligence.html">
+        <figure>
+          <picture>
+            <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
+            <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
+          </picture>
+          <figcaption>
+            <span class="t">Mapping the shape of a color palette</span>
+            <span class="b">Wrapping a palette&rsquo;s colors around a 3D surface reveals its hidden shape, then turns it into a picker that generates colors that fit the family.</span>
+          </figcaption>
+        </figure>
+      </a>
+      <a class="teaser" href="color-ramp.html">
+        <figure>
+          <picture>
+            <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
+            <img src="assets/color-ramp-teaser.png" alt="Tailwind's color ramps in a grid with a new purple ramp slotted in among them, beside the new ramp drawn large with the starting color circled" loading="lazy" width="1916" height="790" />
+          </picture>
+          <figcaption>
+            <span class="t">Ramp from one color</span>
+            <span class="b">Start with one brand color and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki or your own palette.</span>
+          </figcaption>
+        </figure>
+      </a>
     </div>
   </div>
 </section>
