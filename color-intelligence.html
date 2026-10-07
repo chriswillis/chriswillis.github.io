@@ -1749,23 +1749,32 @@ var Importer = (function () {
   // either side, coverage eases up to the full 42%: over 0.04 L above the lightest steps, and over up to 0.1 L
   // below the darkest (always full before the dark pole), so neither band starts with a hard line. Ink is the page background.
   var BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(function (v) { return (v + 0.5) / 16; });
+  // Written as pixels, not as one path of rects: the path ran to 70–180k subpaths, which Safari rasterizes in
+  // seconds. Skipped when nothing it depends on has changed, so switching tabs doesn't redraw it.
+  var stDrawn = {};
   function drawStipple() {
     var rc = stc.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
-    var W = Math.max(1, Math.round(rc.width * dpr)), H = Math.max(1, Math.round(rc.height * dpr));
+    var W = Math.max(1, Math.round(rc.width * dpr)), H = Math.max(1, Math.round(rc.height * dpr)), bg = css('--bg');
+    if (stc.width === W && stc.height === H && stDrawn.st === ST && stDrawn.fog === P.fog && stDrawn.bg === bg) return;
+    stDrawn = { st: ST, fog: P.fog, bg: bg };
     if (stc.width !== W || stc.height !== H) { stc.width = W; stc.height = H; }
     var c = sctx; c.clearRect(0, 0, W, H);
     if (!ST || !P.fog) return;
     var w = ST.w, h = ST.h, cell = Math.max(1, Math.round(STIP.cell * dpr)), nx = Math.ceil(W / cell), ny = Math.ceil(H / cell);
-    c.fillStyle = css('--bg'); c.beginPath();
+    var img = c.createImageData(W, H), buf = new Uint32Array(img.data.buffer), ink = Engine.hexRgb(bg);
+    var px = ((255 << 24) | (ink[2] << 16) | (ink[1] << 8) | ink[0]) >>> 0;
     for (var cy = 0; cy < ny; cy++) {
-      var my = Math.min(h - 1, Math.floor((cy + 0.5) * cell / H * h)), row = (cy & 3) * 4;
+      var my = Math.min(h - 1, Math.floor((cy + 0.5) * cell / H * h)), row = (cy & 3) * 4, y0 = cy * cell, y1 = Math.min(H, y0 + cell);
       for (var cx = 0; cx < nx; cx++) {
         var mx = Math.min(w - 1, Math.floor((cx + 0.5) * cell / W * w));
         var t = Math.max(ST.ext[my * w + mx], ST.fog[mx]) * 0.42;
-        if (t > 0 && BAYER[row + (cx & 3)] < t) c.rect(cx * cell, cy * cell, cell, cell);
+        if (t > 0 && BAYER[row + (cx & 3)] < t) {
+          var x0 = cx * cell, x1 = Math.min(W, x0 + cell);
+          for (var yy = y0; yy < y1; yy++) buf.fill(px, yy * W + x0, yy * W + x1);
+        }
       }
     }
-    c.fill();
+    c.putImageData(img, 0, 0);
   }
   function drawOverlay() {
     var rc = ovc.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
@@ -2228,7 +2237,10 @@ var Importer = (function () {
         var c = M.axisAt(P.pt.L), az = Math.atan2(P.pt.b - c[1], P.pt.a - c[0]), rr = Math.hypot(SIDE.eye.x, SIDE.eye.y);
         camera = { eye: { x: rr * Math.cos(az), y: rr * Math.sin(az), z: SIDE.eye.z }, center: SIDE.center, up: SIDE.up }; P.moved = false;
       }
-      render(); Plotly.Plots.resize(plot);
+      render();
+      // react already sizes the plot to its panel; a second full redraw is only needed if that didn't happen
+      var fl = plot._fullLayout;
+      if (!fl || Math.abs(fl.width - plot.clientWidth) > 1 || Math.abs(fl.height - plot.clientHeight) > 1) Plotly.Plots.resize(plot);
     }
   }
   $('tab3d').addEventListener('click', function () { showTab(false); });
