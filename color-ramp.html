@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://cewillis.com/color-ramp.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="Ramp from one color">
-<meta property="og:description" content="One color in, a full ramp out, shaped like Tailwind, Radix, Flexoki or seven other systems, with an estimate of how close it is to hand-made.">
+<meta property="og:description" content="One color in, a full ramp out, shaped like Flexoki, Tailwind, Radix or nine others, with an estimate of how close it is to hand-made.">
 <meta property="og:image" content="https://cewillis.com/og-color-ramp.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -1221,7 +1221,7 @@ var Importer = (function () {
   PALS = BUILTIN.concat(loadUser());
   var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
   var EXAMPLE = '#9D58BA';
-  var st = { c1: EXAMPLE, c2: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true };
+  var st = { c1: EXAMPLE, c2: null, pal: 'flexoki', mode: 'through', name: 'brand', fmt: 'css', example: true };
   var models = {}, loo = {}, last = null;
 
   // ---------- small helpers ----------
@@ -1482,12 +1482,12 @@ var Importer = (function () {
     if (!e.target.closest('#palrm')) return;
     if (!removeArmed) { removeArmed = true; renderPalMeta(); clearTimeout(removeTimer); removeTimer = setTimeout(function () { removeArmed = false; renderPalMeta(); }, 4000); return; }
     var id = st.pal; removeArmed = false; PALS = PALS.filter(function (p) { return p.id !== id; }); delete models[id]; delete loo[id];
-    saveUser(); st.pal = 'tailwind4'; fillPalSelect(); render(); $('pal').focus();
+    saveUser(); st.pal = 'flexoki'; fillPalSelect(); render(); $('pal').focus();
   });
   // another tab or Palette topology on the same site changed the imported list
   window.addEventListener('storage', function (e) {
     if (e.key !== USER_KEY) return;
-    PALS = BUILTIN.concat(loadUser()); if (!palById(st.pal)) st.pal = 'tailwind4'; fillPalSelect(); render();
+    PALS = BUILTIN.concat(loadUser()); if (!palById(st.pal)) st.pal = 'flexoki'; fillPalSelect(); render();
   });
 
   // ---------- import ----------
