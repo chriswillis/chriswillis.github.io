@@ -446,6 +446,38 @@ footer p {
     .plot-fig:empty { opacity: 0; }
   }
 
+  /* ---- reading guide: three-step build, worked example, comparison ---- */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .compare { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .step .plot-fig, .cmp .plot-fig { padding: 10px 10px 6px; }
+  .step-head, .cmp-head {
+    font-family: var(--font-graphic); font-size: 13px; font-weight: 700;
+    color: var(--ink); margin: 0 0 8px; display: flex; align-items: baseline; gap: 8px;
+  }
+  .step-n {
+    flex: none; display: inline-grid; place-items: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--ink); color: var(--paper); font-size: 11px; line-height: 1;
+  }
+  .step-text, .cmp-yes, .cmp-no {
+    font-family: var(--font-graphic); font-size: 13px; line-height: 1.5;
+    color: var(--ink-soft); margin: 10px 2px 0;
+  }
+  .cmp-no { margin-top: 4px; }
+  .cmp-yes b, .cmp-no b { color: var(--ink); font-weight: 600; }
+  .cmp.is-pick .plot-fig { border-color: var(--ink); }
+  .cmp.is-pick .cmp-head::after {
+    content: "Lead chart"; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--paper); background: var(--ink); padding: 2px 6px;
+  }
+  ol.rules { margin: 0 0 1.1em; padding-left: 1.4em; max-width: 68ch; }
+  ol.rules li { margin: 0 0 0.7em; padding-left: 0.2em; }
+  ol.rules li::marker { font-family: var(--font-graphic); font-weight: 700; }
+  @media (max-width: 860px) {
+    .steps { grid-template-columns: 1fr; gap: 30px; }
+    .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; }
+  }
+
   /* ---- more experiments: teaser cards linking to other pages on the site ---- */
   .more { padding: 10px 0 0; }
   .more .eyebrow { margin-top: 24px; max-width: none; }
@@ -639,28 +671,112 @@ footer p {
   </div>
 </section>
 
-<section>
-  <div class="col">
+<section id="how-to-read">
+  <div class="wide">
     <p class="eyebrow">Warping the paper</p>
     <h2>How to read the lead chart</h2>
-    <p>Fil&rsquo;s chart at the top of the page puts these two views back together. The vertical axis is plain temperature in degrees. The curved gray lines are the standard-deviation grid: the smoothed 1991&ndash;2020 average, with curves at one, two, three and four standard deviations above and below it. Because the deviation is small in spring and large in winter, the grid pinches in May and flares in December. Everything else is the same as in the charts above.</p>
-    <div class="features">
-      <div>
-        <h3>The ochre line</h3>
-        <p>The 1991&ndash;2020 average for each day of the year, unsmoothed. Every other line is judged against it.</p>
+    <div class="col" style="margin-left:0; padding-left:0;">
+      <p>The chart at the top of the page is Fig.&nbsp;5 and Fig.&nbsp;8 drawn as one. Its vertical axis is a thermometer, in plain degrees. Its curved grid is the standard-deviation scale from Jacobson&rsquo;s chart, bent to fit on that thermometer. It takes three steps to build.</p>
+    </div>
+    <figure id="fig-steps">
+      <div class="steps">
+        <div class="step" id="step-1">
+          <p class="step-head"><span class="step-n">1</span>Start with Jacobson&rsquo;s paper</p>
+          <div class="plot-fig"></div>
+          <p class="step-text">Measured in standard deviations, the grid is straight. Each line marks the same rarity on every day of the year. The blue line is +3&sigma;.</p>
+        </div>
+        <div class="step" id="step-2">
+          <p class="step-head"><span class="step-n">2</span>Bend it onto the thermometer</p>
+          <div class="plot-fig"></div>
+          <p class="step-text">Convert each line back to degrees, day by day. In <span data-rd="min-month">May</span>, when the region is calm, one &sigma; is only <span data-rd="min-sd">0.54</span>&deg;C and the lines crowd together. In <span data-rd="max-month">December</span> it is <span data-rd="max-sd">1.18</span>&deg;C and they fan out.</p>
+        </div>
+        <div class="step" id="step-3">
+          <p class="step-head"><span class="step-n">3</span>Lay the readings on top</p>
+          <div class="plot-fig"></div>
+          <p class="step-text">Draw the actual temperatures. Every line crosses the same curves on the same dates as in step&nbsp;1. Only the paper has changed.</p>
+        </div>
       </div>
-      <div>
-        <h3>The curved grid</h3>
-        <p>Standard deviations, drawn in temperature space. The heavier curves are whole sigmas; the fainter ones are halves. A year that tracks a curve is equally unusual all year.</p>
+      <figcaption></figcaption>
+    </figure>
+
+    <div class="col" style="margin-left:0; padding-left:0; margin-top:34px">
+      <h3>Read the curve, not the gap</h3>
+      <p>On ordinary graph paper, the distance between two gridlines means the same thing everywhere. On this paper it doesn&rsquo;t, and that is the point. One degree above normal in <span data-rd="min-month">May</span> nearly reaches the +2&sigma; curve, at +<span data-rd="min-sig">1.8</span>&sigma;. One degree above normal in <span data-rd="max-month">December</span> gets only to +<span data-rd="max-sig">0.9</span>&sigma;. On the thermometer they are the same gap, but the <span data-rd="min-month">May</span> day is far stranger.</p>
+    </div>
+    <figure id="fig-probe" style="max-width:760px">
+      <div class="plot-fig"></div>
+      <figcaption></figcaption>
+    </figure>
+
+    <div class="col" style="margin-left:0; padding-left:0; margin-top:30px">
+      <p>That gives the chart three readings, one for each thing your eye does with a line.</p>
+      <ol class="rules">
+        <li><b>Height is temperature.</b> Read the left axis for degrees, as on any thermometer chart.</li>
+        <li><b>The curve a line sits on is how unusual it is.</b> Count the curves between the line and the ochre average. A line between the +2&sigma; and +3&sigma; curves is two to three typical swings above normal for that date.</li>
+        <li><b>Crossing curves means the departure is getting rarer.</b> A line that runs parallel to a curve is equally unusual day after day. A line that climbs across the curves is becoming more extreme, even when the thermometer barely moves. <span id="rd-spring">From May&nbsp;1 to June&nbsp;30, 2026, the water warmed only 0.4&deg;C, but its line climbed from 1.7&sigma; to 3.3&sigma;, because those are the months when the region normally holds still.</span></li>
+      </ol>
+
+      <h3>Everything else on the chart</h3>
+    </div>
+    <div class="col" style="margin-left:0; padding-left:0;">
+      <div class="features">
+        <div>
+          <h3>The ochre line</h3>
+          <p>The 1991&ndash;2020 average for each day of the year, unsmoothed. Every other line is judged against it.</p>
+        </div>
+        <div>
+          <h3>The curved grid</h3>
+          <p>Standard deviations, drawn in degrees. The heavier curves are whole sigmas; the fainter ones are halves.</p>
+        </div>
+        <div>
+          <h3>The gray strands</h3>
+          <p>Every year from 1982 to last year. The strongest past El Ni&ntilde;os, 1997 and 2015, are named where they peaked, both below the +3&sigma; curve.</p>
+        </div>
+        <div>
+          <h3>The red line and its dashed tail</h3>
+          <p>This year. The dashes are NOAA&rsquo;s preliminary values for the last two weeks, which can be revised slightly when the final analysis is posted.</p>
+        </div>
       </div>
-      <div>
-        <h3>The gray strands</h3>
-        <p>Every year from 1982 to last year. The strongest past El Ni&ntilde;os, 1997 and 2015, are named where they peaked, both inside the +3&sigma; curve.</p>
+    </div>
+
+    <div class="col" style="margin-left:0; padding-left:0; margin-top:34px">
+      <h3>Why bend the grid</h3>
+      <p>Each of the usual ways to chart this data answers one question well and drops another.</p>
+    </div>
+    <figure id="fig-compare">
+      <div class="compare">
+        <div class="cmp" id="cmp-temperature">
+          <p class="cmp-head">Temperature</p>
+          <div class="plot-fig"></div>
+          <p class="cmp-yes"><b>Shows</b> the real reading, near 30&deg;C, and the seasons.</p>
+          <p class="cmp-no"><b>Misses</b> whether that&rsquo;s unusual for the date.</p>
+        </div>
+        <div class="cmp" id="cmp-anomaly">
+          <p class="cmp-head">Anomaly</p>
+          <div class="plot-fig"></div>
+          <p class="cmp-yes"><b>Shows</b> degrees above normal, the number forecasters quote.</p>
+          <p class="cmp-no"><b>Misses</b> that a degree in <span data-rd="min-month">May</span> is far rarer than one in <span data-rd="max-month">December</span>.</p>
+        </div>
+        <div class="cmp" id="cmp-deviation">
+          <p class="cmp-head">Standard deviations</p>
+          <div class="plot-fig"></div>
+          <p class="cmp-yes"><b>Shows</b> how rare each day is, on a fair scale all year.</p>
+          <p class="cmp-no"><b>Misses</b> the thermometer. Nobody feels a unit of &sigma;.</p>
+        </div>
+        <div class="cmp is-pick" id="cmp-warped">
+          <p class="cmp-head">Warped grid</p>
+          <div class="plot-fig"></div>
+          <p class="cmp-yes"><b>Shows</b> both: degrees on the axis, rarity in the curves.</p>
+          <p class="cmp-no"><b>Costs</b> a minute of learning, which is what this section is for.</p>
+        </div>
       </div>
-      <div>
-        <h3>The red line and its dashed tail</h3>
-        <p>This year. The dashes are NOAA&rsquo;s preliminary values for the last two weeks, which can be revised slightly when the final analysis is posted.</p>
-      </div>
+      <figcaption></figcaption>
+    </figure>
+
+    <div class="col" style="margin-left:0; padding-left:0; margin-top:30px">
+      <p>The thermometer is worth keeping. Over the tropical Pacific, deep thunderstorms build where the sea surface is warmer than about 28&deg;C. When El Ni&ntilde;o spreads that warmth east, the rain moves with it, and that is how one box of ocean changes the weather on other continents. A chart in standard deviations can say the water is strange. Only the degrees say it is past the temperature where the atmosphere starts to respond. Degrees are also the unit that forecasts, news reports and readers already use.</p>
+      <p>Rarity is worth keeping too, because the region&rsquo;s normal variability more than doubles between late spring and midwinter. Without it, a warm <span data-rd="min-month">May</span> and a warm <span data-rd="max-month">December</span> look alike. You could show both charts side by side, as this page does further up, but then the reader has to match dates across two panels. Fil&rsquo;s version, after an idea from Toph Tucker, leaves the data alone and bends the paper, so one line carries both readings.</p>
+      <p class="note" style="font-size:0.86em; color:var(--ink-soft)">Two caveats. The grid is built from a 15-day smoothed average and standard deviation, so the curves don&rsquo;t wobble with the noise of a 30-year sample. Fig.&nbsp;8 uses the exact daily values, so a line can sit a hair off from where Fig.&nbsp;8 puts it. And standard deviations describe typical swings, not odds. The region&rsquo;s extremes have fatter tails than a bell curve, so read +3&sigma; as three typical swings above normal, not as a precise probability.</p>
     </div>
   </div>
 </section>
@@ -1697,9 +1813,182 @@ footer p {
     });
   }
 
+  /* ====================================================================
+   * Reading guide: how the warped grid is built, and why
+   * ==================================================================== */
+  var HILITE_K = 3;
+  function warpedGrid(D, opts) {
+    var t = colors().t, o = opts || {};
+    var idx = d3.range(DAYS);
+    var ks = (o.halves ? d3.range(-3.5, 4.51, 0.5) : d3.range(-3, 4.01, 1))
+      .filter(function (k) { return Math.abs(k) > 1e-9; });
+    return ks.map(function (k) {
+      var integer = Math.abs(k % 1) < 1e-9, hi = o.hilite && k === HILITE_K;
+      return Plot.line(idx, {
+        x: function (i) { return date(i); },
+        y: function (i) { return D.meansSmooth[i] + k * D.stdevSmooth[i]; },
+        stroke: hi ? t.series[0] : integer ? t.inkFaint : t.grid,
+        strokeWidth: hi ? 1.8 : integer ? 0.7 : 0.45, curve: 'basis', clip: true
+      });
+    });
+  }
+  /* σ labels at the right edge, only for curves that end inside the domain */
+  function gridLabels(D, domain, opts) {
+    var c = colors(), t = c.t, o = opts || {};
+    var i = DAYS - 1;
+    var rows = d3.range(-3, 4.01, 1).map(function (k) {
+      return { x: date(i), y: o.straight ? k : D.meansSmooth[i] + k * D.stdevSmooth[i], k: k };
+    }).filter(function (d) { return d.y >= domain[0] && d.y <= domain[1] && (d.k !== 0 || o.zero); });
+    return Plot.text(rows, {
+      x: 'x', y: 'y', dx: 6, textAnchor: 'start', lineAnchor: 'middle',
+      text: function (d) { return d.k === 0 ? 'avg' : (d.k > 0 ? '+' : '−') + Math.abs(d.k) + 'σ'; },
+      fill: function (d) { return d.k === 0 ? c.mean : (o.hilite && d.k === HILITE_K) ? t.series[0] : t.inkSoft; },
+      fontWeight: function (d) { return (d.k === 0 || (o.hilite && d.k === HILITE_K)) ? 700 : 500; },
+      stroke: t.panel, strokeWidth: 3, fontSize: o.fontSize || 10.5
+    });
+  }
+  /* calmest and most variable day of the smoothed σ; skip the year's ends, where the blur is one-sided */
+  function calmStormy(D) {
+    var inner = d3.range(15, DAYS - 15);
+    return [inner[d3.minIndex(inner, function (i) { return D.stdevSmooth[i]; })],
+            inner[d3.maxIndex(inner, function (i) { return D.stdevSmooth[i]; })]];
+  }
+  function nowLine(D, field, w) {
+    var c = colors();
+    return [
+      Plot.line(D.data, { filter: function (d) { return d.year === D.currentYear; },
+        x: function (d) { return date(d.day); }, y: field, z: 'name', stroke: c.current, strokeWidth: w || 1.8 }),
+      Plot.dot([D.latest], { x: function (d) { return date(d.day); }, y: field, r: 2.8, fill: c.current })
+    ];
+  }
+  function tempDomain(D) {
+    var lo = Math.floor(d3.min(D.data, function (d) { return d.temperature; })) - 0.5;
+    var hi = Math.ceil(d3.max(D.data, function (d) { return d.temperature; }) + 0.5);
+    return [lo, hi];
+  }
+  function deg(v) { return v + '°'; }
+
+  /* Fig. 9: three panels, straight σ grid -> bent grid -> readings on top */
+  function figStep(D, width, step) {
+    var c = colors(), t = c.t;
+    var h = Math.round(Math.max(210, Math.min(width * 0.82, 300)));
+    var base = { width: width, height: h, marginTop: 12, marginRight: 34, marginLeft: 30, marginBottom: 26, x: xAxis(true) };
+    if (step === 1) {
+      var dom = intDomain(D, 'deviation', 0.3).domain;
+      var ks = d3.range(Math.max(dom[0], -3), Math.min(dom[1], 4) + 0.01, 1).filter(function (k) { return k !== 0; });
+      return EGPlot.plot(Object.assign(base, {
+        y: { domain: dom, grid: false, label: null, ticks: [], tickSize: 0 },
+        marks: [
+          Plot.ruleY(ks, { stroke: function (k) { return k === HILITE_K ? t.series[0] : t.inkFaint; },
+            strokeWidth: function (k) { return k === HILITE_K ? 1.8 : 0.7; } }),
+          contextLines(D, 'deviation'),
+          Plot.ruleY([0], { stroke: c.mean, strokeWidth: 1.5 }),
+          nowLine(D, 'deviation'),
+          gridLabels(D, dom, { straight: true, hilite: true, zero: true })
+        ],
+        ariaLabel: 'Step 1: temperature in standard deviations, with a straight grid'
+      }));
+    }
+    var dom2 = tempDomain(D);
+    var marks = [warpedGrid(D, { hilite: true })];
+    if (step === 2) {
+      var br = calmStormy(D).map(function (i) {
+        return { x: date(i), y1: D.meansSmooth[i], y2: D.meansSmooth[i] + D.stdevSmooth[i], s: D.stdevSmooth[i], i: i };
+      });
+      marks.push(
+        Plot.line(d3.range(DAYS), { x: function (i) { return date(i); }, y: function (i) { return D.meansSmooth[i]; },
+          stroke: c.mean, strokeWidth: 1.5 }),
+        Plot.ruleX(br, { x: 'x', y1: 'y1', y2: 'y2', stroke: t.ink, strokeWidth: 1.6 }),
+        Plot.ruleY(br.concat(br), { y: function (d, j) { return j < br.length ? d.y1 : d.y2; },
+          x1: function (d) { return date(d.i - 5); }, x2: function (d) { return date(d.i + 5); },
+          stroke: t.ink, strokeWidth: 1.6 })
+      );
+      /* Plot.text anchors and offsets are constants, so one mark per label */
+      br.forEach(function (d) {
+        var right = d.i > 300;
+        marks.push(Plot.text([d], { x: 'x', y: function (d) { return d.y1 - 0.3; }, lineAnchor: 'top',
+          text: function () { return '1σ = ' + fmt(d.s, 2) + '°'; },
+          textAnchor: right ? 'end' : 'middle', dx: right ? 6 : 0,
+          fill: t.ink, stroke: t.panel, strokeWidth: 4, fontSize: 11, fontWeight: 700 }));
+      });
+    } else {
+      marks.push(
+        contextLines(D, 'temperature'),
+        Plot.line(D.means, { x: function (v, i) { return date(i); }, y: function (v) { return v; }, stroke: c.mean, strokeWidth: 1.5 }),
+        nowLine(D, 'temperature')
+      );
+    }
+    marks.push(gridLabels(D, dom2, { hilite: true }));
+    return EGPlot.plot(Object.assign(base, {
+      y: { domain: dom2, grid: false, label: null, ticks: d3.range(Math.ceil(dom2[0]), dom2[1] + 0.5, 2), tickFormat: deg },
+      marks: marks,
+      ariaLabel: step === 2 ? 'Step 2: the standard-deviation grid converted to degrees, pinched in late spring and wide in winter'
+        : 'Step 3: daily temperatures drawn on the warped grid'
+    }));
+  }
+
+  /* Fig. 10: the same +1 °C in the calm season and the stormy one */
+  function figProbe(D, width) {
+    var c = colors(), t = c.t, mobile = width < 560;
+    var probes = calmStormy(D).map(function (i) {
+      return { i: i, x: date(i), y1: D.meansSmooth[i], y2: D.meansSmooth[i] + 1,
+        sig: 1 / D.stdevSmooth[i], month: MONTHS_LONG[date(i).getUTCMonth()] };
+    });
+    var dom = [Math.floor(d3.min(D.meansSmooth) - 1.4), Math.ceil(d3.max(D.meansSmooth) + 2.4)];
+    return EGPlot.plot({
+      width: width, height: Math.round(mobile ? width * 0.85 : Math.min(width * 0.5, 380)),
+      marginTop: 16, marginRight: mobile ? 40 : 48, marginLeft: 34, x: xAxis(mobile),
+      y: { domain: dom, grid: false, label: null, ticks: d3.range(dom[0], dom[1] + 0.5, 1), tickFormat: deg },
+      marks: [
+        warpedGrid(D, { halves: true }),
+        Plot.line(d3.range(DAYS), { x: function (i) { return date(i); }, y: function (i) { return D.meansSmooth[i]; },
+          stroke: c.mean, strokeWidth: 1.8 }),
+        gridLabels(D, dom, { fontSize: 11 }),
+        Plot.ruleX(probes, { x: 'x', y1: 'y1', y2: 'y2', stroke: c.current, strokeWidth: 2.2 }),
+        Plot.dot(probes, { x: 'x', y: 'y1', r: 3, fill: c.mean }),
+        Plot.dot(probes, { x: 'x', y: 'y2', r: 4.5, fill: c.current, stroke: t.panel, strokeWidth: 1.5 }),
+        probes.map(function (p) {
+          var right = p.i > 300;
+          return Plot.text([p], { x: 'x', y: 'y2', dy: -12, dx: right ? 6 : 0, textAnchor: right ? 'end' : 'middle',
+            lineAnchor: 'bottom', text: function () { return '+1°C in ' + p.month + '\n= +' + fmt(p.sig, 1) + 'σ'; },
+            fill: t.ink, stroke: t.panel, strokeWidth: 4, fontSize: mobile ? 11.5 : 12.5, fontWeight: 600, lineHeight: 1.25 });
+        })
+      ],
+      ariaLabel: 'One degree above average lands on different standard-deviation curves in late spring and in winter',
+      ariaDescription: probes.map(function (p) { return 'One degree above average in ' + p.month + ' is ' + fmt(p.sig, 1) + ' standard deviations.'; }).join(' ')
+    });
+  }
+
+  /* Fig. 11: four ways to draw the same data, small and bare */
+  function figMini(D, kind, width) {
+    var c = colors(), t = c.t;
+    var field = kind === 'warped' ? 'temperature' : kind;
+    var h = Math.round(Math.max(130, Math.min(width * 0.68, 190)));
+    var dom = (kind === 'warped' || kind === 'temperature') ? tempDomain(D) : intDomain(D, field, 0.2).domain;
+    var marks = [];
+    if (kind === 'warped') marks.push(warpedGrid(D, {}));
+    if (kind === 'deviation') marks.push(Plot.ruleY(d3.range(dom[0], dom[1] + 0.01, 1).filter(function (k) { return k !== 0; }),
+      { stroke: t.inkFaint, strokeWidth: 0.6 }));
+    marks.push(contextLines(D, field));
+    if (kind === 'anomaly' || kind === 'deviation') marks.push(Plot.ruleY([0], { stroke: c.mean, strokeWidth: 1.3 }));
+    else marks.push(Plot.line(D.means, { x: function (v, i) { return date(i); }, y: function (v) { return v; }, stroke: c.mean, strokeWidth: 1.3 }));
+    marks.push(nowLine(D, field, 1.6));
+    var fmtY = kind === 'deviation' ? function (v) { return pm(v) + 'σ'; } : kind === 'anomaly' ? function (v) { return pm(v) + '°'; } : deg;
+    var step = (dom[1] - dom[0]) > 6 ? 2 : 1;
+    var ticks = d3.range(Math.ceil(dom[0]), dom[1] + 0.01, 1).filter(function (v) { return v % step === 0; });
+    return EGPlot.plot({
+      width: width, height: h, marginTop: 10, marginRight: 8, marginLeft: 30, marginBottom: 24,
+      x: Object.assign(xAxis(true), { ticks: [date(0), date(181)], tickFormat: function (d) { return d.getUTCMonth() ? 'Jul' : 'Jan'; } }),
+      y: { domain: dom, label: null, ticks: ticks, tickFormat: fmtY, grid: kind === 'temperature' || kind === 'anomaly' },
+      style: { fontSize: '10.5px' },
+      marks: marks,
+      ariaLabel: 'Small chart: ' + kind
+    });
+  }
+
   window.Godzilla = {
     DATA_URL: DATA_URL, derive: derive, peakRow: peakRow, date: date, dayLabel: dayLabel, fmt: fmt, signed: signed,
-    figWarped: figWarped, figTemperature: figTemperature, figAnomaly: figAnomaly, figStdev: figStdev, figDeviation: figDeviation,
+    figWarped: figWarped, calmStormy: calmStormy, figStep: figStep, figProbe: figProbe, figMini: figMini, MONTHS_LONG: MONTHS_LONG, figTemperature: figTemperature, figAnomaly: figAnomaly, figStdev: figStdev, figDeviation: figDeviation,
     deriveONI: deriveONI, figONI: figONI, deriveHov: deriveHov, figHovmoller: figHovmoller, figProfile: figProfile, nino34Mean: nino34Mean, SEASON_LONG: SEASON_LONG, lonFmt: lonFmt, ANOM_THRESH: ANOM_THRESH, anomRange: anomRange
   };
 })();
@@ -1794,7 +2083,7 @@ footer p {
       body: 'Daily sea-surface temperature in the Niño 3.4 region, every year since 1982, with ' + Y + ' in red and the 1991–2020 average in ochre. ' +
         'Height is plain temperature in °C. The curved gray grid marks one, two, three and four standard deviations (σ) from the average for each calendar day, smoothed over 15 days; it pinches in late spring, when the region is normally steady, and flares in winter, when it swings. ' +
         'So the curve a line sits on tells you how abnormal that temperature is for the date: a year hugging the +1σ curve is mildly warm all year, while a line that climbs across the curves, as ' + Y + ' does from May on, is growing more extreme even where the thermometer itself barely moves. ' +
-        'On an ordinary chart those two facts need two charts; here the paper is bent so one line carries both. Dashes are preliminary values.',
+        'On an ordinary chart those two facts need two charts; here the paper is bent so one line carries both. Dashes are preliminary values. <a href="#how-to-read">How to read this chart</a>',
       source: 'NOAA OISST v2.1 via Climate Reanalyzer · Method after Fil and Toph Tucker',
       credit: 'By Chris Willis'
     });
@@ -1830,6 +2119,59 @@ footer p {
       body: 'Each day’s anomaly divided by that day’s standard deviation, 1982–' + Y + '. This is the chart from Eliot Jacobson’s post, redrawn from the same source.',
       source: 'NOAA OISST v2.1 via Climate Reanalyzer · After Eliot Jacobson, The Climate Casino', credit: 'By Chris Willis'
     });
+
+    /* ---- reading guide ---- */
+    function innerW(el) { return Math.max(200, el.querySelector('.plot-fig').clientWidth - 20); }
+    [1, 2, 3].forEach(function (n) {
+      var el = $('step-' + n);
+      el.querySelector('.plot-fig').replaceChildren(G.figStep(D, innerW(el), n));
+    });
+    EGPlot.caption($('fig-steps'), {
+      no: 9, lead: 'From straight paper to warped paper.',
+      body: 'The same Niño 3.4 data in all three panels, 1982–' + Y + ', with ' + Y + ' in red. The blue curve is +3σ throughout: a horizontal line when the chart is measured in standard deviations, a wave when the same line is converted to degrees. Grid smoothed over 15 days.',
+      source: 'NOAA OISST v2.1 via Climate Reanalyzer · Method after Fil and Toph Tucker', credit: 'By Chris Willis'
+    });
+
+    var fp = $('fig-probe');
+    fp.querySelector('.plot-fig').replaceChildren(G.figProbe(D, width(fp)));
+    EGPlot.caption(fp, {
+      no: 10, lead: 'Same gap on the thermometer, different rarity.',
+      body: 'Each red bar is exactly 1°C above the smoothed 1991–2020 average, placed on the calmest and the most variable day of the year. The curves are whole and half standard deviations.',
+      source: 'NOAA OISST v2.1 via Climate Reanalyzer; standard deviation computed on this page', credit: 'By Chris Willis'
+    });
+
+    ['temperature', 'anomaly', 'deviation', 'warped'].forEach(function (k) {
+      var el = $('cmp-' + k);
+      el.querySelector('.plot-fig').replaceChildren(G.figMini(D, k, innerW(el)));
+    });
+    EGPlot.caption($('fig-compare'), {
+      no: 11, lead: 'Four ways to draw the same data.',
+      body: 'Small versions of Figs. 5, 6, 8 and 1. Each shows every year since 1982 with ' + Y + ' in red.',
+      credit: 'By Chris Willis'
+    });
+
+    fillReading(D);
+  }
+
+  function fillReading(D) {
+    var cs = G.calmStormy(D), lo = cs[0], hi = cs[1];
+    var vals = {
+      'min-month': G.MONTHS_LONG[G.date(lo).getUTCMonth()], 'max-month': G.MONTHS_LONG[G.date(hi).getUTCMonth()],
+      'min-sd': G.fmt(D.stdevSmooth[lo], 2), 'max-sd': G.fmt(D.stdevSmooth[hi], 2),
+      'min-sig': G.fmt(1 / D.stdevSmooth[lo], 1), 'max-sig': G.fmt(1 / D.stdevSmooth[hi], 1)
+    };
+    document.querySelectorAll('[data-rd]').forEach(function (el) {
+      var v = vals[el.getAttribute('data-rd')];
+      if (v != null) el.textContent = v;
+    });
+    /* May 1 (day 120) to June 30 (day 180): the season when the region normally holds still */
+    var at = function (day) { return D.current.filter(function (d) { return d.day === day && !d.preliminary; })[0]; };
+    var a = at(120), b = at(180), el = $('rd-spring');
+    if (a && b && el) {
+      el.textContent = 'From May 1 to June 30, ' + D.currentYear + ', the water warmed only ' + G.fmt(b.temperature - a.temperature, 1) +
+        '°C, but its line climbed from ' + G.fmt(a.deviation, 1) + 'σ to ' + G.fmt(b.deviation, 1) +
+        'σ, because those are the months when the region normally holds still.';
+    } else if (el) { el.textContent = ''; }
   }
 
   /* ---- plates: live NOAA images with dated fallbacks -------------------- */
@@ -1910,7 +2252,7 @@ footer p {
       fo.querySelector('.plot-fig').replaceChildren(G.figONI(ONI, width(fo)));
       var L = ONI.last;
       EGPlot.caption(fo, {
-        no: 9, lead: 'Every El Niño since 1950, on one calendar.',
+        no: 12, lead: 'Every El Niño since 1950, on one calendar.',
         body: 'Oceanic Niño Index, the three-month running mean of the Niño 3.4 sea-surface temperature anomaly, for each El Niño since 1950 (five or more consecutive seasons at or above +0.5°C), from January of the year the event formed to December of the year after. 2026 runs through ' +
           G.SEASON_LONG[L.season] + '. Dashed lines are the Climate Prediction Center’s informal thresholds. The bracket is a hand-entered summary of early-October model forecasts, not data. ONI anomalies use CPC’s rolling 30-year base periods and ERSST v6, so they are not directly comparable with the daily 1991–2020 anomalies above.',
         note: 'snapshot generated ' + longDate(ONI.generated),
