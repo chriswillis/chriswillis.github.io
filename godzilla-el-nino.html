@@ -18,7 +18,7 @@
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A red line for 2026 climbs above a curved grid of standard deviations and dozens of gray lines for earlier years">
+<meta property="og:image:alt" content="A red line for 2026 climbs past the +3 standard deviation curve: sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years">
 <meta property="article:published_time" content="2026-10-02">
 <meta property="article:author" content="Chris Willis">
 
@@ -27,7 +27,7 @@
 <meta name="twitter:title" content="Some monsters are real: the 2026 El Niño, charted live">
 <meta name="twitter:description" content="Daily Niño 3.4 sea-surface temperature, recomputed from NOAA data on page load and drawn against a warped grid of standard deviations.">
 <meta name="twitter:image" content="https://cewillis.com/og-godzilla.jpg">
-<meta name="twitter:image:alt" content="A red line for 2026 climbs above a curved grid of standard deviations and dozens of gray lines for earlier years">
+<meta name="twitter:image:alt" content="A red line for 2026 climbs past the +3 standard deviation curve: sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f7f7f5'/%3E%3Cpath d='M4 22 C9 22 10 14 14 14 S19 10 22 8 S27 5 29 4' fill='none' stroke='%23b04a3c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1447,25 +1447,26 @@ footer p {
     var tMax = d3.max(D.data, function (d) { return d.temperature; });
     var yTop = Math.ceil(tMax + (mobile ? 2.0 : 0.9));     /* headroom for the note */
     var yLo = Math.floor(d3.min(D.data, function (d) { return d.temperature; })) - 0.5;
-    sigmaLabels = sigmaLabels.filter(function (d) { return d.y > yLo + 0.2 && d.y < yTop - 0.9; });
+    var H = height || Math.round(mobile ? width * 1.0 : Math.min(width * 0.58, 600));
+    sigmaLabels = sigmaLabels.filter(function (d) { return d.y > yLo + 0.2 && d.y < yTop - 0.15; });
     var topTick = Math.floor(yTop);
     var note = dayLabel(L.day, true) + (L.preliminary ? ' (preliminary)' : '') + ': ' + fmt(L.temperature, 2) +
       '°C, ' + signed(L.anomaly, 1) + '°C above the average for the date, ' + fmt(L.deviation, 1) + 'σ.' +
       (D.currentMaxDev > D.recordDev ? ' No day in the ' + (D.currentYear - 1981) + '-year record has been further from normal.' : '');
 
     return EGPlot.plot({
-      width: width, height: height || Math.round(mobile ? width * 1.0 : Math.min(width * 0.58, 600)),
-      marginRight: mobile ? 54 : 76, marginLeft: 40, marginTop: 24,
+      width: width, height: H,
+      marginRight: mobile ? 54 : 76, marginLeft: 40, marginTop: 38,   /* room for the σ-axis title */
       x: xAxis(mobile),
       y: { grid: false, label: null, domain: [yLo, yTop], ticks: d3.range(Math.ceil(yLo), yTop + 0.5, 1),
         tickFormat: function (v) { return v === topTick ? v + '°C' : v + '°'; } },
       marks: [
         degreeLines([yLo, yTop]),
         sigmaCurves,
-        /* the right-hand axis title, in the σ grid's color */
+        /* the right-hand axis title, in the σ grid's color, above the plot like a unit label */
         Plot.text([{ x: date(DAYS - 1), y: yTop }], {
-          x: 'x', y: 'y', text: function () { return mobile ? 'σ from\naverage' : 'σ from the\ndate’s\naverage'; },
-          dx: 8, textAnchor: 'start', lineAnchor: 'top', fill: c.sigmaInk, fontWeight: 700,
+          x: 'x', y: 'y', text: function () { return 'σ from\naverage'; },
+          dx: 8, dy: -8, textAnchor: 'start', lineAnchor: 'bottom', fill: c.sigmaInk, fontWeight: 700,
           fontSize: mobile ? 10 : 10.5, lineHeight: 1.15
         }),
         Plot.text(sigmaLabels, {
