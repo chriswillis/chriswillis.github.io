@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Page not found — Chris Willis</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet" />
+<!-- Root-relative paths: GitHub Pages serves this file for a missing URL at any depth -->
+<link rel="stylesheet" href="/assets/site/site.css" />
+<style>
+  .lost { margin-top: clamp(1rem, 8vh, 5rem); }
+  .lost .code { color: var(--accent); font-size: 1rem; font-weight: 400; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+  .lost h1 {
+    margin-top: 0.75rem; max-width: 20ch;
+    font-size: clamp(1.7rem, 4.2vw, 2.4rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
+  }
+  .lost p { margin-top: 1.25rem; max-width: 38ch; color: var(--tx-2); }
+  .lost p.code { margin-top: 0; }
+  .lost ul { list-style: none; margin-top: 2rem; display: grid; gap: 0.5rem; }
+  .lost li { position: relative; padding-left: 1.4rem; }
+  .lost li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
+</style>
+<script>
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body>
+<main>
+  <div class="controls">
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <header class="masthead">
+    <a href="/">
+      <picture>
+        <source type="image/webp" srcset="/assets/avatar/chris-willis-72.webp 1x, /assets/avatar/chris-willis-144.webp 2x, /assets/avatar/chris-willis-216.webp 3x" />
+        <img class="avatar" src="/assets/avatar/chris-willis-72.png" srcset="/assets/avatar/chris-willis-144.png 2x, /assets/avatar/chris-willis-216.png 3x" width="72" height="72" alt="" />
+      </picture>
+      <span class="crumb">Chris Willis</span>
+    </a>
+  </header>
+
+  <section class="lost" aria-labelledby="lost-title">
+    <p class="code">404</p>
+    <h1 id="lost-title">This page wandered off the grid.</h1>
+    <p>The link may be old, or the page moved when the site was reorganized. Try one of these instead.</p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/#projects-heading">Selected projects</a></li>
+      <li><a href="/lab/">All explorations</a></li>
+      <li><a href="/#writings-heading">Writing</a></li>
+    </ul>
+  </section>
+</main>
+<script src="/assets/site/theme.js" defer></script>
+</body>
+</html>

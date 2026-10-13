@@ -1,0 +1,74 @@
+# Saves same-origin copies of the live data behind the measles and Godzilla pages, so they
+# keep working (and say how fresh the data is) when CDC or NOAA sources are down or slow.
+# See scripts/refresh_data.py for what is saved and where.
+name: Refresh data snapshots
+
+on:
+  schedule:
+    - cron: "23 11 * * *"   # daily, ~5:23 am Mountain: live feeds
+    - cron: "41 11 * * 1"   # Mondays: also rebuild the ONI and Hovmöller snapshots (slow, weekly data)
+  workflow_dispatch:
+    inputs:
+      weekly:
+        description: "Also rebuild the ONI and Hovmöller snapshots"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # commit the refreshed files
+  pages: write      # request a Pages build after the commit
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch data
+        id: fetch
+        # A failed source is skipped; whatever did download is still committed below
+        continue-on-error: true
+        run: |
+          if [ "${{ github.event.schedule }}" = "41 11 * * 1" ] || [ "${{ inputs.weekly }}" = "true" ]; then
+            python3 scripts/refresh_data.py --weekly
+          else
+            python3 scripts/refresh_data.py
+          fi
+
+      - name: Commit changes
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add assets/godzilla assets/measles
+          if git diff --cached --quiet; then
+            echo "No data changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Refresh data snapshots $(date -u +%F)"
+            git pull --rebase --quiet
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild GitHub Pages
+        # Pushes made with GITHUB_TOKEN don't always start a Pages build, so ask for one
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Pages build request failed; the next push will publish."
+
+      - name: Report failed sources
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "::warning::One or more data sources failed; see the Fetch data step. Pages fall back to the last saved copy."
+          exit 1

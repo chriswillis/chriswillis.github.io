@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Chris Willis</title>
+  <link>https://cewillis.com/</link>
+  <description>Essays and explorations by Chris Willis: design, data and human-AI collaboration.</description>
+  <language>en-us</language>
+  <atom:link href="https://cewillis.com/feed.xml" rel="self" type="application/rss+xml" />
+  <lastBuildDate>Mon, 12 Oct 2026 12:00:00 +0000</lastBuildDate>
+  <item>
+    <title>We beat measles once but will it come back? Tracking US state cases.</title>
+    <link>https://cewillis.com/measles.html</link>
+    <guid>https://cewillis.com/measles.html</guid>
+    <pubDate>Mon, 12 Oct 2026 12:00:00 +0000</pubDate>
+    <category>Data stories</category>
+    <description>Measles vanished after 2000. Now it’s surging back as most states have slipped below the herd-immunity line.</description>
+  </item>
+  <item>
+    <title>Cue (alpha). Write your talk. Cue the slides.</title>
+    <link>https://cewillis.com/Cue/</link>
+    <guid>https://cewillis.com/Cue/</guid>
+    <pubDate>Fri, 09 Oct 2026 12:00:00 +0000</pubDate>
+    <category>Tools</category>
+    <description>Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It’s an early alpha, so beware and save often.</description>
+  </item>
+  <item>
+    <title>Some monsters are real. Tracking the 2026 El Niño in real-time</title>
+    <link>https://cewillis.com/godzilla-el-nino.html</link>
+    <guid>https://cewillis.com/godzilla-el-nino.html</guid>
+    <pubDate>Mon, 05 Oct 2026 12:00:00 +0000</pubDate>
+    <category>Data stories</category>
+    <description>Climatologists have warned a Godzilla El Niño was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA’s daily sea-surface temperatures every time it loads. The Niño 3.4 region temperatures are plotted against curves of standard deviations.</description>
+  </item>
+  <item>
+    <title>Mapping the shape of a color palette</title>
+    <link>https://cewillis.com/color-intelligence.html</link>
+    <guid>https://cewillis.com/color-intelligence.html</guid>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0000</pubDate>
+    <category>Color</category>
+    <description>It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</description>
+  </item>
+  <item>
+    <title>Ramp from one color</title>
+    <link>https://cewillis.com/color-ramp.html</link>
+    <guid>https://cewillis.com/color-ramp.html</guid>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0000</pubDate>
+    <category>Color</category>
+    <description>A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, seven other design systems or your own imported palette. It estimates how close each step is to what that system's designers would have picked, shows which steps pass for text, and exports CSS, Tailwind or design tokens.</description>
+  </item>
+  <item>
+    <title>Yves Outlines. Generate posters with type that ripples</title>
+    <link>https://cewillis.com/outline-echo.html</link>
+    <guid>https://cewillis.com/outline-echo.html</guid>
+    <pubDate>Wed, 30 Sep 2026 12:00:00 +0000</pubDate>
+    <category>Type</category>
+    <description>Inspired by Yves Béhar's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</description>
+  </item>
+  <item>
+    <title>A tribute to Luminet's first portrait of a black hole</title>
+    <link>https://cewillis.com/luminet-tribute.html</link>
+    <guid>https://cewillis.com/luminet-tribute.html</guid>
+    <pubDate>Thu, 10 Sep 2026 12:00:00 +0000</pubDate>
+    <category>Science</category>
+    <description>In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</description>
+  </item>
+  <item>
+    <title>The innovator's new dilemma</title>
+    <link>https://cewillis.com/writing/innovators-new-dilemma.html</link>
+    <guid>https://cewillis.com/writing/innovators-new-dilemma.html</guid>
+    <pubDate>Fri, 09 Jan 2026 12:00:00 +0000</pubDate>
+    <category>Writing</category>
+    <description>Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</description>
+  </item>
+  <item>
+    <title>The trust gap</title>
+    <link>https://cewillis.com/writing/the-trust-gap.html</link>
+    <guid>https://cewillis.com/writing/the-trust-gap.html</guid>
+    <pubDate>Mon, 06 Feb 2023 12:00:00 +0000</pubDate>
+    <category>Writing</category>
+    <description>What a failed bank project taught me about the invisible architecture of organizations</description>
+  </item>
+</channel>
+</rss>

@@ -9,6 +9,7 @@
 
 <!-- iMessage / Open Graph preview -->
 <meta property="og:type" content="article">
+<link rel="canonical" href="https://cewillis.com/luminet-tribute.html">
 <meta property="og:url" content="https://cewillis.com/luminet-tribute.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="Luminet’s First Portrait of a Black Hole">
@@ -64,6 +65,9 @@
     font-family: var(--sans); font-size: 12px; letter-spacing: 0.02em;
   }
   .brandbar .wordmark { font-weight: 700; letter-spacing: -0.01em; }
+  .brandbar .wordmark .home { color: inherit; text-decoration: none; }
+  .brandbar .wordmark .home:hover { text-decoration: underline; }
+  .brandbar .wordmark .sep { font-weight: 400; color: var(--ink-faint, var(--ink-soft)); margin: 0 0.15em; }
   .brandbar .stamp { color: var(--ink-soft); }
   header.hero { padding: 44px 0 0; }
   .kicker {
@@ -337,7 +341,7 @@
 
 <div class="brandbar">
   <div class="wide inner">
-    <span class="wordmark">General Relativity</span>
+    <span class="wordmark"><a class="home" href="/">Chris Willis</a> <span class="sep" aria-hidden="true">/</span> General Relativity</span>
     <span class="stamp">Interactive &middot; All renderings computed on page load</span>
   </div>
 </div>
@@ -729,6 +733,7 @@
 
 <footer>
   <div class="col">
+    <nav data-explorations aria-label="More explorations"><a href="/lab/">All explorations</a></nav>
     <p>Set in IBM Plex Serif, Sans and Mono. One page; Observable Plot, D3 and the Plex webfonts are the only dependencies.</p>
   </div>
 </footer>
@@ -2499,5 +2504,6 @@ var BH = (function () {
   developStep();
 })();
 </script>
+<script src="assets/site/explorations.js" defer></script>
 </body>
 </html>

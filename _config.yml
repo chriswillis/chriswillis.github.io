@@ -1,0 +1,22 @@
+# GitHub Pages builds this site with Jekyll. The pages are plain HTML with no
+# front matter, so Jekyll copies them as-is; this file only controls what gets
+# published. Everything listed here stays in the repo but is not served.
+exclude:
+  # Working files
+  - "Claude outputs/"
+  - README.md
+  - "*.skill"
+  - scripts/
+  # The color research project: source, tests and outputs. No page loads it;
+  # the palette data is inlined into color-intelligence.html and color-ramp.html.
+  - color/
+  # Source images that were resized into assets/ and are no longer referenced
+  - chris-willis.png
+  - ColorIntelligence-teaser.png
+  - ColorIntelligence-Topology.png
+  - assets/5b0c43c8-a539-4c87-8de0-077863e176cb.png
+  - assets/N1BZ_Baja_Sur_T210M.png
+  - assets/TN-JPL1978-72dpi-1024x508.jpg
+  - assets/Americans-Average-Confidence-in-Core-U.S.-Institutions.png
+  # Full-size screenshots the WebP versions in assets/portfolio were made from
+  - "assets/portfolio/*.png"

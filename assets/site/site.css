@@ -1,0 +1,107 @@
+/* Shared styles for cewillis.com pages in the home style: the home page, essays,
+   case studies, the lab index and the 404 page.
+   Flexoki palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400.
+   The editorial pages (measles, Godzilla, Luminet) and the color tools keep their own systems. */
+
+:root {
+  color-scheme: light dark;
+  --paper: #FFFCF0; --black: #100F0F;
+  --bg: #FFFCF0; --bg-2: #F2F0E5;
+  --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
+  --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
+  --re: #AF3029; --or: #BC5215; --ye: #AD8301; --gr: #66800B;
+  --cy: #24837B; --bl: #205EA6; --pu: #5E409D; --ma: #A02F6F;
+  --divider: #E6E4D9;
+}
+:root[data-theme="dark"] {
+  --bg: #100F0F; --bg-2: #1C1B1A;
+  --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+  --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+  --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39;
+  --cy: #3AA99F; --bl: #4385BE; --pu: #8B7EC8; --ma: #CE5D97;
+  --divider: #282726;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #100F0F; --bg-2: #1C1B1A;
+    --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+    --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39;
+    --cy: #3AA99F; --bl: #4385BE; --pu: #8B7EC8; --ma: #CE5D97;
+    --divider: #282726;
+  }
+}
+:root {
+  --accent: var(--cy);
+  --link: var(--tx);
+  --underline: var(--tx-3);
+  --surface: var(--bg-2);
+  --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--tx);
+  font-family: var(--sans); font-weight: 300; font-size: 1.2rem; line-height: 1.6;
+  padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
+  transition: background-color 0.2s ease-out, color 0.2s ease-out;
+}
+main { max-width: 44rem; margin: 0 auto; position: relative; }
+
+/* Links */
+a {
+  color: var(--link); font-weight: 400;
+  text-decoration: underline; text-decoration-color: var(--underline);
+  text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+  transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+}
+a:hover { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Mark links that leave the site (footer nav excluded) */
+main a[href^="http"]:not([href*="cewillis.com"]):not(nav a):not(.no-ext)::after {
+  content: ""; display: inline-block; width: 0.55em; height: 0.55em; margin-left: 0.2em; vertical-align: 0.15em;
+  background: currentColor; opacity: 0.55;
+  -webkit-mask: url("ext.svg") center / contain no-repeat; mask: url("ext.svg") center / contain no-repeat;
+  transition: opacity 0.2s ease-out;
+}
+main a[href^="http"]:not([href*="cewillis.com"]):not(nav a):hover::after { opacity: 1; }
+
+/* Masthead: avatar and name. On inner pages the whole row links home. */
+.masthead { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+.masthead h1, .masthead .crumb { font-size: 1.1rem; font-weight: 400; line-height: 1.35; color: var(--tx-2); }
+.masthead h1 .role { display: block; font-weight: 300; }
+.masthead a { display: flex; align-items: center; gap: 1rem; color: var(--tx-2); text-decoration: none; }
+.masthead a:hover { color: var(--accent); }
+/* Avatar: iOS-style superellipse (n = 5) as a mask, or the native squircle where supported */
+.avatar {
+  display: block; width: 3rem; height: 3rem; object-fit: cover; flex-shrink: 0;
+  -webkit-mask: url("squircle.svg") center / 100% 100% no-repeat; mask: url("squircle.svg") center / 100% 100% no-repeat;
+}
+@supports (corner-shape: squircle) {
+  .avatar { -webkit-mask: none; mask: none; border-radius: 28%; corner-shape: squircle; }
+}
+
+/* Theme toggle, top right */
+.controls { position: absolute; top: 0; right: 0; z-index: 1; display: flex; align-items: center; gap: 0.35rem; }
+.controls button {
+  background: none; border: none; cursor: pointer; padding: 0.35rem; line-height: 1;
+  color: var(--tx-2); font-size: 1.1rem; border-radius: 0.35rem; transition: color 0.2s ease-out;
+}
+.controls button:hover { color: var(--accent); }
+.controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+
+/* Footer: profile links */
+.site-foot { margin-top: 3rem; }
+.site-foot nav a { margin-right: 1.5rem; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }

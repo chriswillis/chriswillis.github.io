@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Chris Willis</title>
 <meta name="description" content="Chris Willis — Chief Design Officer and Futurist at Domo. Emotional design, human-AI collaboration, and the future of work." />
+<link rel="canonical" href="https://cewillis.com/" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon-32.png" type="image/png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="alternate" type="application/rss+xml" title="Chris Willis: writing" href="/feed.xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet" />
@@ -29,201 +34,31 @@
 <meta name="twitter:image" content="https://cewillis.com/og-cewillis.jpg">
 <meta name="twitter:image:alt" content="Chris Willis — Designing technology for humans">
 
+<link rel="stylesheet" href="assets/site/site.css" />
 <style>
-  /* Flexoki Palette: stephango.com/flexoki (MIT). Light uses accent-600, dark uses accent-400. */
+  /* Home page. Shared tokens, links, masthead and theme toggle live in assets/site/site.css */
 
-  :root {
-    color-scheme: light dark;
-    --paper: #FFFCF0; --black: #100F0F;
-    --bg: #FFFCF0; --bg-2: #F2F0E5;
-    --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
-    --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
-    --re: #AF3029; --or: #BC5215; --ye: #AD8301; --gr: #66800B;
-    --cy: #24837B; --bl: #205EA6; --pu: #5E409D; --ma: #A02F6F;
-  }
-  :root[data-theme="dark"] {
-    --bg: #100F0F; --bg-2: #1C1B1A;
-    --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
-    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
-    --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39;
-    --cy: #3AA99F; --bl: #4385BE; --pu: #8B7EC8; --ma: #CE5D97;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #100F0F; --bg-2: #1C1B1A;
-      --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
-      --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
-      --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39;
-      --cy: #3AA99F; --bl: #4385BE; --pu: #8B7EC8; --ma: #CE5D97;
-    }
-  }
+  /* Home page typography */
+  p { margin-bottom: 1.25rem; }
+  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
+  hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
+  
+  /* Lists: a short accent dash for each item */
+  ul { list-style: none; display: grid; gap: 0.5rem; margin-bottom: 1.25rem; }
+  ul li { position: relative; padding-left: 1.4rem; }
+  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
 
-  :root { --divider: #E6E4D9; }
-  :root[data-theme="dark"] { --divider: #282726; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --divider: #282726; }
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--tx);
-    transition: background-color 0.2s ease-out, color 0.2s ease-out;
-  }
-  main { margin: 0 auto; position: relative; }
-  .masthead {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.9rem;
-    margin-bottom: 1.75rem;
-  }
-  /* Avatar — iOS-style superellipse (squircle) corners */
-  .avatar {
-    display: block;
-    width: 4.5rem;
-    height: 4.5rem;
-    object-fit: cover;
-    flex-shrink: 0;
-    /* Superellipse (n = 5), the curve iOS uses for app icons.
-       An SVG mask scaled to the box, so it stays correct at any size. */
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%20preserveAspectRatio=%22none%22%3E%3Cpath%20d=%22M100.00%2050.00%20L99.90%2069.75%20L99.61%2076.01%20L99.13%2080.49%20L98.44%2084.05%20L97.55%2087.01%20L96.44%2089.52%20L95.11%2091.68%20L93.53%2093.53%20L91.68%2095.11%20L89.52%2096.44%20L87.01%2097.55%20L84.05%2098.44%20L80.49%2099.13%20L76.01%2099.61%20L69.75%2099.90%20L50.00%20100.00%20L30.25%2099.90%20L23.99%2099.61%20L19.51%2099.13%20L15.95%2098.44%20L12.99%2097.55%20L10.48%2096.44%20L8.32%2095.11%20L6.47%2093.53%20L4.89%2091.68%20L3.56%2089.52%20L2.45%2087.01%20L1.56%2084.05%20L0.87%2080.49%20L0.39%2076.01%20L0.10%2069.75%20L0.00%2050.00%20L0.10%2030.25%20L0.39%2023.99%20L0.87%2019.51%20L1.56%2015.95%20L2.45%2012.99%20L3.56%2010.48%20L4.89%208.32%20L6.47%206.47%20L8.32%204.89%20L10.48%203.56%20L12.99%202.45%20L15.95%201.56%20L19.51%200.87%20L23.99%200.39%20L30.25%200.10%20L50.00%200.00%20L69.75%200.10%20L76.01%200.39%20L80.49%200.87%20L84.05%201.56%20L87.01%202.45%20L89.52%203.56%20L91.68%204.89%20L93.53%206.47%20L95.11%208.32%20L96.44%2010.48%20L97.55%2012.99%20L98.44%2015.95%20L99.13%2019.51%20L99.61%2023.99%20L99.90%2030.25%20Z%22%20fill=%22%23000%22/%3E%3C/svg%3E");
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-  }
-  /* Native squircle where the browser supports it (Chrome 139+) */
-  @supports (corner-shape: squircle) {
-    .avatar {
-      -webkit-mask-image: none;
-      mask-image: none;
-      border-radius: 28%;
-      corner-shape: squircle;
-    }
-  }
-  ul { list-style: none; margin-bottom: 1.25rem; }
-  ul li { padding-left: 1.1rem; position: relative; margin-bottom: 0.5rem; }
-  a {
-    color: var(--link);
-    text-decoration: underline;
-    text-decoration-color: var(--underline);
-    text-decoration-thickness: 0.05em;
-    text-underline-offset: 0.12em;
-    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
-  }
-  a:hover {
-    color: var(--accent);
-    text-decoration-color: var(--accent);
-    transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
-  }
-  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
-  hr { border: none; border-top: 1px solid var(--ui); margin: 2.5rem 0 1.75rem; }
-  nav a { margin-right: 1.25rem; }
-
-  .controls { position: absolute; top: 0; right: 0; z-index: 1; display: flex; align-items: center; gap: 0.35rem; }
-  .controls button {
-    background: none; border: none; cursor: pointer;
-    padding: 0.35rem; line-height: 1; color: var(--tx-2);
-    font-size: 1.1rem; border-radius: 0.35rem; transition: color 0.2s ease-out;
-  }
-  .controls button:hover { color: var(--accent); }
-  .controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .theme-toggle .icon-sun { display: none; }
-  :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
-  :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
-    :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-  }
-
-  .brands-section { margin: 2.5rem 0 2.75rem; }
-  /* minmax(0, 1fr) keeps every column the same width; plain 1fr lets a wide logo's min width push its column wider */
-  .brands { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin: 0; list-style: none; }
-  .brands li::before { content: none; }
-  .brands li {
-    margin-bottom: 0; min-width: 0; padding: 1.5rem 1rem; min-height: 5.5rem;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--surface); border-radius: var(--tile-radius, 0.85rem);
-  }
-  .brands img {
-    display: block; max-width: min(5.5rem, 100%); max-height: 1.6rem; width: auto; height: auto; object-fit: contain;
-    /* Logos are pre-colored #B2B2B5 in the SVG files; tint them to the Flexoki faint text value */
-    filter: var(--logo-filter, none);
-  }
-  .brands li.mark img { max-width: min(2.1rem, 100%); max-height: 2rem; }
-  .brands li.wide img { max-width: min(6rem, 100%); max-height: 1.4rem; }
-  @media (min-width: 30rem) { .brands { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-  .experiments { margin: 2.75rem 0 0; }
-  .experiments h2 { margin-top: 0; }
-  .experiment { display: block; margin-top: 1.25rem; color: inherit; font-weight: inherit; text-decoration: none; }
-  .experiment figure { margin: 0; }
-  .experiment img {
-    display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover;
-    border-radius: var(--tile-radius, 0.85rem); background: var(--surface); transition: opacity 0.2s ease-out;
-  }
-  .experiment figcaption { margin-top: 0.9rem; }
-  .experiment .title {
-    display: block; text-decoration: underline; text-decoration-color: var(--underline);
-    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
-    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
-  }
-  .experiment .blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); }
-  .experiment:hover .title, .experiment:focus-visible .title {
-    color: var(--accent); text-decoration-color: var(--accent);
-    transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
-  }
-  .experiment:hover img { opacity: 0.92; }
-  /* A teaser for a page that isn't live yet: same card, no link affordances */
-  .experiment.is-soon .title { text-decoration: none; }
-  .experiment.is-soon:hover .title { color: inherit; }
-  .experiment.is-soon:hover img { opacity: 1; }
-  .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--tile-radius, 0.85rem); }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
-
-  :root {
-    --accent: var(--cy);
-    --link: var(--tx);
-    --underline: var(--tx-3);
-    --surface: var(--bg-2);
-    --tile-radius: 0;
-  }
-  body {
-    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-weight: 300; font-size: 1.2rem; line-height: 1.6;
-    padding: clamp(2rem, 6vw, 5rem) 1.5rem 4rem;
-  }
-  main { max-width: 44rem; }
-  .masthead { flex-direction: row; align-items: center; gap: 1rem; margin-bottom: 3rem; }
-  .avatar { width: 3rem; height: 3rem; }
-  h1 { font-size: 1.1rem; font-weight: 400; color: var(--tx-2); }
-  /* the opening line is the display element */
+  /* The opening line is the display element */
   .masthead + p {
     font-size: clamp(1.7rem, 4.2vw, 2.4rem);
     font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
     margin-bottom: 1.5rem; max-width: 24ch;
   }
   .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
-  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
-  p { margin-bottom: 1.25rem; }
-  ul { display: grid; gap: 0.5rem; }
-  ul li { padding-left: 1.4rem; margin-bottom: 0; }
-  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
-  a, .experiment .title { font-weight: 400; }
-  .experiment .blurb { font-size: 1.05rem; }
-  .brands { gap: 2px; }
-  .brands li { background: var(--bg-2); min-height: 5rem; }
-  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-  hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
-  nav a { margin-right: 1.5rem; }
 
   /* Selected projects: teaser cards with the screenshot peeking up from the bottom edge.
-     Wrap an article in <a class="project" href="..."> once a project page exists; hover states are ready. */
-  .project { display: block; margin-top: 1rem; background: var(--bg-2); color: inherit; font-weight: inherit; text-decoration: none; overflow: hidden; }
+     A card is either a link (a.project) or opens an image gallery (.project.is-clickable). */
+  .project { position: relative; display: block; margin-top: 1rem; background: var(--bg-2); color: inherit; font-weight: inherit; text-decoration: none; overflow: hidden; }
   .project-text { padding: 1.1rem 1.25rem 0; }
   .project h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
   .project .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
@@ -242,9 +77,9 @@
   a.project:hover .project-shot img, a.project:focus-visible .project-shot img,
   .project.is-clickable:hover .project-shot img, .project.is-clickable:focus-within .project-shot img { transform: translateY(-0.35rem); }
   a.project:focus-visible, .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
-
+  a.project:hover .project-count, .project.is-clickable:hover .project-count { color: var(--accent); }
   /* A card that opens an image gallery: the title button stretches over the whole card */
-  .project.is-clickable { position: relative; cursor: pointer; }
+  .project.is-clickable { cursor: pointer; }
   .project-open { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
   .project-open::after { content: ""; position: absolute; inset: 0; z-index: 1; }
   .project-open:focus-visible { outline: none; }
@@ -252,7 +87,10 @@
     position: absolute; right: 2rem; bottom: 0.75rem;
     padding: 0.1rem 0.5rem; font-size: 0.85rem; color: var(--tx-2);
     background: var(--bg); box-shadow: 0 0 0 1px var(--ui);
+    transition: color 0.2s ease-out;
   }
+  :root[data-theme="dark"] .project-shot img { filter: brightness(0.9); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); } }
 
   /* Gallery modal: a scroll-snap carousel inside a native <dialog> */
   html:has(.gallery[open]) { overflow: hidden; }
@@ -268,17 +106,11 @@
   .gallery-head h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
   .gallery-head .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
   .gallery-head p { margin: 0.3rem 0 0; max-width: 62ch; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
-  .gallery-track {
-    display: flex; min-height: 0; overflow-x: auto; overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory; scrollbar-width: none;
-  }
+  .gallery-track { display: flex; min-height: 0; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .gallery-track::-webkit-scrollbar { display: none; }
   .gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .gallery-slide { flex: 0 0 100%; min-width: 0; min-height: 0; scroll-snap-align: center; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: center; gap: 0.75rem; }
-  .gallery-slide img {
-    display: block; width: auto; height: auto; max-width: 100%; max-height: 100%;
-    background: var(--bg-2); box-shadow: 0 0 0 1px var(--ui);
-  }
+  .gallery-slide img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; background: var(--bg-2); box-shadow: 0 0 0 1px var(--ui); }
   .gallery-slide figcaption { color: var(--tx-2); font-size: 1rem; text-align: center; }
   .gallery-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; }
   .gallery-count { min-width: 3.5rem; text-align: center; color: var(--tx-2); font-size: 1rem; font-variant-numeric: tabular-nums; }
@@ -290,21 +122,28 @@
   .gallery button:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
   .gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .gallery button:disabled { opacity: 0.35; cursor: default; }
-  :root[data-theme="dark"] .project-shot img { filter: brightness(0.9); }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); }
-  }
 
-  /* Flying photos under the pilot bullet: stacked on phones, one equal-height row on wider screens.
-     --ar is each photo's aspect ratio, so flex-grow gives both the same height. */
-  .flying { display: grid; gap: 2px; margin: 0.9rem 0 0.6rem; }
-  .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
-  @media (min-width: 40rem) {
-    .flying { display: flex; }
-    .flying img { flex: var(--ar) 1 0; }
+  /* Selected explorations: full-width teaser image, title and blurb */
+  .experiments h2 { margin-top: 3rem; }
+  .experiment { display: block; margin-top: 1.25rem; color: inherit; font-weight: inherit; text-decoration: none; }
+  .experiment figure { margin: 0; }
+  .experiment img {
+    display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover;
+    background: var(--surface); transition: opacity 0.2s ease-out;
   }
+  .experiment figcaption { margin-top: 0.9rem; }
+  .experiment .title {
+    display: block; font-weight: 400; text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .experiment .blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); font-size: 1.05rem; }
+  .experiment:hover .title, .experiment:focus-visible .title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+  .experiment:hover img { opacity: 0.92; }
+  .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .more-link { margin-top: 1.5rem; }
 
-  /* Selected writings: each essay lives on its own page; the list is title, one-line dek and source */
+  /* Selected writings: title, one-line dek and source */
   .writing-list { list-style: none; display: grid; gap: 0; margin: 0 0 1.25rem; border-bottom: 1px solid var(--divider); }
   .writing-list li { padding: 0; margin: 0; }
   .writing-list li::before { content: none; }
@@ -317,37 +156,37 @@
   }
   .writing-dek { display: block; margin-top: 0.3rem; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
   .writing-meta { display: block; margin-top: 0.4rem; color: var(--tx-2); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
-  .writing:hover .writing-title, .writing:focus-visible .writing-title {
-    color: var(--accent); text-decoration-color: var(--accent);
-    transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out;
-  }
+  .writing:hover .writing-title, .writing:focus-visible .writing-title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
   .writing:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-  /* Mark links that leave the site (footer nav excluded) */
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a)::after {
-    content: "";
-    display: inline-block;
-    width: 0.55em; height: 0.55em;
-    margin-left: 0.2em;
-    vertical-align: 0.15em;
-    background: currentColor;
-    opacity: 0.55;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 10L10 2M4 2h6v6'/%3E%3C/svg%3E") center / contain no-repeat;
-    transition: opacity 0.2s ease-out;
+  /* Brands: a tight grid of tinted logos */
+  .brands-section { margin: 2.5rem 0 2.75rem; }
+  /* minmax(0, 1fr) keeps every column the same width; plain 1fr lets a wide logo's min width push its column wider */
+  .brands { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; margin: 0; }
+  .brands li::before { content: none; }
+  .brands li {
+    margin: 0; padding: 1.5rem 1rem; min-width: 0; min-height: 5rem;
+    display: flex; align-items: center; justify-content: center; background: var(--bg-2);
   }
-  main a[href^="http"]:not([href*="cewillis.com"]):not(nav a):hover::after { opacity: 1; }
+  .brands img {
+    display: block; max-width: min(5.5rem, 100%); max-height: 1.6rem; width: auto; height: auto; object-fit: contain;
+    filter: var(--logo-filter, none);
+  }
+  .brands li.mark img { max-width: min(2.1rem, 100%); max-height: 2rem; }
+  .brands li.wide img { max-width: min(6rem, 100%); max-height: 1.4rem; }
+  @media (min-width: 30rem) { .brands { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
+  /* Flying photos under the pilot bullet: stacked on phones, one equal-height row on wider screens.
+     --ar is each photo's aspect ratio, so flex-grow gives both the same height. */
+  .flying { display: grid; gap: 2px; margin: 0.9rem 0 0.6rem; }
+  .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
+  @media (min-width: 40rem) { .flying { display: flex; } .flying img { flex: var(--ar) 1 0; } }
 </style>
 
 <script>
   // Apply saved theme before paint to avoid a flash
-  (function () {
-    try {
-      var t = localStorage.getItem("theme");
-      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-    } catch (e) {}
-  })();
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
 </script>
 <script type="application/ld+json">
 {
@@ -374,11 +213,10 @@
   }
 }
 </script>
-<!-- Same-site navigation: prerender a page once its link is hovered or pressed, and cross-fade between pages -->
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed; site.css cross-fades between pages -->
 <script type="speculationrules">
 { "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
 </script>
-<style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
 </head>
 <body>
 <main>
@@ -398,9 +236,9 @@
       <img class="avatar" src="assets/avatar/chris-willis-72.png"
            srcset="assets/avatar/chris-willis-144.png 2x,
                    assets/avatar/chris-willis-216.png 3x"
-           width="72" height="72" alt="Chris Willis" />
+           width="72" height="72" alt="" />
     </picture>
-    <h1>Chris Willis / Bio</h1>
+    <h1>Chris Willis <span class="role">Chief Design Officer and Futurist, Domo</span></h1>
   </header>
 
   <p>I'm a strategic design leader building products that feel genuinely human.</p>
@@ -423,25 +261,24 @@
     <h2 id="projects-heading">Selected projects</h2>
     <p>A curated selection of work, with more on the way...</p>
 
-    <article class="project">
+    <a class="project no-ext" href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&amp;t=341" aria-label="Intent Engine, watch the demo on YouTube">
       <div class="project-text">
         <h3><span class="year">2026</span> <span class="name">Intent Engine</span></h3>
         <p>Giving AI agents the business context to act on what people mean</p>
       </div>
       <div class="project-shot">
-        <a href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&t=341">
         <img src="assets/portfolio/intent-engine-800.webp"
              srcset="assets/portfolio/intent-engine-800.webp 800w, assets/portfolio/intent-engine-1440.webp 1440w"
              sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
              width="1440" height="810" loading="lazy" decoding="async" style="--shot-y: 55%"
              alt="A supply chain app flags a delayed part while Intent Engine maps the people, orders and suppliers it affects" />
-        </a>
       </div>
-    </article>
+      <span class="project-count" aria-hidden="true">Video &nearr;</span>
+    </a>
 
-    <article class="project">
+    <article class="project is-clickable">
       <div class="project-text">
-        <h3><span class="year">2026</span> <span class="name">App Studio</span></h3>
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="app-studio-gallery" aria-label="App Studio, view 2 images">App Studio</button></h3>
         <p>A visual canvas for designing, generating and publishing data apps</p>
       </div>
       <div class="project-shot">
@@ -451,7 +288,41 @@
              width="1600" height="1032" loading="lazy" decoding="async"
              alt="Domo App Studio editor with a block library, a page in progress and a properties panel" />
       </div>
+      <span class="project-count" aria-hidden="true">2 images</span>
     </article>
+
+    <dialog class="gallery" id="app-studio-gallery" aria-labelledby="app-studio-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="app-studio-title"><span class="year">2026</span> App Studio</h3>
+            <p>A visual canvas for designing, generating and publishing data apps</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="App Studio images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/app-studio-1600.webp"
+                 srcset="assets/portfolio/app-studio-1600.webp 1600w, assets/portfolio/app-studio-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1032" loading="lazy" decoding="async"
+                 alt="Domo App Studio editor with a block library, a page in progress and a properties panel" />
+            <figcaption>The editor: a block library, the page in progress and a properties panel</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/app-studio-canvas-1600.webp"
+                 srcset="assets/portfolio/app-studio-canvas-1600.webp 1600w, assets/portfolio/app-studio-canvas-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="867" loading="lazy" decoding="async"
+                 alt="A workflow beside the app it drives: when S3 utilization is flagged as oversized and savings top 15 percent, the Cloud Cost Commander app recommends a tiering fix worth $9,531 a year" />
+            <figcaption>Apps and workflows together: a trigger, a condition and the app that acts on it</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 2</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
 
     <article class="project is-clickable">
       <div class="project-text">
@@ -515,9 +386,9 @@
       </div>
     </dialog>
 
-    <article class="project">
+    <article class="project is-clickable">
       <div class="project-text">
-        <h3><span class="year">2024</span> <span class="name">AI Readiness</span></h3>
+        <h3><span class="year">2024</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="ai-readiness-gallery" aria-label="AI Readiness, view 2 images">AI Readiness</button></h3>
         <p>Showing people what to fix before their data meets AI</p>
       </div>
       <div class="project-shot">
@@ -527,11 +398,45 @@
              width="1600" height="1039" loading="lazy" decoding="async"
              alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
       </div>
+      <span class="project-count" aria-hidden="true">2 images</span>
     </article>
 
-    <article class="project">
+    <dialog class="gallery" id="ai-readiness-gallery" aria-labelledby="ai-readiness-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="ai-readiness-title"><span class="year">2024</span> AI Readiness</h3>
+            <p>Showing people what to fix before their data meets AI</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="AI Readiness images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/ai-readiness-1600.webp"
+                 srcset="assets/portfolio/ai-readiness-1600.webp 1600w, assets/portfolio/ai-readiness-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1039" loading="lazy" decoding="async"
+                 alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
+            <figcaption>A readiness score, what needs attention and an assistant ready to help</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/ai-readiness-tidy-1600.webp"
+                 srcset="assets/portfolio/ai-readiness-tidy-1600.webp 1600w, assets/portfolio/ai-readiness-tidy-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1039" loading="lazy" decoding="async"
+                 alt="AI Preflight step 2, Tidy-up and explore: column distributions on the left, readiness cards showing four columns with possible PII, and Domo.AI offering to write descriptions" />
+            <figcaption>Tidy-up and explore: flag sensitive columns and fill in what's missing</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 2</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
       <div class="project-text">
-        <h3><span class="year">2023</span> <span class="name">Improved Domo Workflow Engine</span></h3>
+        <h3><span class="year">2023</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="workflow-engine-gallery" aria-label="Improved Domo Workflow Engine, view 1 image">Improved Domo Workflow Engine</button></h3>
         <p>Turning business automation into flows anyone can read and edit</p>
       </div>
       <div class="project-shot">
@@ -541,14 +446,147 @@
              width="1600" height="916" loading="lazy" decoding="async"
              alt="A Domo workflow for new hire onboarding: when Workday approves a new hire, Outlook sends them a welcome email" />
       </div>
+      <span class="project-count" aria-hidden="true">1 image</span>
     </article>
+
+    <dialog class="gallery" id="workflow-engine-gallery" aria-labelledby="workflow-engine-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="workflow-engine-title"><span class="year">2023</span> Improved Domo Workflow Engine</h3>
+            <p>Turning business automation into flows anyone can read and edit</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Improved Domo Workflow Engine images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/workflow-engine-1600.webp"
+                 srcset="assets/portfolio/workflow-engine-1600.webp 1600w, assets/portfolio/workflow-engine-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="916" loading="lazy" decoding="async"
+                 alt="A Domo workflow for new hire onboarding: when Workday approves a new hire, Outlook sends them a welcome email" />
+            <figcaption>New hire onboarding as a flow anyone can read</figcaption>
+          </figure>
+        </div>
+      </div>
+    </dialog>
   </section>
 
-  <h2>In the media</h2>
-  <ul>
-    <li>50+ TV and podcast appearances in 2026 on human-AI collaboration, the future of work and emotional design</li>
-    <li>Recent: <a href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">Fox News</a> segment on how Domo powers human-AI collaboration and the future of work</li>
-  </ul>
+  <section class="experiments" aria-labelledby="experiments-heading">
+    <h2 id="experiments-heading">Selected explorations</h2>
+    <a class="experiment" href="Cue/">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/cue-teaser.webp" />
+          <img src="assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Cue (alpha). Write your talk. Cue the slides.</span>
+          <span class="blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="measles.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/measles-teaser.webp" />
+          <img src="assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">We beat measles once but will it come back? Tracking US state cases.</span>
+          <span class="blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="godzilla-el-nino.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/godzilla-teaser.webp" />
+          <img src="assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
+          <span class="blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="luminet-tribute.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/luminet-teaser.webp" />
+          <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">A tribute to Luminet's first portrait of a black hole</span>
+          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
+          <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Yves Outlines. Generate posters with type that ripples</span>
+          <span class="blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="color-intelligence.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
+          <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Mapping the shape of a color palette</span>
+          <span class="blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="color-ramp.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
+          <img src="assets/color-ramp-teaser.png" alt="Tailwind's color ramps in a grid with a new purple ramp slotted in among them, beside the new ramp drawn large with the starting color circled" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Ramp from one color</span>
+          <span class="blurb">A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, seven other design systems or your own imported palette. It estimates how close each step is to what that system's designers would have picked, shows which steps pass for text, and exports CSS, Tailwind or design tokens.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <p class="more-link"><a href="lab/">All explorations</a></p>
+  </section>
+
+  <section class="media" aria-labelledby="media-heading">
+    <h2 id="media-heading">In the media</h2>
+    <p>50+ TV and podcast appearances in 2026 on human-AI collaboration, the future of work and emotional design.</p>
+    <ol class="writing-list">
+      <li>
+        <a class="writing no-ext" href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">
+          <span class="writing-title">How Domo powers human-AI collaboration</span>
+          <span class="writing-dek">Human judgment in AI decisions, using AI to augment creativity and the mistakes companies make adopting it</span>
+          <span class="writing-meta"><time datetime="2026-01">Jan 2026</time> · Fox News, Washington D.C. &nearr;</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing no-ext" href="https://cmscritic.com/backoff-on-the-ai-layoffs-domos-chris-willis-on-the-future-of-work-in-2026">
+          <span class="writing-title">Back off on the AI layoffs</span>
+          <span class="writing-dek">Why AI-driven layoffs were overhyped, and why work is shifting toward people steering AI with judgment</span>
+          <span class="writing-meta"><time datetime="2026-01-22">Jan 2026</time> · CMS Critic &nearr;</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing no-ext" href="https://podcast.uxwritinghub.com/ai-and-content-design-evolution-in-ux-with-chris-willies-cdo-domo">
+          <span class="writing-title">AI and the evolution of content design</span>
+          <span class="writing-dek">From organizational data problems to interfaces that speak in the terms each person's role makes familiar</span>
+          <span class="writing-meta"><time datetime="2024-06-19">Jun 2024</time> · Writers in Tech podcast &nearr;</span>
+        </a>
+      </li>
+    </ol>
+  </section>
 
   <section class="writings" aria-labelledby="writings-heading">
     <h2 id="writings-heading">Selected writings</h2>
@@ -639,122 +677,21 @@
 
   <p>If you're building the future of work, or just looking for a spirited chat about it, <a href="https://www.linkedin.com/in/cwillis/">let's talk</a>.</p>
 
-  <section class="experiments" aria-labelledby="experiments-heading">
-    <h2 id="experiments-heading">Selected explorations</h2>
-    <a class="experiment" href="Cue/">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/cue-teaser.webp" />
-          <img src="assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Cue (alpha). Write your talk. Cue the slides.</span>
-          <span class="blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="measles.html">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/measles-teaser.webp" />
-          <img src="assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">We beat measles once but will it come back? Tracking US state cases.</span>
-          <span class="blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="godzilla-el-nino.html">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/godzilla-teaser.webp" />
-          <img src="assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
-          <span class="blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="luminet-tribute.html">
-      <figure>
-        <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
-        <figcaption>
-          <span class="title">A tribute to Luminet's first portrait of a black hole</span>
-          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
-          <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Yves Outlines. Generate posters with type that ripples</span>
-          <span class="blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="color-intelligence.html">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
-          <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Mapping the shape of a color palette</span>
-          <span class="blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</span>
-        </figcaption>
-      </figure>
-    </a>
-    <a class="experiment" href="color-ramp.html">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
-          <img src="assets/color-ramp-teaser.png" alt="Tailwind's color ramps in a grid with a new purple ramp slotted in among them, beside the new ramp drawn large with the starting color circled" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Ramp from one color</span>
-          <span class="blurb">A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, seven other design systems or your own imported palette. It estimates how close each step is to what that system's designers would have picked, shows which steps pass for text, and exports CSS, Tailwind or design tokens.</span>
-        </figcaption>
-      </figure>
-    </a>
-  </section>
-
-  <hr />
-
-  <nav aria-label="Profiles">
+  <footer class="site-foot">
+    <hr />
+    <nav aria-label="Profiles">
     <a href="https://x.com/chriswillis">𝕏</a>
     <a href="https://www.linkedin.com/in/cwillis/">LinkedIn</a>
     <a href="https://github.com/chriswillis/">GitHub</a>
     <a href="https://www.instagram.com/hypergene/">Instagram</a>
+    <a href="/feed.xml">RSS</a>
   </nav>
+  </footer>
 </main>
+<script src="assets/site/theme.js" defer></script>
 <script>
-  (function () {
-    var btn = document.querySelector(".theme-toggle");
-    var root = document.documentElement;
-    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-    function currentTheme() {
-      var set = root.getAttribute("data-theme");
-      if (set === "light" || set === "dark") return set;
-      return systemDark.matches ? "dark" : "light";
-    }
-    btn.addEventListener("click", function () {
-      var next = currentTheme() === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("theme", next); } catch (e) {}
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "d" && !e.metaKey && !e.ctrlKey && !e.altKey && document.activeElement === document.body) btn.click();
-    });
-  })();
-</script>
-<script>
-  // Project galleries: open from the card, arrows or swipe to move, Esc or backdrop click to close
+  // Project galleries: open from the card, arrows or swipe to move, Esc or backdrop click to close.
+  // A one-image gallery has no arrows.
   (function () {
     document.querySelectorAll("dialog.gallery").forEach(function (dlg) {
       var track = dlg.querySelector(".gallery-track");
@@ -765,6 +702,7 @@
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
       function index() { return Math.round(track.scrollLeft / track.clientWidth) || 0; }
       function update() {
+        if (!count) return;
         var i = index();
         count.textContent = (i + 1) + " / " + slides.length;
         prev.disabled = i === 0;
@@ -776,8 +714,8 @@
       }
       var raf;
       track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
-      prev.addEventListener("click", function () { go(index() - 1); });
-      next.addEventListener("click", function () { go(index() + 1); });
+      if (prev) prev.addEventListener("click", function () { go(index() - 1); });
+      if (next) next.addEventListener("click", function () { go(index() + 1); });
       dlg.querySelector(".gallery-close").addEventListener("click", function () { dlg.close(); });
       dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
       dlg.addEventListener("keydown", function (e) {

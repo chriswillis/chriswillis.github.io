@@ -9,6 +9,7 @@
 
 <!-- iMessage / Open Graph preview -->
 <meta property="og:type" content="article">
+<link rel="canonical" href="https://cewillis.com/godzilla-el-nino.html">
 <meta property="og:url" content="https://cewillis.com/godzilla-el-nino.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="Some monsters are real: the 2026 El Niño, charted live">
@@ -151,6 +152,9 @@ hr.sep {
   font-family: var(--font-graphic); font-size: 12px; letter-spacing: 0.02em;
 }
 .brandbar .wordmark { font-weight: 700; letter-spacing: -0.01em; }
+.brandbar .wordmark .home { color: inherit; text-decoration: none; }
+.brandbar .wordmark .home:hover { text-decoration: underline; }
+.brandbar .wordmark .sep { font-weight: 400; color: var(--ink-faint, var(--ink-soft)); margin: 0 0.15em; }
 .brandbar .stamp { color: var(--ink-soft); }
 
 /* ============================================================================
@@ -544,7 +548,7 @@ footer p {
 
 <div class="brandbar">
   <div class="wide inner">
-    <span class="wordmark">Climate</span>
+    <span class="wordmark"><a class="home" href="/">Chris Willis</a> <span class="sep" aria-hidden="true">/</span> Climate</span>
     <span class="stamp">Live &middot; Recomputed from NOAA OISST on page load</span>
   </div>
 </div>
@@ -588,7 +592,7 @@ footer p {
       <div class="plate-wrap">
         <img id="crw-img" width="1491" height="880" decoding="async"
           src="https://coralreefwatch.noaa.gov/data_current/5km/v3.1-clim19912020-v1/daily/png/ct5km_ssta_v3.1-clim19912020-v1_pacific_current.png"
-          data-fallback="assets/godzilla/crw-pacific-2026-10-01.png" data-fallback-date="October 1, 2026"
+          data-fallback="assets/godzilla/crw-pacific-latest.png" data-fallback-2="assets/godzilla/crw-pacific-2026-10-01.png" data-fallback-date="October 1, 2026"
           alt="Satellite map of Pacific sea-surface temperature anomalies: a dark red band of water four to five degrees above normal stretches along the equator from the dateline to South America, with cooler blue water to the southwest.">
         <div class="nino-box" id="nino-box" hidden><span>Ni&ntilde;o 3.4</span></div>
       </div>
@@ -867,7 +871,7 @@ footer p {
   <div class="col">
     <h2>About this page</h2>
     <p>The daily series is <a href="https://climatereanalyzer.org/clim/sst_daily/json_2clim/oisst2.1_nino3.4_sst_day.json">fetched from Climate Reanalyzer</a> when the page loads: NOAA OISST version 2.1, averaged over the Ni&ntilde;o 3.4 box, one array per year plus a preliminary series for the most recent days and the 1991&ndash;2020 daily climatology. The daily mean is the climatology the source provides. The daily standard deviation is computed here from the thirty baseline years, ignoring the leap day. The anomaly is temperature minus the mean for that day; the deviation is the anomaly divided by that day&rsquo;s standard deviation. For the warped grid in Fig.&nbsp;1 the mean and standard deviation are smoothed with a 15-day blur so the curves read as paper rather than noise; the ochre line and every figure in the text use the unsmoothed values. The method follows <a href="https://observablehq.com/@fil/godzilla-el-nino">Fil&rsquo;s notebook</a> step for step; the warped-grid idea is Toph Tucker&rsquo;s <a href="https://observablehq.com/@tophtucker/warping-gridspace">warping gridspace</a>.</p>
-    <p>If the live fetch fails, the page falls back to a copy of the data saved on <span id="snapshot-date">October 2, 2026</span> and says so under the headline. The satellite map is hotlinked from NOAA and refreshes on NOAA&rsquo;s schedule; if it cannot be loaded, a dated snapshot from this site is shown instead and the caption notes the date.</p>
+    <p>If the live fetch fails, the page falls back to a copy this site saves every morning, then to one embedded in the page from <span id="snapshot-date">October 2, 2026</span>, and says which under the headline. The satellite map is hotlinked from NOAA and refreshes on NOAA&rsquo;s schedule; if it cannot be loaded, the site&rsquo;s latest saved copy is shown instead and the caption notes its date.</p>
     <p>Two figures are computed from snapshots rather than live, because their sources do not allow cross-site requests. The Hovm&ouml;ller and the cross-sections use NOAA OISST v2.1 grid cells pulled from NOAA CoastWatch&rsquo;s ERDDAP server by a small script in this site&rsquo;s repository (<code>assets/godzilla/build-data.py</code>): weekly samples, one degree of longitude apart, averaged across five rows between 5&deg;S and 5&deg;N, with a 1991&ndash;2020 climatology computed from the same cells so the baseline matches the rest of the page (ERDDAP&rsquo;s own anomaly field is relative to 1971&ndash;2000 and is not used). The Oceanic Ni&ntilde;o Index comes from the same script, straight from the Climate Prediction Center&rsquo;s table. Both snapshots carry their generation date in the caption; the index updates monthly, the Hovm&ouml;ller whenever the script is re-run.</p>
     <p>A note on what was chosen. A reader suggested leading with anomalies rather than temperatures, aligning past events on their peaks, and adding region boundaries and a zero-centered palette to the Hovm&ouml;ller. The last two are adopted above. The hero keeps degrees on its axis deliberately: Fil&rsquo;s warped grid is a way of showing the anomaly in standard deviations without throwing away the thermometer, and that double reading is the point of the piece. Peak alignment is the standard way to rank finished events, but an event still climbing has no peak to align on, and El Ni&ntilde;o is locked to the calendar anyway, so the 1950&ndash;present comparison is drawn on the calendar of onset, the way NOAA&rsquo;s own ENSO blog draws it. The CPC thresholds appear only on the index chart they are defined for, not on the daily charts.</p>
     <p class="note">Sources: NOAA National Centers for Environmental Information, <a href="https://www.ncei.noaa.gov/products/optimum-interpolation-sst">Optimum Interpolation SST v2.1</a>, via the <a href="https://climatereanalyzer.org/clim/sst_daily/">Climate Reanalyzer</a>, Climate Change Institute, University of Maine. <a href="https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta_clim19912020.php">NOAA Coral Reef Watch</a> daily 5&nbsp;km SST anomaly. NOAA OISST v2.1 grid cells via <a href="https://coastwatch.pfeg.noaa.gov/erddap/griddap/ncdcOisst21Agg.html">NOAA CoastWatch ERDDAP</a>. NOAA Climate Prediction Center, <a href="https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt">Oceanic Ni&ntilde;o Index</a> (ERSST v6). Eliot Jacobson, <a href="https://climatecasino.substack.com/p/some-monsters-are-real">Some Monsters are Real</a>, The Climate Casino, July 8, 2026. NOAA Climate Prediction Center, <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml">ENSO Diagnostic Discussion</a>, September 10, 2026. Columbia Climate School, <a href="https://news.climate.columbia.edu/2026/10/01/el-nino-2026-how-big-could-it-get">El Ni&ntilde;o 2026: How Big Could It Get?</a>, October 1, 2026. Gregory Andrews, <a href="https://www.lyrebirddreaming.com/post/the-graph-that-should-be-front-page-news">The graph that should be front-page news</a>.</p>
@@ -877,6 +881,7 @@ footer p {
 
 <footer>
   <div class="col">
+    <nav data-explorations aria-label="More explorations"><a href="/lab/">All explorations</a></nav>
     <p>Set in IBM Plex Serif, Sans and Mono. Data &copy; NOAA, public domain. Text and charts &copy; 2026 Chris Willis. <a href="index.html">cewillis.com</a></p>
   </div>
 </footer>
@@ -2049,6 +2054,10 @@ footer p {
   var G = window.Godzilla;
   var $ = function (id) { return document.getElementById(id); };
   var SNAPSHOT_DATE = 'October 2, 2026';
+  /* Dates the daily Action saved each fallback file: { nino34: 'YYYY-MM-DD', crw: 'YYYY-MM-DD' } */
+  var MANIFEST = (location.protocol === 'file:' || typeof fetch !== 'function') ? Promise.resolve(null)
+    : fetch('assets/godzilla/manifest.json', { cache: 'no-cache' })
+        .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
 
   /* ---- data: live, then the embedded snapshot ------------------------- */
   function loadData() {
@@ -2059,8 +2068,16 @@ footer p {
       .then(function (json) { clearTimeout(timer); return { sst: json, live: true }; })
       .catch(function () {
         clearTimeout(timer);
-        var json = JSON.parse($('sst-snapshot').textContent);
-        return { sst: json, live: false };
+        /* the copy saved daily by .github/workflows/refresh-data.yml, then the one embedded in this page */
+        return Promise.all([
+          fetch('assets/godzilla/nino34.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }),
+          MANIFEST
+        ]).then(function (res) {
+          if (res[1] && res[1].nino34) SNAPSHOT_DATE = longDate(res[1].nino34);
+          return { sst: res[0], live: false };
+        }).catch(function () {
+          return { sst: JSON.parse($('sst-snapshot').textContent), live: false };
+        });
       });
   }
 
@@ -2225,12 +2242,21 @@ footer p {
 
   /* ---- plates: live NOAA images with dated fallbacks -------------------- */
   function wireImage(img, sourceEl, liveText) {
-    var fellBack = false;
+    var tries = 0;
+    function note(date) {
+      if (sourceEl) sourceEl.textContent = sourceEl.textContent.replace(/loaded live from [^.]*\.|snapshot of [^;]*; the live image could not be loaded\./,
+        'snapshot of ' + date + '; the live image could not be loaded.');
+    }
     function fallback() {
-      if (fellBack) return; fellBack = true;
-      img.src = img.getAttribute('data-fallback');
-      if (sourceEl) sourceEl.textContent = sourceEl.textContent.replace(/loaded live from [^.]*\./,
-        'snapshot of ' + img.getAttribute('data-fallback-date') + '; the live image could not be loaded.');
+      tries++;
+      if (tries === 1) {
+        /* the copy saved daily by the refresh Action, dated by its manifest */
+        img.src = img.getAttribute('data-fallback');
+        MANIFEST.then(function (m) { note(m && m.crw ? longDate(m.crw) : 'a recent day'); });
+      } else if (tries === 2 && img.getAttribute('data-fallback-2')) {
+        img.src = img.getAttribute('data-fallback-2');
+        note(img.getAttribute('data-fallback-date'));
+      }
     }
     img.addEventListener('error', fallback);
     if (img.complete && img.naturalWidth === 0) fallback();
@@ -2375,5 +2401,6 @@ footer p {
 })();
 
 </script>
+<script src="assets/site/explorations.js" defer></script>
 </body>
 </html>

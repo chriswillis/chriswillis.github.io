@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Explorations — Chris Willis</title>
+<meta name="description" content="Data stories, color tools, generative type and other experiments by Chris Willis." />
+<link rel="canonical" href="https://cewillis.com/lab/" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="alternate" type="application/rss+xml" title="Chris Willis" href="/feed.xml" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cewillis.com/lab/">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="Explorations — Chris Willis">
+<meta property="og:description" content="Data stories, color tools, generative type and other experiments.">
+<meta property="og:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site/site.css" />
+<style>
+  /* Explorations index. Shared tokens, links, masthead and theme toggle live in assets/site/site.css */
+  main { max-width: 64rem; }
+  .lab-head h1 { font-size: clamp(1.7rem, 4.2vw, 2.4rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; }
+  .lab-head p { margin-top: 0.75rem; max-width: 44ch; color: var(--tx-2); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 2rem 0 0.5rem; }
+  .filters button {
+    font: inherit; font-size: 0.95rem; font-weight: 400; color: var(--tx-2); cursor: pointer;
+    background: none; border: 1px solid var(--ui-2); padding: 0.25rem 0.75rem;
+    transition: color 0.2s ease-out, border-color 0.2s ease-out, background-color 0.2s ease-out;
+  }
+  .filters button:hover { color: var(--accent); border-color: var(--accent); }
+  .filters button[aria-pressed="true"] { color: var(--bg); background: var(--tx); border-color: var(--tx); }
+  .filters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .lab { list-style: none; display: grid; gap: 2.5rem 2rem; margin-top: 2rem; }
+  @media (min-width: 46rem) { .lab { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .lab li[hidden] { display: none; }
+  .lab-item { display: block; color: inherit; font-weight: inherit; text-decoration: none; }
+  .lab-item img { display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover; background: var(--bg-2); transition: opacity 0.2s ease-out; }
+  .lab-meta { display: block; margin-top: 0.9rem; color: var(--tx-2); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .lab-title {
+    display: block; margin-top: 0.2rem; font-weight: 400; line-height: 1.35;
+    text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .lab-blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); font-size: 1.05rem; line-height: 1.5; }
+  .lab-item:hover .lab-title, .lab-item:focus-visible .lab-title { color: var(--accent); text-decoration-color: var(--accent); }
+  .lab-item:hover img { opacity: 0.92; }
+  .lab-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+</style>
+<script>
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+</head>
+<body>
+<main>
+  <div class="controls">
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <header class="masthead">
+    <a href="../">
+      <picture>
+        <source type="image/webp" srcset="../assets/avatar/chris-willis-72.webp 1x, ../assets/avatar/chris-willis-144.webp 2x, ../assets/avatar/chris-willis-216.webp 3x" />
+        <img class="avatar" src="../assets/avatar/chris-willis-72.png" srcset="../assets/avatar/chris-willis-144.png 2x, ../assets/avatar/chris-willis-216.png 3x" width="72" height="72" alt="" />
+      </picture>
+      <span class="crumb">Chris Willis / Explorations</span>
+    </a>
+  </header>
+
+  <section class="lab-head">
+    <h1>Explorations</h1>
+    <p>Data stories, color tools, generative type and other things I build to learn something.</p>
+  </section>
+
+  <div class="filters" role="group" aria-label="Filter explorations">
+      <button type="button" data-filter="" aria-pressed="true">All</button>
+      <button type="button" data-filter="Data stories" aria-pressed="false">Data stories</button>
+      <button type="button" data-filter="Color" aria-pressed="false">Color</button>
+      <button type="button" data-filter="Tools" aria-pressed="false">Tools</button>
+      <button type="button" data-filter="Type" aria-pressed="false">Type</button>
+      <button type="button" data-filter="Science" aria-pressed="false">Science</button>
+  </div>
+
+  <ul class="lab" id="lab">
+      <li data-tags="Data stories">
+        <a class="lab-item" href="../measles.html">
+          <picture>
+            <source type="image/webp" srcset="../assets/measles-teaser.webp" />
+            <img src="../assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-10-12">Oct 2026</time> · Data stories</span>
+          <span class="lab-title">We beat measles once but will it come back? Tracking US state cases.</span>
+          <span class="lab-blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
+        </a>
+      </li>
+      <li data-tags="Tools">
+        <a class="lab-item" href="../Cue/">
+          <picture>
+            <source type="image/webp" srcset="../assets/cue-teaser.webp" />
+            <img src="../assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-10-09">Oct 2026</time> · Tools</span>
+          <span class="lab-title">Cue (alpha). Write your talk. Cue the slides.</span>
+          <span class="lab-blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
+        </a>
+      </li>
+      <li data-tags="Data stories">
+        <a class="lab-item" href="../godzilla-el-nino.html">
+          <picture>
+            <source type="image/webp" srcset="../assets/godzilla-teaser.webp" />
+            <img src="../assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-10-05">Oct 2026</time> · Data stories</span>
+          <span class="lab-title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
+          <span class="lab-blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
+        </a>
+      </li>
+      <li data-tags="Color">
+        <a class="lab-item" href="../color-intelligence.html">
+          <picture>
+            <source type="image/webp" srcset="../assets/color-intelligence-teaser.webp" />
+            <img src="../assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-10-01">Oct 2026</time> · Color</span>
+          <span class="lab-title">Mapping the shape of a color palette</span>
+          <span class="lab-blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</span>
+        </a>
+      </li>
+      <li data-tags="Color|Tools">
+        <a class="lab-item" href="../color-ramp.html">
+          <picture>
+            <source type="image/webp" srcset="../assets/color-ramp-teaser.webp" />
+            <img src="../assets/color-ramp-teaser.png" alt="Tailwind's color ramps in a grid with a new purple ramp slotted in among them, beside the new ramp drawn large with the starting color circled" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-10-01">Oct 2026</time> · Color · Tools</span>
+          <span class="lab-title">Ramp from one color</span>
+          <span class="lab-blurb">A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, seven other design systems or your own imported palette. It estimates how close each step is to what that system's designers would have picked, shows which steps pass for text, and exports CSS, Tailwind or design tokens.</span>
+        </a>
+      </li>
+      <li data-tags="Type|Tools">
+        <a class="lab-item" href="../outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9">
+          <picture>
+            <source type="image/webp" srcset="../assets/outline-echo-teaser.webp" />
+            <img src="../assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-09-30">Sep 2026</time> · Type · Tools</span>
+          <span class="lab-title">Yves Outlines. Generate posters with type that ripples</span>
+          <span class="lab-blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
+        </a>
+      </li>
+      <li data-tags="Science">
+        <a class="lab-item" href="../luminet-tribute.html">
+          <picture>
+            <source type="image/webp" srcset="../assets/luminet-teaser.webp" />
+            <img src="../assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
+          </picture>
+          <span class="lab-meta"><time datetime="2026-09-10">Sep 2026</time> · Science</span>
+          <span class="lab-title">A tribute to Luminet's first portrait of a black hole</span>
+          <span class="lab-blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
+        </a>
+      </li>
+  </ul>
+
+  <footer class="site-foot">
+    <hr style="border:0;height:1px;background:var(--divider);margin:2.5rem 0 1.75rem" />
+    <nav aria-label="Profiles">
+      <a href="https://x.com/chriswillis">𝕏</a>
+      <a href="https://www.linkedin.com/in/cwillis/">LinkedIn</a>
+      <a href="https://github.com/chriswillis/">GitHub</a>
+      <a href="https://www.instagram.com/hypergene/">Instagram</a>
+      <a href="/feed.xml">RSS</a>
+    </nav>
+  </footer>
+</main>
+<script src="../assets/site/theme.js" defer></script>
+<script>
+  // Tag filters: one at a time; the choice is kept in the URL (?tag=Color) so a filtered view can be shared
+  (function () {
+    var buttons = document.querySelectorAll(".filters button");
+    var items = document.querySelectorAll("#lab li");
+    function apply(tag) {
+      buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.filter === tag)); });
+      items.forEach(function (li) { li.hidden = !!tag && li.dataset.tags.split("|").indexOf(tag) < 0; });
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var tag = b.dataset.filter;
+        apply(tag);
+        var url = new URL(location.href);
+        if (tag) url.searchParams.set("tag", tag); else url.searchParams.delete("tag");
+        history.replaceState(null, "", url);
+      });
+    });
+    apply(new URLSearchParams(location.search).get("tag") || "");
+  })();
+</script>
+</body>
+</html>

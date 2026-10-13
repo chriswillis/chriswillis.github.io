@@ -9,6 +9,7 @@
 
 <!-- iMessage / Open Graph preview -->
 <meta property="og:type" content="article">
+<link rel="canonical" href="https://cewillis.com/measles.html">
 <meta property="og:url" content="https://cewillis.com/measles.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="We beat measles once but will it come back? Tracking US state cases.">
@@ -151,6 +152,9 @@ hr.sep {
   font-family: var(--font-graphic); font-size: 12px; letter-spacing: 0.02em;
 }
 .brandbar .wordmark { font-weight: 700; letter-spacing: -0.01em; }
+.brandbar .wordmark .home { color: inherit; text-decoration: none; }
+.brandbar .wordmark .home:hover { text-decoration: underline; }
+.brandbar .wordmark .sep { font-weight: 400; color: var(--ink-faint, var(--ink-soft)); margin: 0 0.15em; }
 .brandbar .stamp { color: var(--ink-soft); }
 
 /* ============================================================================
@@ -524,7 +528,7 @@ footer p {
 
 <div class="brandbar">
   <div class="wide inner">
-    <span class="wordmark">Public health</span>
+    <span class="wordmark"><a class="home" href="/">Chris Willis</a> <span class="sep" aria-hidden="true">/</span> Public health</span>
     <span class="stamp">Live &middot; This year refreshed from the CDC on page load</span>
   </div>
 </div>
@@ -678,12 +682,13 @@ footer p {
     <p><b>Rates</b> are cases per 100,000 residents, using Census Bureau annual estimates via FRED; the most recent year&rsquo;s population stands in for the current year. The District of Columbia is excluded from the grids because no state-level series covers it for 2002&ndash;2022. The color scale in Fig.&nbsp;1 is a square root and tops out at 1,500 per 100,000; a few epidemic years in small states ran higher. Fig.&nbsp;2 tops out at 10 per 100,000.</p>
     <p><b>Coverage</b> is the CDC&rsquo;s <a href="https://data.cdc.gov/Vaccinations/Vaccination-Coverage-and-Exemptions-among-Kinderga/ijqb-a7ye">SchoolVaxView</a> estimate of two-dose MMR coverage among kindergartners, collected by states using methods that range from a census of every school to a sample survey &ndash; which means small differences between states fall within the noise. Montana has not reported since 2020&ndash;21 and Kansas did not report for 2025&ndash;26. Kindergarten coverage is a leading indicator; it is not a direct measure of immunity in the population at large.</p>
     <p class="note">Sources: Van Panhuis, W., Cross, A., Burke, D., <a href="https://zenodo.org/records/11452259">Counts of Measles reported in the United States of America: 1888&ndash;2002</a>, Project Tycho v2.0 (CC BY 4.0). CDC <a href="https://data.cdc.gov/NNDSS/NNDSS-Weekly-Data/x9gk-5huc">National Notifiable Diseases Surveillance System weekly tables</a>. CDC <a href="https://www.cdc.gov/measles/data-research/index.html">Measles cases and outbreaks</a>, October 8, 2026. CDC <a href="https://www.cdc.gov/schoolvaxview/data/index.html">SchoolVaxView</a>. Our World in Data, <a href="https://ourworldindata.org/grapher/reported-measles-case-rate-by-state-in-the-united-states">Reported measles case rate by state</a>. U.S. Census Bureau resident population via <a href="https://fred.stlouisfed.org/">FRED</a>. CDC, <a href="https://www.cdc.gov/measles/about/history.html">History of measles</a>. STAT, <a href="https://www.statnews.com/2026/08/06/measles-elimination-status-2026-paho/">on the PAHO elimination review</a>, August 6, 2026. Johns Hopkins, <a href="https://hub.jhu.edu/2025/06/03/united-states-measles-vaccination-rate-declines">county MMR coverage study</a>, 2025.</p>
-    <p class="note">After Tynan DeBold and Dov Friedman, <a href="https://graphics.wsj.com/infectious-diseases-and-vaccines/">Battling Infectious Diseases in the 20th Century</a>, Wall Street Journal, 2015, and Mike Bostock&rsquo;s <a href="https://observablehq.com/@observablehq/plot-impact-of-vaccines">Plot recreation</a>. Charts are drawn with <a href="https://observablehq.com/plot/">Observable Plot</a> and <a href="https://d3js.org/">D3</a>; state shapes are from <a href="https://github.com/topojson/us-atlas">us-atlas</a>. The data is built by <code>assets/measles/build-data.py</code> in this site&rsquo;s repository.</p>
+    <p class="note">After Tynan DeBold and Dov Friedman, <a href="https://graphics.wsj.com/infectious-diseases-and-vaccines/">Battling Infectious Diseases in the 20th Century</a>, Wall Street Journal, 2015, and Mike Bostock&rsquo;s <a href="https://observablehq.com/@observablehq/plot-impact-of-vaccines">Plot recreation</a>. Charts are drawn with <a href="https://observablehq.com/plot/">Observable Plot</a> and <a href="https://d3js.org/">D3</a>; state shapes are from <a href="https://github.com/topojson/us-atlas">us-atlas</a>. The data is built by <code>assets/measles/build-data.py</code> in this site&rsquo;s repository, and the CDC&rsquo;s weekly and national counts are saved here every morning, so the page keeps working when the CDC can&rsquo;t be reached.</p>
   </div>
 </div>
 
 <footer>
   <div class="col">
+    <nav data-explorations aria-label="More explorations"><a href="/lab/">All explorations</a></nav>
     <p>Set in IBM Plex Serif, Sans and Mono. Data from Project Tycho (CC BY 4.0), the CDC and the Census Bureau. Text and charts &copy; 2026 Chris Willis. <a href="index.html">cewillis.com</a></p>
   </div>
 </footer>
@@ -1460,7 +1465,18 @@ footer p {
   }
 
   /* ---------- live refresh from data.cdc.gov ---------- */
+  /* The copy of this query saved daily by .github/workflows/refresh-data.yml */
+  var SAVED = null, savedOn = null;
+  function savedRows(y) {
+    SAVED = SAVED || fetch('assets/measles/nndss-latest.json', { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status); return r.json();
+    });
+    return SAVED.then(function (s) { savedOn = s.generated; return s.years[y] || []; });
+  }
   function fetchYear(y) {
+    return liveRows(y).catch(function () { return savedRows(y); }).then(function (js) { return tally(y, js); });
+  }
+  function liveRows(y) {
     var q = new URLSearchParams({
       '$select': 'states,week,label,m3',
       '$where': "year='" + y + "' AND starts_with(label,'Measles')",
@@ -1471,17 +1487,18 @@ footer p {
       clearTimeout(to);
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
-    }).then(function (js) {
-      if (!js.length) return null;
-      var wk = +js[0].week, tot = {};
-      js.forEach(function (d) {
-        if (+d.week !== wk) return;
-        var a = UPPER[String(d.states).toUpperCase()];
-        if (!a || a === 'DC') return;
-        tot[a] = (tot[a] || 0) + (+d.m3 || 0);
-      });
-      return { year: y, week: wk, tot: tot };
     });
+  }
+  function tally(y, js) {
+    if (!js.length) return null;
+    var wk = +js[0].week, tot = {};
+    js.forEach(function (d) {
+      if (+d.week !== wk) return;
+      var a = UPPER[String(d.states).toUpperCase()];
+      if (!a || a === 'DC') return;
+      tot[a] = (tot[a] || 0) + (+d.m3 || 0);
+    });
+    return { year: y, week: wk, tot: tot };
   }
   function applyLive(res) {
     if (!res || res.year < 2023) return false;
@@ -1509,6 +1526,11 @@ footer p {
     res.forEach(function (r) { if (applyLive(r)) changed = true; });
     if (changed) drawAll();
     var end = mmwrWeekEnd(current.year, current.week);
+    if (savedOn) {
+      setStatus('snapshot', 'Couldn’t reach the CDC just now, so this page is showing the copy saved on ' + fmtDate(new Date(savedOn + 'T12:00:00Z')) +
+        ', through the week ending ' + fmtDate(end) + '.');
+      return;
+    }
     setStatus('live', 'Live: CDC weekly tables through week ' + current.week + ' of ' + current.year + ', ending ' + fmtDate(end) + '. Earlier years are fixed.');
   }).catch(function () {
     var end = mmwrWeekEnd(current.year, current.week);
@@ -1519,6 +1541,10 @@ footer p {
   /* CDC headline count, live if cdc.gov permits a cross-site request (it often doesn't) */
   fetch('https://www.cdc.gov/wcms/vizdata/measles/MeaslesCasesYear.json').then(function (r) {
     if (!r.ok) throw new Error('HTTP ' + r.status); return r.json();
+  }).catch(function () {
+    return fetch('assets/measles/cdc-year.json', { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status); return r.json();
+    }).then(function (s) { return s.data; });
   }).then(function (js) {
     var best = null;
     js.forEach(function (d) { var y = +d.year, c = +d.cases; if (y && c && (!best || y > best.year)) best = { year: y, cases: c }; });
@@ -1529,7 +1555,9 @@ footer p {
   }).catch(function () { /* keep the saved count */ });
 
   /* map geometry */
-  fetch('https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-albers-10m.json').then(function (r) { return r.json(); }).then(function (topo) {
+  fetch('assets/measles/states-albers-10m.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).catch(function () {
+    return fetch('https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-albers-10m.json').then(function (r) { return r.json(); });
+  }).then(function (topo) {
     us = topo; statesGeo = topojson.feature(us, us.objects.states); path = d3.geoPath();
     drawMap();
   }).catch(function () {
@@ -1546,5 +1574,6 @@ footer p {
 })();
 
 </script>
+<script src="assets/site/explorations.js" defer></script>
 </body>
 </html>
