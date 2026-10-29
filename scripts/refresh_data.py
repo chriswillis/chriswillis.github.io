@@ -109,6 +109,9 @@ def _():
 @step("National measles cases by year (CDC)")
 def _():
     data = json.loads(get("https://www.cdc.gov/wcms/vizdata/measles/MeaslesCasesYear.json"))
+    # Was a bare list until Oct 2026; now {"lastUpdated": ..., "data": [...]}. Accept either.
+    if isinstance(data, dict):
+        data = data.get("data")
     if not isinstance(data, list) or not data:
         raise ValueError("unexpected shape")
     old = json.loads((MEA / "cdc-year.json").read_text()) if (MEA / "cdc-year.json").exists() else {}

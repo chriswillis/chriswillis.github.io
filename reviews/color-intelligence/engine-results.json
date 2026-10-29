@@ -1,0 +1,44 @@
+{
+  "parser": {
+    "rgb()": {
+      "accepted": true,
+      "finite": false,
+      "lab": [
+        null,
+        null,
+        null
+      ]
+    },
+    "rgb(1 2)": {
+      "accepted": true,
+      "finite": false,
+      "lab": [
+        null,
+        null,
+        null
+      ]
+    },
+    "oklch(60% nope 20)": {
+      "accepted": true,
+      "finite": false,
+      "lab": [
+        0.6,
+        null,
+        null
+      ]
+    },
+    "#1234567": {
+      "accepted": true,
+      "finite": true,
+      "lab": [
+        0.3191684205750771,
+        -0.023387372396987016,
+        -0.06857614920398591
+      ]
+    }
+  },
+  "validImport": true,
+  "invalidImportAccepted": true,
+  "constructorError": "Cannot use 'in' operator to search for '0' in undefined",
+  "alphaDiscarded": true
+}

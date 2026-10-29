@@ -1547,6 +1547,7 @@ footer p {
     }).then(function (s) { return s.data; });
   }).then(function (js) {
     var best = null;
+    if (js && !Array.isArray(js)) js = js.data;   /* CDC wraps the rows in {lastUpdated, data} since Oct 2026 */
     js.forEach(function (d) { var y = +d.year, c = +d.cases; if (y && c && (!best || y > best.year)) best = { year: y, cases: c }; });
     if (best && (best.year > national.year || (best.year === national.year && best.cases !== national.cases))) {
       national = { year: best.year, cases: best.cases, asOf: null };
