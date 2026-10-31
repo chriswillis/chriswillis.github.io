@@ -71,7 +71,16 @@
   .seg { display: flex; border: 1px solid var(--ui-2); border-radius: 0.4rem; overflow: hidden; }
   .seg label { flex: 1; text-align: center; padding: 0.4rem 0; cursor: pointer; font-size: 0.85rem; color: var(--tx-2); border-right: 1px solid var(--ui-2); user-select: none; }
   .seg label:last-child { border-right: 0; }
-  .seg input { display: none; }
+  .seg label { position: relative; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+  .seg input, .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -3px; }
+  button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip .primary { display: inline-flex; align-items: center; gap: .35rem; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; min-height: 40px; }
+  .chip .x { min-width: 40px; min-height: 40px; }
+  .samples .sample-card { padding: 0; background: var(--bg-2); color: var(--tx); overflow: hidden; }
+  .samples .sample-card .preview { display: block; padding: .65rem; font-size: 1.25rem; }
+  .samples .sample-card small { color: var(--tx); padding: .5rem; font-variant-numeric: tabular-nums; }
+  button:disabled { cursor: default; }
   .seg input:checked + span { color: var(--tx); font-weight: 500; }
   .seg label:has(input:checked) { background: var(--bg-2); }
   .toggles { display: grid; gap: 0.35rem; }
@@ -102,7 +111,7 @@
   .tabs { display: flex; align-items: center; gap: 0.25rem; padding: 0.45rem 1rem; border-bottom: 1px solid var(--ui); background: var(--bg); flex-shrink: 0; }
   .tabs .tab { background: none; border: 0; font: inherit; font-size: 0.9rem; color: var(--tx-2); padding: 0.35rem 0.75rem; border-radius: 0.4rem; cursor: pointer; }
   .tabs .tab:hover { color: var(--tx); }
-  .tabs .tab[aria-selected="true"] { color: var(--tx); background: var(--bg-2); font-weight: 500; }
+  .tabs .tab[aria-pressed="true"] { color: var(--tx); background: var(--bg-2); font-weight: 500; }
   .tabs .brand { font-weight: 500; font-size: 0.9rem; margin-right: 0.75rem; }
   .tabs .spacer { flex: 1; }
   .view { flex: 1; min-height: 0; }
@@ -158,7 +167,12 @@
     .pick { grid-template-columns: 1fr; height: auto; }
     .pside { border-left: 0; border-top: 1px solid var(--ui); }
     .pctl .seg { min-width: 0; width: 100%; }
-    .gen .cell .h { display: none; }
+    .gen .ramp { grid-auto-flow: column; grid-auto-columns: 4.5rem; grid-template-columns: none !important; overflow-x: auto; padding: 3px; scroll-snap-type: x proximity; }
+    .gen .cell { scroll-snap-align: start; }
+    .gen .cell .h { display: block; }
+    #vpk .seedrow { flex-wrap: wrap; }
+    #vpk .seedrow input[type="text"] { flex-basis: calc(100% - 3rem); }
+    #vpk button, #vpk select, #vpk input[type="text"], #vpk input[type="color"] { min-height: 40px; }
     .mapbox { aspect-ratio: 1 / 1.05; max-height: none; }
     .rlabels .f { display: none; } .rlabels .s { display: inline; }
     .tabs .brand { display: none; }
@@ -246,23 +260,24 @@
 </style>
 </head>
 <body>
-<nav class="tabs" role="tablist">
+<div id="status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+<nav class="tabs" aria-label="Palette controls">
   <span class="brand"><a href="/" style="color:inherit;text-decoration:none">Chris Willis</a> <span aria-hidden="true" style="opacity:.5">/</span> Palette topology</span>
   <label class="sel"><span>Palette</span><select id="pal"></select></label>
   <button class="tt mini" id="impbtn" title="Import your own palette">Import…</button>
   <label class="sel"><span>vs</span><select id="cmp" aria-label="Compare with"></select></label>
   <label class="sel"><span>Neutral</span><select id="neu"></select></label>
-  <div class="seg mini" id="gam" title="Gamut for the hull, clipping and relative chroma">
+  <div class="seg mini" id="gam" role="radiogroup" aria-label="Gamut" title="Gamut for the hull, clipping and relative chroma">
     <label><input type="radio" name="g" value="srgb"><span>sRGB</span></label>
     <label><input type="radio" name="g" value="p3"><span>P3</span></label>
   </div>
   <span class="spacer"></span>
-  <button class="tab" id="tab3d" role="tab" aria-selected="true">3D surface</button>
-  <button class="tab" id="tabpk" role="tab" aria-selected="false">Picker &amp; ramp generator</button>
+  <button class="tab" id="tab3d" aria-controls="v3d" aria-pressed="true">3D surface</button>
+  <button class="tab" id="tabpk" aria-controls="vpk" aria-pressed="false">Picker &amp; ramp generator</button>
   <button class="tt" id="theme">☾</button>
 </nav>
 
-<div class="view" id="v3d">
+<div class="view" id="v3d" role="region" aria-label="3D surface">
 <div class="app">
   <div id="plot"></div>
   <aside>
@@ -295,7 +310,7 @@
 
     <section>
       <h2>Interpolation along L</h2>
-      <div class="seg" id="method">
+      <div class="seg" id="method" role="radiogroup" aria-label="Interpolation along lightness">
         <label><input type="radio" name="m" value="linear"><span>Linear</span></label>
         <label><input type="radio" name="m" value="pchip" checked><span>PCHIP</span></label>
         <label><input type="radio" name="m" value="akima"><span>Akima</span></label>
@@ -309,12 +324,12 @@
       <div class="toggles" style="margin-bottom:0.6rem">
         <label><input type="checkbox" id="surf" checked> Lofted surface</label>
       </div>
-      <div class="seg" id="smethod">
+      <div class="seg" id="smethod" role="radiogroup" aria-label="Surface between hues">
         <label><input type="radio" name="s" value="chord"><span>Chord</span></label>
         <label><input type="radio" name="s" value="pchip" checked><span>PCHIP</span></label>
         <label><input type="radio" name="s" value="cubic"><span>Cubic</span></label>
       </div>
-      <div class="seg" id="scolor" style="margin-top:0.45rem">
+      <div class="seg" id="scolor" role="radiogroup" aria-label="Surface color display" style="margin-top:0.45rem">
         <label><input type="radio" name="c" value="color" checked><span>True color</span></label>
         <label><input type="radio" name="c" value="relc"><span>Rel. chroma</span></label>
       </div>
@@ -356,18 +371,18 @@
 </div>
 </div>
 
-<div class="view" id="vpk" hidden>
+<div class="view" id="vpk" role="region" aria-label="Picker and ramp generator" hidden>
   <div class="pick">
     <div class="pmain">
       <div class="pctl">
-        <div class="seg" id="snap" title="Snapping while dragging">
+        <div class="seg" id="snap" role="radiogroup" aria-label="Snapping mode" title="Snapping while dragging">
           <label><input type="radio" name="snap" value="free" checked><span>Free</span></label>
           <label><input type="radio" name="snap" value="ramps"><span>Snap to ramps</span></label>
           <label><input type="radio" name="snap" value="steps"><span>Snap to steps</span></label>
         </div>
-        <label class="sat">Saturation <input type="range" id="sat" min="0" max="1" step="0.01" value="1"><span class="mono" id="satv">1.00</span></label>
+        <label class="sat">Palette saturation <input type="range" id="sat" min="0" max="1" step="0.01" value="1"><span class="mono" id="satv">1.00</span></label>
         <div class="toggles" style="display:flex;gap:1rem">
-          <label><input type="checkbox" id="fog" checked> Stipple uncertain</label>
+          <label><input type="checkbox" id="fog" checked> Show reference stippling</label>
           <label><input type="checkbox" id="hatch" checked> Hatch clipped</label>
         </div>
       </div>
@@ -379,7 +394,7 @@
           <canvas id="ovc" tabindex="0" aria-label="Color map: hue position across, lightness up. Arrow keys move the pick, Shift for larger steps."></canvas>
         </div>
       </div>
-      <p class="note maplegend">Hue position → measured from the palette's neutral axis · lightness ↑. Colored lines are the lofted ramps with their steps (diamonds are off-curve steps); dashed grey lines are interior ramps, drawn but not lofted. Stippled where 1 generated step in 10 is expected to miss a hand-made one by more than two just-noticeable differences, or beyond the lightness range of the ramps on either side; hatched areas were clipped into the gamut. <span id="p3note"></span></p>
+      <details class="maplegend"><summary>How to read the map</summary><p class="note">Hue position runs across; lightness runs up. The picker uses PCHIP independently of the 3D interpolation controls. Solid lines show lofted ramps; dashed lines show interior ramps. Stippling is a reference from full-saturation PCHIP hold-outs, plus areas beyond neighbouring ramps' lightness ranges. It does not validate a seed-shaped ramp or predict an individual color's error. Error-based stippling is hidden when palette saturation changes; extrapolation stippling remains. Hatching marks gamut clipping. <span id="p3note"></span></p></details>
 
       <section class="gen">
         <div class="ghead">
@@ -389,12 +404,12 @@
           <button class="tt" id="gcopy" style="margin-left:auto">Copy CSS</button>
         </div>
         <div class="ramp" id="gramp"></div>
-        <div id="gcmpwrap" hidden><p class="note" style="margin:0.6rem 0 0.2rem"><span id="gcmpname"></span> at the same hue</p><div class="ramp" id="gcmp"></div></div>
+        <div id="gcmpwrap" hidden><p class="note" style="margin:0.6rem 0 0.2rem"><span id="gcmpname"></span> · fitted from the picked color</p><div class="ramp" id="gcmp"></div></div>
         <p class="note" id="gnote" style="margin-top:0.5rem"></p>
         <details><summary>CSS variables</summary><pre id="gcss"></pre></details>
       </section>
 
-      <section class="gen hold">
+      <details class="gen hold"><summary>Experiment: hide a palette ramp</summary>
         <div class="ghead">
           <h2>Hold-out test</h2>
           <select id="hsel" aria-label="Ramp to hide"></select>
@@ -403,7 +418,7 @@
         </div>
         <p class="note" style="margin-top:0.4rem">Remove a real ramp, rebuild the surface without it, and compare what the generator produces with what the designers shipped.</p>
         <div id="hres"></div>
-      </section>
+      </details>
     </div>
 
     <aside class="pside">
@@ -416,15 +431,15 @@
           <button class="tt mini" id="seedadd" title="Add these colors to the seeds (Shift+Enter)">Add</button>
           <button class="tt mini" id="seedeye" hidden title="Add a color from the screen">Eyedropper</button>
         </div>
-        <p class="note" style="margin-top:0.35rem">One color gives a ramp through it; two or three from the same hue family (light, mid, dark) pin the ramp's shape and are about twice as accurate.</p>
+        <p class="note" style="margin-top:0.35rem">Use up to six opaque colors. Fit palette may reduce a seed’s saturation; Through seed can extend beyond the palette. Light, mid and dark seeds from one hue family shape the ramp. Gamut clipping and shared anchor steps can prevent an exact match.</p>
         <div class="chips" id="seedchips" hidden></div>
         <p class="note" id="seedmsg" style="margin-top:0.45rem"></p>
         <div class="seedcmp" id="seedcmp" hidden></div>
-        <div class="seg off" id="seedmode" style="margin-top:0.5rem" title="How the ramp treats a seed that's outside the palette">
-          <label><input type="radio" name="sm" value="fit" checked><span>Fit palette</span></label>
-          <label><input type="radio" name="sm" value="through"><span>Through seed</span></label>
+        <div class="seg off" id="seedmode" role="radiogroup" aria-label="Seed treatment" style="margin-top:0.5rem" title="How the ramp treats a seed that's outside the palette">
+          <label><input type="radio" name="sm" value="fit" checked disabled><span>Fit palette</span></label>
+          <label><input type="radio" name="sm" value="through" disabled><span>Through seed</span></label>
         </div>
-        <div style="display:flex;gap:0.35rem;margin-top:0.4rem"><button class="tt mini" id="seedback" hidden>Back to seeds</button><button class="tt mini off" id="seedclr">Clear seeds</button></div>
+        <div style="display:flex;gap:0.35rem;margin-top:0.4rem"><button class="tt mini" id="seedback" hidden>Back to seeds</button><button class="tt mini off" id="seedclr" disabled>Clear seeds</button></div>
       </section>
       <section id="seednear" hidden>
         <h2>Nearest to the primary seed</h2>
@@ -432,25 +447,25 @@
         <label class="sel" style="margin-top:0.5rem"><span>On ramp</span><select id="snramp"></select></label>
         <div id="snramp_out" style="margin-top:0.4rem"></div>
       </section>
-      <section>
+      <section id="picked-summary">
         <h2>Picked color</h2>
         <div class="bigsw" id="bigsw"></div>
-        <div class="samples"><div id="spaper"></div><div id="sblack"></div></div>
+        <div class="samples"><div class="sample-card" id="spaper"></div><div class="sample-card" id="sblack"></div></div>
       </section>
-      <section class="kv">
+      <section class="kv" id="picked-values">
         <span class="k">hex</span><span class="v" id="vhex"></span><button class="tt mini" id="cphex">Copy</button>
         <span class="k">oklch</span><span class="v" id="voklch"></span><button class="tt mini" id="cpok">Copy</button>
         <span class="k">rel C</span><span class="v" id="vrel" style="grid-column: span 2"></span>
       </section>
       <section>
         <h2>Fit lightness to a contrast target</h2>
-        <div class="seg" id="tgt">
+        <div class="seg" id="tgt" role="radiogroup" aria-label="Contrast target">
           <label><input type="radio" name="tgt" value="3"><span>3:1</span></label>
           <label><input type="radio" name="tgt" value="4.5" checked><span>4.5:1</span></label>
           <label><input type="radio" name="tgt" value="7"><span>7:1</span></label>
         </div>
         <div class="fit"><button class="tt" id="fitp">Lightest on white</button><button class="tt" id="fitb">Darkest on black</button></div>
-        <p class="note" style="margin-top:0.4rem">Keeps hue and saturation, moves only L.</p>
+        <p class="note" style="margin-top:0.4rem">With seeds, selects the lightest or darkest generated step meeting the target. Otherwise moves lightness along the palette surface.</p>
       </section>
       <section><h2>Where it sits</h2><p class="note" id="vpos" style="font-size:0.85rem"></p></section>
       <section><h2>Nearest real palette color</h2><div class="near" id="near"></div></section>
@@ -466,12 +481,12 @@
     <label class="sel"><span>Name</span><input type="text" id="impn" value="My palette" maxlength="60"></label>
     <button class="tt mini" id="impex">Load an example</button>
   </div>
-  <textarea id="impt" rows="9" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
+  <textarea aria-label="Palette colors to import" id="impt" rows="9" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
   <div class="impr">
     <label class="sel"><span>Text step, light mode</span><select id="imptl"></select></label>
     <label class="sel"><span>dark mode</span><select id="imptd"></select></label>
   </div>
-  <div id="impp"></div>
+  <div id="impp" role="status" aria-live="polite"></div>
   <div class="impa"><span class="note">Stays in this browser only.</span><button class="tt" id="impok" disabled>Add palette</button></div>
 </dialog>
 
@@ -530,10 +545,42 @@ var Engine = (function () {
     var m = s.match(/\(([^)]*)\)/); if (!m) return 1;
     var inner = m[1];
     if (inner.indexOf('/') >= 0) return num(inner.split('/')[1], 1);
-    var a = args(inner); if (/^(rgba|hsla)/.test(s) && a.length >= 4) return num(a[3], 1);
+    var a = args(inner); if (/^(rgba?|hsla?)/.test(s) && a.length >= 4) return num(a[3], 1);
     return 1;
   }
+  // Validate the complete value before converting; never let NaN enter a model.
   function parse(s) {
+    s = String(s).trim().toLowerCase();
+    if (s[0] === '#') {
+      if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/.test(s)) throw new Error('Invalid hex color: ' + s);
+    } else {
+      var m = s.match(/^(rgb|rgba|hsl|hsla|oklch|oklab|color)\(([^()]*)\)$/);
+      if (!m) throw new Error('Unsupported color: ' + s);
+      var body = m[2], fn = m[1];
+      if (fn === 'color') {
+        var space = body.trim().match(/^(display-p3|srgb-linear|srgb)\s+(.+)$/);
+        if (!space) throw new Error('Unsupported color space');
+        body = space[2];
+      }
+      var parts = body.split('/'), comma = body.indexOf(',') >= 0;
+      if (parts.length > 2 || (comma && (parts.length > 1 || !/^(rgb|rgba|hsl|hsla)$/.test(fn)))) throw new Error('Invalid color separators');
+      var channels = comma ? body.split(',').map(function (x) { return x.trim(); }) : parts[0].trim().split(/\s+/);
+      var alpha = parts.length === 2 ? parts[1].trim() : null;
+      if (comma && channels.length === 4) alpha = channels.pop();
+      if (channels.length !== 3) throw new Error('A color needs three components');
+      var numeric = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?%?$/;
+      channels.forEach(function (v, i) {
+        var isHue = (fn === 'oklch' && i === 2) || (/^hsla?$/.test(fn) && i === 0);
+        var valid = isHue ? /^(?:none|[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?(?:deg|grad|rad|turn)?)$/.test(v) : numeric.test(v) || v === 'none';
+        if (!valid) throw new Error('Invalid color component: ' + v);
+      });
+      if (alpha !== null && (!numeric.test(alpha) || !Number.isFinite(num(alpha, 1)) || num(alpha, 1) < 0 || num(alpha, 1) > 1)) throw new Error('Alpha must be between 0 and 1');
+    }
+    var lab = parseRaw(s);
+    if (!lab.every(Number.isFinite)) throw new Error('Color components must be finite');
+    return lab;
+  }
+  function parseRaw(s) {
     s = String(s).trim().toLowerCase(); var m, a;
     if (s[0] === '#') {
       var h = s.slice(1);
@@ -1173,8 +1220,10 @@ var Importer = (function () {
 
   function tryColor(v) {
     if (typeof v !== 'string') return null;
-    var m = v.match(COLOR_RE); if (!m) return null;
-    try { Engine.parse(m[1]); return { raw: m[1].trim(), alpha: Engine.alphaOf(m[1]) }; } catch (e) { return null; }
+    var raw = v.trim();
+    if (!/^(#|(?:rgba?|hsla?|oklch|oklab|color)\()/i.test(raw)) return null;
+    Engine.parse(raw);
+    return { raw: raw, alpha: Engine.alphaOf(raw) };
   }
   // split "red-500", "red500", "Red_500", "oc-red-5" into ramp + step
   function splitName(n) {
@@ -1188,8 +1237,9 @@ var Importer = (function () {
     function walk(o, path) {
       if (o == null) return;
       if (typeof o === 'string') {
-        var c = tryColor(o); if (!c) return;
         var last = path[path.length - 1], parent = path.slice(0, -1);
+        if (!/^\d+(\.\d+)?$/.test(String(last)) && !splitName(last)) return;
+        var c = tryColor(o); if (!c) throw new Error('Unsupported color at ' + path.join('.'));
         if (/^\d+(\.\d+)?$/.test(String(last)) && parent.length) out.push({ ramp: parent.join('-'), step: String(last), raw: c.raw, alpha: c.alpha });
         else { var sp = splitName(last); if (sp) out.push({ ramp: parent.concat([sp.ramp]).join('-'), step: sp.step, raw: c.raw, alpha: c.alpha }); }
         return;
@@ -1205,7 +1255,7 @@ var Importer = (function () {
   }
   function fromVars(text) {
     var out = [], re = /(?:--|\$|@)([A-Za-z][\w-]*?)[-_]?(\d+(?:\.\d+)?)\s*:\s*([^;\n]+)/g, m;
-    while ((m = re.exec(text))) { var c = tryColor(m[3]); if (c) out.push({ ramp: m[1].replace(/[-_]+$/, ''), step: m[2], raw: c.raw, alpha: c.alpha }); }
+    while ((m = re.exec(text))) { var c = tryColor(m[3].replace(/\s*!(?:important|default)\s*$/i, '').trim()); if (!c) throw new Error('Unsupported color in ' + m[1] + m[2]); if (c) out.push({ ramp: m[1].replace(/[-_]+$/, ''), step: m[2], raw: c.raw, alpha: c.alpha }); }
     return out;
   }
   // SCSS maps: $name: ("0": #fff, "1": #eee, …) or ($key: value) pairs
@@ -1214,6 +1264,7 @@ var Importer = (function () {
     while ((m = re.exec(text))) {
       var ramp = m[1].replace(/[-_](list|map|palette|scale|colou?rs?)$/i, ''), body = m[2], er = /["']?([\w.-]+)["']?\s*:\s*((?:#[0-9a-fA-F]{3,8}\b)|(?:(?:rgba?|hsla?|oklch|oklab|color)\([^)]*\)))/g, e;
       while ((e = er.exec(body))) { var c = tryColor(e[2]); if (c) out.push({ ramp: ramp, step: e[1], raw: c.raw, alpha: c.alpha }); }
+      if (body.replace(er, '').replace(/[\s,]+/g, '')) throw new Error('Invalid color map: ' + ramp);
     }
     return out;
   }
@@ -1221,7 +1272,8 @@ var Importer = (function () {
     var out = [];
     text.split(/\n/).forEach(function (line) {
       var m = line.match(/^\s*["']?([A-Za-z][\w -]*?)["']?\s*[:=]\s*(.+)$/); if (!m) return;
-      var vals = (m[2].match(new RegExp(COLOR_RE.source, 'g')) || []);
+      var vals = (m[2].match(new RegExp(COLOR_RE.source, 'gi')) || []);
+      if (m[2].replace(new RegExp(COLOR_RE.source, 'gi'), '').replace(/[\s,]+/g, '')) throw new Error('Invalid color list: ' + m[1]);
       vals.forEach(function (v, i) { var c = tryColor(v); if (c) out.push({ ramp: m[1].trim(), step: String(i + 1), raw: c.raw, alpha: c.alpha }); });
     });
     return out;
@@ -1239,22 +1291,23 @@ var Importer = (function () {
     var src = String(text || '').trim(), entries = [], format = '';
     if (!src) return { ok: false, error: 'Paste a palette to begin.' };
     var json = null; try { json = JSON.parse(src); } catch (e) {}
+    if (!json) src = src.replace(/\/\*[\s\S]*?\*\//g, '');
     if (json && typeof json === 'object') { entries = fromJSON(json); format = 'JSON'; }
     if (!entries.length) { entries = fromVars(src); format = 'CSS/SCSS/LESS variables'; }
     if (!entries.length) { entries = fromMaps(src); format = 'SCSS maps'; }
     if (!entries.length) { entries = fromLines(src); format = 'one ramp per line'; }
     if (!entries.length) return { ok: false, error: 'No colors found. Use CSS variables like --red-500: #e11d48; JSON like {"red": {"500": "#e11d48"}}; or lines like red: #fee #fcc #f88 #e44.' };
     var notes = [];
-    var translucent = entries.filter(function (e) { return e.alpha < 0.999; }).length;
-    entries = entries.filter(function (e) { return e.alpha >= 0.999; });
+    var translucent = entries.filter(function (e) { return e.alpha < 1; }).length;
+    entries = entries.filter(function (e) { return e.alpha === 1; });
     if (translucent) notes.push(translucent + ' translucent color' + (translucent > 1 ? 's' : '') + ' skipped');
     if (!entries.length) return { ok: false, error: 'Every color found is translucent (alpha below 1). Import the solid scales instead, for example the non-alpha files.' };
     // group, strip a shared prefix (color-, oc-, palette-)
     var pre = commonPrefix(Array.from(new Set(entries.map(function (e) { return e.ramp.toLowerCase(); }))));
-    var groups = {}, order = [], redefined = 0;
+    var groups = Object.create(null), order = [], redefined = 0;
     entries.forEach(function (e) {
       var name = e.ramp.toLowerCase().replace(pre, '').replace(/^(colou?rs?|palette|base|tokens?)[-_.]/, '') || e.ramp;
-      if (!groups[name]) { groups[name] = { name: name, steps: {}, keys: [] }; order.push(name); }
+      if (!groups[name]) { groups[name] = { name: name, steps: Object.create(null), keys: [] }; order.push(name); }
       if (!(e.step in groups[name].steps)) groups[name].keys.push(e.step); else redefined++;
       groups[name].steps[e.step] = e.raw;
     });
@@ -1277,14 +1330,14 @@ var Importer = (function () {
     ramps.forEach(function (g) { g.neutral = (g.meanC < 0.02 && g.maxC < 0.045) || (NEUTRAL_NAME.test(g.name) && g.meanC < 0.05); });
     var chrom = ramps.filter(function (g) { return !g.neutral; }), neus = ramps.filter(function (g) { return g.neutral; });
     // one shared step scale for chromatic ramps: the most common
-    var sig = {}; chrom.forEach(function (g) { var k = g.keys.join('|'); sig[k] = (sig[k] || 0) + 1; });
+    var sig = Object.create(null); chrom.forEach(function (g) { var k = g.keys.join('|'); sig[k] = (sig[k] || 0) + 1; });
     var best = Object.keys(sig).sort(function (a, b) { return sig[b] - sig[a]; })[0];
     if (!best) return { ok: false, error: 'Only neutral ramps found; at least four hued ramps are needed.' };
     var steps = best.split('|'), odd = chrom.filter(function (g) { return g.keys.join('|') !== best; });
     chrom = chrom.filter(function (g) { return g.keys.join('|') === best; });
     if (odd.length) notes.push('skipped ' + odd.map(function (g) { return g.name; }).join(', ') + ' (different steps from the rest)');
     if (chrom.length < 4) return { ok: false, error: 'Found ' + chrom.length + ' hued ramp' + (chrom.length === 1 ? '' : 's') + ' sharing one step scale; at least 4 are needed to build a surface.' };
-    var neutrals = {}, neutralSteps = {};
+    var neutrals = Object.create(null), neutralSteps = Object.create(null);
     neus.forEach(function (g) { neutrals[g.name] = g.keys.map(function (k) { return g.steps[k]; }); neutralSteps[g.name] = g.keys.slice(); });
     var neutral;
     if (neus.length) neutral = neus.slice().sort(function (a, b) { return a.meanC - b.meanC; })[0].name;
@@ -1301,7 +1354,7 @@ var Importer = (function () {
     var pal = {
       id: 'user-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36),
       name: name, version: 'imported', license: '—', source: 'Imported ' + new Date().toISOString().slice(0, 10) + ' · ' + format,
-      steps: steps, ramps: {}, neutrals: neutrals, neutralSteps: neutralSteps, neutral: neutral,
+      steps: steps, ramps: Object.create(null), neutrals: neutrals, neutralSteps: neutralSteps, neutral: neutral,
       poles: { light: '#FFFFFF', dark: '#000000' }, poleNames: { light: 'white', dark: 'black' },
       text: { light: opts.textLight || null, dark: opts.textDark || null, basis: 'set on import' },
       gamut: outSrgb ? 'p3' : 'srgb', user: true
@@ -1315,7 +1368,7 @@ var Importer = (function () {
     if (M.loft.length < 3) return { ok: false, error: 'Too many ramps overlap in hue: only ' + M.loft.length + ' could be lofted.' };
     return { ok: true, pal: pal, format: format, notes: notes, nRamps: chrom.length, nSteps: steps.length, neutrals: Object.keys(neutrals), M: M };
   }
-  return { analyse: analyse };
+  return { analyse: function (text, opts) { try { return analyse(text, opts); } catch (e) { return { ok: false, error: 'Invalid palette: ' + e.message }; } } };
 })();
 
 </script>
@@ -1323,7 +1376,7 @@ var Importer = (function () {
 (function () {
   var BUILTIN = JSON.parse(document.getElementById('palettes').textContent), PALS = BUILTIN.slice();
   function loadUser() { try { var u = JSON.parse(localStorage.getItem('pt.user') || '[]'); return Array.isArray(u) ? u.filter(function (p) { return p && p.id && p.ramps; }) : []; } catch (e) { return []; } }
-  function saveUser() { try { localStorage.setItem('pt.user', JSON.stringify(PALS.filter(function (p) { return p.user; }))); } catch (e) {} }
+  function saveUser() { try { localStorage.setItem('pt.user', JSON.stringify(PALS.filter(function (p) { return p.user; }))); return true; } catch (e) { return false; } }
   PALS = PALS.concat(loadUser());
   var root = document.documentElement, PI2 = Math.PI * 2;
   var $ = function (id) { return document.getElementById(id); };
@@ -1424,7 +1477,7 @@ var Importer = (function () {
     $('gnote3d').textContent = M.gamut === 'p3' ? 'Hull, clipping and relative chroma use Display P3. The 3D view shows sRGB approximations of colors outside sRGB; the picker renders true P3 on supported displays.' : '';
     var list = M.loft.concat(M.interior);
     $('hues').innerHTML = list.map(function (r) {
-      return '<label title="' + esc(r.name) + (r.interior ? ' (interior: not lofted)' : '') + '"><input type="checkbox" checked data-h="' + esc(r.name) + '"><span class="sw" style="background:' + accent(r) + '"></span>' +
+      return '<label title="' + esc(r.name) + (r.interior ? ' (interior: not lofted)' : '') + '"><input type="checkbox"' + (S.on[r.name] ? ' checked' : '') + ' data-h="' + esc(r.name) + '"><span class="sw" style="background:' + accent(r) + '"></span>' +
         '<span class="' + (r.interior ? 'ital' : '') + '">' + esc(r.name) + (r.off.length ? '†' : '') + '</span></label>';
     }).join('');
     $('hueleg').textContent = (M.interior.length ? 'Italic: interior ramps, drawn but not lofted. ' : '') + (offR.length ? '†: has off-curve steps, drawn as squares.' : '');
@@ -1466,7 +1519,7 @@ var Importer = (function () {
       else {
         VAL.summary = Engine.summarise(rows); renderValidation(); table(); if (CMP.M) renderCompare();
         populateHold();
-        if (P.init && !P.needsSetup) { drawMap(1); update(); }
+        if (P.init && !P.needsSetup) { drawMap(1); update(P.inspected); }
       }
     })();
   }
@@ -1523,7 +1576,7 @@ var Importer = (function () {
       if (i < model.loft.length) setTimeout(step, 4); else { CMP.summary = Engine.summarise(rows); renderCompare(); }
     })();
   }
-  cmpSel.addEventListener('change', function () { CMP.id = cmpSel.value || null; saved.cmp = CMP.id; save(); buildCompare(); render(); if (P.init && !P.needsSetup) update(); });
+  cmpSel.addEventListener('change', function () { CMP.id = cmpSel.value || null; saved.cmp = CMP.id; save(); buildCompare(); render(); if (P.init && !P.needsSetup) update(P.inspected); });
   $('cmpsurf').addEventListener('change', function (e) { CMP.surf = e.target.checked; render(); });
   $('cmpramps').addEventListener('change', function (e) { CMP.ramps = e.target.checked; render(); });
   var GR = {};
@@ -1675,7 +1728,7 @@ var Importer = (function () {
   $('vtop').addEventListener('click', function () { camera = TOP; render(); });
 
   // ---------------- picker ----------------
-  var P = { seeds: [], pi: 0, seedLocked: false, seedMode: 'fit', snRamp: null, u: 0, L: 0.62, s: 1, snap: 'free', target: 4.5, show3d: true, fog: true, hatch: true, init: false, needsSetup: true, pt: null, hex: '#888888', gen: null, moved: false };
+  var P = { seeds: [], pi: 0, seedLocked: false, seedMode: 'fit', inspected: null, snRamp: null, u: 0, L: 0.62, s: 1, snap: 'free', target: 4.5, show3d: true, fog: true, hatch: true, init: false, needsSetup: true, pt: null, hex: '#888888', gen: null, moved: false };
   var mapbox = $('mapbox'), ovc = $('ovc'), octx = ovc.getContext('2d'), mapc = null, mctx = null, mapIsP3 = false;
   var MW = 640, MH = 320, u0 = 0;
   // stipple layer: crisp dots at device resolution, drawn over the map from per-pixel data recorded in drawMap
@@ -1724,7 +1777,7 @@ var Importer = (function () {
       // stipple where 1 step in 10 is expected to miss by more than two just-noticeable differences (ΔE 4), full at 8
       // coverage from the calibrated band before its 5° near-ramp taper, then a softer visual taper over fadeDeg
       var raw = Engine.calAt('p90', bb.gap) * bb.f, r1 = PM.loft[sg[0]], r2 = PM.loft[(sg[0] + 1) % PM.loft.length];
-      cols.push({ u: PM.norm(u), i: sg[0], f: sg[1], fog: Math.min(Math.max((raw - 4) / 4, 0), 1) * smooth01(bb.d / STIP.fadeDeg),
+      cols.push({ u: PM.norm(u), i: sg[0], f: sg[1], fog: P.s === 1 && bb.gap >= 25.3 && bb.gap <= 131.4 ? Math.min(Math.max((raw - 4) / 4, 0), 1) * smooth01(bb.d / STIP.fadeDeg) : 0,
         lo: Math.min(r1.z[0], r2.z[0]), hi: Math.max(r1.z[r1.z.length - 1], r2.z[r2.z.length - 1]) });
       // the dark band eases in over a longer range, but always reaches full coverage before the dark pole
       var cc = cols[cols.length - 1]; cc.fd = Math.max(STIP.extFadeLight, Math.min(STIP.extFadeDark, 0.8 * (cc.lo - PM.Lk)));
@@ -1816,7 +1869,9 @@ var Importer = (function () {
       c.lineWidth = 2 * dpr; c.strokeStyle = '#FFFFFF'; c.strokeRect(SX - sz, SY - sz, sz * 2, sz * 2);
       c.lineWidth = 1 * dpr; c.strokeStyle = '#000000'; c.strokeRect(SX - sz - 1.5 * dpr, SY - sz - 1.5 * dpr, sz * 2 + 3 * dpr, sz * 2 + 3 * dpr);
     } });
-    var Yy = LToY(P.L) * H;
+    var pickedMap = P.inspected != null && P.pt ? PM.seedMap([P.pt.L, P.pt.a, P.pt.b]) : null;
+    if (pickedMap && !pickedMap.neutral) X = uToX(pickedMap.u) * W;
+    var Yy = LToY(P.pt ? P.pt.L : P.L) * H;
     c.beginPath(); c.arc(X, Yy, 9 * dpr, 0, PI2); c.fillStyle = P.css || P.hex; c.fill(); c.lineWidth = 3 * dpr; c.strokeStyle = '#FFFFFF'; c.stroke();
     c.beginPath(); c.arc(X, Yy, 10.6 * dpr, 0, PI2); c.lineWidth = 1.2 * dpr; c.strokeStyle = '#000000'; c.stroke();
   }
@@ -1847,12 +1902,18 @@ var Importer = (function () {
     var hgt = (used * 1.05 + 0.3) + 'rem';
     $('rlabels').style.height = hgt; $('mapwrap').style.paddingTop = hgt; $('lticks').style.top = hgt;
   }
+  function contrastSample(color, background, name, ratio) {
+    return '<span class="preview" style="color:' + color + ';background:' + background + '">Aa</span><small>On ' + esc(name) + ': ' + ratio.toFixed(2) + ':1 · ' + badge(ratio) + '</small>';
+  }
+  function announcePick() { $('status').textContent = 'Picked ' + P.hex + (P.inspected != null ? ', step ' + P.gen[P.inspected].step : '') + '.'; }
   function badge(r) { return r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'AA large' : 'fails'; }
   function slug() { return (($('gname').value || 'custom').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '')) || 'custom'; }
   function renderGen() {
+    var focused = document.activeElement, focusKey = focused && focused.parentElement === $('gramp') ? focused.dataset.k : null;
     var name = slug(), curK = -1, bd = 9, t = pal.text || {};
     P.gen.forEach(function (g, k) { var d = Math.abs(g.L - P.L); if (d < bd) { bd = d; curK = k; } });
     if (bd > 0.004) curK = -1;
+    if (P.inspected != null) curK = P.inspected;
     $('gramp').style.gridTemplateColumns = 'repeat(' + P.gen.length + ', minmax(0, 1fr))';
     $('gramp').innerHTML = P.gen.map(function (g, k) {
       return '<button class="cell' + (k === curK ? ' cur' : '') + (g.offNear ? ' offc' : '') + (g.anchor ? ' anchor' : '') + (g.beyond ? ' beyond' : '') + '" data-k="' + k + '" title="' + name + '-' + g.step + (g.anchor ? ' (seed ' + (g.seedIndex + 1) + ')' : '') + (g.beyond ? ' (more vivid than the palette)' : '') + '  ' + g.hex + (g.offNear ? '  (off-curve step in the nearest ramp)' : '') + (g.inSrgb ? '' : '  (outside sRGB)') + '">' +
@@ -1871,49 +1932,82 @@ var Importer = (function () {
     $('gnote').textContent = bits.join(' · ');
     var useOk = nout > 0;
     var seedNote = seedActive() ? ' Seed' + (P.seeds.length > 1 ? 's ' : ' ') + P.seeds.map(function (s) { return s.raw; }).join(', ') + ' (' + (through() ? 'through' : 'fitted') + ').' : '';
-    var out = ['/* Generated on the ' + pal.name + ' surface (neutral: ' + PM.neutralName + ', ' + PM.gamut + '): hue position ' + deg(P.u).toFixed(1) + '°, saturation ' + P.s.toFixed(2) + '.' + seedNote + ' */', ':root {'];
+    var out = ['/* Generated on the ' + pal.name + ' surface (neutral: ' + PM.neutralName + ', ' + PM.gamut + '): hue position ' + deg(P.u).toFixed(1) + '°, saturation ' + P.s.toFixed(2) + '.' + seedNote + ' ' + rampStatus() + ' */', ':root {'];
     P.gen.forEach(function (g) { out.push('  --' + name + '-' + g.step + ': ' + (useOk ? Engine.oklchStr(g.L, g.a, g.b) : g.hex) + ';'); });
     if (iL >= 0) out.push('  --' + name + ': var(--' + name + '-' + t.light + ');');
     out.push('}');
     if (iD >= 0) out.push(':root[data-theme="dark"] {', '  --' + name + ': var(--' + name + '-' + t.dark + ');', '}');
     $('gcss').textContent = out.join('\n');
+    if (focusKey != null) { var cell = $('gramp').querySelector('[data-k="' + focusKey + '"]'); if (cell) cell.focus(); }
   }
-  function update() {
-    var p = through() && !prim().map.neutral ? PM.point(P.u, P.L, prim().map.sRaw) : PM.point(P.u, P.L, P.s); P.pt = p;
+  // Conservative eligibility: picker generation always uses PCHIP, regardless of 3D controls.
+  function resultStatus(p, u) {
+    function outside(text) { return { calibrated: false, text: text }; }
+    if (seedActive()) return outside('Seed-shaped output: outside the surface error calibration.');
+    if (P.s !== 1) return outside('Adjusted palette saturation: outside the full-saturation error calibration.');
+    if (p.clipped) return outside('Gamut-clipped output: no calibrated error estimate is shown.');
+    var sg = PM.seg(u), a = PM.loft[sg[0]], b = PM.loft[(sg[0] + 1) % PM.loft.length];
+    if (p.ext || p.L < Math.max(a.z[0], b.z[0]) || p.L > Math.min(a.z[a.z.length - 1], b.z[b.z.length - 1])) return outside('Extrapolated beyond at least one neighbouring ramp’s lightness range: no calibrated error estimate.');
+    var nr = PM.nearest(p.L, p.a, p.b);
+    if (nr.d < 0.0001) return outside('Matches a measured palette sample. This does not establish exact reproduction of the whole ramp.');
+    var bd = band(u);
+    if (bd.d < 5) return outside('Near an existing ramp hue. The near-ramp taper is a visual heuristic; no numerical error estimate is shown.');
+    if (bd.gap < 25.3 || bd.gap > 131.4) return outside('Hue gap outside the pooled calibration range: no calibrated error estimate.');
+    if (P.hold || !VAL.summary || VAL.key !== vkey()) return outside('PCHIP interpolation; this surface has no current completed palette check.');
+    return { calibrated: true, text: 'Full-saturation PCHIP interpolation within neighbouring lightness ranges.' };
+  }
+  function rampStatus() {
+    var eligible = P.gen.filter(function (p) { return resultStatus(p, P.u).calibrated; }).length;
+    return 'Error reference scope: ' + eligible + ' of ' + P.gen.length + ' steps eligible for pooled full-saturation PCHIP reference values; no per-color accuracy guarantee.';
+  }
+  // Move the same controls so visual and keyboard order agree on narrow screens.
+  var mobilePicker = window.matchMedia('(max-width: 52rem)');
+  var mobileNodes = [document.querySelector('#vpk .seed'), $('picked-summary'), $('picked-values')];
+  var mobileHomes = mobileNodes.map(function (node) { var mark = document.createComment('desktop position'); node.before(mark); return mark; });
+  function arrangePicker() {
+    var main = document.querySelector('#vpk .pmain'), ramp = document.querySelector('#vpk .gen');
+    if (mobilePicker.matches) { main.prepend(mobileNodes[0]); ramp.after(mobileNodes[1], mobileNodes[2]); }
+    else mobileNodes.forEach(function (node, i) { mobileHomes[i].after(node); });
+  }
+  mobilePicker.addEventListener('change', arrangePicker);
+  arrangePicker();
+  function update(inspectIndex) {
+    var inspected = Number.isInteger(inspectIndex) && P.gen ? P.gen[inspectIndex] : null;
+    var p = inspected || (through() && !prim().map.neutral ? PM.point(P.u, P.L, prim().map.sRaw) : PM.point(P.u, P.L, P.s)); P.pt = p;
+    P.inspected = inspected ? inspectIndex : null;
     P.hex = Engine.hex(p.L, p.a, p.b); P.css = Engine.cssColor(p.L, p.a, p.b, PM.gamut);
     var inS = Engine.inG(p.L, p.a, p.b, 'srgb');
     var C = Math.hypot(p.a, p.b), Hr = Math.atan2(p.b, p.a), mc = Engine.maxC(p.L, Hr, PM.gamut), rel = mc > 1e-4 ? C / mc : 0;
     var Yp = Engine.Y(p.L, p.a, p.b), cL = Engine.cr(Yp, Yof(PM.pl)), cD = Engine.cr(Yp, Yof(PM.pd));
     $('bigsw').style.background = P.css;
-    $('spaper').style.background = Engine.cssColor(PM.pl[0], PM.pl[1], PM.pl[2], 'srgb'); $('sblack').style.background = Engine.cssColor(PM.pd[0], PM.pd[1], PM.pd[2], 'srgb');
-    $('spaper').innerHTML = '<span style="color:' + P.css + '">Aa</span><small style="color:' + P.css + '">' + cL.toFixed(2) + ':1 · ' + badge(cL) + '</small>';
-    $('sblack').innerHTML = '<span style="color:' + P.css + '">Aa</span><small style="color:' + P.css + '">' + cD.toFixed(2) + ':1 · ' + badge(cD) + '</small>';
+    $('spaper').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pl[0], PM.pl[1], PM.pl[2], 'srgb'), pal.poleNames.light, cL);
+    $('sblack').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pd[0], PM.pd[1], PM.pd[2], 'srgb'), pal.poleNames.dark, cD);
     $('vhex').innerHTML = P.hex + (inS ? '' : ' <span style="color:var(--tx-2)">(nearest sRGB; color is P3)</span>');
     $('voklch').textContent = Engine.oklchStr(p.L, p.a, p.b);
     $('vrel').textContent = rel.toFixed(2) + ' of ' + (PM.gamut === 'p3' ? 'P3' : 'sRGB') + (p.clipped ? ' · clipped' : '') + (P.s < 1 ? ' · saturation ' + P.s.toFixed(2) : '');
     var sg = PM.seg(P.u), i = sg[0], j = (i + 1) % PM.loft.length;
     var dI = PM.angDist(P.u, PM.thetaU[i]) * 180 / Math.PI, dJ = PM.angDist(P.u, PM.thetaU[j]) * 180 / Math.PI, dmin = Math.min(dI, dJ), near = dI <= dJ ? PM.loft[i].name : PM.loft[j].name;
-    var bd = band(P.u), where = dmin < 1.5 ? 'On the <b>' + esc(near) + '</b> ramp.' : 'Between <b>' + esc(PM.loft[i].name) + '</b> and <b>' + esc(PM.loft[j].name) + '</b>, ' + dmin.toFixed(0) + '° from ' + esc(near) + ' (gap ' + (dI + dJ).toFixed(0) + '°).';
-    var verdict = bd.p90 < 2 ? 'below a just-noticeable difference' : bd.p90 < 4 ? 'within about two just-noticeable differences' : 'may be noticeably off; compare with the neighbouring ramps';
-    var Hdeg = (Math.atan2(p.b, p.a) * 180 / Math.PI + 360) % 360, warm = Hdeg > 40 && Hdeg < 135 && P.s > 0.8 && dmin >= 1.5;
-    $('vpos').innerHTML = where + '<br>' + (dmin < 1.5 && P.s === 1 ? 'Generated steps reproduce this real ramp exactly.' :
-      'Expected difference from a hand-made ramp: <b>≈' + bd.med.toFixed(1) + '</b> typical, <b>' + bd.p90.toFixed(1) + '</b> for 1 step in 10, ' + verdict + '.') +
-      '<span class="vsub">ΔE<sub>OK</sub> ×100, 2 ≈ just noticeable. ' + (VAL.summary ? 'Calibrated by leave-one-out, scaled ×' + bd.f.toFixed(2) + ' by how hard ' + esc(PM.loft[i].name) + ' and ' + esc(PM.loft[j].name) + ' were to regenerate' : 'Pooled calibration; this palette\'s check is running') + (P.s < 1 ? '; measured at full saturation' : '') + '.' +
-      (warm ? ' Warm hues that are vivid when light are where generation errs most, usually on the dull side.' : '') + '</span>';
+    var bd = band(P.u), where = dmin < 1.5 ? 'Near the <b>' + esc(near) + '</b> ramp hue.' : 'Between <b>' + esc(PM.loft[i].name) + '</b> and <b>' + esc(PM.loft[j].name) + '</b>, ' + dmin.toFixed(0) + '° from ' + esc(near) + ' (gap ' + (dI + dJ).toFixed(0) + '°).';
+    var status = resultStatus(p, P.u);
+    $('vpos').textContent = status.text;
+    if (status.calibrated) $('vpos').innerHTML = where + '<br>' + status.text + ' Pooled hold-out reference: median ΔE ≈' + bd.med.toFixed(1) + ', 90th percentile ≈' + bd.p90.toFixed(1) + ' (ΔE OK ×100). These are empirical reference values, not a confidence interval for this color.';
     var nr = PM.nearest(p.L, p.a, p.b);
     $('near').innerHTML = '<span class="nsw" style="background:' + Engine.cssColor(nr.lab[0], nr.lab[1], nr.lab[2], PM.gamut) + '"></span><span><b>' + esc(nr.name) + '</b> <span class="mono">' + esc(nr.raw) + '</span></span><span class="mono" style="margin-left:auto;color:var(--tx-2)">ΔE ' + nr.d.toFixed(1) + '</span>';
-    P.gen = (seedActive() && PM.genAnchors(P.seeds, { cap: P.seedMode === 'fit' })) || PM.genSteps(P.u, P.s); P.moved = true;
+    if (!inspected) P.gen = (seedActive() && PM.genAnchors(P.seeds, { cap: P.seedMode === 'fit' })) || PM.genSteps(P.u, P.s); P.moved = true;
     renderGen(); renderPickCompare(p); renderSeed(); drawOverlay();
   }
   function renderPickCompare(p) {
-    if (!CMP.M) { $('pkcmp').hidden = true; return; }
+    $('gcmpwrap').hidden = true; $('gcmp').innerHTML = ''; $('gcmpname').textContent = '';
+    if (!CMP.M) { $('pkcmp').hidden = true; $('pknear').innerHTML = ''; $('pkbwhere').textContent = ''; $('pkcmpname').textContent = ''; return; }
     $('pkcmp').hidden = false;
-    var B = CMP.M, nr = B.nearest(p.L, p.a, p.b), c = B.axisAt(p.L), uB = B.norm(Math.atan2(p.b - c[1], p.a - c[0]));
-    var gb = B.genSteps(uB, P.s), sg = B.seg(uB), i = sg[0], j = (i + 1) % B.loft.length;
-    var dI = B.angDist(uB, B.thetaU[i]) * 180 / Math.PI, dJ = B.angDist(uB, B.thetaU[j]) * 180 / Math.PI, near = dI <= dJ ? B.loft[i].name : B.loft[j].name;
+    var B = CMP.M, nr = B.nearest(p.L, p.a, p.b), mapped = B.seedMap([p.L, p.a, p.b]);
     $('pkcmpname').textContent = CMP.pal.name;
     $('pknear').innerHTML = '<span class="nsw" style="background:' + Engine.cssColor(nr.lab[0], nr.lab[1], nr.lab[2], M.gamut) + '"></span><span><b>' + esc(nr.name) + '</b> <span class="mono">' + esc(nr.raw) + '</span></span><span class="mono" style="margin-left:auto;color:var(--tx-2)">ΔE ' + nr.d.toFixed(1) + '</span>';
+    if (mapped.neutral) { $('pkbwhere').textContent = 'Near this palette’s neutral axis; no hue ramp is compared.'; return; }
+    var uB = mapped.u, gb = B.genSteps(uB, mapped.s), sg = B.seg(uB), i = sg[0], j = (i + 1) % B.loft.length;
+    var dI = B.angDist(uB, B.thetaU[i]) * 180 / Math.PI, dJ = B.angDist(uB, B.thetaU[j]) * 180 / Math.PI, near = dI <= dJ ? B.loft[i].name : B.loft[j].name;
     $('pkbwhere').textContent = Math.min(dI, dJ) < 1.5 ? 'This hue is on ' + CMP.pal.name + '\'s ' + near + ' ramp.' : 'In ' + CMP.pal.name + ' this hue falls between ' + B.loft[i].name + ' and ' + B.loft[j].name + ', ' + Math.min(dI, dJ).toFixed(0) + '° from ' + near + '.';
+    $('pkbwhere').textContent += ' Saturation is fitted to this palette' + (mapped.sRaw > 1 ? ' (capped at its surface)' : '') + '.' + (mapped.clampedL ? ' Mapping uses the nearest supported lightness.' : '');
     $('gcmpname').textContent = CMP.pal.name;
     $('gcmp').style.gridTemplateColumns = 'repeat(' + gb.length + ', minmax(0, 1fr))';
     $('gcmp').innerHTML = gb.map(function (g) { return '<span class="cell"><span class="c' + (g.clipped ? ' clip' : '') + '" style="background:' + g.css + '" title="' + esc(CMP.pal.name) + ' at this hue, step ' + esc(g.step) + '  ' + g.hex + '"></span><span class="k">' + esc(g.step) + '</span></span>'; }).join('');
@@ -1938,7 +2032,8 @@ var Importer = (function () {
   var dragging = false;
   ovc.addEventListener('pointerdown', function (e) { dragging = true; ovc.setPointerCapture(e.pointerId); ovc.focus(); pickFrom(e); });
   ovc.addEventListener('pointermove', function (e) { if (dragging) pickFrom(e); });
-  ovc.addEventListener('pointerup', function () { dragging = false; });
+  ovc.addEventListener('pointerup', function () { dragging = false; announcePick(); });
+  ovc.addEventListener('keyup', function (e) { if (e.key.indexOf('Arrow') === 0) announcePick(); });
   ovc.addEventListener('pointercancel', function () { dragging = false; });
   ovc.addEventListener('keydown', function (e) {
     var st = e.shiftKey ? 5 : 1, du = 0, dL = 0;
@@ -1953,7 +2048,7 @@ var Importer = (function () {
   $('hatch').addEventListener('change', function (e) { P.hatch = e.target.checked; drawMap(1); });
   $('g3d').addEventListener('change', function (e) { P.show3d = e.target.checked; });
   $('gname').addEventListener('input', renderGen);
-  $('gramp').addEventListener('click', function (e) { var b = e.target.closest('.cell'); if (!b) return; unlockSeed(); P.L = P.gen[+b.dataset.k].L; update(); });
+  $('gramp').addEventListener('click', function (e) { var b = e.target.closest('.cell'); if (!b) return; var k = +b.dataset.k; update(k); $('gramp').querySelector('[data-k="' + k + '"]').focus(); announcePick(); });
   $('tgt').addEventListener('change', function (e) { P.target = parseFloat(e.target.value); });
   function solve(onLight) {
     var Ybg = onLight ? Yof(PM.pl) : Yof(PM.pd), lo = PM.Lk + 1e-3, hi = PM.Lp - 1e-3, n, m;
@@ -1962,8 +2057,20 @@ var Importer = (function () {
     if (!ok(hi)) return null; if (ok(lo)) return lo; for (n = 0; n < 40; n++) { m = (lo + hi) / 2; if (ok(m)) hi = m; else lo = m; } return hi;
   }
   function flash(btn, msg) { var t = btn.textContent; btn.textContent = msg; setTimeout(function () { btn.textContent = t; }, 1300); }
-  $('fitp').addEventListener('click', function () { unlockSeed(); var L = solve(true); if (L == null) flash($('fitp'), 'Not reachable'); else { P.L = L; update(); } });
-  $('fitb').addEventListener('click', function () { unlockSeed(); var L = solve(false); if (L == null) flash($('fitb'), 'Not reachable'); else { P.L = L; update(); } });
+  function fitPick(onLight) {
+    var btn = $(onLight ? 'fitp' : 'fitb');
+    if (seedActive()) {
+      var bg = Yof(onLight ? PM.pl : PM.pd), candidates = [];
+      P.gen.forEach(function (g, k) { if (Engine.cr(Engine.Y(g.L, g.a, g.b), bg) >= P.target) candidates.push(k); });
+      candidates.sort(function (a, b) { return onLight ? P.gen[b].L - P.gen[a].L : P.gen[a].L - P.gen[b].L; });
+      if (!candidates.length) { flash(btn, 'No qualifying step'); return; }
+      update(candidates[0]); return;
+    }
+    var L = solve(onLight);
+    if (L == null) flash(btn, 'Not reachable'); else { P.L = L; update(); }
+  }
+  $('fitp').addEventListener('click', function () { fitPick(true); announcePick(); });
+  $('fitb').addEventListener('click', function () { fitPick(false); announcePick(); });
   function copy(text, btn) {
     function fallback() { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); var okc = false; try { okc = document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); flash(btn, okc ? 'Copied' : 'Select and copy'); }
     try { navigator.clipboard.writeText(text).then(function () { flash(btn, 'Copied'); }, fallback); } catch (e) { fallback(); }
@@ -2007,7 +2114,9 @@ var Importer = (function () {
   function mapSeeds() { P.seeds.forEach(function (s) { s.map = PM.seedMap(s.lab); }); }
   function parseSeeds(str) {
     var toks = String(str).match(COLOR_TOKEN) || [], out = [], bad = [];
-    toks.forEach(function (t) { try { out.push({ raw: t.trim(), lab: Engine.parse(t) }); } catch (e) { bad.push(t); } });
+    var rest = String(str).replace(COLOR_TOKEN, '').replace(/[\s,]+/g, '');
+    if (rest) bad.push(rest);
+    toks.forEach(function (t) { try { var lab = Engine.parse(t); if (Engine.alphaOf(t) !== 1) throw new Error('Translucent seeds are unsupported'); out.push({ raw: t.trim(), lab: lab }); } catch (e) { bad.push(t); } });
     if (!toks.length && String(str).trim()) bad.push(String(str).trim());
     return { seeds: out, bad: bad };
   }
@@ -2021,34 +2130,45 @@ var Importer = (function () {
     P.s = s.map.neutral ? 0 : s.map.s; $('sat').value = P.s; $('satv').textContent = P.s.toFixed(2);
     try { $('seedc').value = Engine.hex(s.lab[0], s.lab[1], s.lab[2]).toLowerCase(); } catch (e) {}
     ['seedmode', 'seedclr'].forEach(function (id) { $(id).classList.remove('off'); });
+    $('seedmode').querySelectorAll('input').forEach(function (i) { i.disabled = false; }); $('seedclr').disabled = false;
     $('seednear').hidden = false; populateSeedRamps(); renderChips();
     drawMap(1); update();
   }
   function setSeeds(str, append) {
     var r = parseSeeds(str);
-    if (!r.seeds.length) { $('seedmsg').innerHTML = '<span class="imperr">Couldn\'t read “' + esc(String(str).trim()) + '”. Try hex like #3AA99F, rgb(), hsl() or oklch(); separate several with commas.</span>'; return; }
-    P.seeds = (append ? P.seeds : []).concat(r.seeds).slice(0, 6);
+    if (!r.seeds.length || r.bad.length) { $('seedmsg').innerHTML = '<span class="imperr">Couldn\'t read “' + esc(String(str).trim()) + '”. Use complete opaque colors such as #3AA99F, rgb(), hsl() or oklch(), separated by commas. No seeds were changed.</span>'; return; }
+    if ((append ? P.seeds.length : 0) + r.seeds.length > 6) { $('seedmsg').textContent = 'Up to six seeds are supported. No seeds were changed.'; return; }
+    P.seeds = (append ? P.seeds : []).concat(r.seeds);
     if (!append) P.pi = 0; else P.pi = P.seeds.length - 1;
     seedsChanged();
-    if (r.bad.length) $('seedmsg').innerHTML += ' <span class="imperr">Skipped: ' + esc(r.bad.join(', ')) + '.</span>';
   }
   function clearSeed() {
     P.seeds = []; P.pi = 0; P.seedLocked = false; $('seedmsg').textContent = ''; $('seedcmp').hidden = true; $('seednear').hidden = true; $('seedback').hidden = true;
-    $('seedmode').classList.add('off'); $('seedclr').classList.add('off'); $('seedt').value = ''; renderChips();
+    $('seedmode').classList.add('off'); $('seedclr').classList.add('off');
+    $('seedmode').querySelectorAll('input').forEach(function (i) { i.disabled = true; }); $('seedclr').disabled = true; $('seedt').value = ''; renderChips();
     if (P.init) update();
   }
-  function unlockSeed() { if (P.seeds.length && P.seedLocked) { P.seedLocked = false; $('seedback').hidden = false; } }
+  function unlockSeed() {
+    if (P.inspected != null && P.pt) {
+      var mapped = PM.seedMap([P.pt.L, P.pt.a, P.pt.b]);
+      if (!mapped.neutral) P.u = mapped.u;
+      P.L = clampL(P.pt.L); P.s = mapped.neutral ? 0 : mapped.s;
+      $('sat').value = P.s; $('satv').textContent = P.s.toFixed(2);
+      P.inspected = null;
+    }
+    if (P.seeds.length && P.seedLocked) { P.seedLocked = false; $('seedback').hidden = false; }
+  }
   function renderChips() {
     $('seedchips').innerHTML = P.seeds.map(function (s, i) {
       return '<span class="chip' + (i === P.pi ? ' on' : '') + '" data-i="' + i + '" title="' + esc(s.raw) + (i === P.pi ? ' (primary: the pick follows it)' : ' (click to make primary)') + '">' +
-        '<i style="background:' + Engine.cssColor(s.lab[0], s.lab[1], s.lab[2], PM.gamut) + '"></i><span class="mono">' + esc(s.raw.length > 12 ? Engine.hex(s.lab[0], s.lab[1], s.lab[2]) : s.raw) + '</span>' +
-        '<button class="x" data-x="' + i + '" aria-label="Remove seed">×</button></span>';
+        '<button class="primary" data-primary="' + i + '" aria-pressed="' + (i === P.pi) + '" aria-label="Make ' + esc(s.raw) + ' primary"><i style="background:' + Engine.cssColor(s.lab[0], s.lab[1], s.lab[2], PM.gamut) + '"></i><span class="mono">' + esc(s.raw.length > 12 ? Engine.hex(s.lab[0], s.lab[1], s.lab[2]) : s.raw) + '</span></button>' +
+        '<button class="x" data-x="' + i + '" aria-label="Remove seed ' + esc(s.raw) + '">×</button></span>';
     }).join('');
     $('seedchips').hidden = !P.seeds.length;
   }
   $('seedchips').addEventListener('click', function (e) {
-    var x = e.target.closest('[data-x]'); if (x) { P.seeds.splice(+x.dataset.x, 1); if (P.pi >= P.seeds.length) P.pi = Math.max(0, P.seeds.length - 1); seedsChanged(); return; }
-    var c = e.target.closest('.chip'); if (c) { P.pi = +c.dataset.i; seedsChanged(); }
+    var x = e.target.closest('[data-x]'); if (x) { var removed = +x.dataset.x; P.seeds.splice(removed, 1); if (removed < P.pi) P.pi--; if (P.pi >= P.seeds.length) P.pi = Math.max(0, P.seeds.length - 1); seedsChanged(); var next = $('seedchips').querySelector('[data-primary="' + P.pi + '"]'); (next || $('seedt')).focus(); return; }
+    var c = e.target.closest('[data-primary]'); if (c) { P.pi = +c.dataset.primary; seedsChanged(); $('seedchips').querySelector('[data-primary="' + P.pi + '"]').focus(); }
   });
   function populateSeedRamps() {
     var sel = $('snramp'), names = PM.loft.concat(PM.interior).map(function (r) { return r.name; }).concat([PM.neutralName]), s = prim();
@@ -2088,7 +2208,7 @@ var Importer = (function () {
       $('seedcmp').innerHTML = '<div class="scol"><span class="ssw" style="background:' + Engine.cssColor(lab[0], lab[1], lab[2], PM.gamut) + '"></span><span>seed</span></div>' +
         '<div class="scol"><span class="ssw" style="background:' + Engine.cssColor(fit.L, fit.a, fit.b, PM.gamut) + '"></span><span>nearest in palette</span></div>' +
         '<p class="note">Same hue and lightness, pulled in to the palette\'s chroma: ΔE ' + fitE.toFixed(1) + '. ' +
-        (P.seedMode === 'fit' ? 'Switch to <b>Through seed</b> for a ramp that includes the exact seed.' : 'The ramp below reaches beyond the palette\'s chroma to include it, which the validation doesn\'t cover.') + '</p>';
+        (P.seedMode === 'fit' ? 'Switch to <b>Through seed</b> to retain the seed’s saturation, subject to gamut clipping.' : 'The ramp below reaches beyond the palette\'s chroma to include it, which the validation doesn\'t cover.') + '</p>';
     } else $('seedcmp').hidden = true;
     $('seedmode').querySelectorAll('input').forEach(function (i) { i.checked = i.value === P.seedMode; });
     // nearest in the generated ramp (primary seed)
@@ -2176,16 +2296,17 @@ var Importer = (function () {
     var d = $('imp'); if (d.showModal) d.showModal(); else d.setAttribute('open', '');
     $('impn').focus(); previewImport();
   }
-  function closeImport() { var d = $('imp'); if (d.close) d.close(); else d.removeAttribute('open'); }
+  function closeImport() { clearTimeout(impTimer); var d = $('imp'); if (d.close) d.close(); else d.removeAttribute('open'); }
   function fillTextSelects(steps) {
     ['imptl', 'imptd'].forEach(function (id, n) {
       var sel = $(id), cur = sel.value;
       sel.innerHTML = '<option value="">—</option>' + (steps || []).map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + '</option>'; }).join('');
-      if (steps && steps.indexOf(cur) >= 0) sel.value = cur;
+      if (cur === '' || (steps && steps.indexOf(cur) >= 0)) sel.value = cur;
       else if (steps && steps.length) sel.value = steps[Math.round((n ? 0.4 : 0.62) * (steps.length - 1))];
     });
   }
   function previewImport() {
+    clearTimeout(impTimer); impLast = null; $('impok').disabled = true;
     var text = $('impt').value;
     if (text.length > 200000) { $('impp').innerHTML = '<p class="imperr">That\'s more than 200,000 characters; paste just the palette.</p>'; $('impok').disabled = true; return; }
     var r = Importer.analyse(text, { name: $('impn').value, textLight: $('imptl').value || null, textDark: $('imptd').value || null });
@@ -2205,7 +2326,7 @@ var Importer = (function () {
       (r.notes.length ? '<p class="note">' + esc(r.notes.join(' · ')) + '</p>' : '') + '<div class="ipgrid">' + grid + '</div>' + (names.length > 30 ? '<p class="note">…and ' + (names.length - 30) + ' more</p>' : '');
     $('impok').disabled = false;
   }
-  function schedulePreview() { clearTimeout(impTimer); impTimer = setTimeout(previewImport, 200); }
+  function schedulePreview() { impLast = null; $('impok').disabled = true; clearTimeout(impTimer); impTimer = setTimeout(previewImport, 200); }
   $('impbtn').addEventListener('click', openImport);
   $('impx').addEventListener('click', closeImport);
   $('impt').addEventListener('input', schedulePreview);
@@ -2217,8 +2338,11 @@ var Importer = (function () {
     lines.push('}'); $('impt').value = lines.join('\n'); $('impn').value = 'Open Color (from CSS)'; previewImport();
   });
   $('impok').addEventListener('click', function () {
+    previewImport();
     if (!impLast || !impLast.ok) return;
-    var p = impLast.pal; PALS.push(p); saveUser(); fillPalSelect(); closeImport(); $('impt').value = ''; impLast = null;
+    var p = impLast.pal; PALS.push(p);
+    if (!saveUser()) { PALS.pop(); $('impp').textContent = 'Could not save this palette in browser storage. Free storage or enable it, then try again.'; return; }
+    fillPalSelect(); closeImport(); $('impt').value = ''; impLast = null;
     loadPalette(p.id);
   });
   function removeUser(id) {
@@ -2230,7 +2354,7 @@ var Importer = (function () {
   // ---------------- tabs and theme ----------------
   function showTab(pk) {
     $('v3d').hidden = pk; $('vpk').hidden = !pk;
-    $('tab3d').setAttribute('aria-selected', String(!pk)); $('tabpk').setAttribute('aria-selected', String(pk));
+    $('tab3d').setAttribute('aria-pressed', String(!pk)); $('tabpk').setAttribute('aria-pressed', String(pk));
     if (pk) { if (!P.init) initPicker(); else if (P.needsSetup) setupPicker(true); else { placeLabels(); drawStipple(); drawOverlay(); } }
     else {
       if (P.init && P.show3d && P.moved && P.pt) {
@@ -2246,7 +2370,7 @@ var Importer = (function () {
   $('tab3d').addEventListener('click', function () { showTab(false); });
   $('tabpk').addEventListener('click', function () { showTab(true); });
   var tbtn = $('theme');
-  function setIcon() { tbtn.textContent = isDark() ? '☀' : '☾'; }
+  function setIcon() { tbtn.textContent = isDark() ? '☀' : '☾'; tbtn.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme'); }
   function themeChanged() { setIcon(); buildSidebar(); render(); repaintPicker(); }
   tbtn.addEventListener('click', function () { var next = isDark() ? 'light' : 'dark'; root.setAttribute('data-theme', next); try { localStorage.setItem('theme', next); } catch (e) {} themeChanged(); });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeChanged);
