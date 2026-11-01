@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Ramp from one color</title>
-<meta name="description" content="Start with one color and get a full ramp shaped like a design system you trust, such as Tailwind, Radix or Flexoki, with an estimate of how close each step is to hand-made.">
+<meta name="description" content="Start with one color and get a full ramp shaped like a design system you trust, such as Tailwind, Radix or Flexoki, with light and dark steps for interface design.">
 <link rel="canonical" href="https://cewillis.com/color-ramp.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cewillis.com/color-ramp.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="Ramp from one color">
-<meta property="og:description" content="One color in, a full ramp out, shaped like Flexoki, Tailwind, Radix or nine others, with an estimate of how close it is to hand-made.">
+<meta property="og:description" content="One color in, a full ramp out, shaped like Flexoki, Tailwind, Radix or nine others, with light and dark steps for interface design.">
 <meta property="og:image" content="https://cewillis.com/og-color-ramp.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -102,6 +102,7 @@
     position: relative; flex: none; width: 2.6rem; border-radius: var(--r); border: 1px solid var(--ui-2); overflow: hidden; cursor: pointer;
   }
   .chip input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
+  .chip:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
   .chip span { position: absolute; inset: 0; }
   .txt, select {
     width: 100%; min-width: 0; padding: 0.55rem 0.7rem; border-radius: var(--r); border: 1px solid var(--ui-2);
@@ -164,8 +165,14 @@
   .family.names { gap: 2px; }
   .family .col { display: grid; gap: 2px; grid-auto-rows: 1.15rem; }
   .family .cell { border-radius: 2px; }
-  .family .col.mine { outline: 2px solid var(--tx); outline-offset: 2px; border-radius: 2px; }
-  .family.names { display: grid; gap: 2px; font-size: 0.62rem; color: var(--tx-2); margin-top: 0.35rem; }
+  .family .col.mine { position: relative; }
+  .family .col.mine::before, .family .col.mine::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px;
+    background: var(--tx); pointer-events: none;
+  }
+  .family .col.mine::before { bottom: calc(100% + 3px); }
+  .family .col.mine::after { top: calc(100% + 3px); }
+  .family.names { display: grid; gap: 2px; font-size: 0.62rem; color: var(--tx-2); margin-top: 0.65rem; }
   .family.names span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 4.5rem; justify-self: center; }
   .family.names span.mine { color: var(--tx); font-weight: 500; }
 
@@ -180,7 +187,7 @@
   .export { display: flex; flex-direction: column; gap: 0.75rem; }
   .tabs { display: flex; gap: 0.25rem; flex-wrap: wrap; align-items: center; }
   .tabs button { background: none; border: 1px solid transparent; border-radius: 999px; padding: 0.3rem 0.8rem; cursor: pointer; color: var(--tx-2); font-size: 0.85rem; }
-  .tabs button[aria-selected="true"] { border-color: var(--ui-3); color: var(--tx); background: var(--bg-2); }
+  .tabs button[aria-pressed="true"] { border-color: var(--ui-3); color: var(--tx); background: var(--bg-2); }
   .tabs .copy { margin-left: auto; border-color: var(--ui-3); color: var(--tx); }
   .tabs .copy:hover { border-color: var(--accent); color: var(--accent); }
   pre {
@@ -251,7 +258,7 @@
   <section class="tool" aria-label="Ramp generator">
     <div class="intro">
       <h1>Ramp from one color</h1>
-      <p class="lede">Start with one color, such as a brand color. You get a full ramp of light and dark steps shaped like a design system you already trust, and an estimate of how close each step is to what that system's designers would have picked. You can also import your own palette.</p>
+      <p class="lede">Start with one color, such as a brand color. You get a full ramp of light and dark steps shaped like a design system you already trust, with explicit feedback about how your inputs appear in the result. You can also import your own palette.</p>
     </div>
 
     <form class="controls" id="ctl" autocomplete="off">
@@ -284,7 +291,7 @@
       <div class="field">
         <span class="lab" id="modelab"><span>Your color</span></span>
         <div class="seg" id="mode" role="group" aria-labelledby="modelab">
-          <button type="button" data-v="through" aria-pressed="true">Stays exact</button>
+          <button type="button" data-v="through" aria-pressed="true">Through color</button>
           <button type="button" data-v="fit" aria-pressed="false">Fits the palette</button>
         </div>
         <p class="hint" id="modehint"></p>
@@ -296,14 +303,15 @@
       </div>
     </form>
 
-    <div class="result" aria-live="polite">
+    <div class="result">
+      <p class="err" id="draftstatus" role="status"></p>
       <div class="ramp" id="ramp" role="list" aria-label="Generated ramp"></div>
       <div class="verdict" id="verdict"></div>
       <ul class="legend" id="legend">
-        <li><span class="k ring" aria-hidden="true"></span>Your color</li>
+        <li><span class="k ring" aria-hidden="true"></span>Input anchor (may be adjusted)</li>
         <li><span class="k" aria-hidden="true">↑</span>More vivid than the palette goes</li>
         <li><span class="k hatch" aria-hidden="true"></span>Lighter or darker than its neighbors, so extrapolated</li>
-        <li><span class="k" aria-hidden="true">Aa</span>Text color that passes, with its contrast</li>
+        <li><span class="k" aria-hidden="true">Aa</span>Text color with its measured contrast</li>
       </ul>
     </div>
   </section>
@@ -323,12 +331,13 @@
 
   <section class="export" aria-label="Export">
     <h2>Export</h2>
-    <div class="tabs" role="tablist" id="tabs">
-      <button type="button" role="tab" data-f="css" aria-selected="true">CSS</button>
-      <button type="button" role="tab" data-f="oklch" aria-selected="false">CSS oklch</button>
-      <button type="button" role="tab" data-f="tw4" aria-selected="false">Tailwind v4</button>
-      <button type="button" role="tab" data-f="tw3" aria-selected="false">Tailwind v3</button>
-      <button type="button" role="tab" data-f="json" aria-selected="false">Design tokens</button>
+    <p class="note">CSS oklch and Tailwind v4 retain wide-gamut color. Hex values in CSS, Tailwind v3 and design tokens are rounded sRGB fallbacks; token extensions also include OKLCH.</p>
+    <div class="tabs" role="group" aria-label="Export format" id="tabs">
+      <button type="button" data-f="css" aria-pressed="true">CSS</button>
+      <button type="button" data-f="oklch" aria-pressed="false">CSS oklch</button>
+      <button type="button" data-f="tw4" aria-pressed="false">Tailwind v4</button>
+      <button type="button" data-f="tw3" aria-pressed="false">Tailwind v3</button>
+      <button type="button" data-f="json" aria-pressed="false">Design tokens</button>
       <button type="button" class="copy" id="copy">Copy</button>
     </div>
     <pre id="code" tabindex="0"></pre>
@@ -338,9 +347,9 @@
   <section class="notes">
     <h2>How it works</h2>
     <p>Each reference palette is treated as a shape. Its ramps are wrapped around a surface in Oklab, a color space where equal distances look about equally different. Your color is placed on that surface by its hue, lightness and colorfulness. The new ramp follows the surface: the same lightness steps, and the same rise and fall in colorfulness, as the palette's own ramps at that hue.</p>
-    <p><b>Stays exact</b> puts your color into the ramp unchanged, on the step closest to its lightness. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
-    <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page checks them, runs the same hold-out test on them, and keeps the palette in this browser only.</p>
-    <p>The estimate comes from a hold-out test. Each of the palette's own ramps was hidden, rebuilt from its neighbors and compared with the real one. Differences are in ΔE OK ×100, where 2 is about the smallest difference most people notice. It covers ramps that stay within the palette's colorfulness, so it says less about steps marked ↑.</p>
+    <p><b>Through color</b> shapes the ramp around your color. Gamut limits, neutral substitution and shared anchor steps can change or omit an input; the result reports those changes. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
+    <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page validates the colors and keeps the palette in this browser only.</p>
+    <p>Reference-surface hold-outs reconstruct a hidden palette ramp from its neighbors. This tool modifies that surface around your inputs, so those tests do not establish accuracy for the generated result. Reported input differences use ΔE OK ×100; zero means the same internal color. Hex exports round to 8-bit sRGB; use CSS oklch for higher precision and wide-gamut colors.</p>
     <p>For a deeper look at a palette's shape, open <a href="color-intelligence.html">Palette topology</a>. This page was prompted by <a href="https://meodai.github.io/dittoTones/">dittoTones</a> by David Aerne, which builds ramps from one color by matching the closest ramps in a reference system.</p>
   </section>
 
@@ -353,7 +362,7 @@
     <p class="hint">Paste your color variables or tokens, or upload the file. CSS, SCSS, Less and JSON all work, as long as names end in a step, like <code>blue-500</code> or <code>blue.500</code>.</p>
     <div class="field"><label class="lab" for="impn"><span>Name</span></label><input class="txt" id="impn" value="My palette" maxlength="60" spellcheck="false" /></div>
     <div class="field">
-      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><label class="linkbtn" for="impf">Upload a file</label><button class="linkbtn" type="button" id="impex">Load an example</button></span></label>
+      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><button class="linkbtn" type="button" id="upload">Upload a file</button><button class="linkbtn" type="button" id="impex">Load an example</button></span></label>
       <input type="file" id="impf" accept=".css,.scss,.less,.json,.js,.ts,.txt,text/*,application/json" hidden />
       <textarea class="txt" id="impt" rows="8" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
     </div>
@@ -416,10 +425,42 @@ var Engine = (function () {
     var m = s.match(/\(([^)]*)\)/); if (!m) return 1;
     var inner = m[1];
     if (inner.indexOf('/') >= 0) return num(inner.split('/')[1], 1);
-    var a = args(inner); if (/^(rgba|hsla)/.test(s) && a.length >= 4) return num(a[3], 1);
+    var a = args(inner); if (/^(rgba?|hsla?)/.test(s) && a.length >= 4) return num(a[3], 1);
     return 1;
   }
+  // Validate the complete value before converting; never let NaN enter a model.
   function parse(s) {
+    s = String(s).trim().toLowerCase();
+    if (s[0] === '#') {
+      if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/.test(s)) throw new Error('Invalid hex color: ' + s);
+    } else {
+      var m = s.match(/^(rgb|rgba|hsl|hsla|oklch|oklab|color)\(([^()]*)\)$/);
+      if (!m) throw new Error('Unsupported color: ' + s);
+      var body = m[2], fn = m[1];
+      if (fn === 'color') {
+        var space = body.trim().match(/^(display-p3|srgb-linear|srgb)\s+(.+)$/);
+        if (!space) throw new Error('Unsupported color space');
+        body = space[2];
+      }
+      var parts = body.split('/'), comma = body.indexOf(',') >= 0;
+      if (parts.length > 2 || (comma && (parts.length > 1 || !/^(rgb|rgba|hsl|hsla)$/.test(fn)))) throw new Error('Invalid color separators');
+      var channels = comma ? body.split(',').map(function (x) { return x.trim(); }) : parts[0].trim().split(/\s+/);
+      var alpha = parts.length === 2 ? parts[1].trim() : null;
+      if (comma && channels.length === 4) alpha = channels.pop();
+      if (channels.length !== 3) throw new Error('A color needs three components');
+      var numeric = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?%?$/;
+      channels.forEach(function (v, i) {
+        var isHue = (fn === 'oklch' && i === 2) || (/^hsla?$/.test(fn) && i === 0);
+        var valid = isHue ? /^(?:none|[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?(?:deg|grad|rad|turn)?)$/.test(v) : numeric.test(v) || v === 'none';
+        if (!valid) throw new Error('Invalid color component: ' + v);
+      });
+      if (alpha !== null && (!numeric.test(alpha) || !Number.isFinite(num(alpha, 1)) || num(alpha, 1) < 0 || num(alpha, 1) > 1)) throw new Error('Alpha must be between 0 and 1');
+    }
+    var lab = parseRaw(s);
+    if (!lab.every(Number.isFinite)) throw new Error('Color components must be finite');
+    return lab;
+  }
+  function parseRaw(s) {
     s = String(s).trim().toLowerCase(); var m, a;
     if (s[0] === '#') {
       var h = s.slice(1);
@@ -1059,8 +1100,10 @@ var Importer = (function () {
 
   function tryColor(v) {
     if (typeof v !== 'string') return null;
-    var m = v.match(COLOR_RE); if (!m) return null;
-    try { Engine.parse(m[1]); return { raw: m[1].trim(), alpha: Engine.alphaOf(m[1]) }; } catch (e) { return null; }
+    var raw = v.trim();
+    if (!/^(#|(?:rgba?|hsla?|oklch|oklab|color)\()/i.test(raw)) return null;
+    Engine.parse(raw);
+    return { raw: raw, alpha: Engine.alphaOf(raw) };
   }
   // split "red-500", "red500", "Red_500", "oc-red-5" into ramp + step
   function splitName(n) {
@@ -1074,8 +1117,9 @@ var Importer = (function () {
     function walk(o, path) {
       if (o == null) return;
       if (typeof o === 'string') {
-        var c = tryColor(o); if (!c) return;
         var last = path[path.length - 1], parent = path.slice(0, -1);
+        if (!/^\d+(\.\d+)?$/.test(String(last)) && !splitName(last)) return;
+        var c = tryColor(o); if (!c) throw new Error('Unsupported color at ' + path.join('.'));
         if (/^\d+(\.\d+)?$/.test(String(last)) && parent.length) out.push({ ramp: parent.join('-'), step: String(last), raw: c.raw, alpha: c.alpha });
         else { var sp = splitName(last); if (sp) out.push({ ramp: parent.concat([sp.ramp]).join('-'), step: sp.step, raw: c.raw, alpha: c.alpha }); }
         return;
@@ -1091,7 +1135,7 @@ var Importer = (function () {
   }
   function fromVars(text) {
     var out = [], re = /(?:--|\$|@)([A-Za-z][\w-]*?)[-_]?(\d+(?:\.\d+)?)\s*:\s*([^;\n]+)/g, m;
-    while ((m = re.exec(text))) { var c = tryColor(m[3]); if (c) out.push({ ramp: m[1].replace(/[-_]+$/, ''), step: m[2], raw: c.raw, alpha: c.alpha }); }
+    while ((m = re.exec(text))) { var c = tryColor(m[3].replace(/\s*!(?:important|default)\s*$/i, '').trim()); if (!c) throw new Error('Unsupported color in ' + m[1] + m[2]); if (c) out.push({ ramp: m[1].replace(/[-_]+$/, ''), step: m[2], raw: c.raw, alpha: c.alpha }); }
     return out;
   }
   // SCSS maps: $name: ("0": #fff, "1": #eee, …) or ($key: value) pairs
@@ -1100,6 +1144,7 @@ var Importer = (function () {
     while ((m = re.exec(text))) {
       var ramp = m[1].replace(/[-_](list|map|palette|scale|colou?rs?)$/i, ''), body = m[2], er = /["']?([\w.-]+)["']?\s*:\s*((?:#[0-9a-fA-F]{3,8}\b)|(?:(?:rgba?|hsla?|oklch|oklab|color)\([^)]*\)))/g, e;
       while ((e = er.exec(body))) { var c = tryColor(e[2]); if (c) out.push({ ramp: ramp, step: e[1], raw: c.raw, alpha: c.alpha }); }
+      if (body.replace(er, '').replace(/[\s,]+/g, '')) throw new Error('Invalid color map: ' + ramp);
     }
     return out;
   }
@@ -1107,7 +1152,8 @@ var Importer = (function () {
     var out = [];
     text.split(/\n/).forEach(function (line) {
       var m = line.match(/^\s*["']?([A-Za-z][\w -]*?)["']?\s*[:=]\s*(.+)$/); if (!m) return;
-      var vals = (m[2].match(new RegExp(COLOR_RE.source, 'g')) || []);
+      var vals = (m[2].match(new RegExp(COLOR_RE.source, 'gi')) || []);
+      if (m[2].replace(new RegExp(COLOR_RE.source, 'gi'), '').replace(/[\s,]+/g, '')) throw new Error('Invalid color list: ' + m[1]);
       vals.forEach(function (v, i) { var c = tryColor(v); if (c) out.push({ ramp: m[1].trim(), step: String(i + 1), raw: c.raw, alpha: c.alpha }); });
     });
     return out;
@@ -1125,22 +1171,23 @@ var Importer = (function () {
     var src = String(text || '').trim(), entries = [], format = '';
     if (!src) return { ok: false, error: 'Paste a palette to begin.' };
     var json = null; try { json = JSON.parse(src); } catch (e) {}
+    if (!json) src = src.replace(/\/\*[\s\S]*?\*\//g, '');
     if (json && typeof json === 'object') { entries = fromJSON(json); format = 'JSON'; }
     if (!entries.length) { entries = fromVars(src); format = 'CSS/SCSS/LESS variables'; }
     if (!entries.length) { entries = fromMaps(src); format = 'SCSS maps'; }
     if (!entries.length) { entries = fromLines(src); format = 'one ramp per line'; }
     if (!entries.length) return { ok: false, error: 'No colors found. Use CSS variables like --red-500: #e11d48; JSON like {"red": {"500": "#e11d48"}}; or lines like red: #fee #fcc #f88 #e44.' };
     var notes = [];
-    var translucent = entries.filter(function (e) { return e.alpha < 0.999; }).length;
-    entries = entries.filter(function (e) { return e.alpha >= 0.999; });
+    var translucent = entries.filter(function (e) { return e.alpha < 1; }).length;
+    entries = entries.filter(function (e) { return e.alpha === 1; });
     if (translucent) notes.push(translucent + ' translucent color' + (translucent > 1 ? 's' : '') + ' skipped');
     if (!entries.length) return { ok: false, error: 'Every color found is translucent (alpha below 1). Import the solid scales instead, for example the non-alpha files.' };
     // group, strip a shared prefix (color-, oc-, palette-)
     var pre = commonPrefix(Array.from(new Set(entries.map(function (e) { return e.ramp.toLowerCase(); }))));
-    var groups = {}, order = [], redefined = 0;
+    var groups = Object.create(null), order = [], redefined = 0;
     entries.forEach(function (e) {
       var name = e.ramp.toLowerCase().replace(pre, '').replace(/^(colou?rs?|palette|base|tokens?)[-_.]/, '') || e.ramp;
-      if (!groups[name]) { groups[name] = { name: name, steps: {}, keys: [] }; order.push(name); }
+      if (!groups[name]) { groups[name] = { name: name, steps: Object.create(null), keys: [] }; order.push(name); }
       if (!(e.step in groups[name].steps)) groups[name].keys.push(e.step); else redefined++;
       groups[name].steps[e.step] = e.raw;
     });
@@ -1163,14 +1210,14 @@ var Importer = (function () {
     ramps.forEach(function (g) { g.neutral = (g.meanC < 0.02 && g.maxC < 0.045) || (NEUTRAL_NAME.test(g.name) && g.meanC < 0.05); });
     var chrom = ramps.filter(function (g) { return !g.neutral; }), neus = ramps.filter(function (g) { return g.neutral; });
     // one shared step scale for chromatic ramps: the most common
-    var sig = {}; chrom.forEach(function (g) { var k = g.keys.join('|'); sig[k] = (sig[k] || 0) + 1; });
+    var sig = Object.create(null); chrom.forEach(function (g) { var k = g.keys.join('|'); sig[k] = (sig[k] || 0) + 1; });
     var best = Object.keys(sig).sort(function (a, b) { return sig[b] - sig[a]; })[0];
     if (!best) return { ok: false, error: 'Only neutral ramps found; at least four hued ramps are needed.' };
     var steps = best.split('|'), odd = chrom.filter(function (g) { return g.keys.join('|') !== best; });
     chrom = chrom.filter(function (g) { return g.keys.join('|') === best; });
     if (odd.length) notes.push('skipped ' + odd.map(function (g) { return g.name; }).join(', ') + ' (different steps from the rest)');
     if (chrom.length < 4) return { ok: false, error: 'Found ' + chrom.length + ' hued ramp' + (chrom.length === 1 ? '' : 's') + ' sharing one step scale; at least 4 are needed to build a surface.' };
-    var neutrals = {}, neutralSteps = {};
+    var neutrals = Object.create(null), neutralSteps = Object.create(null);
     neus.forEach(function (g) { neutrals[g.name] = g.keys.map(function (k) { return g.steps[k]; }); neutralSteps[g.name] = g.keys.slice(); });
     var neutral;
     if (neus.length) neutral = neus.slice().sort(function (a, b) { return a.meanC - b.meanC; })[0].name;
@@ -1187,7 +1234,7 @@ var Importer = (function () {
     var pal = {
       id: 'user-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36),
       name: name, version: 'imported', license: '—', source: 'Imported ' + new Date().toISOString().slice(0, 10) + ' · ' + format,
-      steps: steps, ramps: {}, neutrals: neutrals, neutralSteps: neutralSteps, neutral: neutral,
+      steps: steps, ramps: Object.create(null), neutrals: neutrals, neutralSteps: neutralSteps, neutral: neutral,
       poles: { light: '#FFFFFF', dark: '#000000' }, poleNames: { light: 'white', dark: 'black' },
       text: { light: opts.textLight || null, dark: opts.textDark || null, basis: 'set on import' },
       gamut: outSrgb ? 'p3' : 'srgb', user: true
@@ -1201,12 +1248,12 @@ var Importer = (function () {
     if (M.loft.length < 3) return { ok: false, error: 'Too many ramps overlap in hue: only ' + M.loft.length + ' could be lofted.' };
     return { ok: true, pal: pal, format: format, notes: notes, nRamps: chrom.length, nSteps: steps.length, neutrals: Object.keys(neutrals), M: M };
   }
-  return { analyse: analyse };
+  return { analyse: function (text, opts) { try { return analyse(text, opts); } catch (e) { return { ok: false, error: 'Invalid palette: ' + e.message }; } } };
 })();
 
 </script>
 <script>
-// Ramp from one color: one or two seed colors → a ramp shaped like a reference palette, with a calibrated error estimate.
+// Ramp from one color: one or two seed colors → a ramp shaped like a reference palette, with explicit input-preservation feedback.
 // Uses Engine (src/engine.js) unchanged: build(), seedMap(), genAnchors(), looOne()/summarise(), calAt().
 (function () {
   'use strict';
@@ -1217,7 +1264,7 @@ var Importer = (function () {
   var USER_KEY = 'pt.user';
   function validUser(p) { return p && typeof p.id === 'string' && p.ramps && Array.isArray(p.steps) && p.neutrals && p.neutral && p.poles; }
   function loadUser() { try { var u = JSON.parse(localStorage.getItem(USER_KEY) || '[]'); return Array.isArray(u) ? u.filter(validUser) : []; } catch (e) { return []; } }
-  function saveUser() { try { localStorage.setItem(USER_KEY, JSON.stringify(PALS.filter(function (p) { return p.user; }))); } catch (e) {} }
+  function saveUser(list) { try { localStorage.setItem(USER_KEY, JSON.stringify((list || PALS).filter(function (p) { return p.user; }))); return true; } catch (e) { return false; } }
   PALS = BUILTIN.concat(loadUser());
   var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
   var EXAMPLE = '#9D58BA';
@@ -1230,7 +1277,7 @@ var Importer = (function () {
   function palById(id) { return PALS.filter(function (p) { return p.id === id; })[0]; }
   function cap1(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
   function slug(s) { s = String(s || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); return s || 'brand'; }
-  function parse(txt) { try { var p = Engine.parse(String(txt).trim()); return p && isFinite(p[0]) ? p : null; } catch (e) { return null; } }
+  function parse(txt) { try { var p = Engine.parse(String(txt).trim()); return p && p.every(Number.isFinite) && Engine.alphaOf(String(txt)) === 1 ? p : null; } catch (e) { return null; } }
   function lch(p) { var C = Math.hypot(p[1], p[2]); return { L: p[0], C: C, H: (Math.atan2(p[2], p[1]) * R2D + 360) % 360 }; }
   function oklch(p) { var o = lch(p); return 'oklch(' + fx(o.L * 100, 2) + '% ' + fx(o.C, 4) + ' ' + (o.C < 5e-4 ? 'none' : fx(o.H, 2)) + ')'; }
   function hexOf(p) { return Engine.hex(p[0], p[1], p[2]); }
@@ -1275,7 +1322,7 @@ var Importer = (function () {
     var live = seeds.filter(function (s) { return !s.map.neutral; });
     if (s2 && seeds[1].map.neutral && !seeds[0].map.neutral) out.notes.push('The second color is close to gray, so it was left out.');
     // the palette's own ramp, when the color is one of its real steps
-    if (seeds.length === 1 && seeds[0].map.exact) {
+    if (seeds.length === 1 && seeds[0].map.exact && seeds[0].map.exactE < 1e-7) {
       var nm = seeds[0].map.exact.replace(/-[^-]+$/, ''), r = M.R.filter(function (x) { return x.name === nm; })[0];
       if (r) {
         var at = pal.steps.indexOf(seeds[0].map.exact.slice(nm.length + 1));
@@ -1293,8 +1340,8 @@ var Importer = (function () {
     if (!gen) { out.kind = 'neutral'; out.steps = M.neutral.steps; out.cells = M.neutral.labs.map(function (p, k) { return { lab: p, step: M.neutral.steps[k], anchor: false, seedIndex: -1 }; }); return out; }
     out.kind = 'gen'; out.steps = pal.steps;
     out.cells = gen.map(function (x) { return { lab: [x.L, x.a, x.b], step: x.step, anchor: x.anchor, seedIndex: x.seedIndex, beyond: !!x.beyond, ext: !!x.ext, clipped: !!x.clipped }; });
-    if (live.length === 2 && out.cells.filter(function (c) { return c.anchor; }).length < 2) out.notes.push('The two colors are almost the same lightness, so only the first one was used.');
-    out.band = band(st.pal, M, meanU(live.map(function (s) { return s.map.u; })));
+    if (live.length === 2 && out.cells.filter(function (c) { return c.anchor; }).length < 2) out.notes.push('The inputs are almost the same lightness and share an anchor; see the retained input below.');
+    out.segment = M.seg(meanU(live.map(function (s) { return s.map.u; })))[0];
     out.moved = out.cells.filter(function (c) { return c.anchor; }).map(function (c) { return { step: c.step, e: Engine.dE(c.lab, seeds[c.seedIndex].lab) }; });
     out.clampedL = live.some(function (s) { return s.map.clampedL; });
     return out;
@@ -1311,7 +1358,7 @@ var Importer = (function () {
     $('ramp').innerHTML = o.cells.map(function (c) {
       var p = c.lab, t = textOn(o.pal, p), hx = hexOf(p), p3 = !inSrgb(p);
       var marks = (c.beyond ? '<span title="More vivid than the palette goes at this hue and lightness">↑</span>' : '') + (p3 ? '<span title="Outside sRGB; shown in Display P3">P3</span>' : '');
-      var tip = name + '-' + c.step + '  ' + hx + (p3 ? ' (sRGB fallback; ' + oklch(p) + ')' : '') + (c.anchor ? '  · your color' : '') + (c.beyond ? '  · more vivid than the palette' : '') + (c.ext ? '  · extrapolated' : '') + '  · text ' + fx(t.ratio, 1) + ':1';
+      var tip = name + '-' + c.step + '  ' + hx + (p3 ? ' (sRGB fallback; ' + oklch(p) + ')' : '') + (c.anchor ? '  · input anchor (may be adjusted)' : '') + (c.beyond ? '  · more vivid than the palette' : '') + (c.ext ? '  · extrapolated' : '') + '  · text ' + fx(t.ratio, 1) + ':1';
       return '<div class="sw' + (c.anchor ? ' anchor' : '') + (c.ext ? ' ext' : '') + '" role="listitem" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + ';color:' + t.color + '" title="' + esc(tip) + '">' +
         '<span class="step num">' + esc(c.step) + '</span>' + (marks ? '<span class="marks">' + marks + '</span>' : '') +
         '<span class="bottom"><span class="aa num">Aa ' + fx(t.ratio, 1) + '</span><span class="hex">' + hx + '</span></span></div>';
@@ -1326,22 +1373,17 @@ var Importer = (function () {
       cls = 'same'; pill = 'Gray';
       say.push('Your color is close to gray, so this is ' + esc(pal.name) + '’s own neutral ramp. Add a little color to get a tinted ramp.');
     } else {
-      var b = o.band, beyond = o.cells.filter(function (c) { return c.beyond; }).length, ext = o.cells.filter(function (c) { return c.ext; }).length;
-      var tier = b.med < 1.5 ? 0 : b.med < 3 ? 1 : 2;
-      if (beyond && tier < 1) tier = 1;
-      if (ext > o.cells.length / 3 && tier < 1) tier = 1;
-      cls = ['ok', 'warn', 'bad'][tier]; pill = ['Close to hand-made', 'Mostly close', 'Partly guesswork'][tier];
-      var amt = function (v) { return v < 0.5 ? 'under 0.5' : fx(v); };
-      say.push('Steps typically land within <b class="num">' + amt(b.med) + '</b> of a ramp the palette’s designers would make, and 1 in 10 miss by more than <b class="num">' + amt(b.p90) + '</b>. <span>A difference of 2 is about the smallest most people notice.' + (b.ready ? '' : ' Refining for this palette…') + '</span>');
-      var where = b.d < 1 ? 'right on ' + esc(b.near) : 'between ' + esc(b.a) + ' and ' + esc(b.b) + ', ' + Math.round(b.d) + '° from ' + esc(b.near);
-      var at = o.moved.map(function (m) { return m.step; });
-      say.push('It sits ' + where + '. ' + (at.length > 1 ? 'Your colors are steps ' + at.join(' and ') + '.' : 'Your color is step ' + esc(at[0]) + '.'));
-      var moved = o.moved.filter(function (m) { return m.e > 0.3; });
-      if (st.mode === 'fit' && moved.length) say.push('Fitting toned it down by ' + moved.map(function (m) { return fx(m.e); }).join(' and ') + ' to match the palette. Choose <b>Stays exact</b> to keep it as is.');
-      if (beyond) say.push(beyond + (beyond === 1 ? ' step is' : ' steps are') + ' more vivid than the palette goes, marked ↑. The estimate says less about those. Choose <b>Fits the palette</b> to stay within it.');
-      if (ext) say.push(ext + (ext === 1 ? ' step is' : ' steps are') + ' lighter or darker than the neighboring ramps reach, so they are extrapolated.');
-      if (o.clampedL) say.push('Your color is lighter or darker than anything in the palette, so it was moved to the palette’s end.');
+      cls = 'same'; pill = 'Generated ramp';
+      say.push('Shaped from your inputs using ' + esc(pal.name) + '. Reference-surface hold-outs do not establish an accuracy estimate for this anchored ramp.');
+      if (o.clampedL) say.push('An input is outside the palette’s lightness range and was moved toward its endpoint.');
     }
+    o.seeds.forEach(function (seed, i) {
+      var c = o.cells.filter(function (cell) { return cell.anchor && cell.seedIndex === i; })[0];
+      if (!c) { say.push('Input ' + (i + 1) + ' was not retained as an anchor.'); return; }
+      var e = Engine.dE(c.lab, seed.lab), equal = e < 1e-7;
+      say.push('Input ' + (i + 1) + ' ' + (equal ? 'is preserved' : 'is approximated') + ' at step ' + esc(c.step) +
+        (equal ? '.' : ' (ΔE OK ×100 ' + e.toFixed(2) + '). The displayed and exported color may differ from your input.'));
+    });
     o.notes.forEach(function (n) { say.push(esc(n)); });
     $('verdict').innerHTML = '<span class="pill ' + cls + '">' + pill + '</span><p class="say">' + say.join(' ') + '</p>';
   }
@@ -1349,15 +1391,15 @@ var Importer = (function () {
     var M = o.M, g = o.pal.gamut, cols = M.loft.map(function (r) { return { name: r.name, labs: r.labs, mine: false }; });
     var mine = { name: slug(st.name), labs: o.cells.map(function (c) { return c.lab; }), mine: true };
     if (o.kind === 'exact') cols.forEach(function (c) { if (c.name === o.rampName) c.mine = true; });
-    else if (o.kind === 'gen') cols.splice(o.band.i + 1, 0, mine);
+    else if (o.kind === 'gen') cols.splice(o.segment + 1, 0, mine);
     else cols.push(mine);
     var tpl = 'grid-template-columns:repeat(' + cols.length + ',minmax(0,1fr))';
     var cell = function (p) { return '<span class="cell" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + '"></span>'; };
     $('family').innerHTML = '<div class="family" style="' + tpl + '">' + cols.map(function (c) { return '<div class="col' + (c.mine ? ' mine' : '') + '">' + c.labs.map(cell).join('') + '</div>'; }).join('') + '</div>' +
       '<div class="family names" style="' + tpl + '" aria-hidden="true">' + cols.map(function (c) { return '<span' + (c.mine ? ' class="mine"' : '') + '>' + esc(c.name) + '</span>'; }).join('') + '</div>';
-    $('famnote').textContent = o.kind === 'exact' ? 'Your color is already one of ' + o.pal.name + '’s ramps (outlined).' :
+    $('famnote').textContent = o.kind === 'exact' ? 'Your color is already one of ' + o.pal.name + '’s ramps (marked above and below).' :
       o.kind === 'neutral' ? 'Gray ramps sit outside the hue circle, so the neutral is shown at the end.' :
-      'Your ramp (outlined) slotted into ' + o.pal.name + '’s ramps in hue order. Its steps should line up in lightness with the columns beside it.';
+      'Your ramp (marked above and below) slotted into ' + o.pal.name + '’s ramps in hue order. Its steps should line up in lightness with the columns beside it.';
   }
   function renderContrast(o) {
     var pal = o.pal, ys = o.cells.map(function (c) { return Yof(c.lab); }), n = o.cells.length, name = slug(st.name);
@@ -1401,7 +1443,7 @@ var Importer = (function () {
   function renderControls() {
     $('pal').value = st.pal; renderPalMeta();
     $('mode').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === st.mode ? 'true' : 'false'); });
-    $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'Your color goes into the ramp unchanged.';
+    $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'The ramp follows your color; any approximation or replacement is reported below.';
     $('c1tag').hidden = !st.example;
     $('c2field').hidden = st.c2 === null; $('c2add').hidden = st.c2 !== null;
     [['c1', st.c1], ['c2', st.c2]].forEach(function (x) {
@@ -1416,13 +1458,12 @@ var Importer = (function () {
     last = o;
     renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderExport(o);
     save();
-    if (!loo[st.pal]) { var id = st.pal; setTimeout(function () { looFor(id); if (st.pal === id) { var o2 = generate(); if (o2) { last = o2; renderVerdict(o2); } } }, 30); }
   }
 
   // ---------- state: hash (shareable), then this browser's last visit ----------
   function hashOf() {
     var a = parse(st.c1), b = st.c2 ? parse(st.c2) : null; if (!a) return '';
-    return '#c-' + hexOf(a).slice(1).toLowerCase() + (b ? '-' + hexOf(b).slice(1).toLowerCase() : '') + '.' + st.pal + '.' + st.mode;
+    return '#r2=' + encodeURIComponent(JSON.stringify({ c1: st.c1, c2: st.c2, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt }));
   }
   function save() {
     try { localStorage.setItem('rk.state', JSON.stringify({ c1: st.c1, c2: st.c2, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt, example: st.example })); } catch (e) {}
@@ -1441,8 +1482,19 @@ var Importer = (function () {
         st.example = s.example !== false && st.c1 === EXAMPLE;
       }
     } catch (e) {}
+    if ((location.hash || '').indexOf('#r2=') === 0) {
+      try {
+        var h = JSON.parse(decodeURIComponent(location.hash.slice(4)));
+        if (!h || !parse(h.c1) || (h.c2 !== null && !parse(h.c2)) || !/^(through|fit)$/.test(h.mode)) throw new Error('Invalid link');
+        if (!palById(h.pal)) { $('status').textContent = 'This link uses a palette unavailable in this browser. Showing the last valid local settings instead.'; return; }
+        st.c1 = h.c1; st.c2 = h.c2; st.pal = h.pal; st.mode = h.mode; st.example = false;
+        if (typeof h.name === 'string') st.name = h.name.slice(0,40);
+        if (/^(css|oklch|tw4|tw3|json)$/.test(h.fmt)) st.fmt = h.fmt;
+      } catch (e) { $('status').textContent = 'This saved link could not be read. Showing the last valid local settings.'; }
+      return;
+    }
     var m = /^#c-([0-9a-f]{6})(?:-([0-9a-f]{6}))?\.([a-z0-9-]+)\.(through|fit)$/i.exec(location.hash || '');
-    if (m && palById(m[3])) { st.c1 = '#' + m[1].toUpperCase(); st.c2 = m[2] ? '#' + m[2].toUpperCase() : null; st.pal = m[3]; st.mode = m[4]; st.example = false; }
+    if (m && palById(m[3])) { if (s && s.pal === m[3] && s.mode === m[4] && parse(s.c1) && hexOf(parse(s.c1)).slice(1).toLowerCase() === m[1].toLowerCase() && (s.c2 && parse(s.c2) ? hexOf(parse(s.c2)).slice(1).toLowerCase() : '') === (m[2] || '').toLowerCase()) return; st.c1 = '#' + m[1].toUpperCase(); st.c2 = m[2] ? '#' + m[2].toUpperCase() : null; st.pal = m[3]; st.mode = m[4]; st.example = false; }
   }
 
   // ---------- controls ----------
@@ -1454,17 +1506,24 @@ var Importer = (function () {
     $('pal').value = st.pal;
   }
   fillPalSelect();
+  var invalidInputs = {};
+  function inputReadiness() {
+    var invalid = !!invalidInputs.c1 || (st.c2 !== null && !!invalidInputs.c2);
+    $('copy').disabled = invalid;
+    $('draftstatus').textContent = invalid ? 'Showing the last valid ramp. Correct the color input before copying.' : '';
+  }
   function bindColor(k) {
     var txt = $(k), pick = $(k + 'pick'), err = $(k + 'err'), timer = null;
     function apply(show) {
       var v = txt.value.trim(), p = parse(v);
+      invalidInputs[k] = !p; inputReadiness();
       if (p) { err.hidden = true; txt.removeAttribute('aria-invalid'); if (st[k] !== v) { st[k] = v; if (k === 'c1') st.example = false; render(); } }
-      else if (show && v) { err.textContent = 'That isn’t a color this page can read. Try a hex code like #9D58BA, or rgb(), hsl() or oklch().'; err.hidden = false; txt.setAttribute('aria-invalid', 'true'); }
+      else if (show) { err.textContent = 'Enter a complete opaque color: hex, rgb(), hsl(), oklch(), oklab() or color(display-p3 …).'; err.hidden = false; txt.setAttribute('aria-invalid', 'true'); }
     }
-    txt.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { apply(false); }, 120); });
+    txt.addEventListener('input', function () { invalidInputs[k] = !parse(txt.value.trim()); inputReadiness(); clearTimeout(timer); timer = setTimeout(function () { apply(false); }, 120); });
     txt.addEventListener('change', function () { apply(true); });
     txt.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); apply(true); } });
-    pick.addEventListener('input', function () { txt.value = pick.value.toUpperCase(); err.hidden = true; txt.removeAttribute('aria-invalid'); st[k] = txt.value; if (k === 'c1') st.example = false; render(); });
+    pick.addEventListener('input', function () { invalidInputs[k] = false; inputReadiness(); txt.value = pick.value.toUpperCase(); err.hidden = true; txt.removeAttribute('aria-invalid'); st[k] = txt.value; if (k === 'c1') st.example = false; render(); });
   }
   bindColor('c1'); bindColor('c2');
   $('ctl').addEventListener('submit', function (e) { e.preventDefault(); });
@@ -1473,7 +1532,7 @@ var Importer = (function () {
     var t = [Math.min(base[0] + 0.3, 0.95), base[1] * 0.35, base[2] * 0.35];   // a pale tint of the first color as a starting point
     st.c2 = hexOf(t); $('c2').value = st.c2; render(); $('c2').focus(); $('c2').select();
   });
-  $('c2x').addEventListener('click', function () { st.c2 = null; $('c2err').hidden = true; render(); $('c2add').focus(); });
+  $('c2x').addEventListener('click', function () { st.c2 = null; invalidInputs.c2 = false; inputReadiness(); $('c2err').hidden = true; render(); $('c2add').focus(); });
   $('pal').addEventListener('change', function () {
     if ($('pal').value === '__import') { $('pal').value = st.pal; openImport(); return; }
     st.pal = $('pal').value; removeArmed = false; render();
@@ -1481,8 +1540,9 @@ var Importer = (function () {
   $('palmeta').addEventListener('click', function (e) {
     if (!e.target.closest('#palrm')) return;
     if (!removeArmed) { removeArmed = true; renderPalMeta(); clearTimeout(removeTimer); removeTimer = setTimeout(function () { removeArmed = false; renderPalMeta(); }, 4000); return; }
-    var id = st.pal; removeArmed = false; PALS = PALS.filter(function (p) { return p.id !== id; }); delete models[id]; delete loo[id];
-    saveUser(); st.pal = 'flexoki'; fillPalSelect(); render(); $('pal').focus();
+    var id = st.pal, next = PALS.filter(function (p) { return p.id !== id; }); removeArmed = false;
+    if (!saveUser(next)) { $('status').textContent = 'Could not remove this palette from browser storage. Nothing was removed.'; return; }
+    PALS = next; delete models[id]; delete loo[id]; st.pal = 'flexoki'; fillPalSelect(); render(); $('pal').focus();
   });
   // another tab or Palette topology on the same site changed the imported list
   window.addEventListener('storage', function (e) {
@@ -1491,9 +1551,9 @@ var Importer = (function () {
   });
 
   // ---------- import ----------
-  var impLast = null, impTimer = 0, dlg = $('imp');
+  var impLast = null, impTimer = 0, fileRequest = 0, dlg = $('imp');
   function openImport() { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } $('impt').focus(); previewImport(); }
-  function closeImport() { try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } }
+  function closeImport() { invalidateImport(); try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } $('pal').focus(); }
   function previewImport() {
     var text = $('impt').value, out = $('impp'), ok = $('impok');
     impLast = null; ok.disabled = true;
@@ -1512,39 +1572,48 @@ var Importer = (function () {
       (r.notes.length ? ' <span class="hint">' + esc(cap1(r.notes.join('; '))) + '.</span>' : '') + '</p>' +
       (warn.length ? '<p class="impmsg hint">' + warn.join(' ') + '</p>' : '') + '<div class="ipgrid">' + rows.join('') + '</div>';
   }
-  function schedulePreview() { clearTimeout(impTimer); impTimer = setTimeout(previewImport, 200); }
+  function invalidateImport() { fileRequest++; impLast = null; $('impok').disabled = true; clearTimeout(impTimer); }
+  function schedulePreview() { invalidateImport(); impTimer = setTimeout(previewImport, 200); }
   $('impt').addEventListener('input', schedulePreview);
   $('impn').addEventListener('input', schedulePreview);
   $('impf').addEventListener('change', function () {
+    invalidateImport(); var request = fileRequest;
     var f = this.files && this.files[0]; if (!f) return;
     if (f.size > 2e6) { $('impp').innerHTML = '<p class="impmsg bad">That file is over 2 MB. Upload just the file with your color tokens.</p>'; return; }
     var rd = new FileReader();
-    rd.onload = function () { $('impt').value = String(rd.result || ''); if ($('impn').value === 'My palette') $('impn').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_.]+/g, ' ').slice(0, 60); previewImport(); };
-    rd.onerror = function () { $('impp').innerHTML = '<p class="impmsg bad">That file couldn\u2019t be read. Try pasting its contents instead.</p>'; };
+    rd.onload = function () { if (request !== fileRequest) return; $('impt').value = String(rd.result || ''); if ($('impn').value === 'My palette') $('impn').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_.]+/g, ' ').slice(0, 60); previewImport(); };
+    rd.onerror = function () { if (request !== fileRequest) return; $('impp').innerHTML = '<p class="impmsg bad">That file couldn\u2019t be read. Try pasting its contents instead.</p>'; };
     rd.readAsText(f); this.value = '';
   });
   $('impex').addEventListener('click', function () {
+    invalidateImport();
     var oc = palById('opencolor'), lines = [':root {'];
     Object.keys(oc.ramps).forEach(function (n) { oc.ramps[n].forEach(function (c, k) { lines.push('  --oc-' + n + '-' + k + ': ' + c.toLowerCase() + ';'); }); });
     oc.neutrals.gray.forEach(function (c, k) { lines.push('  --oc-gray-' + k + ': ' + c.toLowerCase() + ';'); });
     lines.push('}'); $('impt').value = lines.join('\n'); $('impn').value = 'Open Color (example)'; previewImport();
   });
   $('impok').addEventListener('click', function () {
+    invalidateImport(); previewImport();
     if (!impLast || !impLast.ok) return;
-    var p = impLast.pal; PALS.push(p); saveUser(); st.pal = p.id; fillPalSelect(); closeImport();
+    var p = impLast.pal, next = PALS.concat([p]);
+    if (!saveUser(next)) { $('impp').textContent = 'Could not save this palette in browser storage. Nothing was added.'; return; }
+    PALS = next; st.pal = p.id; fillPalSelect(); closeImport();
     $('impt').value = ''; $('impn').value = 'My palette'; impLast = null; render();
   });
-  $('impform').addEventListener('submit', function () { /* the close button submits method=dialog */ });
+  $('impform').addEventListener('submit', function () { invalidateImport(); });
+  dlg.addEventListener('close', function () { invalidateImport(); $('pal').focus(); });
+  $('upload').addEventListener('click', function () { $('impf').click(); });
   $('mode').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; st.mode = b.dataset.v; render(); });
   $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); save(); } });
   $('tabs').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-f]'); if (!b) return; st.fmt = b.dataset.f; syncTabs(); if (last) renderExport(last); save();
   });
-  function syncTabs() { $('tabs').querySelectorAll('button[data-f]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.f === st.fmt ? 'true' : 'false'); }); }
+  function syncTabs() { $('tabs').querySelectorAll('button[data-f]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === st.fmt ? 'true' : 'false'); }); }
   $('copy').addEventListener('click', function () {
+    if ($('copy').disabled) return;
     var text = $('code').textContent, status = $('status');
     function selectIt() { try { var r = document.createRange(); r.selectNodeContents($('code')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {} status.textContent = 'Selected. Press ⌘C or Ctrl+C to copy.'; }
-    try { navigator.clipboard.writeText(text).then(function () { status.textContent = 'Copied ' + $('tabs').querySelector('[aria-selected="true"]').textContent + '.'; }, selectIt); } catch (e) { selectIt(); }
+    try { navigator.clipboard.writeText(text).then(function () { status.textContent = 'Copied ' + $('tabs').querySelector('[aria-pressed="true"]').textContent + '.'; }, selectIt); } catch (e) { selectIt(); }
   });
   var tbtn = $('theme'), sysDark = window.matchMedia('(prefers-color-scheme: dark)');
   tbtn.addEventListener('click', function () {

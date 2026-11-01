@@ -1,0 +1,145 @@
+{
+  "parse": [
+    {
+      "input": "oklch(60% nope 30)",
+      "accepted": true,
+      "finite": false,
+      "lab": [
+        0.6,
+        null,
+        null
+      ]
+    },
+    {
+      "input": "oklab(0.6 nope 0)",
+      "accepted": true,
+      "finite": false,
+      "lab": [
+        0.6,
+        null,
+        0
+      ]
+    },
+    {
+      "input": "rgb(1 2 3)junk",
+      "accepted": true,
+      "finite": true,
+      "lab": [
+        0.08230913712662,
+        -0.003926063627585262,
+        -0.007010752932764555
+      ]
+    },
+    {
+      "input": "#1234567",
+      "accepted": true,
+      "finite": true,
+      "lab": [
+        0.3191684205750771,
+        -0.023387372396987016,
+        -0.06857614920398591
+      ]
+    },
+    {
+      "input": "rgba(255,0,0,0.2)",
+      "accepted": true,
+      "finite": true,
+      "lab": [
+        0.6279553606145516,
+        0.22486306106597398,
+        0.1258462985307351
+      ]
+    }
+  ],
+  "generation": [
+    {
+      "input": "#D14D42",
+      "kind": "exact",
+      "minError": 0.11219636836587787,
+      "anchors": [
+        {
+          "step": "400",
+          "lab": [
+            0.59704750093948,
+            0.14884158732965305,
+            0.08040933740572365
+          ]
+        }
+      ],
+      "verdict": "<span class=\"pill same\">The palette’s own ramp</span><p class=\"say\">Your color is Flexoki red-400, so this is the ramp its designers made.</p>"
+    },
+    {
+      "input": "#808080",
+      "kind": "neutral",
+      "minError": 1.8724890370533587,
+      "anchors": [],
+      "verdict": "<span class=\"pill same\">Gray</span><p class=\"say\">Your color is close to gray, so this is Flexoki’s own neutral ramp. Add a little color to get a tinted ramp.</p>"
+    },
+    {
+      "input": "color(display-p3 1 0 0)",
+      "kind": "gen",
+      "minError": 6.198241859699564,
+      "anchors": [
+        {
+          "step": "300",
+          "lab": [
+            0.6485740915892366,
+            0.20707195327649208,
+            0.11636364393952706
+          ],
+          "clipped": false
+        }
+      ],
+      "verdict": "<span class=\"pill warn\">Mostly close</span><p class=\"say\">Steps typically land within <b class=\"num\">under 0.5</b> of a ramp the palette’s designers would make, and 1 in 10 miss by more than <b class=\"num\">0.5</b>. <span>A difference of 2 is about the smallest most people notice. Refining for this palette…</span> It sits right on red. Your color is step 300. 12 steps are more vivid than the palette goes, marked ↑. The estimate says less about those. Choose <b>Fits the palette</b> to stay within it.</p>"
+    },
+    {
+      "input": "oklch(0.65 0.4 30)",
+      "kind": "gen",
+      "minError": 16.347591296279308,
+      "anchors": [
+        {
+          "step": "300",
+          "lab": [
+            0.65,
+            0.2033325061195555,
+            0.12092308398836274
+          ],
+          "clipped": false
+        }
+      ],
+      "verdict": "<span class=\"pill warn\">Mostly close</span><p class=\"say\">Steps typically land within <b class=\"num\">under 0.5</b> of a ramp the palette’s designers would make, and 1 in 10 miss by more than <b class=\"num\">1.3</b>. <span>A difference of 2 is about the smallest most people notice. Refining for this palette…</span> It sits between red and orange, 2° from red. Your color is step 300. 12 steps are more vivid than the palette goes, marked ↑. The estimate says less about those. Choose <b>Fits the palette</b> to stay within it.</p>"
+    }
+  ],
+  "imports": [
+    {
+      "name": "red",
+      "ok": true
+    },
+    {
+      "name": "constructor",
+      "error": "Cannot use 'in' operator to search for '0' in undefined"
+    },
+    {
+      "name": "__proto__",
+      "error": "Cannot use 'in' operator to search for '0' in undefined"
+    }
+  ],
+  "roundtrip": {
+    "before": "color(display-p3 1 0 0)",
+    "hash": "#c-ff0000.tailwind4.through",
+    "after": "#FF0000",
+    "inputDelta": 4.662958882016895
+  },
+  "nearLightness": {
+    "inputs": [
+      "oklch(60% 0.1 30)",
+      "oklch(60.5% 0.1 40)"
+    ],
+    "retainedIndices": [
+      1
+    ],
+    "notes": [
+      "The two colors are almost the same lightness, so only the first one was used."
+    ]
+  }
+}
