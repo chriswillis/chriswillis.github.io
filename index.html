@@ -265,20 +265,144 @@
     <h2 id="projects-heading">Selected projects</h2>
     <p>A curated selection of work, with more on the way...</p>
 
-    <a class="project no-ext" href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&amp;t=341" aria-label="Intent Engine, watch the demo on YouTube">
+    <article class="project is-clickable">
       <div class="project-text">
-        <h3><span class="year">2026</span> <span class="name">Intent Engine</span></h3>
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="intent-engine-gallery" aria-label="Intent Engine, view 6 images">Intent Engine</button></h3>
         <p>Giving AI agents the business context to act on what people mean</p>
       </div>
       <div class="project-shot">
-        <img src="assets/portfolio/intent-engine-800.webp"
-             srcset="assets/portfolio/intent-engine-800.webp 800w, assets/portfolio/intent-engine-1440.webp 1440w"
+        <img src="assets/portfolio/intent-impact-800.webp"
+             srcset="assets/portfolio/intent-impact-800.webp 800w, assets/portfolio/intent-impact-1600.webp 1600w"
              sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
-             width="1440" height="810" loading="lazy" decoding="async" style="--shot-y: 55%"
-             alt="A supply chain app flags a delayed part while Intent Engine maps the people, orders and suppliers it affects" />
+             width="1600" height="900" loading="lazy" decoding="async"
+             alt="A supply chain app shows a $3.2M order at risk and a stock forecast beside Intent Engine’s graph of connected people, products, and suppliers." />
       </div>
-      <span class="project-count" aria-hidden="true">Video &nearr;</span>
-    </a>
+      <span class="project-count" aria-hidden="true">6 images + video</span>
+    </article>
+
+    <dialog class="gallery" id="intent-engine-gallery" aria-labelledby="intent-engine-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="intent-engine-title"><span class="year">2026</span> Intent Engine</h3>
+            <p>Giving AI agents the business context to act on what people mean</p>
+            <p><a href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&amp;t=341" target="_blank" rel="noopener noreferrer">Watch the Domopalooza demo</a></p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Intent Engine images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-impact-1600.webp"
+                 srcset="assets/portfolio/intent-impact-1600.webp 1600w, assets/portfolio/intent-impact-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A supply chain app shows a $3.2M order at risk and a stock forecast beside Intent Engine’s graph of connected people, products, and suppliers." />
+            <figcaption>Business impact: the order at risk, its stock forecast, and the context behind it</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-recommendations-1600.webp"
+                 srcset="assets/portfolio/intent-recommendations-1600.webp 1600w, assets/portfolio/intent-recommendations-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="Two sourcing recommendations show projected impact reduction alongside the governed memory used to assess suppliers." />
+            <figcaption>Compare next steps using current constraints and past resolutions</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-reasoning-1600.webp"
+                 srcset="assets/portfolio/intent-reasoning-1600.webp 1600w, assets/portfolio/intent-reasoning-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A step-by-step explanation connects supplier identification, availability, pricing, and scenario analysis to the Intent Engine graph." />
+            <figcaption>Follow the reasoning from a recommendation back to its sources</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-memory-1600.webp"
+                 srcset="assets/portfolio/intent-memory-1600.webp 1600w, assets/portfolio/intent-memory-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="An organization-validated memory explains why Supplier C is excluded after a high defect rate on the BP48 component." />
+            <figcaption>Governed memory: keep lessons from past incidents available for future decisions</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-workflow-1600.webp"
+                 srcset="assets/portfolio/intent-workflow-1600.webp 1600w, assets/portfolio/intent-workflow-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A workflow review lists purchase order creation, notifications, validation, and memory updates, with a Run Workflow control." />
+            <figcaption>Review a generated workflow before putting it into motion</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-context-1600.webp"
+                 srcset="assets/portfolio/intent-context-1600.webp 1600w, assets/portfolio/intent-context-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="The app asks for a Snowflake connection and a definition of top-tier accounts, while Intent Engine maps the additional context." />
+            <figcaption>Ask for missing data and definitions to build shared business context</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 6</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="enterprise-metrics-gallery" aria-label="Enterprise Metrics and Ontologies, view 4 images">Enterprise Metrics and Ontologies</button></h3>
+        <p>Shared definitions and relationships that help people and agents understand the business</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/metrics-ontology-800.webp"
+             srcset="assets/portfolio/metrics-ontology-800.webp 800w, assets/portfolio/metrics-ontology-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1000" loading="lazy" decoding="async"
+             alt="The ontology map expands Sales to show metric definitions and their connections to data sources and business entities." />
+      </div>
+      <span class="project-count" aria-hidden="true">4 images</span>
+    </article>
+
+    <dialog class="gallery" id="enterprise-metrics-gallery" aria-labelledby="enterprise-metrics-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="enterprise-metrics-title"><span class="year">2026</span> Enterprise Metrics and Ontologies</h3>
+            <p>Shared definitions and relationships that help people and agents understand the business</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Enterprise Metrics and Ontologies images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-ontology-1600.webp"
+                 srcset="assets/portfolio/metrics-ontology-1600.webp 1600w, assets/portfolio/metrics-ontology-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The ontology map expands Sales to show metric definitions and their connections to data sources and business entities." />
+            <figcaption>Trace the connections between business metrics, data sources, and entities</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-catalog-1600.webp"
+                 srcset="assets/portfolio/metrics-catalog-1600.webp 1600w, assets/portfolio/metrics-catalog-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The metric catalog groups governed definitions by business area, with trends, owners, and performance against budget." />
+            <figcaption>A shared catalog of metric definitions for people and agents</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-detail-1600.webp"
+                 srcset="assets/portfolio/metrics-detail-1600.webp 1600w, assets/portfolio/metrics-detail-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="Revenue by Sales Rep and Department shows a time-series chart, budget comparison, breakdown controls, and its underlying definition." />
+            <figcaption>Explore a metric with its targets, dimensions, and definition in view</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-editor-1600.webp"
+                 srcset="assets/portfolio/metrics-editor-1600.webp 1600w, assets/portfolio/metrics-editor-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The metric editor combines a chart preview and generated SQL with controls for aggregation, dimensions, time grain, and description." />
+            <figcaption>Define a metric and inspect its preview and generated query</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 4</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
 
     <article class="project is-clickable">
       <div class="project-text">
