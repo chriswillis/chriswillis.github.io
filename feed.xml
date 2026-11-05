@@ -32,20 +32,20 @@
     <description>Climatologists have warned a Godzilla El Niño was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA’s daily sea-surface temperatures every time it loads. The Niño 3.4 region temperatures are plotted against curves of standard deviations.</description>
   </item>
   <item>
-    <title>Mapping the shape of a color palette</title>
-    <link>https://cewillis.com/color-intelligence.html</link>
+    <title>Palette DNA Map</title>
+    <link>https://cewillis.com/palette-dna/map.html</link>
     <guid>https://cewillis.com/color-intelligence.html</guid>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0000</pubDate>
     <category>Color</category>
-    <description>It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's guessing, and it can generate new colors that harmoniously fit the family.</description>
+    <description>It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's filling in, and it can generate new colors shaped like the rest of the family.</description>
   </item>
   <item>
-    <title>Ramp from one color</title>
-    <link>https://cewillis.com/color-ramp.html</link>
+    <title>Palette DNA Ramp</title>
+    <link>https://cewillis.com/palette-dna/ramp.html</link>
     <guid>https://cewillis.com/color-ramp.html</guid>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0000</pubDate>
     <category>Color</category>
-    <description>A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, seven other design systems or your own imported palette. It estimates how close each step is to what that system's designers would have picked, shows which steps pass for text, and exports CSS, Tailwind or design tokens.</description>
+    <description>A simpler spinoff of the palette map. Start with one color, such as a brand color, and get a full ramp of light and dark steps shaped like Tailwind, Radix, Flexoki, other design systems or your own imported palette. Pick the step your color belongs on, see which steps pass for text, and export CSS, Tailwind or design tokens.</description>
   </item>
   <item>
     <title>Yves Outlines. Generate posters with type that ripples</title>

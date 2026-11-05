@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Palette DNA Ramp</title>
+<meta name="description" content="Turn one color into a full ramp shaped like a palette you trust: Tailwind, Radix, Flexoki or your own. Pick the step your color belongs on, check text contrast, and export CSS, Tailwind or design tokens.">
+<link rel="canonical" href="https://cewillis.com/palette-dna/ramp.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cewillis.com/palette-dna/ramp.html">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="Palette DNA Ramp">
+<meta property="og:description" content="Turn one color into a full ramp shaped like a palette you trust: Tailwind, Radix, Flexoki or your own. Pick the step your color belongs on, check text contrast, and export CSS, Tailwind or design tokens.">
+<meta property="og:image" content="https://cewillis.com/og-palette-dna-ramp.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A purple ramp generated from one color, shown beside Tailwind v4’s color family with bars marking the new ramp.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Palette DNA Ramp">
+<meta name="twitter:description" content="One color in, a full ramp out, shaped like a palette you trust.">
+<meta name="twitter:image" content="https://cewillis.com/og-palette-dna-ramp.png">
+<meta name="theme-color" content="#FFFCF0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#100F0F" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23100F0F'/%3E%3Crect x='6' y='6' width='4' height='20' rx='1' fill='%23FFE7CE'/%3E%3Crect x='11' y='6' width='4' height='20' rx='1' fill='%23F9AE77'/%3E%3Crect x='16' y='6' width='4' height='20' rx='1' fill='%23DA702C'/%3E%3Crect x='21' y='6' width='4' height='20' rx='1' fill='%23853C17'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* Palette DNA Ramp. Flexoki chrome (stephango.com/flexoki, MIT), IBM Plex like Palette DNA Map.
+     Layout: one working tool on top (controls beside the ramp), then three reference panels, then notes at reading width. */
+  :root {
+    color-scheme: light;
+    --bg: #FFFCF0; --bg-2: #F2F0E5; --ui: #E6E4D9; --ui-2: #DAD8CE; --ui-3: #CECDC3;
+    --tx-3: #B7B5AC; --tx-2: #6F6E69; --tx: #100F0F;
+    --re: #AF3029; --or: #BC5215; --ye: #AD8301; --gr: #66800B; --cy: #24837B; --bl: #205EA6;
+    --accent: var(--cy);
+    --ok: var(--gr); --warn: var(--ye); --bad: var(--or);
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --r: 0.5rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #100F0F; --bg-2: #1C1B1A; --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+      --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+      --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39; --cy: #3AA99F; --bl: #4385BE;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #100F0F; --bg-2: #1C1B1A; --ui: #282726; --ui-2: #343331; --ui-3: #403E3C;
+    --tx-3: #575653; --tx-2: #878580; --tx: #CECDC3;
+    --re: #D14D41; --or: #DA702C; --ye: #D0A215; --gr: #879A39; --cy: #3AA99F; --bl: #4385BE;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--tx);
+    font-family: var(--sans); font-weight: 300; font-size: 0.95rem; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration-thickness: 0.05em; text-underline-offset: 0.15em; }
+  button, input, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mono, code, pre { font-family: var(--mono); font-weight: 400; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- top bar ---------- */
+  .bar {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--ui);
+  }
+  .bar .brand { font-weight: 500; letter-spacing: -0.01em; margin-right: auto; }
+  .bar .brand a { color: inherit; text-decoration: none; }
+  .bar nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+  .bar nav a { color: var(--tx-2); text-decoration: none; }
+  .bar nav a:hover { color: var(--accent); }
+  .icon-btn {
+    width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 999px;
+    border: 1px solid var(--ui-2); background: var(--bg); cursor: pointer; color: var(--tx-2);
+  }
+  .icon-btn:hover { color: var(--tx); border-color: var(--ui-3); }
+
+  .wrap { max-width: 76rem; margin: 0 auto; padding-inline: 1rem; padding-block: 1.75rem 4rem; display: flex; flex-direction: column; gap: 2.75rem; }
+
+  /* ---------- tool ---------- */
+  .tool { display: grid; grid-template-columns: 18.5rem minmax(0, 1fr); gap: 2rem 2.5rem; align-items: start; }
+  .intro { grid-column: 1 / -1; max-width: 44rem; }
+  h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin: 0; text-wrap: balance; }
+  .lede { color: var(--tx-2); font-size: 1.05rem; margin: 0.6rem 0 0; max-width: 40rem; }
+  h2 { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tx-2); margin: 0 0 0.75rem; }
+
+  .controls { display: flex; flex-direction: column; gap: 1.1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field > .lab { font-size: 0.8rem; color: var(--tx-2); display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+  .tag { font-size: 0.7rem; color: var(--tx-2); border: 1px solid var(--ui-2); border-radius: 999px; padding: 0 0.45rem; }
+  .colorrow { display: flex; gap: 0.5rem; align-items: stretch; }
+  .chip {
+    position: relative; flex: none; width: 2.6rem; border-radius: var(--r); border: 1px solid var(--ui-2); overflow: hidden; cursor: pointer;
+  }
+  .chip input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
+  .chip:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip span { position: absolute; inset: 0; }
+  .txt, select {
+    width: 100%; min-width: 0; padding: 0.55rem 0.7rem; border-radius: var(--r); border: 1px solid var(--ui-2);
+    background: var(--bg); font-family: var(--mono); font-size: 0.85rem;
+  }
+  select { font-family: var(--sans); font-size: 0.9rem; padding-right: 2rem; }
+  .txt:hover, select:hover { border-color: var(--ui-3); }
+  .txt[aria-invalid="true"] { border-color: var(--re); }
+  .err { color: var(--re); font-size: 0.8rem; margin: 0; }
+  .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font-size: 0.85rem; text-align: left; }
+  .linkbtn:hover { text-decoration: underline; }
+  .x { flex: none; width: 2.6rem; border-radius: var(--r); border: 1px solid var(--ui-2); background: var(--bg); cursor: pointer; color: var(--tx-2); }
+  .x:hover { color: var(--tx); }
+
+  .seg { display: flex; border: 1px solid var(--ui-2); border-radius: var(--r); overflow: hidden; }
+  .seg button { flex: 1; padding: 0.5rem 0.4rem; background: var(--bg); border: 0; border-right: 1px solid var(--ui-2); cursor: pointer; color: var(--tx-2); font-size: 0.85rem; line-height: 1.25; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--ui); color: var(--tx); font-weight: 400; }
+  .hint { font-size: 0.8rem; color: var(--tx-2); margin: 0; }
+
+  /* ---------- the ramp ---------- */
+  .result { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+  .ramp { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; border-radius: 0.75rem; overflow: hidden; }
+  .sw {
+    position: relative; min-height: 11.5rem; padding: 0.6rem 0.5rem; display: flex; flex-direction: column; justify-content: space-between;
+    font-size: 0.75rem; line-height: 1.3; min-width: 0;
+  }
+  .sw .step { font-weight: 500; font-size: 0.8rem; }
+  .sw .marks { position: absolute; top: 0.55rem; right: 0.5rem; display: flex; gap: 0.2rem; font-size: 0.75rem; }
+  .sw .bottom { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+  .sw .aa { font-size: 0.95rem; font-weight: 400; white-space: nowrap; }
+  .sw .hex { font-family: var(--mono); font-size: 0.68rem; opacity: 0.85; overflow-wrap: anywhere; }
+  .sw.anchor::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 0.8rem; height: 0.8rem; margin: -0.4rem 0 0 -0.4rem;
+    border-radius: 50%; border: 2px solid currentColor;
+  }
+  .sw.ext { background-image: repeating-linear-gradient(135deg, transparent 0 5px, rgba(127,127,127,0.18) 5px 6px); }
+
+  .verdict { display: flex; gap: 0.75rem; align-items: flex-start; flex-wrap: wrap; }
+  .pill {
+    flex: none; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 400;
+    padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid currentColor;
+  }
+  .pill::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
+  .pill.ok { color: var(--ok); } .pill.warn { color: var(--warn); } .pill.bad { color: var(--bad); } .pill.same { color: var(--bl); }
+  .verdict .say { flex: 1 1 20rem; min-width: 0; margin: 0; color: var(--tx); max-width: 46rem; }
+  .verdict .say span { color: var(--tx-2); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; font-size: 0.78rem; color: var(--tx-2); margin: 0; padding: 0; list-style: none; }
+  .legend li { display: flex; gap: 0.4rem; align-items: center; }
+  .legend .k { display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 0.25rem; border: 1px solid var(--ui-3); font-size: 0.7rem; color: var(--tx); }
+  .legend .k.ring::after { content: ""; width: 0.55rem; height: 0.55rem; border: 1.5px solid var(--tx); border-radius: 50%; }
+  .legend .k.hatch { background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--ui-3) 3px 4px); }
+
+  /* ---------- panels ---------- */
+  .panels { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.5rem; }
+  .panel { min-width: 0; }
+  .panel p.note { font-size: 0.82rem; color: var(--tx-2); margin: 0.6rem 0 0; max-width: 40rem; }
+
+  .family { display: grid; gap: 2px; }
+  .family.names { gap: 2px; }
+  .family .col { display: grid; gap: 2px; grid-auto-rows: 1.15rem; }
+  .family .cell { border-radius: 2px; }
+  .family .col.mine { position: relative; }
+  .family .col.mine::before, .family .col.mine::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px;
+    background: var(--tx); pointer-events: none;
+  }
+  .family .col.mine::before { bottom: calc(100% + 3px); }
+  .family .col.mine::after { top: calc(100% + 3px); }
+  .family.names { display: grid; gap: 2px; font-size: 0.62rem; color: var(--tx-2); margin-top: 0.65rem; }
+  .family.names span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 4.5rem; justify-self: center; }
+  .family.names span.mine { color: var(--tx); font-weight: 500; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid var(--ui); vertical-align: middle; }
+  th { font-weight: 400; color: var(--tx-2); font-size: 0.75rem; }
+  td .dot { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 0.2rem; border: 1px solid var(--ui-2); vertical-align: -0.1rem; margin-right: 0.4rem; }
+  td.none { color: var(--tx-3); }
+  .tablewrap { overflow-x: auto; }
+
+  /* ---------- export ---------- */
+  .export { display: flex; flex-direction: column; gap: 0.75rem; }
+  .tabs { display: flex; gap: 0.25rem; flex-wrap: wrap; align-items: center; }
+  .tabs button { background: none; border: 1px solid transparent; border-radius: 999px; padding: 0.3rem 0.8rem; cursor: pointer; color: var(--tx-2); font-size: 0.85rem; }
+  .tabs button[aria-pressed="true"] { border-color: var(--ui-3); color: var(--tx); background: var(--bg-2); }
+  .tabs .copy { margin-left: auto; border-color: var(--ui-3); color: var(--tx); }
+  .tabs .copy:hover { border-color: var(--accent); color: var(--accent); }
+  pre {
+    margin: 0; padding: 1rem 1.1rem; background: var(--bg-2); border: 1px solid var(--ui); border-radius: var(--r);
+    font-size: 0.78rem; line-height: 1.55; overflow: auto; max-height: 22rem; tab-size: 2;
+  }
+  .status { font-size: 0.8rem; color: var(--tx-2); min-height: 1.2em; }
+
+  /* ---------- notes ---------- */
+  .notes { max-width: 44rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .notes p { margin: 0; color: var(--tx-2); }
+  .notes p b { color: var(--tx); font-weight: 400; }
+  .notes ul { margin: 0; padding-left: 1.2rem; color: var(--tx-2); }
+  .notes li { margin-bottom: 0.35rem; }
+  .notes table td { color: var(--tx-2); }
+  footer { border-top: 1px solid var(--ui); padding-top: 1rem; font-size: 0.8rem; color: var(--tx-2); }
+
+  /* ---------- import ---------- */
+  dialog { border: 1px solid var(--ui-2); border-radius: 0.75rem; padding: 0; background: var(--bg); color: var(--tx); width: min(40rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); }
+  dialog::backdrop { background: rgba(16, 15, 15, 0.45); }
+  .imp { display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem; }
+  .imphead { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .imphead h2 { margin: 0; font-size: 1rem; letter-spacing: -0.01em; text-transform: none; color: var(--tx); font-weight: 500; }
+  .imphead .x { height: 2rem; width: 2rem; }
+  .impbtns { display: flex; gap: 1rem; }
+  textarea.txt { resize: vertical; min-height: 9rem; line-height: 1.45; font-size: 0.78rem; }
+  .impfoot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .primary { background: var(--tx); color: var(--bg); border: 0; border-radius: var(--r); padding: 0.55rem 1.1rem; cursor: pointer; font-weight: 400; }
+  .primary:disabled { opacity: 0.35; cursor: default; }
+  .impmsg { margin: 0; font-size: 0.85rem; }
+  .impmsg.bad { color: var(--re); }
+  .impmsg b { font-weight: 500; }
+  .ipgrid { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 0.75rem; align-items: center; margin-top: 0.6rem; max-height: 14rem; overflow-y: auto; }
+  .ipgrid .n { font-size: 0.75rem; color: var(--tx-2); font-family: var(--mono); max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ipgrid .n.gray { font-style: italic; }
+  .ipgrid .s { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; height: 1rem; }
+  .ipgrid .s i { border-radius: 2px; }
+  code { font-size: 0.85em; background: var(--bg-2); padding: 0 0.25em; border-radius: 0.2rem; }
+
+  /* ---------- narrow ---------- */
+  @media (max-width: 62rem) {
+    .tool { grid-template-columns: minmax(0, 1fr); }
+    .panels { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 40rem) {
+    .ramp { grid-auto-flow: row; grid-auto-columns: auto; }
+    .sw { min-height: 0; flex-direction: row; align-items: center; gap: 0.75rem; padding: 0.55rem 0.75rem; }
+    .sw .bottom { flex-direction: row; gap: 0.75rem; align-items: baseline; margin-left: auto; }
+    .sw .marks { position: static; order: 2; }
+    .sw.anchor::after { left: auto; right: auto; position: static; margin: 0; order: 1; flex: none; }
+    .bar nav { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+</style>
+<script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+</head>
+<body>
+
+<header class="bar">
+  <span class="brand"><a href="../">Chris Willis</a> / Palette DNA Ramp</span>
+  <nav aria-label="Related">
+    <a href="map.html">Palette DNA Map</a>
+  </nav>
+  <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark">
+    <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 1 0 0 13z" fill="currentColor"/><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+  </button>
+</header>
+
+<main class="wrap">
+  <section class="tool" aria-label="Ramp generator">
+    <div class="intro">
+      <h1>Palette DNA Ramp</h1>
+      <p class="lede">Turn one color into a full ramp shaped like a palette you trust: Tailwind, Radix, Flexoki or your own. For designers extending a brand color or a design system.</p>
+    </div>
+
+    <form class="controls" id="ctl" autocomplete="off">
+      <div class="field">
+        <label class="lab" for="c1"><span>Your color</span><span class="tag" id="c1tag">Example</span></label>
+        <div class="colorrow">
+          <label class="chip" title="Choose a color"><span id="c1sw"></span><input type="color" id="c1pick" aria-label="Choose your color" /></label>
+          <input class="txt" id="c1" spellcheck="false" placeholder="#D9480F or oklch(…)" aria-describedby="c1err" />
+        </div>
+        <p class="err" id="c1err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="lab" for="step"><span>Step for your color</span></label>
+        <select id="step"></select>
+        <p class="hint" id="stephint">Choose the step your color should be, such as 500. Automatic uses the closest step in lightness.</p>
+      </div>
+
+      <div class="field" id="c2field" hidden>
+        <label class="lab" for="c2"><span>Second color</span></label>
+        <div class="colorrow">
+          <label class="chip" title="Choose a color"><span id="c2sw"></span><input type="color" id="c2pick" aria-label="Choose a second color" /></label>
+          <input class="txt" id="c2" spellcheck="false" placeholder="A lighter or darker tint" aria-describedby="c2err" />
+          <button class="x" type="button" id="c2x" aria-label="Remove second color">✕</button>
+        </div>
+        <p class="err" id="c2err" hidden></p>
+      </div>
+      <button class="linkbtn" type="button" id="c2add">+ Add a second color, such as a tint you already use</button>
+
+      <div class="field">
+        <label class="lab" for="pal"><span>Shape it like</span></label>
+        <select id="pal"></select>
+        <p class="hint" id="palmeta"></p>
+      </div>
+
+      <div class="field">
+        <span class="lab" id="modelab"><span>Your color</span></span>
+        <div class="seg" id="mode" role="group" aria-labelledby="modelab">
+          <button type="button" data-v="through" aria-pressed="true">Through color</button>
+          <button type="button" data-v="fit" aria-pressed="false">Fits the palette</button>
+        </div>
+        <p class="hint" id="modehint"></p>
+      </div>
+
+      <div class="field">
+        <label class="lab" for="name"><span>Name for export</span></label>
+        <input class="txt" id="name" spellcheck="false" value="brand" maxlength="40" />
+      </div>
+    </form>
+
+    <div class="result">
+      <p class="err" id="draftstatus" role="status"></p>
+      <div class="ramp" id="ramp" role="list" aria-label="Generated ramp"></div>
+      <div class="verdict" id="verdict"></div>
+      <ul class="legend" id="legend">
+        <li><span class="k ring" aria-hidden="true"></span>Input anchor (may be adjusted)</li>
+        <li><span class="k" aria-hidden="true">↑</span>More vivid than the palette goes</li>
+        <li><span class="k hatch" aria-hidden="true"></span>Lighter or darker than its neighbors, so extrapolated</li>
+        <li><span class="k" aria-hidden="true">Aa</span>Text color with its measured contrast</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panels">
+    <div class="panel">
+      <h2>In the family</h2>
+      <div id="family"></div>
+      <p class="note" id="famnote"></p>
+    </div>
+    <div class="panel">
+      <h2>Text contrast</h2>
+      <div class="tablewrap"><table id="contrast"></table></div>
+      <p class="note">The lightest or darkest step of this ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p>
+    </div>
+  </section>
+
+  <section class="notes" id="why">
+    <h2>Why borrow a palette's shape</h2>
+    <p>Formula generators apply the same rule at every hue. That keeps ramps consistent, but it loses the hue-by-hue decisions in palettes their designers authored. In our tests, Material 3, which is generated from a formula, was far easier to rebuild than designer-authored palettes such as Flexoki: a median error of <span data-evidence="palette.material3.auto.median">0.34</span> against <span data-evidence="palette.flexoki.auto.median">2.27</span> ΔE OK ×100, where about 2 is one just-noticeable difference. Not every authored palette is hard to predict: Radix scored <span data-evidence="palette.radix.auto.median">0.82</span>.</p>
+    <p>This tool reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">113</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">67%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">54%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
+  </section>
+
+  <section class="notes" id="compare">
+    <h2>Compared with</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Tool</th><th>Designed for</th><th>This tool adds</th></tr></thead>
+      <tbody>
+        <tr><td>Radix custom palette generator</td><td>A Radix-shaped scale from a brand color</td><td>The shape of any reference palette, including your own</td></tr>
+        <tr><td>Harmony and Leonardo</td><td>Steps that meet contrast targets</td><td>The shape of a designer-authored palette</td></tr>
+        <tr><td>Material Theme Builder</td><td>A full Material theme</td><td>Shapes from outside Material</td></tr>
+        <tr><td>Tailwind-style generators such as uicolors.app</td><td>A Tailwind-like scale</td><td>Keeping your color exact, and saying which step it landed on</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="notes" id="limits">
+    <h2>When not to use it</h2>
+    <ul>
+      <li>You need every step to meet a contrast target: use Harmony or Leonardo.</li>
+      <li>You need dark-mode tokens: not supported yet.</li>
+      <li>Your palette has fewer than four colored ramps: the tool needs neighboring hues to interpolate between.</li>
+      <li>You are working with chart colors: their steps are not ramps.</li>
+    </ul>
+  </section>
+
+  <section class="export" aria-label="Export">
+    <h2>Export</h2>
+    <p class="note">CSS oklch and Tailwind v4 retain wide-gamut color. Hex values in CSS, Tailwind v3 and design tokens are rounded sRGB fallbacks; token extensions also include OKLCH.</p>
+    <div class="tabs" role="group" aria-label="Export format" id="tabs">
+      <button type="button" data-f="css" aria-pressed="true">CSS</button>
+      <button type="button" data-f="oklch" aria-pressed="false">CSS oklch</button>
+      <button type="button" data-f="tw4" aria-pressed="false">Tailwind v4</button>
+      <button type="button" data-f="tw3" aria-pressed="false">Tailwind v3</button>
+      <button type="button" data-f="json" aria-pressed="false">Design tokens</button>
+      <button type="button" class="copy" id="copy">Copy</button>
+    </div>
+    <pre id="code" tabindex="0"></pre>
+    <div class="status" id="status" role="status"></div>
+  </section>
+
+  <section class="notes">
+    <h2>How it works</h2>
+    <p>Each reference palette is treated as a shape. Its ramps are wrapped around a surface in Oklab, a color space where equal distances look about equally different. Your color is placed on that surface by its hue, lightness and colorfulness. The new ramp follows the surface: the same lightness steps, and the same rise and fall in colorfulness, as the palette's own ramps at that hue.</p>
+    <p><b>Through color</b> shapes the ramp around your color. Gamut limits, neutral substitution and shared anchor steps can change or omit an input; the result reports those changes. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
+    <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page validates the colors and keeps the palette in this browser only.</p>
+    <p>The numbers above come from hiding each real ramp, rebuilding it from its most colorful step, and comparing the result with the shipped ramp. Reported input differences use ΔE OK ×100; zero means the same internal color. Hex exports round to 8-bit sRGB; use CSS oklch for higher precision and wide-gamut colors.</p>
+    <p>For a deeper look at a palette's shape, open <a href="map.html">Palette DNA Map</a>. For a similar approach and more creative color explorations, check out <a href="https://meodai.github.io/dittoTones/">dittoTones</a> and other tools by David Aerne.</p>
+  </section>
+
+  <footer>Built on the Palette DNA engine. Palettes belong to their authors; see each one's license.</footer>
+</main>
+
+<dialog id="imp" aria-labelledby="imph">
+  <form method="dialog" class="imp" id="impform">
+    <div class="imphead"><h2 id="imph">Import your palette</h2><button class="x" type="submit" value="cancel" id="impx" aria-label="Close">✕</button></div>
+    <p class="hint">Paste your color variables or tokens, or upload the file. CSS, SCSS, Less and JSON all work, as long as names end in a step, like <code>blue-500</code> or <code>blue.500</code>.</p>
+    <div class="field"><label class="lab" for="impn"><span>Name</span></label><input class="txt" id="impn" value="My palette" maxlength="60" spellcheck="false" /></div>
+    <div class="field">
+      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><button class="linkbtn" type="button" id="upload">Upload a file</button><button class="linkbtn" type="button" id="impex">Load an example</button></span></label>
+      <input type="file" id="impf" accept=".css,.scss,.less,.json,.js,.ts,.txt,text/*,application/json" hidden />
+      <textarea class="txt" id="impt" rows="8" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
+    </div>
+    <div id="impp" aria-live="polite"></div>
+    <div class="impfoot"><span class="hint">Saved in this browser only. Nothing is uploaded.</span><button class="primary" type="button" id="impok" disabled>Add palette</button></div>
+  </form>
+</dialog>
+<script src="../assets/palette-dna/palettes.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/engine.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/importer.js?v=2026-11-15"></script>
+<script>
+// Palette DNA Ramp: one or two seed colors → a ramp shaped like a reference palette, with explicit input-preservation feedback.
+// Engine, Importer and PALETTES come from assets/palette-dna/.
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement;
+  var BUILTIN = PALETTES.slice(), PALS = BUILTIN.slice();
+  // imported palettes: same key as Palette DNA Map, so on one site both tools see the same list
+  var USER_KEY = 'pt.user';
+  function validUser(p) { return p && typeof p.id === 'string' && p.ramps && Array.isArray(p.steps) && p.neutrals && p.neutral && p.poles; }
+  function loadUser() { try { var u = JSON.parse(localStorage.getItem(USER_KEY) || '[]'); return Array.isArray(u) ? u.filter(validUser) : []; } catch (e) { return []; } }
+  function saveUser(list) { try { localStorage.setItem(USER_KEY, JSON.stringify((list || PALS).filter(function (p) { return p.user; }))); return true; } catch (e) { return false; } }
+  PALS = BUILTIN.concat(loadUser());
+  var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
+  var EXAMPLE = '#9D58BA';
+  var st = { c1: EXAMPLE, c2: null, s1: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true, stepNote: null };
+  var models = {}, loo = {}, last = null;
+
+  // ---------- small helpers ----------
+  function fx(v, d) { return (+v).toFixed(d === undefined ? 1 : d); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function palById(id) { return PALS.filter(function (p) { return p.id === id; })[0]; }
+  function cap1(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function slug(s) { s = String(s || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); return s || 'brand'; }
+  function parse(txt) { try { var p = Engine.parse(String(txt).trim()); return p && p.every(Number.isFinite) && Engine.alphaOf(String(txt)) === 1 ? p : null; } catch (e) { return null; } }
+  function lch(p) { var C = Math.hypot(p[1], p[2]); return { L: p[0], C: C, H: (Math.atan2(p[2], p[1]) * R2D + 360) % 360 }; }
+  function oklch(p) { var o = lch(p); return 'oklch(' + fx(o.L * 100, 2) + '% ' + fx(o.C, 4) + ' ' + (o.C < 5e-4 ? 'none' : fx(o.H, 2)) + ')'; }
+  function hexOf(p) { return Engine.hex(p[0], p[1], p[2]); }
+  function inSrgb(p) { return Engine.inG(p[0], p[1], p[2], 'srgb'); }
+  function Yof(p) { return Engine.Y(p[0], p[1], p[2]); }
+  function model(id) { if (!models[id]) { var p = palById(id); models[id] = Engine.build(p, p.neutral, p.gamut); } return models[id]; }
+  function poleName(pal, which) { var n = pal.poleNames && pal.poleNames[which]; return cap1(n || (which === 'light' ? 'white' : 'black')); }
+
+  // ---------- validation (leave-one-out), computed once per palette after the first paint ----------
+  function looFor(id) {
+    if (!loo[id]) {
+      var M = model(id), rows = M.loft.map(function (r) { var x = Engine.looOne(M, r); delete x.M2; return x; });
+      loo[id] = { rows: rows, summary: Engine.summarise(rows) };
+    }
+    return loo[id];
+  }
+  // how hard the two ramps either side were to regenerate, relative to the pooled calibration (same rule as Palette DNA Map)
+  function localFactor(id, M, i) {
+    var V = loo[id]; if (!V) return 1;
+    var n = M.loft.length, names = [M.loft[i].name, M.loft[(i + 1) % n].name], rs = [];
+    names.forEach(function (nm) { var row = V.rows.filter(function (x) { return x.ramp === nm; })[0]; if (row) rs.push(row.methods.pchip.mean / Math.max(Engine.calAt('med', row.gap), 0.05)); });
+    if (!rs.length) return V.summary.factor;
+    var g = Math.exp(rs.reduce(function (s, v) { return s + Math.log(Math.max(v, 0.05)); }, 0) / rs.length);
+    return Math.min(Math.max(g, 0.2), 4);
+  }
+  function band(id, M, u) {
+    var sg = M.seg(u), gap = M.gaps[sg[0]].deg, n = M.loft.length;
+    var dists = M.thetaU.map(function (t) { return M.angDist(u, t) * R2D; });
+    var d = Math.min.apply(null, dists), w = Math.min(1, d / 5), f = localFactor(id, M, sg[0]);
+    return { med: Engine.calAt('med', gap) * f * w, p90: Engine.calAt('p90', gap) * f * w, gap: gap, d: d, i: sg[0],
+      a: M.loft[sg[0]].name, b: M.loft[(sg[0] + 1) % n].name, near: M.loft[dists.indexOf(d)].name, ready: !!loo[id] };
+  }
+  function meanU(us) { var x = 0, y = 0; us.forEach(function (u) { x += Math.cos(u); y += Math.sin(u); }); return Math.atan2(y, x); }
+
+  // ---------- generate ----------
+  function generate() {
+    var pal = palById(st.pal), M = model(st.pal), g = pal.gamut;
+    var s1 = parse(st.c1), s2 = st.c2 ? parse(st.c2) : null;
+    if (!s1) return null;
+    var seeds = [s1].concat(s2 ? [s2] : []).map(function (lab) { return { lab: lab, map: M.seedMap(lab) }; });
+    if (st.s1) seeds[0].step = st.s1;
+    var out = { pal: pal, M: M, seeds: seeds, notes: [], s1: st.s1 };
+    if (st.stepNote) { out.notes.push(st.stepNote); st.stepNote = null; }
+    var live = seeds.filter(function (s) { return !s.map.neutral; });
+    if (s2 && seeds[1].map.neutral && !seeds[0].map.neutral) out.notes.push('The second color is close to gray, so it was left out.');
+    // the palette's own ramp, when the color is one of its real steps
+    if (seeds.length === 1 && seeds[0].map.exact && seeds[0].map.exactE < 1e-7) {
+      var nm = seeds[0].map.exact.replace(/-[^-]+$/, ''), r = M.R.filter(function (x) { return x.name === nm; })[0];
+      // a pin on a different step wins over the authored ramp
+      if (r && (!st.s1 || st.s1 === seeds[0].map.exact.slice(nm.length + 1))) {
+        var at = pal.steps.indexOf(seeds[0].map.exact.slice(nm.length + 1));
+        out.kind = 'exact'; out.rampName = nm; out.steps = pal.steps;
+        out.cells = r.labs.map(function (p, k) { return { lab: p, step: pal.steps[k], anchor: k === at, seedIndex: k === at ? 0 : -1, beyond: false, ext: false }; });
+        return out;
+      }
+    }
+    if (!live.length) {
+      out.kind = 'neutral'; out.steps = M.neutral.steps;
+      out.cells = M.neutral.labs.map(function (p, k) { return { lab: p, step: M.neutral.steps[k], anchor: false, seedIndex: -1, beyond: false, ext: false }; });
+      return out;
+    }
+    var gen = M.genAnchors(seeds, { cap: st.mode === 'fit' });
+    if (!gen) { out.kind = 'neutral'; out.steps = M.neutral.steps; out.cells = M.neutral.labs.map(function (p, k) { return { lab: p, step: M.neutral.steps[k], anchor: false, seedIndex: -1 }; }); return out; }
+    out.kind = 'gen'; out.steps = pal.steps; out.pin = gen.pin;
+    out.cells = gen.map(function (x) { return { lab: [x.L, x.a, x.b], step: x.step, anchor: x.anchor, seedIndex: x.seedIndex, beyond: !!x.beyond, ext: !!x.ext, clipped: !!x.clipped }; });
+    if (live.length === 2 && out.cells.filter(function (c) { return c.anchor; }).length < 2) out.notes.push('Your two colors are almost the same lightness, so only one could be kept as an anchor.');
+    out.segment = M.seg(meanU(live.map(function (s) { return s.map.u; })))[0];
+    out.moved = out.cells.filter(function (c) { return c.anchor; }).map(function (c) { return { step: c.step, e: Engine.dE(c.lab, seeds[c.seedIndex].lab) }; });
+    out.clampedL = live.some(function (s) { return s.map.clampedL; });
+    return out;
+  }
+
+  // ---------- render ----------
+  function textOn(pal, p) {
+    var yl = Yof(Engine.parse(pal.poles.light)), yd = Yof(Engine.parse(pal.poles.dark)), y = Yof(p);
+    var cl = Engine.cr(y, yl), cd = Engine.cr(y, yd);
+    return cl >= cd ? { color: pal.poles.light, ratio: cl } : { color: pal.poles.dark, ratio: cd };
+  }
+  function renderRamp(o) {
+    var g = o.pal.gamut, name = slug(st.name);
+    $('ramp').innerHTML = o.cells.map(function (c) {
+      var p = c.lab, t = textOn(o.pal, p), hx = hexOf(p), p3 = !inSrgb(p);
+      var marks = (c.beyond ? '<span title="More vivid than the palette goes at this hue and lightness">↑</span>' : '') + (p3 ? '<span title="Outside sRGB; shown in Display P3">P3</span>' : '');
+      var tip = name + '-' + c.step + '  ' + hx + (p3 ? ' (sRGB fallback; ' + oklch(p) + ')' : '') + (c.anchor ? '  · input anchor (may be adjusted)' : '') + (c.beyond ? '  · more vivid than the palette' : '') + (c.ext ? '  · extrapolated' : '') + '  · text ' + fx(t.ratio, 1) + ':1';
+      return '<div class="sw' + (c.anchor ? ' anchor' : '') + (c.ext ? ' ext' : '') + '" role="listitem" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + ';color:' + t.color + '" title="' + esc(tip) + '">' +
+        '<span class="step num">' + esc(c.step) + '</span>' + (marks ? '<span class="marks">' + marks + '</span>' : '') +
+        '<span class="bottom"><span class="aa num">Aa ' + fx(t.ratio, 1) + '</span><span class="hex">' + hx + '</span></span></div>';
+    }).join('');
+  }
+  function renderVerdict(o) {
+    var pal = o.pal, pill, cls, say = [];
+    if (o.kind === 'exact') {
+      cls = 'same'; pill = 'The palette’s own ramp';
+      say.push('Your color is ' + esc(pal.name) + ' ' + esc(o.rampName) + '-' + esc(o.cells.filter(function (c) { return c.anchor; })[0].step) + ', so this is the ramp its designers made.');
+    } else if (o.kind === 'neutral') {
+      cls = 'same'; pill = 'Gray';
+      say.push('Your color is close to gray, so this is ' + esc(pal.name) + '’s own neutral ramp. Add a little color to get a tinted ramp.');
+      if (o.s1) say.push('The step you chose doesn’t apply to a gray ramp.');
+    } else {
+      cls = 'same'; pill = 'Generated ramp';
+      say.push('Shaped from your color using ' + esc(pal.name) + '. How close generated ramps come to real ones is under How we measured.');
+      if (o.clampedL) say.push('A color you entered is outside the palette’s lightness range and was moved toward its endpoint.');
+    }
+    var pin = o.pin;
+    o.seeds.forEach(function (seed, i) {
+      var who = i ? 'Your second color' : 'Your color';
+      var c = o.cells.filter(function (cell) { return cell.anchor && cell.seedIndex === i; })[0];
+      if (!c) {
+        if (o.kind === 'neutral') return;
+        say.push(who + ' was not kept as an anchor' + (!i && o.seeds.length > 1 && !seed.map.neutral ? ', because your second color is almost the same lightness.' : '.'));
+        if (!i && pin && pin.reason === 'neutral') say.push('The step you chose doesn’t apply to a gray color.');
+        return;
+      }
+      var e = Engine.dE(c.lab, seed.lab), equal = e < 1e-7, where = '', after = '';
+      if (!i && o.kind === 'gen') {
+        if (pin && pin.applied) { where = ', the step you chose'; if (pin.auto && pin.auto !== c.step) after = ' Automatic placement would use step ' + esc(pin.auto) + '.'; }
+        else {
+          where = ', the closest step in lightness';
+          after = pin && pin.reason === 'order' ? ' Step ' + esc(pin.requested) + ' would leave no room for your second color, so the step was chosen automatically.' : ' Choose a step to change this.';
+        }
+      }
+      say.push(who + ' is ' + (equal ? 'kept exactly' : 'approximated') + ' at step ' + esc(c.step) + where +
+        (equal ? '.' : ' (ΔE OK ×100 ' + e.toFixed(2) + '); the displayed and exported color may differ from your input.') + after);
+    });
+    o.notes.forEach(function (n) { say.push(esc(n)); });
+    $('verdict').innerHTML = '<span class="pill ' + cls + '">' + pill + '</span><p class="say">' + say.join(' ') + '</p>';
+  }
+  function renderFamily(o) {
+    var M = o.M, g = o.pal.gamut, cols = M.loft.map(function (r) { return { name: r.name, labs: r.labs, mine: false }; });
+    var mine = { name: slug(st.name), labs: o.cells.map(function (c) { return c.lab; }), mine: true };
+    if (o.kind === 'exact') cols.forEach(function (c) { if (c.name === o.rampName) c.mine = true; });
+    else if (o.kind === 'gen') cols.splice(o.segment + 1, 0, mine);
+    else cols.push(mine);
+    var tpl = 'grid-template-columns:repeat(' + cols.length + ',minmax(0,1fr))';
+    var cell = function (p) { return '<span class="cell" style="background-color:' + Engine.cssColor(p[0], p[1], p[2], g) + '"></span>'; };
+    $('family').innerHTML = '<div class="family" style="' + tpl + '">' + cols.map(function (c) { return '<div class="col' + (c.mine ? ' mine' : '') + '">' + c.labs.map(cell).join('') + '</div>'; }).join('') + '</div>' +
+      '<div class="family names" style="' + tpl + '" aria-hidden="true">' + cols.map(function (c) { return '<span' + (c.mine ? ' class="mine"' : '') + '>' + esc(c.name) + '</span>'; }).join('') + '</div>';
+    $('famnote').textContent = o.kind === 'exact' ? 'Your color is already one of ' + o.pal.name + '’s ramps (marked above and below).' :
+      o.kind === 'neutral' ? 'Gray ramps sit outside the hue circle, so the neutral is shown at the end.' :
+      'Your ramp (marked above and below) slotted into ' + o.pal.name + '’s ramps in hue order. Its steps should line up in lightness with the columns beside it.';
+  }
+  function renderContrast(o) {
+    var pal = o.pal, ys = o.cells.map(function (c) { return Yof(c.lab); }), n = o.cells.length, name = slug(st.name);
+    var bgs = [
+      { label: poleName(pal, 'light'), lab: Engine.parse(pal.poles.light) },
+      { label: name + '-' + o.cells[0].step, lab: o.cells[0].lab },
+      { label: poleName(pal, 'dark'), lab: Engine.parse(pal.poles.dark) },
+      { label: name + '-' + o.cells[n - 1].step, lab: o.cells[n - 1].lab }
+    ];
+    function first(bg, min) {
+      var yb = Yof(bg), best = -1, br = 1e9;
+      ys.forEach(function (y, k) { var r = Engine.cr(y, yb); if (r >= min && r < br) { br = r; best = k; } });
+      if (best < 0) return '<td class="none">None</td>';
+      var lighter = ys[best] > yb, c = o.cells[best];
+      return '<td><span class="dot" style="background-color:' + Engine.cssColor(c.lab[0], c.lab[1], c.lab[2], pal.gamut) + '"></span><span class="num">' + esc(c.step) + '</span> <span class="num" style="color:var(--tx-2)">' + fx(br, 1) + ':1</span> <span style="color:var(--tx-2)">and ' + (lighter ? 'lighter' : 'darker') + '</span></td>';
+    }
+    $('contrast').innerHTML = '<thead><tr><th>On</th><th>Body text</th><th>Large text, icons</th></tr></thead><tbody>' + bgs.map(function (b) {
+      return '<tr><td><span class="dot" style="background-color:' + Engine.cssColor(b.lab[0], b.lab[1], b.lab[2], pal.gamut) + '"></span>' + esc(b.label) + '</td>' + first(b.lab, 4.5) + first(b.lab, 3) + '</tr>';
+    }).join('') + '</tbody>';
+  }
+  function exportText(o, fmt) {
+    var name = slug(st.name), rows = o.cells.map(function (c) { return { step: c.step, hex: hexOf(c.lab), ok: oklch(c.lab), p3: !inSrgb(c.lab) }; });
+    var anyP3 = rows.some(function (r) { return r.p3; }), key = function (s) { return /^\d+$|^[A-Za-z_]\w*$/.test(s) ? s : "'" + s + "'"; };
+    if (fmt === 'css') return (anyP3 ? '/* Steps marked P3 are clipped to sRGB here. Use the oklch version for the full color. */\n' : '') +
+      ':root {\n' + rows.map(function (r) { return '  --' + name + '-' + r.step + ': ' + r.hex + ';' + (r.p3 ? ' /* P3 */' : ''); }).join('\n') + '\n}\n';
+    if (fmt === 'oklch') return ':root {\n' + rows.map(function (r) { return '  --' + name + '-' + r.step + ': ' + r.ok + ';'; }).join('\n') + '\n}\n';
+    if (fmt === 'tw4') return '@theme {\n' + rows.map(function (r) { return '  --color-' + name + '-' + r.step + ': ' + r.ok + ';'; }).join('\n') + '\n}\n';
+    if (fmt === 'tw3') return '// tailwind.config.js → theme.extend.colors\n' + key(name.replace(/-/g, '_')) + ': {\n' + rows.map(function (r) { return '  ' + key(r.step) + ": '" + r.hex + "',"; }).join('\n') + '\n},\n';
+    var tok = {}; tok[name] = { $type: 'color' };
+    rows.forEach(function (r) { tok[name][r.step] = { $value: r.hex }; if (r.p3) tok[name][r.step].$extensions = { oklch: r.ok }; });
+    return JSON.stringify(tok, null, 2) + '\n';
+  }
+  function renderExport(o) { $('code').textContent = exportText(o, st.fmt); }
+
+  var removeArmed = false, removeTimer = 0;
+  var ORIGIN = { generated: 'generated', 'tool-assisted': 'tool-assisted', chart: 'chart colors' };
+  function renderPalMeta() {
+    var p = palById(st.pal), el = $('palmeta');
+    if (!p.user) { el.textContent = p.name + ' ' + p.version + ' \u00b7 ' + p.license + (p.origin ? ' \u00b7 ' + ORIGIN[p.origin.kind] : ''); return; }
+    el.innerHTML = esc((p.source || 'Imported').replace(/^Imported /, 'Imported ')) + ' \u00b7 ' + Object.keys(p.ramps).length + ' ramps \u00b7 <button class="linkbtn" type="button" id="palrm">' + (removeArmed ? 'Select again to remove it' : 'Remove') + '</button>';
+  }
+  function renderControls() {
+    $('pal').value = st.pal; renderPalMeta();
+    var sp = palById(st.pal);
+    $('step').innerHTML = '<option value="">Automatic (closest in lightness)</option>' + sp.steps.map(function (k) { return '<option value="' + esc(k) + '">' + esc(k) + '</option>'; }).join('');
+    $('step').value = st.s1 || '';
+    $('mode').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === st.mode ? 'true' : 'false'); });
+    $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'The ramp follows your color; any approximation or replacement is reported below.';
+    $('c1tag').hidden = !st.example;
+    $('c2field').hidden = st.c2 === null; $('c2add').hidden = st.c2 !== null;
+    [['c1', st.c1], ['c2', st.c2]].forEach(function (x) {
+      var p = x[1] ? parse(x[1]) : null;
+      $(x[0] + 'sw').style.backgroundColor = p ? Engine.cssColor(p[0], p[1], p[2], 'p3') : 'transparent';
+      if (p) $(x[0] + 'pick').value = hexOf(p).toLowerCase();
+    });
+  }
+  // the chosen step must exist in the current palette; every path that changes the palette renders
+  function syncStep() {
+    var p = palById(st.pal);
+    if (st.s1 !== null && p && p.steps.indexOf(st.s1) < 0) { st.stepNote = 'Step ' + st.s1 + ' isn’t in ' + p.name + ', so the step is automatic again.'; st.s1 = null; }
+  }
+  function render() {
+    syncStep();
+    renderControls();
+    var o = generate(); if (!o) return;
+    last = o;
+    renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderExport(o);
+    save();
+  }
+
+  // ---------- state: hash (shareable), then this browser's last visit ----------
+  function hashOf() {
+    var a = parse(st.c1), b = st.c2 ? parse(st.c2) : null; if (!a) return '';
+    return '#r2=' + encodeURIComponent(JSON.stringify({ c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt }));
+  }
+  function save() {
+    try { localStorage.setItem('rk.state', JSON.stringify({ c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt, example: st.example })); } catch (e) {}
+    try { var h = hashOf(); if (h && h !== location.hash) history.replaceState(null, '', h); } catch (e) {}
+  }
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem('rk.state') || 'null');
+      if (s && typeof s === 'object') {
+        if (s.c1 && parse(s.c1)) st.c1 = s.c1;
+        st.c2 = s.c2 && parse(s.c2) ? s.c2 : null;
+        if (palById(s.pal)) st.pal = s.pal;
+        st.s1 = typeof s.s1 === 'string' ? s.s1 : null;
+        if (s.mode === 'fit' || s.mode === 'through') st.mode = s.mode;
+        if (typeof s.name === 'string') st.name = s.name;
+        if (/^(css|oklch|tw4|tw3|json)$/.test(s.fmt)) st.fmt = s.fmt;
+        st.example = s.example !== false && st.c1 === EXAMPLE;
+      }
+    } catch (e) {}
+    if ((location.hash || '').indexOf('#r2=') === 0) {
+      try {
+        var h = JSON.parse(decodeURIComponent(location.hash.slice(4)));
+        if (!h || !parse(h.c1) || (h.c2 !== null && !parse(h.c2)) || !/^(through|fit)$/.test(h.mode)) throw new Error('Invalid link');
+        if (!palById(h.pal)) { $('status').textContent = 'This link uses a palette unavailable in this browser. Showing the last valid local settings instead.'; return; }
+        st.c1 = h.c1; st.c2 = h.c2; st.pal = h.pal; st.mode = h.mode; st.example = false;
+        st.s1 = typeof h.s1 === 'string' ? h.s1 : null;
+        if (typeof h.name === 'string') st.name = h.name.slice(0,40);
+        if (/^(css|oklch|tw4|tw3|json)$/.test(h.fmt)) st.fmt = h.fmt;
+      } catch (e) { $('status').textContent = 'This saved link could not be read. Showing the last valid local settings.'; }
+      return;
+    }
+    var m = /^#c-([0-9a-f]{6})(?:-([0-9a-f]{6}))?\.([a-z0-9-]+)\.(through|fit)$/i.exec(location.hash || '');
+    if (m && palById(m[3])) { if (s && s.pal === m[3] && s.mode === m[4] && parse(s.c1) && hexOf(parse(s.c1)).slice(1).toLowerCase() === m[1].toLowerCase() && (s.c2 && parse(s.c2) ? hexOf(parse(s.c2)).slice(1).toLowerCase() : '') === (m[2] || '').toLowerCase()) return; st.c1 = '#' + m[1].toUpperCase(); st.c2 = m[2] ? '#' + m[2].toUpperCase() : null; st.pal = m[3]; st.mode = m[4]; st.example = false; }
+  }
+
+  // ---------- controls ----------
+  function fillPalSelect() {
+    var opt = function (p) { return '<option value="' + esc(p.id) + '">' + esc(p.name) + '</option>'; }, mine = PALS.filter(function (p) { return p.user; });
+    $('pal').innerHTML = '<optgroup label="Design systems">' + BUILTIN.map(opt).join('') + '</optgroup>' +
+      (mine.length ? '<optgroup label="Your palettes">' + mine.map(opt).join('') + '</optgroup>' : '') +
+      '<optgroup label="Your own"><option value="__import">Import your palette\u2026</option></optgroup>';
+    $('pal').value = st.pal;
+  }
+  fillPalSelect();
+  var invalidInputs = {};
+  function inputReadiness() {
+    var invalid = !!invalidInputs.c1 || (st.c2 !== null && !!invalidInputs.c2);
+    $('copy').disabled = invalid;
+    $('draftstatus').textContent = invalid ? 'Showing the last valid ramp. Correct the color input before copying.' : '';
+  }
+  function bindColor(k) {
+    var txt = $(k), pick = $(k + 'pick'), err = $(k + 'err'), timer = null;
+    function apply(show) {
+      var v = txt.value.trim(), p = parse(v);
+      invalidInputs[k] = !p; inputReadiness();
+      if (p) { err.hidden = true; txt.removeAttribute('aria-invalid'); if (st[k] !== v) { st[k] = v; if (k === 'c1') st.example = false; render(); } }
+      else if (show) { err.textContent = 'Enter a complete opaque color: hex, rgb(), hsl(), oklch(), oklab() or color(display-p3 …).'; err.hidden = false; txt.setAttribute('aria-invalid', 'true'); }
+    }
+    txt.addEventListener('input', function () { invalidInputs[k] = !parse(txt.value.trim()); inputReadiness(); clearTimeout(timer); timer = setTimeout(function () { apply(false); }, 120); });
+    txt.addEventListener('change', function () { apply(true); });
+    txt.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); apply(true); } });
+    pick.addEventListener('input', function () { invalidInputs[k] = false; inputReadiness(); txt.value = pick.value.toUpperCase(); err.hidden = true; txt.removeAttribute('aria-invalid'); st[k] = txt.value; if (k === 'c1') st.example = false; render(); });
+  }
+  bindColor('c1'); bindColor('c2');
+  $('ctl').addEventListener('submit', function (e) { e.preventDefault(); });
+  $('c2add').addEventListener('click', function () {
+    var p = parse(st.c1), base = p || [0.6, 0.1, 0];
+    var t = [Math.min(base[0] + 0.3, 0.95), base[1] * 0.35, base[2] * 0.35];   // a pale tint of the first color as a starting point
+    st.c2 = hexOf(t); $('c2').value = st.c2; render(); $('c2').focus(); $('c2').select();
+  });
+  $('c2x').addEventListener('click', function () { st.c2 = null; invalidInputs.c2 = false; inputReadiness(); $('c2err').hidden = true; render(); $('c2add').focus(); });
+  $('step').addEventListener('change', function () { st.s1 = $('step').value || null; render(); });
+  $('pal').addEventListener('change', function () {
+    if ($('pal').value === '__import') { $('pal').value = st.pal; openImport(); return; }
+    st.pal = $('pal').value; removeArmed = false; render();
+  });
+  $('palmeta').addEventListener('click', function (e) {
+    if (!e.target.closest('#palrm')) return;
+    if (!removeArmed) { removeArmed = true; renderPalMeta(); clearTimeout(removeTimer); removeTimer = setTimeout(function () { removeArmed = false; renderPalMeta(); }, 4000); return; }
+    var id = st.pal, next = PALS.filter(function (p) { return p.id !== id; }); removeArmed = false;
+    if (!saveUser(next)) { $('status').textContent = 'Could not remove this palette from browser storage. Nothing was removed.'; return; }
+    PALS = next; delete models[id]; delete loo[id]; st.pal = 'tailwind4'; fillPalSelect(); render(); $('pal').focus();
+  });
+  // another tab or Palette DNA Map on the same site changed the imported list
+  window.addEventListener('storage', function (e) {
+    if (e.key !== USER_KEY) return;
+    PALS = BUILTIN.concat(loadUser()); if (!palById(st.pal)) st.pal = 'tailwind4'; fillPalSelect(); render();
+  });
+
+  // ---------- import ----------
+  var impLast = null, impTimer = 0, fileRequest = 0, dlg = $('imp');
+  function openImport() { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } $('impt').focus(); previewImport(); }
+  function closeImport() { invalidateImport(); try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } $('pal').focus(); }
+  function previewImport() {
+    var text = $('impt').value, out = $('impp'), ok = $('impok');
+    impLast = null; ok.disabled = true;
+    if (!text.trim()) { out.innerHTML = '<p class="impmsg hint">Your palette needs at least four color ramps that share the same steps. A gray ramp helps; without one, a pure gray is used.</p>'; return; }
+    if (text.length > 200000) { out.innerHTML = '<p class="impmsg bad">That\u2019s more than 200,000 characters. Paste just the color part of the file.</p>'; return; }
+    var r; try { r = Importer.analyse(text, { name: $('impn').value }); } catch (e) { r = { ok: false, error: 'This couldn\u2019t be read as a palette (' + e.message + ').' }; }
+    if (!r.ok) { out.innerHTML = '<p class="impmsg bad">' + esc(r.error) + '</p>'; return; }
+    impLast = r; ok.disabled = false;
+    var M = r.M, g = r.pal.gamut, css = function (raw) { var q = Engine.parse(raw); return Engine.cssColor(q[0], q[1], q[2], g); };
+    var rows = Object.keys(r.pal.ramps).slice(0, 40).map(function (n) { return '<span class="n" title="' + esc(n) + '">' + esc(n) + '</span><span class="s">' + r.pal.ramps[n].map(function (c) { return '<i style="background:' + css(c) + '"></i>'; }).join('') + '</span>'; });
+    rows.push('<span class="n gray" title="gray">' + esc(r.pal.neutral) + '</span><span class="s">' + r.pal.neutrals[r.pal.neutral].map(function (c) { return '<i style="background:' + css(c) + '"></i>'; }).join('') + '</span>');
+    var wide = M.gaps.reduce(function (x, y) { return x.deg > y.deg ? x : y; }), warn = [];
+    if (wide.deg > 90) warn.push('The widest gap in hue is ' + Math.round(wide.deg) + '\u00b0, between ' + esc(wide.a) + ' and ' + esc(wide.b) + '. Colors in that range will be rough guesses.');
+    if (M.interior.length) warn.push(M.interior.map(function (x) { return esc(x.name || x); }).join(', ') + (M.interior.length > 1 ? ' overlap' : ' overlaps') + ' other ramps in hue, so ' + (M.interior.length > 1 ? 'they' : 'it') + ' won\u2019t shape new ramps.');
+    out.innerHTML = '<p class="impmsg">Found <b>' + r.nRamps + ' ramps \u00d7 ' + r.nSteps + ' steps</b> (' + esc(r.format) + '), gray: <b>' + esc(r.pal.neutral) + '</b>, gamut ' + (g === 'p3' ? 'Display P3' : 'sRGB') + '.' +
+      (r.notes.length ? ' <span class="hint">' + esc(cap1(r.notes.join('; '))) + '.</span>' : '') + '</p>' +
+      (warn.length ? '<p class="impmsg hint">' + warn.join(' ') + '</p>' : '') + '<div class="ipgrid">' + rows.join('') + '</div>';
+  }
+  function invalidateImport() { fileRequest++; impLast = null; $('impok').disabled = true; clearTimeout(impTimer); }
+  function schedulePreview() { invalidateImport(); impTimer = setTimeout(previewImport, 200); }
+  $('impt').addEventListener('input', schedulePreview);
+  $('impn').addEventListener('input', schedulePreview);
+  $('impf').addEventListener('change', function () {
+    invalidateImport(); var request = fileRequest;
+    var f = this.files && this.files[0]; if (!f) return;
+    if (f.size > 2e6) { $('impp').innerHTML = '<p class="impmsg bad">That file is over 2 MB. Upload just the file with your color tokens.</p>'; return; }
+    var rd = new FileReader();
+    rd.onload = function () { if (request !== fileRequest) return; $('impt').value = String(rd.result || ''); if ($('impn').value === 'My palette') $('impn').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_.]+/g, ' ').slice(0, 60); previewImport(); };
+    rd.onerror = function () { if (request !== fileRequest) return; $('impp').innerHTML = '<p class="impmsg bad">That file couldn\u2019t be read. Try pasting its contents instead.</p>'; };
+    rd.readAsText(f); this.value = '';
+  });
+  $('impex').addEventListener('click', function () {
+    invalidateImport();
+    var oc = palById('opencolor'), lines = [':root {'];
+    Object.keys(oc.ramps).forEach(function (n) { oc.ramps[n].forEach(function (c, k) { lines.push('  --oc-' + n + '-' + k + ': ' + c.toLowerCase() + ';'); }); });
+    oc.neutrals.gray.forEach(function (c, k) { lines.push('  --oc-gray-' + k + ': ' + c.toLowerCase() + ';'); });
+    lines.push('}'); $('impt').value = lines.join('\n'); $('impn').value = 'Open Color (example)'; previewImport();
+  });
+  $('impok').addEventListener('click', function () {
+    invalidateImport(); previewImport();
+    if (!impLast || !impLast.ok) return;
+    var p = impLast.pal, next = PALS.concat([p]);
+    if (!saveUser(next)) { $('impp').textContent = 'Could not save this palette in browser storage. Nothing was added.'; return; }
+    PALS = next; st.pal = p.id; fillPalSelect(); closeImport();
+    $('impt').value = ''; $('impn').value = 'My palette'; impLast = null; render();
+  });
+  $('impform').addEventListener('submit', function () { invalidateImport(); });
+  dlg.addEventListener('close', function () { invalidateImport(); $('pal').focus(); });
+  $('upload').addEventListener('click', function () { $('impf').click(); });
+  $('mode').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; st.mode = b.dataset.v; render(); });
+  $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); save(); } });
+  $('tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-f]'); if (!b) return; st.fmt = b.dataset.f; syncTabs(); if (last) renderExport(last); save();
+  });
+  function syncTabs() { $('tabs').querySelectorAll('button[data-f]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === st.fmt ? 'true' : 'false'); }); }
+  $('copy').addEventListener('click', function () {
+    if ($('copy').disabled) return;
+    var text = $('code').textContent, status = $('status');
+    function selectIt() { try { var r = document.createRange(); r.selectNodeContents($('code')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {} status.textContent = 'Selected. Press ⌘C or Ctrl+C to copy.'; }
+    try { navigator.clipboard.writeText(text).then(function () { status.textContent = 'Copied ' + $('tabs').querySelector('[aria-pressed="true"]').textContent + '.'; }, selectIt); } catch (e) { selectIt(); }
+  });
+  var tbtn = $('theme'), sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+  tbtn.addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme') || (sysDark.matches ? 'dark' : 'light'), next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next); try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  load();
+  $('c1').value = st.c1; $('c2').value = st.c2 || ''; $('name').value = st.name; syncTabs();
+  render();
+  window.__ramp = { st: st, generate: generate, render: render, exportText: exportText, last: function () { return last; }, looFor: looFor };
+})();
+
+</script>
+</body>
+</html>

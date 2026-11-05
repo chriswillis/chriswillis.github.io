@@ -5,10 +5,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
-const html = fs.readFileSync(path.join(__dirname, '../color-intelligence.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '../palette-dna/map.html'), 'utf8');
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)];
-const source = name => scripts.find(m => m[2].includes(`var ${name} = (function`))[2];
-const palettes = JSON.parse(scripts.find(m => m[1].includes('id="palettes"'))[2]);
+const SHARED = ['palettes', 'engine', 'importer'];
+const shared = f => fs.readFileSync(path.join(__dirname, '../assets/palette-dna', f + '.js'), 'utf8');
+const source = name => shared(name.toLowerCase());
+const palettes = (() => { const c = vm.createContext({}); vm.runInContext(shared('palettes'), c); return c.PALETTES; })();
 function harness() {
   const c = vm.createContext({});
   vm.runInContext(source('Engine'), c); vm.runInContext(source('Importer'), c);
@@ -166,4 +168,17 @@ test('error reference eligibility excludes transformed, extrapolated and unsuppo
   c.band=()=>({d:12,gap:60}); c.VAL.key='old'; assert.equal(c.resultStatus(p,u).calibrated,false);
   c.VAL.key='current'; c.P.hold={}; assert.equal(c.resultStatus(p,u).calibrated,false);
   c.P.hold=null; c.P.seedLocked=true; c.P.seeds=[{map:{neutral:false}}]; assert.match(c.resultStatus(p,u).text,/Seed-shaped/);
+});
+
+test('loads the three shared Palette DNA files in order with one release version', () => {
+  const srcs = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m => m[1]).filter(x => !/^https?:/.test(x));
+  assert.deepEqual(srcs.map(x => x.split('?')[0]), SHARED.map(f => '../assets/palette-dna/' + f + '.js'));
+  const v = srcs.map(x => x.split('?v=')[1]);
+  assert.ok(v[0] && v.every(x => x === v[0]));
+});
+
+test('the map page falls back to Tailwind v4, not Flexoki', () => {
+  assert.match(html, /loadPalette\('tailwind4'\);/);
+  assert.match(html, /\? saved\.pal : 'tailwind4'\);/);
+  assert.doesNotMatch(html, /'flexoki'\)/);
 });

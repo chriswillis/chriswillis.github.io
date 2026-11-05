@@ -8,8 +8,9 @@ exclude:
   - "*.skill"
   - scripts/
   - docs/
-  # The color research project: source, tests and outputs. No page loads it;
-  # the palette data is inlined into color-intelligence.html and color-ramp.html.
+  - reviews/
+  - tests/
+  # The palette-dna library: source, tests and outputs. No page loads it.
   - color/
   # Source images that were resized into assets/ and are no longer referenced
   - chris-willis.png

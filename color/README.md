@@ -127,6 +127,15 @@ s.corpus.verdict;   // where the result sits against the same measure on the ref
 s.warnings;         // only when hue has genuinely run out of room — 1 brand hue in 24
 ```
 
+## Relationship to the site
+
+The site's Palette DNA pages (`palette-dna/ramp.html`, `palette-dna/map.html`) do not use this
+library. They use the engine in `assets/palette-dna/engine.js` (formerly the topology engine),
+which reads a palette as a surface across hues. The two were compared on 2026-11-04 in
+`reviews/color-tools/engine-comparison/`, and the site's engine came out closer to what each
+palette's designers shipped. This library may later supply dark mode, tokens and semantic hues.
+Published pages never mention it by name.
+
 ## The explorer
 
 ```

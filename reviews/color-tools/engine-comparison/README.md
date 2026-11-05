@@ -1,3 +1,5 @@
+**Snapshot from 2026-11-04.** This folder is the only comparison of the site's engine with the palette-dna library in `color/`. `extract-engine.py` reads the engine from the pre-Change-1 pages, so to rerun it, check out the commit before the engine moved to `assets/palette-dna/`. The release evidence now comes from `scripts/palette-dna-evidence.cjs`.
+
 # Engine comparison: seeded hold-out
 
 Compares the topology engine embedded in `color-ramp.html` / `color-intelligence.html` with the

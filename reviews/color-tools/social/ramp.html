@@ -1,0 +1,13 @@
+<!doctype html>
+<!-- Social preview for Palette DNA Ramp (og-palette-dna-ramp.png at the site root).
+     Capture: serve the repository root (python3 -m http.server 8000), then with Playwright at a
+     1200x630 viewport and deviceScaleFactor 1, open /reviews/color-tools/social/ramp.html, wait for
+     the iframe to load, and screenshot the page. capture.cjs in this folder does exactly that. -->
+<html lang="en"><meta charset="utf-8"><title>Palette DNA Ramp social preview</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#FFFCF0;color:#100F0F;font-family:'IBM Plex Sans',sans-serif}.card{width:1200px;height:630px;padding:56px 64px;position:relative}.copy{width:450px;padding-top:30px}.eyebrow{font:14px 'IBM Plex Mono',monospace;letter-spacing:1.5px;color:#24837B}h1{font-size:54px;line-height:1.05;font-weight:500;margin:22px 0}p{font-size:22px;line-height:1.45;color:#6F6E69;margin:0}.family{position:absolute;left:582px;top:56px;width:554px;height:326px;display:grid;gap:4px}.col{display:grid;gap:3px;position:relative}.cell{border-radius:3px}.mine:before,.mine:after{content:'';position:absolute;left:0;right:0;height:3px;background:#100F0F}.mine:before{bottom:calc(100% + 5px)}.mine:after{top:calc(100% + 5px)}.ramp{display:flex;gap:5px;position:absolute;left:64px;right:64px;top:432px;height:142px}.sw{flex:1;border-radius:6px;position:relative}.step{position:absolute;top:12px;left:12px;font:13px 'IBM Plex Mono',monospace}.bottom,.marks{display:none}.sw.anchor::after{display:none}.label{position:absolute;top:400px;left:64px;font:13px 'IBM Plex Mono',monospace;color:#6F6E69}iframe{position:absolute;left:-10000px;width:1400px;height:1000px}
+</style>
+<div class="card"><div class="copy"><div class="eyebrow">CEWILLIS.COM · PALETTE DNA</div><h1>Palette DNA<br>Ramp</h1><p>Your color. A full ramp.<br>Shaped by a palette you trust.</p></div><div id="family"></div><div class="label">#99CCEE · SHAPED BY TAILWIND V4</div><div id="ramp" class="ramp"></div></div>
+<iframe title="Source application" src="../../../palette-dna/ramp.html?social=20261115#r2=%7B%22c1%22%3A%22%2399CCEE%22%2C%22c2%22%3Anull%2C%22s1%22%3Anull%2C%22pal%22%3A%22tailwind4%22%2C%22mode%22%3A%22through%22%2C%22name%22%3A%22brand%22%2C%22fmt%22%3A%22css%22%7D" onload="const d=this.contentDocument;document.querySelector('#family').append(d.querySelector('#family .family').cloneNode(true));document.querySelector('#ramp').innerHTML=d.querySelector('#ramp').innerHTML;document.body.dataset.ready='1'"></iframe>
+</html>
