@@ -7,6 +7,7 @@ exclude:
   - README.md
   - "*.skill"
   - scripts/
+  - docs/
   # The color research project: source, tests and outputs. No page loads it;
   # the palette data is inlined into color-intelligence.html and color-ramp.html.
   - color/
