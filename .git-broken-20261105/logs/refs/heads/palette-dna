@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 b604227ee46154b6a7e267f39b4c88d68f28938e rcw-01bf5dejzbznkkvqpfmrbyqo <rcw-01bf5dejzbznkkvqpfmrbyqo@claude.(none)> 1789930180 +0000	branch: Created from HEAD
+b604227ee46154b6a7e267f39b4c88d68f28938e c07247d3bc4833b817148b43e3098fab076ab4c0 chris willis <wemedia@gmail.com> 1789930213 +0000	commit: Palette DNA: extract a design system's perceptual DNA and transfer it onto a seed
+c07247d3bc4833b817148b43e3098fab076ab4c0 9376f56301b806edfcfadddef51cb726b71102fd chris willis <wemedia@gmail.com> 1789930570 +0000	commit (amend): Palette DNA: extract a design system's perceptual DNA and transfer it onto a seed
+9376f56301b806edfcfadddef51cb726b71102fd 569fd8b667b812a6bc0819268037472eb0913767 chris willis <wemedia@gmail.com> 1789932457 +0000	commit: Perception: viewing conditions and the Helmholtz-Kohlrausch effect
+569fd8b667b812a6bc0819268037472eb0913767 cc5b1ad3f0a0ff03c26589b2d6bac359e99a96f6 chris willis <wemedia@gmail.com> 1789949087 +0000	commit: Make the solve path bundleable and 49x faster
+cc5b1ad3f0a0ff03c26589b2d6bac359e99a96f6 86d4e258daabc8e6cb0735459da13e4fdfd50ff1 chris willis <wemedia@gmail.com> 1789949710 +0000	commit: Fuzz harness: throw the input space at the library and rank what comes back
+86d4e258daabc8e6cb0735459da13e4fdfd50ff1 ced2c88c5bf30a22dcbe9f842f585d8b8b17f9ca chris willis <wemedia@gmail.com> 1789960992 +0000	commit: Fix duplicate-steps: an infeasible pin no longer collapses the other mode's ramp
+ced2c88c5bf30a22dcbe9f842f585d8b8b17f9ca b0b169487d5470ac884239e3587da5ea55b7fc2f chris willis <wemedia@gmail.com> 1789962071 +0000	commit: Clear the remaining fuzz defects: 29 in 1216 down to 1 in 10,016
+b0b169487d5470ac884239e3587da5ea55b7fc2f 2445b8064d18b61eb7354742acd415fb6d078a6a chris willis <wemedia@gmail.com> 1789962560 +0000	commit: The explorer: a control bar over the audit page
+2445b8064d18b61eb7354742acd415fb6d078a6a 9eba1e864a2eb3d627292a9a9c1730616dcf1fa6 chris willis <wemedia@gmail.com> 1789965737 +0000	commit: Phase 7: derive the semantic hues instead of asking for them
+9eba1e864a2eb3d627292a9a9c1730616dcf1fa6 5fcddaf4c869ef9b12ced18e814d81b62be6d10d chris willis <wemedia@gmail.com> 1790095365 -0600	commit: new home
+5fcddaf4c869ef9b12ced18e814d81b62be6d10d 02203ff8843385b7db9381b77bbc12468b15520f chris willis <wemedia@gmail.com> 1790095657 -0600	commit: Update index.html

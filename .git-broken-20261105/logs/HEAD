@@ -1,0 +1,120 @@
+0000000000000000000000000000000000000000 f45c4657a315cf45e4042e7dc938da7191130fe0 chris willis <wemedia@gmail.com> 1772745429 -0700	clone: from https://github.com/chriswillis/chriswillis.github.io.git
+f45c4657a315cf45e4042e7dc938da7191130fe0 34446276ec3482b462b264fed6a82faad04dbdb7 chris willis <wemedia@gmail.com> 1772746681 -0700	commit: Light cool theme
+34446276ec3482b462b264fed6a82faad04dbdb7 c5bad29bebed41f4593c997e4eb8f824a26247f2 chris willis <wemedia@gmail.com> 1772753740 -0700	commit: Update cool theme and warning color.
+c5bad29bebed41f4593c997e4eb8f824a26247f2 50ef8b40eda527e073b5c016a2df2c4c367efe3f chris willis <wemedia@gmail.com> 1787843338 -0600	pull --ff --recurse-submodules --progress origin: Fast-forward
+50ef8b40eda527e073b5c016a2df2c4c367efe3f 0f932523f59d34f94579686d47a2bf895c81ecb1 chris willis <wemedia@gmail.com> 1788387416 -0600	commit: Added brand svgs
+0f932523f59d34f94579686d47a2bf895c81ecb1 29a9776a50171b9143904290ed6d223618f211e2 chris willis <wemedia@gmail.com> 1788387487 -0600	pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+29a9776a50171b9143904290ed6d223618f211e2 29a9776a50171b9143904290ed6d223618f211e2 chris willis <wemedia@gmail.com> 1789084243 -0600	checkout: moving from main to cursor/brand-logo-uniform-color
+29a9776a50171b9143904290ed6d223618f211e2 f3ab21224847aba3211da14f9ea0a9e142349e3f chris willis <wemedia@gmail.com> 1789084243 -0600	commit: Unify brand logos to a single #B2B2B5 gray.
+f3ab21224847aba3211da14f9ea0a9e142349e3f 0ad4821b30082dc765604f8d933a535e618039ce chris willis <wemedia@gmail.com> 1789090550 -0600	commit: fixed svgs again
+0ad4821b30082dc765604f8d933a535e618039ce 7b804a924f35bf3224745649cd69255a0e0243fd chris willis <wemedia@gmail.com> 1789093139 -0600	commit: fix svgs
+7b804a924f35bf3224745649cd69255a0e0243fd 49c5125ec88b2da4b0cd73da37505fb57255a36b chris willis <wemedia@gmail.com> 1789093257 -0600	commit: Update index.html
+49c5125ec88b2da4b0cd73da37505fb57255a36b 0caea69cef596dc9d438fa82e0d59583612a9b8e chris willis <wemedia@gmail.com> 1789094208 -0600	commit: fix
+0caea69cef596dc9d438fa82e0d59583612a9b8e 29a9776a50171b9143904290ed6d223618f211e2 chris willis <wemedia@gmail.com> 1789094289 -0600	checkout: moving from cursor/brand-logo-uniform-color to main
+29a9776a50171b9143904290ed6d223618f211e2 f18686285419779d766961267f0ff65d50bc6915 chris willis <wemedia@gmail.com> 1789102796 -0600	commit: fixed svgs and promo
+f18686285419779d766961267f0ff65d50bc6915 ae41e6506546e79296c61c7eb9a2132b03ee963e chris willis <wemedia@gmail.com> 1789103112 -0600	commit: Add heading
+ae41e6506546e79296c61c7eb9a2132b03ee963e 4064cdabe010a308b196519a7b0bec97ba144674 chris willis <wemedia@gmail.com> 1789105756 -0600	commit: luminet photo
+4064cdabe010a308b196519a7b0bec97ba144674 a0affe6b35b85fcd923a9b8c151d5bbffe4534c1 chris willis <wemedia@gmail.com> 1789106775 -0600	commit: awards
+a0affe6b35b85fcd923a9b8c151d5bbffe4534c1 438a9b954cac0b61b637033fee39bd32e1c80bd9 chris willis <wemedia@gmail.com> 1789106956 -0600	commit: typos
+438a9b954cac0b61b637033fee39bd32e1c80bd9 7dec0d3085dfcb35b4c076ef43bec380e01384e8 chris willis <wemedia@gmail.com> 1789335901 -0600	commit: Rework of Luminet
+7dec0d3085dfcb35b4c076ef43bec380e01384e8 518e162954573947359ce9dfea90fbfcc1558d09 chris willis <wemedia@gmail.com> 1789346560 -0600	commit: New edits
+518e162954573947359ce9dfea90fbfcc1558d09 73c23c38082560ac26e6657f17c40395707c626d chris willis <wemedia@gmail.com> 1789353193 -0600	commit: Edits
+73c23c38082560ac26e6657f17c40395707c626d 91628e16efe1f70beba4da0acfa0119774b0f146 chris willis <wemedia@gmail.com> 1789353375 -0600	commit: edit
+91628e16efe1f70beba4da0acfa0119774b0f146 836a73582b550c4796948d54eb23f6e22272763e chris willis <wemedia@gmail.com> 1789355746 -0600	commit: edit
+836a73582b550c4796948d54eb23f6e22272763e e6272b0dc4446aa08ca5511c7fcfcdad964c8daa chris willis <wemedia@gmail.com> 1789403426 -0600	commit: edits
+e6272b0dc4446aa08ca5511c7fcfcdad964c8daa 0ad590285493e6773871d43b60df2de6ee5276b2 chris willis <wemedia@gmail.com> 1789422600 -0600	commit: new teaser
+0ad590285493e6773871d43b60df2de6ee5276b2 cb9720a89bb0be31f4739f6dbd64037fbe5d9064 chris willis <wemedia@gmail.com> 1789438057 -0600	commit: avatar added
+cb9720a89bb0be31f4739f6dbd64037fbe5d9064 be9554c04a635d9f3388bcf45cfa1d0963824954 chris willis <wemedia@gmail.com> 1789505068 -0600	commit: interlude edits
+be9554c04a635d9f3388bcf45cfa1d0963824954 b77cd35f7764002b8a940c939b5284d49bcc3654 chris willis <wemedia@gmail.com> 1789517885 -0600	commit: Update luminet-tribute.html
+b77cd35f7764002b8a940c939b5284d49bcc3654 b2de90d49aa173bc7392c0a78bb04842ecbfe1f5 chris willis <wemedia@gmail.com> 1789518743 -0600	commit: iMessage / Open Graph preview
+b2de90d49aa173bc7392c0a78bb04842ecbfe1f5 c82d5242f5a71e870eb1a61143d7f7fe299deb58 chris willis <wemedia@gmail.com> 1789531220 -0600	commit: Update og-cewillis.jpg
+c82d5242f5a71e870eb1a61143d7f7fe299deb58 9ee90cfb7397dab7c860d014c1c5236b54f58ac1 chris willis <wemedia@gmail.com> 1789532279 -0600	commit: Update og-cewillis.jpg
+9ee90cfb7397dab7c860d014c1c5236b54f58ac1 d814e73f43bceb64fa9fa1506a4eceeca53873fe chris willis <wemedia@gmail.com> 1789533725 -0600	commit: Update og-cewillis.jpg
+d814e73f43bceb64fa9fa1506a4eceeca53873fe ffc66bec1016db22bbbd8d94855136b3573ccabf chris willis <wemedia@gmail.com> 1789533962 -0600	commit: Update og-cewillis.jpg
+ffc66bec1016db22bbbd8d94855136b3573ccabf 4aa18e9af9f96be08ad1200fab5663063acb1e06 chris willis <wemedia@gmail.com> 1789534763 -0600	commit: Update og-cewillis.jpg
+4aa18e9af9f96be08ad1200fab5663063acb1e06 b604227ee46154b6a7e267f39b4c88d68f28938e chris willis <wemedia@gmail.com> 1789535147 -0600	commit: Update og-cewillis.jpg
+b604227ee46154b6a7e267f39b4c88d68f28938e b604227ee46154b6a7e267f39b4c88d68f28938e rcw-01bf5dejzbznkkvqpfmrbyqo <rcw-01bf5dejzbznkkvqpfmrbyqo@claude.(none)> 1789930180 +0000	checkout: moving from main to palette-dna
+b604227ee46154b6a7e267f39b4c88d68f28938e c07247d3bc4833b817148b43e3098fab076ab4c0 chris willis <wemedia@gmail.com> 1789930213 +0000	commit: Palette DNA: extract a design system's perceptual DNA and transfer it onto a seed
+c07247d3bc4833b817148b43e3098fab076ab4c0 9376f56301b806edfcfadddef51cb726b71102fd chris willis <wemedia@gmail.com> 1789930570 +0000	commit (amend): Palette DNA: extract a design system's perceptual DNA and transfer it onto a seed
+9376f56301b806edfcfadddef51cb726b71102fd 569fd8b667b812a6bc0819268037472eb0913767 chris willis <wemedia@gmail.com> 1789932457 +0000	commit: Perception: viewing conditions and the Helmholtz-Kohlrausch effect
+569fd8b667b812a6bc0819268037472eb0913767 cc5b1ad3f0a0ff03c26589b2d6bac359e99a96f6 chris willis <wemedia@gmail.com> 1789949087 +0000	commit: Make the solve path bundleable and 49x faster
+cc5b1ad3f0a0ff03c26589b2d6bac359e99a96f6 86d4e258daabc8e6cb0735459da13e4fdfd50ff1 chris willis <wemedia@gmail.com> 1789949710 +0000	commit: Fuzz harness: throw the input space at the library and rank what comes back
+86d4e258daabc8e6cb0735459da13e4fdfd50ff1 ced2c88c5bf30a22dcbe9f842f585d8b8b17f9ca chris willis <wemedia@gmail.com> 1789960992 +0000	commit: Fix duplicate-steps: an infeasible pin no longer collapses the other mode's ramp
+ced2c88c5bf30a22dcbe9f842f585d8b8b17f9ca b0b169487d5470ac884239e3587da5ea55b7fc2f chris willis <wemedia@gmail.com> 1789962071 +0000	commit: Clear the remaining fuzz defects: 29 in 1216 down to 1 in 10,016
+b0b169487d5470ac884239e3587da5ea55b7fc2f 2445b8064d18b61eb7354742acd415fb6d078a6a chris willis <wemedia@gmail.com> 1789962560 +0000	commit: The explorer: a control bar over the audit page
+2445b8064d18b61eb7354742acd415fb6d078a6a 9eba1e864a2eb3d627292a9a9c1730616dcf1fa6 chris willis <wemedia@gmail.com> 1789965737 +0000	commit: Phase 7: derive the semantic hues instead of asking for them
+9eba1e864a2eb3d627292a9a9c1730616dcf1fa6 5fcddaf4c869ef9b12ced18e814d81b62be6d10d chris willis <wemedia@gmail.com> 1790095365 -0600	commit: new home
+5fcddaf4c869ef9b12ced18e814d81b62be6d10d 02203ff8843385b7db9381b77bbc12468b15520f chris willis <wemedia@gmail.com> 1790095657 -0600	commit: Update index.html
+02203ff8843385b7db9381b77bbc12468b15520f b604227ee46154b6a7e267f39b4c88d68f28938e chris willis <wemedia@gmail.com> 1790096082 -0600	checkout: moving from palette-dna to main
+b604227ee46154b6a7e267f39b4c88d68f28938e 3886bf450fb6944962d9a792657a4ea4ad4d4cbf chris willis <wemedia@gmail.com> 1790096101 -0600	commit: Fixes
+3886bf450fb6944962d9a792657a4ea4ad4d4cbf 7ebf62359c7847e706f47ba5051b3e8801a23734 chris willis <wemedia@gmail.com> 1790098968 -0600	pull --ff --recurse-submodules --progress origin: Fast-forward
+7ebf62359c7847e706f47ba5051b3e8801a23734 02203ff8843385b7db9381b77bbc12468b15520f chris willis <wemedia@gmail.com> 1790098982 -0600	checkout: moving from main to palette-dna
+02203ff8843385b7db9381b77bbc12468b15520f 7ebf62359c7847e706f47ba5051b3e8801a23734 chris willis <wemedia@gmail.com> 1790098992 -0600	checkout: moving from palette-dna to main
+7ebf62359c7847e706f47ba5051b3e8801a23734 02203ff8843385b7db9381b77bbc12468b15520f chris willis <wemedia@gmail.com> 1790099018 -0600	checkout: moving from main to palette-dna
+02203ff8843385b7db9381b77bbc12468b15520f 7ebf62359c7847e706f47ba5051b3e8801a23734 chris willis <wemedia@gmail.com> 1790099025 -0600	checkout: moving from palette-dna to main
+7ebf62359c7847e706f47ba5051b3e8801a23734 3627c2adb2565919ddbac84fe25bd2ee052808de chris willis <wemedia@gmail.com> 1790145046 -0600	commit: new copy
+3627c2adb2565919ddbac84fe25bd2ee052808de ad6a864501506e378db1e4e365d65b6217bdabde chris willis <wemedia@gmail.com> 1790145106 -0600	commit (merge): Merge branch 'main' of https://github.com/chriswillis/chriswillis.github.io
+ad6a864501506e378db1e4e365d65b6217bdabde a4ad80ba3f9f9fb4ee54a9cfa4746dbeac77613b chris willis <wemedia@gmail.com> 1790208682 -0700	commit: edits
+a4ad80ba3f9f9fb4ee54a9cfa4746dbeac77613b c02d4aa2b784dc461defe656439b7da3c673d211 chris willis <wemedia@gmail.com> 1790208684 -0700	pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+c02d4aa2b784dc461defe656439b7da3c673d211 a6b477117820a10e5f158a2b56a47f3756e236e5 chris willis <wemedia@gmail.com> 1790211758 -0700	commit: add portfolios
+a6b477117820a10e5f158a2b56a47f3756e236e5 bd6df2ef2d68e6380f29873f7a5f651a09e72c48 chris willis <wemedia@gmail.com> 1790212187 -0700	commit: Update index.html
+bd6df2ef2d68e6380f29873f7a5f651a09e72c48 550a6dad0a333e49da6c8a478ca4b3282ada7508 chris willis <wemedia@gmail.com> 1790224548 -0700	commit: photos
+550a6dad0a333e49da6c8a478ca4b3282ada7508 ae4c9cae499c7ab8f655741e712696c66a015ae3 chris willis <wemedia@gmail.com> 1790228025 -0700	commit: portfolio
+ae4c9cae499c7ab8f655741e712696c66a015ae3 574ee249a506ede0a132acac263023888b5c9d8a chris willis <wemedia@gmail.com> 1790228855 -0700	commit: logos
+574ee249a506ede0a132acac263023888b5c9d8a 26e340008994802bcd8991c75bd09be7cadeabb1 chris willis <wemedia@gmail.com> 1790265154 -0700	commit: color edit
+26e340008994802bcd8991c75bd09be7cadeabb1 af92997dcbb5b333bec1b9933aa08678f8f6de08 chris willis <wemedia@gmail.com> 1790804849 -0600	commit: Create outline-echo.html
+af92997dcbb5b333bec1b9933aa08678f8f6de08 890f11fcfbd4930a012ab621a1b77e4aa34629f7 chris willis <wemedia@gmail.com> 1790805361 -0600	commit: Edits
+890f11fcfbd4930a012ab621a1b77e4aa34629f7 92ab87e16d955f10df140830bb1733dfb43686b0 chris willis <wemedia@gmail.com> 1790805589 -0600	commit: fixed OpenGraph
+92ab87e16d955f10df140830bb1733dfb43686b0 b328e55f2dcbe80c4ff72cfef3d348f767da3c40 chris willis <wemedia@gmail.com> 1790806450 -0600	commit: URL params
+b328e55f2dcbe80c4ff72cfef3d348f767da3c40 0a887b345fa3f676a61cbe9a41a431d87778fc5b chris willis <wemedia@gmail.com> 1790812507 -0600	commit: Lots of articles
+0a887b345fa3f676a61cbe9a41a431d87778fc5b 57750e660224828145ef077fccc6e5a5de0a5de1 chris willis <wemedia@gmail.com> 1790824195 -0600	commit: Update index.html
+57750e660224828145ef077fccc6e5a5de0a5de1 4889e50a5722b731f351efe783b315c000e66432 chris willis <wemedia@gmail.com> 1790825591 -0600	commit: edit
+4889e50a5722b731f351efe783b315c000e66432 0f142f7673de52432a7c246f4c2247a86516fecd chris willis <wemedia@gmail.com> 1790826091 -0600	commit: Update outline-echo.html
+0f142f7673de52432a7c246f4c2247a86516fecd 0dea51d47c68580e12c8e3db68cac97c96074512 chris willis <wemedia@gmail.com> 1790828927 -0600	commit: Update outline-echo.html
+0dea51d47c68580e12c8e3db68cac97c96074512 d7f310002d3ff14bd3e304c749e7f0427715b6e1 chris willis <wemedia@gmail.com> 1790829318 -0600	commit: Update index.html
+d7f310002d3ff14bd3e304c749e7f0427715b6e1 466269ef84dfff5712f9718f46b22e15c3a6606b chris willis <wemedia@gmail.com> 1790872128 -0600	commit: Add color intelligence tool
+466269ef84dfff5712f9718f46b22e15c3a6606b e63ae5dce00dbcae92b3e289a318c3616c68737b chris willis <wemedia@gmail.com> 1790872647 -0600	commit: Update index.html
+e63ae5dce00dbcae92b3e289a318c3616c68737b 9d94fe7964b682e92e07edd1722c3c72ab9bbe24 chris willis <wemedia@gmail.com> 1790896030 -0600	commit: New color ramp tool
+9d94fe7964b682e92e07edd1722c3c72ab9bbe24 c75f62a47d79fe0d857c61755352c940c7b92acc chris willis <wemedia@gmail.com> 1791229289 -0600	commit: El Nino Feature
+c75f62a47d79fe0d857c61755352c940c7b92acc 442228ce6c1147744bee1e730720049755db7d7e chris willis <wemedia@gmail.com> 1791259032 -0600	commit: Update godzilla-el-nino.html
+442228ce6c1147744bee1e730720049755db7d7e 2d935beef5f419f09d4078389007bdc5aefe2607 chris willis <wemedia@gmail.com> 1791340721 -0600	commit: Update godzilla-el-nino.html
+2d935beef5f419f09d4078389007bdc5aefe2607 2007cbdb6bed3c6044b1db651d5c30532ffac753 chris willis <wemedia@gmail.com> 1791395148 -0600	commit: Added Meridian Chart colors
+2007cbdb6bed3c6044b1db651d5c30532ffac753 d80b38979c1d8e0133923e03d74557eea9135c8d chris willis <wemedia@gmail.com> 1791395932 -0600	commit: Update color-ramp.html
+d80b38979c1d8e0133923e03d74557eea9135c8d 344af6d2a1a5ba7e94eb5d43723f27f53c6962f6 chris willis <wemedia@gmail.com> 1791398406 -0600	commit: IMproved stippling and 3D performance
+344af6d2a1a5ba7e94eb5d43723f27f53c6962f6 4a3916a1aadf49af2ab50c41baa904222b8a64b5 chris willis <wemedia@gmail.com> 1791840457 -0600	commit: Measles feature
+4a3916a1aadf49af2ab50c41baa904222b8a64b5 b41e8d293a347238253a5566fe96ff80f6963615 chris willis <wemedia@gmail.com> 1791840460 -0600	pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+b41e8d293a347238253a5566fe96ff80f6963615 5ed9ab07f848ac472822755956777dab612af7c1 chris willis <wemedia@gmail.com> 1791841400 -0600	commit: Improved dual axis
+5ed9ab07f848ac472822755956777dab612af7c1 5502a46cb02819dea0c28d4f82681539fb23af00 chris willis <wemedia@gmail.com> 1791842005 -0600	commit: dual axis fix
+5502a46cb02819dea0c28d4f82681539fb23af00 d8ed93b85dc7c2456665fb92e72605e0f0b736b0 chris willis <wemedia@gmail.com> 1791842312 -0600	commit: Update measles.html
+d8ed93b85dc7c2456665fb92e72605e0f0b736b0 a76e12eb526e6d5a6d459b2a29772204d62849f5 chris willis <wemedia@gmail.com> 1791842408 -0600	commit: Update measles.html
+a76e12eb526e6d5a6d459b2a29772204d62849f5 bbdbadb1f012abb3739e64a92c139bf89fb1c8fd chris willis <wemedia@gmail.com> 1791843984 -0600	commit: Update index.html
+bbdbadb1f012abb3739e64a92c139bf89fb1c8fd 0de2f385482dc7a4753f7dbe6c46f6e6669e6e0e chris willis <wemedia@gmail.com> 1791855149 -0600	commit: teaser
+0de2f385482dc7a4753f7dbe6c46f6e6669e6e0e 9f9ace805ebcc75c6dff99f49eaa1c5c620120a3 chris willis <wemedia@gmail.com> 1791856780 -0600	commit: Added Cue
+9f9ace805ebcc75c6dff99f49eaa1c5c620120a3 32c826f84773ec46af038d75667b51be9d3d7b17 chris willis <wemedia@gmail.com> 1791926243 -0600	commit: many improvements
+32c826f84773ec46af038d75667b51be9d3d7b17 3555de1d3ce68e29728552e7da08f1063715f951 chris willis <wemedia@gmail.com> 1792962808 -0600	commit: edits
+3555de1d3ce68e29728552e7da08f1063715f951 bb189a814e2e03f98c4f51f6633740e19912def0 chris willis <wemedia@gmail.com> 1793305364 -0600	commit: Fix: CDC changed its format
+bb189a814e2e03f98c4f51f6633740e19912def0 e8d30457a5e9a450ce657872d6a63c142f4723cc chris willis <wemedia@gmail.com> 1793305465 -0600	commit (merge): Merge branch 'main' of https://github.com/chriswillis/chriswillis.github.io
+e8d30457a5e9a450ce657872d6a63c142f4723cc e378d2d7d1c1f2fc971724bc0beedb6c290a2d81 chris willis <wemedia@gmail.com> 1793483436 -0600	commit: fixes
+e378d2d7d1c1f2fc971724bc0beedb6c290a2d81 e1d205098643845c3a83e8ae1402e585b7439f1f chris willis <wemedia@gmail.com> 1793483450 -0600	pull --ff --recurse-submodules --progress -- origin: Merge made by the 'ort' strategy.
+e1d205098643845c3a83e8ae1402e585b7439f1f 97208a3919baff97a81b6885926651cd728ddfef chris willis <wemedia@gmail.com> 1793556641 -0700	commit: Fixes
+97208a3919baff97a81b6885926651cd728ddfef b4f5d789209f03623845da544c6a3d96d7d69f27 chris willis <wemedia@gmail.com> 1793556648 -0700	pull --ff --recurse-submodules --progress -- origin: Merge made by the 'ort' strategy.
+b4f5d789209f03623845da544c6a3d96d7d69f27 f6088de411ad19f8c0a35f4a5fd3d8205f7b45fc chris willis <wemedia@gmail.com> 1793557444 -0700	commit: fix: opengraph and teaser
+f6088de411ad19f8c0a35f4a5fd3d8205f7b45fc e830b0430990a51730a3459ba3dbb3ccc3d4bd6e chris willis <wemedia@gmail.com> 1793566243 -0700	commit: Create teaser-preview.html
+e830b0430990a51730a3459ba3dbb3ccc3d4bd6e e79f11037d354417dea42000230f63723f85a3da chris willis <wemedia@gmail.com> 1793582034 -0700	commit: fixes: updated teaser photo
+e79f11037d354417dea42000230f63723f85a3da 5b503466fc1ebc11443e3ae1b444e1f2e7aa3f43 chris willis <wemedia@gmail.com> 1793592232 -0700	commit: add: aws assets
+5b503466fc1ebc11443e3ae1b444e1f2e7aa3f43 94a3433bb4392b5af3a1a349b1457622218f5992 chris willis <wemedia@gmail.com> 1793592989 -0700	commit: Update Slide-value-design.jpg
+94a3433bb4392b5af3a1a349b1457622218f5992 b7b088d8b0a71d696d9dedbb08513ee44bb2a7d3 chris willis <wemedia@gmail.com> 1793593306 -0700	commit: Create Slide-wild.jpg
+b7b088d8b0a71d696d9dedbb08513ee44bb2a7d3 d08b1d02a5f095c75902e2c46a8a2eef496f7f07 chris willis <wemedia@gmail.com> 1793596863 -0700	commit: Create slide-count.jpg
+d08b1d02a5f095c75902e2c46a8a2eef496f7f07 fab1ca318e615e675c801175a0a9bef8efdfc639 chris willis <wemedia@gmail.com> 1793630413 -0700	commit: edits
+fab1ca318e615e675c801175a0a9bef8efdfc639 f0bfc71fedba5f937507146c5c535921d7c1d4c4 chris willis <wemedia@gmail.com> 1793631662 -0700	commit: add: new screens
+f0bfc71fedba5f937507146c5c535921d7c1d4c4 32da4cbc30972fc6b06162254643af08bc925739 chris willis <wemedia@gmail.com> 1793633033 -0700	commit: add: dots
+32da4cbc30972fc6b06162254643af08bc925739 8cb8a6dbd5e6feff981b04f28268cc0200393bf1 chris willis <wemedia@gmail.com> 1793634983 -0700	commit: Create misfits.png
+8cb8a6dbd5e6feff981b04f28268cc0200393bf1 ed54712cf515b9c323dbd97466da8a3d5b4ef696 chris willis <wemedia@gmail.com> 1793637597 -0700	commit: Create Slide_genui.png
+ed54712cf515b9c323dbd97466da8a3d5b4ef696 35650f75ad790e05b689d6e550a6ff78ef5188a0 chris willis <wemedia@gmail.com> 1793638086 -0700	commit: Create chair.png
+35650f75ad790e05b689d6e550a6ff78ef5188a0 30c82595551c7348ff5edea19883fe32a6320330 chris willis <wemedia@gmail.com> 1793638448 -0700	commit: Update chair.png
+30c82595551c7348ff5edea19883fe32a6320330 f7b869cf4ac6207a849ee8cfb097811696c05ea7 chris willis <wemedia@gmail.com> 1793638786 -0700	commit: Create raise floor.png
+f7b869cf4ac6207a849ee8cfb097811696c05ea7 eabe8f72bf65b4cf71fd15175965119dc8ad0055 chris willis <wemedia@gmail.com> 1793663856 -0700	pull --ff --recurse-submodules --progress -- origin: Fast-forward
+eabe8f72bf65b4cf71fd15175965119dc8ad0055 23b91dc7ab0cc05e22736910cb32bdb3350bbbdd chris willis <wemedia@gmail.com> 1793827114 -0700	pull --ff --recurse-submodules --progress -- origin: Fast-forward
+23b91dc7ab0cc05e22736910cb32bdb3350bbbdd 8274559bb10e62596b1907858fdad66a4045abfa chris willis <wemedia@gmail.com> 1793850149 -0700	commit: add: design docs
+8274559bb10e62596b1907858fdad66a4045abfa 8274559bb10e62596b1907858fdad66a4045abfa rcw-017skspr1j1yopdfvhhsut1n <rcw-017skspr1j1yopdfvhhsut1n@claude.(none)> 1793852291 +0000	checkout: moving from main to palette-dna-change-1
+8274559bb10e62596b1907858fdad66a4045abfa f6acaba91f402db0d87f5ed97e7d4262387f5c99 chris willis <wemedia@gmail.com> 1793854892 +0000	commit: Palette DNA: shared engine, step pinning, measured claim, new names

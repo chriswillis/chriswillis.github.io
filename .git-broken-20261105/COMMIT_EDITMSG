@@ -1,0 +1,28 @@
+Palette DNA: shared engine, step pinning, measured claim, new names
+
+Release the two color tools as Palette DNA Ramp and Palette DNA Map
+(design: docs/designs/palette-dna-tools.md, review record in
+docs/designs/palette-dna-tools-review/).
+
+- Move the engine, importer and palette data into assets/palette-dna/
+  so both pages load one copy.
+- Add scripts/palette-dna-evidence.cjs: the seeded hold-out behind the
+  published claim (67% of rebuilt steps within one just-noticeable
+  difference, against 54% for copying the nearest ramp), the generated
+  palette-dna/evidence.html page, and a --check that fails when a
+  published number differs from a fresh run.
+- Ramp page: optional "Step for your color" menu, verdict wording that
+  names the chosen and automatic steps, Tailwind v4 default, and new
+  "Why borrow a palette's shape", "Compared with" and "When not to use
+  it" sections.
+- Map page: heading, lede, and the shared evidence paragraph.
+- Origin labels for Material 3 (generated), Primer (tool-assisted) and
+  Kendo Meridian (chart colors); no palette is called hand-tuned.
+- Move pages to palette-dna/, leave redirect pages at the old paths,
+  update home, lab, feed, sitemap and social images.
+- Exclude docs/, reviews/ and tests/ from publishing.
+- Tests: 36 passing, including a fixture that pins unpinned engine
+  output to its pre-change behavior.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_017sKspR1j1YopdfvHHsUt1N
