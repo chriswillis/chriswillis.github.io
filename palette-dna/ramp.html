@@ -242,6 +242,65 @@
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
+
+  /* Custom palette workspace */
+  .builder { display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
+  .builder-head, .builder-actions, .preview-controls, .editor-actions, .export-toolbar { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+  .builder-head { justify-content: space-between; }
+  .builder-head h2 { margin: 0 0 .35rem; }
+  .builder button, .export-toolbar button, #download { min-height: 40px; padding: .45rem .85rem; border: 1px solid var(--ui-2); border-radius: .45rem; background: var(--bg); cursor: pointer; font-weight: 400; }
+  .builder button:hover, .export-toolbar button:hover { border-color: var(--accent); }
+  .builder button:disabled, #download:disabled, #copy:disabled { opacity: .45; cursor: default; }
+  .builder .primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .builder p { margin: 0; }
+  .builder .note, .builder .status { line-height: 1.6; }
+  .builder label { font-size: .82rem; font-weight: 400; }
+  .builder select, .export-toolbar select, .builder input[type=text] { background: var(--bg); border: 1px solid var(--ui-2); border-radius: .4rem; min-height: 40px; padding: .4rem .6rem; max-width: 100%; }
+  .builder input[type=range] { width: 100%; accent-color: var(--accent); min-height: 40px; }
+  #family { min-width: 0; overflow-x: auto; padding: 5px 3px 8px; }
+  .palette-columns { display: flex; gap: 6px; align-items: stretch; }
+  .palette-column { flex: 1 0 66px; max-width: 100px; min-width: 0; display: flex; flex-direction: column; align-items: stretch; border-radius: .5rem; padding: 3px; border: 1px solid transparent; }
+  .palette-column.active { border-color: var(--accent); background: var(--bg-2); }
+  .builder .column-select { align-self: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; margin-bottom: .25rem; }
+  .column-select[aria-pressed=true] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .builder .column-open { border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: stretch; gap: .4rem; text-align: center; }
+  .column-colors { display: flex; flex-direction: column; height: 174px; border-radius: .25rem; overflow: hidden; opacity: .25; transition: opacity .18s ease; }
+  .included .column-colors, .column-open:hover .column-colors, .column-open:focus-visible .column-colors { opacity: 1; }
+  .column-colors > span { flex: 1; min-height: 0; }
+  .column-name { font-size: .72rem; line-height: 1.35; overflow-wrap: anywhere; }
+  .column-kind { color: var(--tx-2); font-size: .63rem; text-align: center; margin-top: .25rem; }
+  .builder-workspace { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.25rem; }
+  .ramp-editor, .palette-preview { min-width: 0; padding: 1.2rem; border: 1px solid var(--ui); border-radius: .75rem; display: flex; flex-direction: column; gap: 1rem; }
+  .ramp-editor h3, .palette-preview h3, #proposal-heading { font-size: 1.1rem; font-weight: 400; letter-spacing: -.02em; margin: 0; }
+  .editor-fields { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; }
+  .editor-fields label { display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
+  .editor-fields label:first-child { grid-column: 1/-1; }
+  .edit-swatches { display: flex; overflow-x: auto; gap: 2px; padding: 3px; }
+  .builder .edit-swatch { flex: 1 0 42px; padding: .65rem .15rem; border: 0; border-radius: .2rem; display: flex; flex-direction: column; gap: .8rem; align-items: center; font-family: var(--mono); font-size: .65rem; }
+  .edit-swatch span:last-child { writing-mode: vertical-rl; font-size: .6rem; }
+  .edit-swatch.chart-step { outline: 2px solid var(--tx); outline-offset: 1px; }
+  .preview-controls label { display: flex; flex-direction: column; gap: .25rem; flex: 1; min-width: 130px; }
+  .chart { border-radius: .5rem; padding: 1rem; min-height: 150px; max-height: 380px; overflow: auto; border: 1px solid var(--ui-2); }
+  .chart-caption { font-size: .7rem; margin-bottom: 1rem; }
+  .chart-row { display: grid; grid-template-columns: minmax(60px, 1fr) minmax(40px, 1.5fr) 24px; gap: .5rem; align-items: center; margin: .65rem 0; font-size: .75rem; }
+  .chart-label { overflow-wrap: anywhere; font-weight: 400; }
+  .chart-label small { display: block; opacity: .8; }
+  .chart-bar { height: 20px; border-radius: 0 3px 3px 0; }
+  .metric-note { font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .palette-preview table { font-size: .72rem; }
+  .palette-preview th { font-size: .72rem; }
+  .proposal-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .75rem; margin-top: .7rem; }
+  .proposal { background: var(--bg-2); padding: .75rem; border: 1px solid var(--ui); border-radius: .6rem; display: flex; flex-direction: column; gap: .65rem; }
+  .proposal strong { font-weight: 400; font-size: .9rem; }
+  .proposal .note { display: block; font-size: .7rem; }
+  .proposal-strip { display: flex; height: 30px; border-radius: .25rem; overflow: hidden; }
+  .proposal-strip span { flex: 1; }
+  .builder-summary { cursor: pointer; font-size: .8rem; color: var(--tx-2); padding-block: .5rem; }
+  .brand-contrast { margin-top: .75rem; max-width: 44rem; }
+  .export-toolbar label { display: flex; align-items: center; gap: .65rem; font-size: .85rem; }
+  .export .tabs button { min-height: 40px; }
+  @media(max-width: 760px) { .builder-workspace { grid-template-columns: 1fr; } .builder-head { align-items: flex-start; } .proposal-list { grid-template-columns: 1fr; } .ramp-editor, .palette-preview { padding: .85rem; } }
+  @media(prefers-reduced-motion: reduce) { .column-colors { transition: none; } }
 </style>
 <script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
 </head>
@@ -261,7 +320,7 @@
   <section class="tool" aria-label="Ramp generator">
     <div class="intro">
       <h1>Palette DNA Ramp</h1>
-      <p class="lede">Turn one color into a full ramp shaped like a palette you trust: Tailwind, Radix, Flexoki or your own. For designers extending a brand color or a design system.</p>
+      <p class="lede">Turn your brand color into a full ramp, then build a palette around it. Borrow the character of Tailwind, Radix, Flexoki or your own palette. Select companions, preview them together, and export your colors.</p>
     </div>
 
     <form class="controls" id="ctl" autocomplete="off">
@@ -325,17 +384,66 @@
     </div>
   </section>
 
-  <section class="panels">
-    <div class="panel">
-      <h2>In the family</h2>
-      <div id="family"></div>
-      <p class="note" id="famnote"></p>
+  <section class="builder" aria-labelledby="builder-heading">
+    <div class="builder-head">
+      <div><h2 id="builder-heading">Build your palette</h2><p class="note">Start with your brand. Select a reference hue or suggest companions shaped by the same palette.</p></div>
+      <div class="builder-actions"><span class="tag" id="builder-count">1 selected</span><button type="button" id="builder-undo" disabled>Undo</button><button type="button" class="primary" id="suggest">Suggest companion colors</button></div>
     </div>
-    <div class="panel">
-      <h2>Text contrast</h2>
-      <div class="tablewrap"><table id="contrast"></table></div>
-      <p class="note">The lightest or darkest step of this ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p>
+    <div id="family"></div><p class="note" id="famnote"></p>
+    <div id="proposals" hidden>
+      <div class="builder-head"><h3 id="proposal-heading" tabindex="-1">Suggested companions</h3><button type="button" id="dismiss-proposals">Dismiss suggestions</button></div>
+      <p class="note">Proposals only. Accept a color to add its full ramp; your existing colors stay unchanged.</p>
+      <div class="proposal-list" id="proposal-list"></div>
     </div>
+    <p id="builder-status" class="status" role="status"></p>
+    <div class="builder-workspace">
+      <section class="ramp-editor" aria-labelledby="edit-heading">
+        <div><h3 id="edit-heading" tabindex="-1">Edit <span id="edit-title">brand</span></h3><p class="note" id="edit-source"></p></div>
+        <div class="edit-swatches" id="edit-swatches"></div><p class="note" id="edit-note"></p>
+        <div class="editor-fields">
+          <label>Name<input type="text" id="edit-name" maxlength="80" spellcheck="false"></label>
+          <label>Hue shift <output id="edit-hue-value" for="edit-hue">0°</output><input type="range" id="edit-hue" min="-180" max="180" value="0" step="1"></label>
+          <label>Colorfulness <output id="edit-chroma-value" for="edit-chroma">100%</output><input type="range" id="edit-chroma" min="0" max="150" value="100" step="1"></label>
+          <label>Chart step<select id="edit-step"><option value="">Automatic</option></select></label>
+        </div>
+        <div class="editor-actions"><button type="button" id="edit-reset">Reset edits</button><button type="button" id="edit-remove">Remove companion</button></div>
+      </section>
+      <section class="palette-preview" aria-labelledby="preview-heading">
+        <h3 id="preview-heading">See your colors together</h3>
+        <div class="preview-controls">
+          <label>Chart background<select id="preview-bg"><option value="light">Light · #FFFFFF</option><option value="dark">Dark · #181818</option></select></label>
+          <label>Color vision<select id="preview-vision"><option value="normal">Normal vision</option><option value="protanopia">Protanopia · red</option><option value="deuteranopia">Deuteranopia · green</option><option value="tritanopia">Tritanopia · blue</option></select></label>
+        </div>
+        <div class="chart" id="chart" aria-label="Illustrative categorical bar chart"></div>
+        <p class="metric-note" id="pair-metric"></p>
+        <details><summary class="builder-summary">Contrast &amp; preview method</summary>
+          <div class="tablewrap"><table><caption class="note">Original sRGB chart colors against the chosen background</caption><thead><tr><th scope="col">Ramp · step</th><th scope="col">sRGB</th><th scope="col">Contrast</th><th scope="col">Reference levels</th></tr></thead><tbody id="chart-metrics"></tbody></table></div>
+          <p class="note">* Wide-gamut value shown as an sRGB fallback. Contrast uses the original chart colors, not the simulation. 4.5:1 is a normal-text reference; 3:1 is a large-text and meaningful-graphic reference, not a verdict on the whole chart. Labels keep categories identifiable without color alone.</p>
+          <p class="note">Simulations use <a href="https://doi.org/10.1109/TVCG.2009.113">Machado, Oliveira &amp; Fernandes (2009)</a>, severity 1.0, in linear sRGB. They approximate three deficiencies; individual perception varies. Pair distances use the displayed simulation. No simulation or color-distance score certifies accessibility.</p>
+          <p class="note">Automatic chart steps favor lightness near 56% on light backgrounds and 72% on dark, with a contrast penalty below 3:1. Change any ramp’s chart step in its editor. These choices do not alter exported ramps.</p>
+        </details>
+      </section>
+    </div>
+    <p class="note" id="builder-save"></p>
+    <details><summary class="builder-summary">Brand ramp text contrast</summary><div class="brand-contrast"><div class="tablewrap"><table id="contrast"></table></div><p class="note">The lightest or darkest step of the brand ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p></div></details>
+  </section>
+
+  <section class="export" aria-label="Export">
+    <h2>Export your palette</h2>
+    <div class="export-toolbar"><label>Include<select id="export-scope"><option value="selected">Selected ramps</option><option value="active">Active ramp</option><option value="all">All available ramps</option></select></label></div>
+    <p class="note" id="export-summary"></p>
+    <p class="note">CSS oklch and Tailwind v4 retain wide-gamut color. Hex values in CSS, Tailwind v3 and design tokens are rounded sRGB fallbacks; token extensions also include OKLCH.</p>
+    <div class="tabs" role="group" aria-label="Export format" id="tabs">
+      <button type="button" data-f="css" aria-pressed="true">CSS</button>
+      <button type="button" data-f="oklch" aria-pressed="false">CSS oklch</button>
+      <button type="button" data-f="tw4" aria-pressed="false">Tailwind v4</button>
+      <button type="button" data-f="tw3" aria-pressed="false">Tailwind v3</button>
+      <button type="button" data-f="json" aria-pressed="false">Design tokens</button>
+      <button type="button" class="copy" id="copy">Copy</button>
+      <button type="button" id="download">Download</button>
+    </div>
+    <pre id="code" tabindex="0"></pre>
+    <div class="status" id="status" role="status"></div>
   </section>
 
   <section class="notes" id="why">
@@ -363,23 +471,8 @@
       <li>You need every step to meet a contrast target: use Harmony or Leonardo.</li>
       <li>You need dark-mode tokens: not supported yet.</li>
       <li>Your palette has fewer than four colored ramps: the tool needs neighboring hues to interpolate between.</li>
-      <li>You are working with chart colors: their steps are not ramps.</li>
+      <li>You need a guaranteed categorical chart scheme: companion suggestions are a starting point. Inspect the actual chart colors and use labels or shapes alongside color.</li>
     </ul>
-  </section>
-
-  <section class="export" aria-label="Export">
-    <h2>Export</h2>
-    <p class="note">CSS oklch and Tailwind v4 retain wide-gamut color. Hex values in CSS, Tailwind v3 and design tokens are rounded sRGB fallbacks; token extensions also include OKLCH.</p>
-    <div class="tabs" role="group" aria-label="Export format" id="tabs">
-      <button type="button" data-f="css" aria-pressed="true">CSS</button>
-      <button type="button" data-f="oklch" aria-pressed="false">CSS oklch</button>
-      <button type="button" data-f="tw4" aria-pressed="false">Tailwind v4</button>
-      <button type="button" data-f="tw3" aria-pressed="false">Tailwind v3</button>
-      <button type="button" data-f="json" aria-pressed="false">Design tokens</button>
-      <button type="button" class="copy" id="copy">Copy</button>
-    </div>
-    <pre id="code" tabindex="0"></pre>
-    <div class="status" id="status" role="status"></div>
   </section>
 
   <section class="notes">
@@ -411,6 +504,8 @@
 <script src="../assets/palette-dna/palettes.js?v=2026-11-15"></script>
 <script src="../assets/palette-dna/engine.js?v=2026-11-15"></script>
 <script src="../assets/palette-dna/importer.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/builder.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/builder-ui.js?v=2026-11-15"></script>
 <script>
 // Palette DNA Ramp: one or two seed colors → a ramp shaped like a reference palette, with explicit input-preservation feedback.
 // Engine, Importer and PALETTES come from assets/palette-dna/.
@@ -609,7 +704,7 @@
     rows.forEach(function (r) { tok[name][r.step] = { $value: r.hex }; if (r.p3) tok[name][r.step].$extensions = { oklch: r.ok }; });
     return JSON.stringify(tok, null, 2) + '\n';
   }
-  function renderExport(o) { $('code').textContent = exportText(o, st.fmt); }
+  function renderExport(o) { if (window.__paletteUI) { window.__paletteUI.renderExport(); return; } $('code').textContent = exportText(o, st.fmt); }
 
   var removeArmed = false, removeTimer = 0;
   var ORIGIN = { generated: 'generated', 'tool-assisted': 'tool-assisted', chart: 'chart colors' };
@@ -644,6 +739,7 @@
     var o = generate(); if (!o) return;
     last = o;
     renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderExport(o);
+    if (window.__paletteUI) window.__paletteUI.refresh(o);
     save();
   }
 
@@ -699,6 +795,7 @@
   function inputReadiness() {
     var invalid = !!invalidInputs.c1 || (st.c2 !== null && !!invalidInputs.c2);
     $('copy').disabled = invalid;
+    if (window.__paletteUI) window.__paletteUI.setInvalid(invalid);
     $('draftstatus').textContent = invalid ? 'Showing the last valid ramp. Correct the color input before copying.' : '';
   }
   function bindColor(k) {
@@ -794,7 +891,7 @@
   dlg.addEventListener('close', function () { invalidateImport(); $('pal').focus(); });
   $('upload').addEventListener('click', function () { $('impf').click(); });
   $('mode').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; st.mode = b.dataset.v; render(); });
-  $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); save(); } });
+  $('name').addEventListener('input', function () { st.name = $('name').value; if (last) { renderRamp(last); renderFamily(last); renderContrast(last); renderExport(last); if (window.__paletteUI) window.__paletteUI.refresh(last); save(); } });
   $('tabs').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-f]'); if (!b) return; st.fmt = b.dataset.f; syncTabs(); if (last) renderExport(last); save();
   });
@@ -815,6 +912,7 @@
   $('c1').value = st.c1; $('c2').value = st.c2 || ''; $('name').value = st.name; syncTabs();
   render();
   window.__ramp = { st: st, generate: generate, render: render, exportText: exportText, last: function () { return last; }, looFor: looFor };
+  window.__paletteUI = PaletteBuilderUI.mount(window.__ramp);
 })();
 
 </script>

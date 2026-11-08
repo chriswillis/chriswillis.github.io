@@ -1,0 +1,23 @@
+# Contrarian-Brainstormer — raw report
+
+No blocker to concept exploration. Recommended refinements:
+
+- **Major — Contrarian / YAGNI & Code Minimization: Keep palette editing separate from generator training.** `Engine.build()` derives its surface from reference ramps; rebuilding it from edited companions would change subsequent suggestions and create feedback between edits. Keep the original palette/model immutable and maintain selected columns plus overrides separately. Unresolved: what happens to accepted or edited companions when the brand or reference changes? Recommend preserving edits and requiring another explicit suggestion action.
+- **Major — Contrarian / YAGNI & Code Minimization: “Relative colorfulness” already has useful machinery, but is not a complete suggestion policy.** Reuse `seedMap().sRaw`, `genSteps()`, `point()`, `maxC()`, and existing gamut handling before adding another color engine. Avoid independently normalizing every hue to equal chroma, which would erase the reference’s character. Unresolved: whether suggestions adjust all reference hues or choose a subset; how many; how neutral brands behave; and whether unusually vivid brands can increase companion chroma. A small deterministic policy is preferable to an optimization framework.
+- **Major — Contrarian / YAGNI & Code Minimization: The generator’s usable surface is not the full reference palette.** `renderFamily()` currently displays `M.loft`; `Engine.build()` excludes crossing/interior ramps from that subset. Reusing this list directly for selection or “full palette” export would silently omit authored hues. Use original `pal.ramps`/`M.R` for the complete inventory, reserving `M.loft` for generation. Decide explicitly whether neutrals belong in “full palette.”
+- **Major — Contrarian / YAGNI & Code Minimization: Limit preview scope before building a miniature design-system application.** A single categorical chart with an explicit representative-step rule would exercise selection and distinguishability without needing buttons, cards, typography roles, and semantic-token mapping. The existing contrast table can remain a separate inspection surface. Decide the representative color per ramp and preview background; those choices materially affect what users judge.
+- **Major — Contrarian / YAGNI & Code Minimization: Do not treat existing contrast/difference helpers as a complete accessibility feature.** Reuse `Engine.Y`, `Engine.cr`, and current contrast rendering for defined foreground/background pairs. `Engine.dE` is available for differences but does not supply a categorical accessibility guarantee. Searches found no CVD implementation in `assets`, `palette-dna`, or `tests`. A vetted, locally bundled simulation component would be preferable to inventing simulation math; library selection remains unresolved and was not researched externally.
+- **Nit — Contrarian / YAGNI & Code Minimization: Expand one export path rather than create parallel exporters.** `exportText()` already handles CSS hex, CSS OKLCH, Tailwind 4, Tailwind 3, and JSON, including wide-gamut disclosures. Generalize its input to named ramps and share that serialization between copy and download. Define active versus selected versus full precisely, including naming collisions and whether full contains edited or original reference versions.
+- **Nit — Contrarian / YAGNI & Code Minimization: Keep project state out of the imported-reference store.** `pt.user` is shared with Palette DNA Map and represents imported reference palettes; `rk.state`/`#r2` currently represent one ramp’s settings. Reuse the existing transactional import pattern and compatibility tests, but avoid writing a one-ramp or edited working palette into `pt.user`: `Importer.analyse()` requires at least four hued ramps to construct a surface. Decide whether new working-state sharing includes companions or only generator settings.
+
+Files read (including targeted rereads/searches; the initial combined output was truncated):
+
+- `/Users/chris.willis/.codex/plugins/cache/egm/egm/0.1.0/agents/zoom_out.md`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/docs/designs/palette-companions-review/feature-concept.md`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/palette-dna/ramp.html`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/engine.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/palettes.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/importer.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/tests/color-ramp.test.cjs`
+
+No files changed, tests executed, or external sources fetched.

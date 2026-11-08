@@ -1,0 +1,23 @@
+# Maintenance-Brainstormer — raw report
+
+No blocker at concept stage. The main risk is adding multi-column state to an implementation organized around one generated ramp.
+
+- **Major — Long-Term Tech Debt & Maintainability: reference, baseline, suggestions, and edits need separate ownership.** `ramp.html` caches models by palette ID, while `Engine.build` retains references to palette data and derived curves. Mutating reference ramps to implement companions would risk stale caches, changing later suggestions, and contaminating shared imported palettes. **Recommended requirement:** immutable reference data and generator baseline; separate proposed companions and committed column overrides. Suggestions should be pure computations over explicit inputs. Unresolved: whether changing the brand/reference invalidates edits, preserves snapshots, or explicitly regenerates them.
+- **Major — Long-Term Tech Debt & Maintainability: column identity cannot be its name or screen position.** The current family view uses `M.loft`, which excludes some authored ramps, and conditionally represents an exact brand match using the reference column itself. A builder needs stable identity across selection, editing, deletion, naming, and hue reordering. **Recommended requirement:** stable column IDs, source provenance, and independent active/selected state; retain the complete reference inventory rather than treating loft membership as availability. Unresolved: whether a brand ramp matching a reference hue is a separate editable column, and what reset/delete means for original versus suggested columns.
+- **Major — Long-Term Tech Debt & Maintainability: rendering currently performs state transitions.** `render()` generates and persists; `generate()` consumes `stepNote`; handlers mutate `st` directly. Adding acceptance, per-column editing, preview scopes, and reset creates many interacting paths. **Recommended requirement:** explicit state transitions with pure derived palette output consumed by rendering, metrics, and export. Keep draft input separate from committed values, extending the existing invalid-input safeguards. Test transition invariants, especially suggest → edit → regenerate → reset and reference switching. No framework or backend is necessary.
+- **Major — Long-Term Tech Debt & Maintainability: export and diagnostics need one resolved color collection.** Current export handles one ramp and reads the global name, while contrast operates directly on that ramp’s cells. Independently implementing active/selected/full exports, previews, CVD simulation, and metrics would invite divergent scopes and gamut handling. **Recommended requirement:** one explicit scope resolver feeding formatters and analysis; simulations are derived views and never overwrite palette colors. Preserve distinct contrast and categorical results with their evaluation context. Unresolved: definitions of “active” and “full,” neutral inclusion, categorical step selection, and whether diagnostics measure full-gamut colors or exported fallbacks.
+- **Major — Long-Term Tech Debt & Maintainability: persistence must distinguish builder documents from reference imports.** Existing `pt.user` imports are shared with Palette DNA Map; `rk.state` and `#r2` describe one-ramp settings, and imported-reference links already depend on local availability. **Recommended requirement:** separately version builder state, retain backward compatibility, and explicitly handle unavailable or revised references. Do not save edited outputs into the shared reference registry implicitly. Unresolved: whether sharing reconstructs recipes or preserves exact output snapshots, and what survives reference removal or cross-tab changes.
+
+A bounded first preview and independently testable suggestion/diagnostic functions would contain the maintenance surface. The current VM harness covers useful persistence and input behavior, but its minimal DOM cannot establish that interactive column selection, dimming, focus, or previews work in a browser.
+
+Files read:
+
+- `/Users/chris.willis/.codex/plugins/cache/egm/egm/0.1.0/agents/structural.md`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/docs/designs/palette-companions-review/feature-concept.md`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/palette-dna/ramp.html`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/engine.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/palettes.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/assets/palette-dna/importer.js`
+- `/Users/chris.willis/Documents/GitHub/chriswillis.github.io/tests/color-ramp.test.cjs`
+
+Read-only review; no external fetching or execution of tests.

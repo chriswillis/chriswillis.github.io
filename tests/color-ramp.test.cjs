@@ -1,5 +1,5 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');
-const path=require('node:path');const html=fs.readFileSync(path.join(__dirname,'../palette-dna/ramp.html'),'utf8');const SHARED=['palettes','engine','importer'];const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)];
+const path=require('node:path');const html=fs.readFileSync(path.join(__dirname,'../palette-dna/ramp.html'),'utf8');const SHARED=['palettes','engine','importer','builder','builder-ui'];const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)];
 function harness(saved={},hash=''){
  const elements={},timers=[],reads=[],storage={...saved},clipboard=[];let failStorage=false;
  function el(id){return elements[id]||=( {id,value:'',hidden:false,disabled:false,style:{},dataset:{},attrs:{},listeners:{},textContent:'',innerHTML:'',files:[],addEventListener(k,f){(this.listeners[k]||=[]).push(f)},setAttribute(k,v){this.attrs[k]=v},getAttribute(k){return this.attrs[k]},removeAttribute(k){delete this.attrs[k]},querySelectorAll(){return id==='mode'?[el('through'),el('fit')]:id==='tabs'?['css','oklch','tw4','tw3','json'].map(el):[]},querySelector(){return this.querySelectorAll().find(x=>x.attrs['aria-pressed']==='true')},focus(){},select(){},click(){this.fire('click')},showModal(){this.open=true},close(){this.open=false;this.fire('close')},fire(k,event={}){for(const f of this.listeners[k]||[]) f.call(this,{target:this,preventDefault(){},...event})}});}
@@ -22,7 +22,7 @@ test('imports consume whole values and accept inherited-looking ramp names',()=>
 test('legacy reload preserves matching precise local input and unknown links recover visibly',()=>{const saved={'rk.state':JSON.stringify({c1:'color(display-p3 1 0 0)',c2:null,pal:'flexoki',mode:'through'})};assert.equal(harness(saved,'#c-ff0000.flexoki.through').api.st.c1,'color(display-p3 1 0 0)');const bad=harness({},'#r2=%not-json');assert.match(bad.el('status').textContent,/could not be read/);const missing=harness({},'#r2='+encodeURIComponent(JSON.stringify({c1:'#abc',c2:null,pal:'missing',mode:'fit'})));assert.match(missing.el('status').textContent,/unavailable/)});
 test('authored samples and neutral substitution both render the family without confidence data',()=>{const h=harness();h.api.st.pal='flexoki';h.api.render();h.enter('c1','#D14D41');assert.equal(h.api.last().kind,'exact');assert.match(h.el('verdict').innerHTML,/Your color is kept exactly/);h.enter('c1','#808080');assert.equal(h.api.last().kind,'neutral');assert.match(h.el('verdict').innerHTML,/close to gray/);assert.ok(h.el('family').innerHTML)});
 test('immediate valid import edit commits current name and failed read cannot retain readiness',()=>{const h=harness();h.el('impt').value=fixture();h.el('impn').value='old';h.el('impt').fire('input');h.el('impn').value='current';h.el('impok').fire('click');assert.match(h.storage['pt.user'],/"name":"current"/);h.el('impf').files=[{size:20,name:'bad.json'}];h.el('impf').fire('change');h.reads[0].onerror();assert.equal(h.el('impok').disabled,true)});
-test('loads the three shared Palette DNA files in order with one release version',()=>{const srcs=[...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1]);const v=srcs.map(x=>x.split('?v=')[1]);assert.deepEqual(srcs.map(x=>x.split('?')[0]),SHARED.map(f=>'../assets/palette-dna/'+f+'.js'));assert.ok(v[0]&&v.every(x=>x===v[0]))});
+test('loads engine and builder files in order with one release version',()=>{const srcs=[...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1]);const v=srcs.map(x=>x.split('?v=')[1]);assert.deepEqual(srcs.map(x=>x.split('?')[0]),SHARED.map(f=>'../assets/palette-dna/'+f+'.js'));assert.ok(v[0]&&v.every(x=>x===v[0]))});
 const step=(h,v)=>{h.el('step').value=v;h.el('step').fire('change')};
 const anchorStep=h=>h.api.last().cells.find(c=>c.anchor&&c.seedIndex===0).step;
 test('a first visit loads Tailwind v4',()=>{const h=harness();assert.equal(h.api.st.pal,'tailwind4');assert.equal(h.api.last().pal.id,'tailwind4')});
@@ -31,3 +31,69 @@ test('a pin that leaves no room for the second color is rejected and explained',
 test('changing to a palette without the chosen step resets it once with a note',()=>{const h=harness();h.enter('c1','#3B82F6');step(h,'500');h.el('pal').value='radix';h.el('pal').fire('change');assert.equal(h.api.st.s1,null);assert.match(h.el('verdict').innerHTML,/Step 500 isn’t in Radix Colors, so the step is automatic again\./);h.api.render();assert.doesNotMatch(h.el('verdict').innerHTML,/isn’t in/)});
 test('the chosen step round-trips through the link and local state, and an invalid one resets',()=>{const h=harness();h.enter('c1','#3B82F6');step(h,'700');assert.match(decodeURIComponent(h.c.location.hash),/"s1":"700"/);const r=harness(h.storage,h.c.location.hash);assert.equal(r.api.st.s1,'700');assert.equal(anchorStep(r),'700');const local=harness(h.storage,'');assert.equal(local.api.st.s1,'700');const bad=harness({},'#r2='+encodeURIComponent(JSON.stringify({c1:'#3B82F6',c2:null,s1:'9999',pal:'tailwind4',mode:'through'})));assert.equal(bad.api.st.s1,null);assert.match(bad.el('verdict').innerHTML,/Step 9999 isn’t in/)});
 test('a pin on another step wins over the palette’s own ramp',()=>{const h=harness();const blue500=h.c.PALETTES.find(p=>p.id==='tailwind4').ramps.blue[5];h.enter('c1',blue500);assert.equal(h.api.last().kind,'exact');step(h,'500');assert.equal(h.api.last().kind,'exact');step(h,'600');assert.equal(h.api.last().kind,'gen');assert.equal(anchorStep(h),'600')});
+const builder=h=>h.c.window.__paletteUI;
+const plain=x=>JSON.parse(JSON.stringify(x));
+test('builder starts with brand only and inventory includes every authored hue and neutral',()=>{
+ const h=harness(),b=builder(h);assert.deepEqual(plain(b.state().selected),['brand']);
+ for(const p of h.c.PALETTES){h.api.st.pal=p.id;h.api.render();const cols=b.columns();assert.equal(cols.length,1+Object.keys(p.ramps).length+Object.keys(p.neutrals).length,p.id);}
+});
+test('suggestions are deterministic proposals; accepting does not mutate the reference or other columns',()=>{
+ const h=harness(),b=builder(h),original=JSON.stringify(h.c.PALETTES),before=h.el('code').textContent;
+ b.suggest();const a=JSON.stringify(b.proposals());assert.equal(b.proposals().length,3);assert.equal(h.el('code').textContent,before);b.suggest();assert.equal(JSON.stringify(b.proposals()),a);
+ b.accept(0);assert.equal(b.selected().length,2);assert.equal(JSON.stringify(h.c.PALETTES),original);assert.notEqual(h.el('code').textContent,before);
+});
+test('accepted edits survive brand, anchor, mode and reference changes, then reload',()=>{
+ const h=harness(),b=builder(h);b.suggest();b.accept(0);const id=b.state().active;
+ h.el('edit-hue').value='17';h.el('edit-chroma').value='88';h.el('edit-name').value='My companion';b.edit();const before=JSON.stringify(b.selected().find(c=>c.id===id));
+ h.enter('c1','#113388');step(h,'600');h.api.st.mode='fit';h.api.st.pal='radix';h.api.render();assert.equal(JSON.stringify(b.selected().find(c=>c.id===id)),before);assert.equal(b.proposals().length,0);
+ const r=harness(h.storage,h.c.location.hash);assert.equal(JSON.stringify(builder(r).selected().find(c=>c.id===id)),before);
+ assert.equal(h.storage['pt.user'],undefined);
+});
+test('reference edit reset restores its exact authored ramp, and removal can be undone',()=>{
+ const h=harness(),b=builder(h),c=b.columns().find(c=>c.kind==='reference');b.select(c.id);b.open(c.id);
+ h.el('edit-hue').value='40';h.el('edit-chroma').value='75';h.el('edit-name').value=c.name;b.edit();assert.notDeepEqual(plain(b.selected()[1].labs),plain(c.labs));
+ b.reset();assert.deepEqual(plain(b.selected()[1].labs),plain(c.labs));b.remove();assert.equal(b.selected().length,1);assert.ok(b.columns().find(x=>x.id===c.id));b.undo();assert.equal(b.selected().length,2);
+ b.suggest();b.accept(0);const added=b.state().active;b.remove();assert.ok(!b.columns().some(x=>x.id===added));b.undo();assert.ok(b.columns().some(x=>x.id===added));
+});
+test('export scopes use current edits, exclude proposals and give duplicates stable names',()=>{
+ const h=harness(),b=builder(h);b.suggest();assert.equal(b.selected().length,1);const c=b.columns().find(c=>c.kind==='reference');b.open(c.id);
+ h.el('export-scope').value='active';h.el('export-scope').fire('change');assert.match(h.el('code').textContent,new RegExp('--'+c.name+'-'));
+ b.select(c.id);h.el('edit-name').value='brand';h.el('edit-hue').value='0';h.el('edit-chroma').value='100';b.edit();h.el('export-scope').value='selected';h.el('export-scope').fire('change');assert.match(h.el('code').textContent,/--brand-2-/);
+ h.el('tabs').fire('click',{target:{closest:()=>h.el('json')}});assert.equal(Object.keys(JSON.parse(h.el('code').textContent)).length,2);
+ b.select('brand');b.select(c.id);assert.equal(h.el('copy').disabled,true);assert.equal(h.el('download').disabled,true);
+});
+test('simulation and chart settings never alter exports or stored colors',()=>{
+ const h=harness(),b=builder(h);b.suggest();b.accept(0);const before=h.el('code').textContent,colors=JSON.stringify(b.selected());
+ for(const v of ['protanopia','deuteranopia','tritanopia']){h.el('preview-vision').value=v;h.el('preview-vision').fire('change');assert.match(h.el('chart').innerHTML,new RegExp(v));assert.equal(h.el('code').textContent,before);}
+ h.el('preview-bg').value='dark';h.el('preview-bg').fire('change');h.el('edit-step').value=b.selected()[1].steps[0];h.el('edit-step').fire('change');assert.equal(h.el('code').textContent,before);assert.equal(JSON.stringify(b.selected()),colors);
+});
+test('simulation uses linear sRGB and preserves neutral endpoints; contrast uses actual sRGB',()=>{
+ const h=harness(),B=h.c.PaletteBuilder;
+ for(const mode of ['protanopia','deuteranopia','tritanopia']){assert.equal(B.simulate('#FFFFFF',mode),'#FFFFFF');assert.equal(B.simulate('#000000',mode),'#000000');assert.equal(B.simulate('#808080',mode),'#808080');}
+ assert.equal(B.simulate('#FF0000','protanopia'),'#6D5F00');assert.equal(B.simulate('#FF0000','deuteranopia'),'#A39000');assert.equal(B.simulate('#FF0000','tritanopia'),'#FF000F');assert.equal(B.contrast('#000000','#FFFFFF'),21);
+});
+test('color transforms preserve lightness, map into gamut, and do not mutate baselines',()=>{
+ const h=harness(),B=h.c.PaletteBuilder,c=B.inventory(h.c.PALETTES[0])[0],before=JSON.stringify(c),out=B.transform(c,80,1.5);
+ assert.equal(JSON.stringify(c),before);out.labs.forEach((p,i)=>{assert.equal(p[0],c.labs[i][0]);assert.ok(h.c.Engine.inG(...p,c.gamut));});
+});
+test('neutral and extreme brand inputs produce finite bounded suggestions',()=>{
+ const h=harness(),b=builder(h);for(const input of ['#808080','#000000','#FFFFFF','color(display-p3 1 0 0)']){h.enter('c1',input);b.suggest();assert.ok(b.proposals().length<=3);for(const c of b.proposals())assert.ok(c.labs.every(p=>p.every(Number.isFinite)));}
+});
+test('storage failures are visible and corrupt project state cannot crash the page',()=>{
+ const h=harness();h.deny();builder(h).select(builder(h).columns()[1].id);assert.match(h.el('builder-save').textContent,/not saved/);
+ const corrupt=harness({'pd.builder.v1':'{broken'});assert.match(corrupt.el('builder-status').textContent,/could not be read/);assert.equal(builder(corrupt).selected().length,1);
+});
+test('a different shared brand link starts brand-only without erasing the saved custom palette',()=>{
+ const h=harness();builder(h).suggest();builder(h).accept(0);const stored=h.storage['pd.builder.v1'];
+ const r=harness(h.storage,'#r2='+encodeURIComponent(JSON.stringify({c1:'#00AABB',c2:null,s1:null,pal:'tailwind4',mode:'through',name:'brand',fmt:'css'})));
+ assert.equal(builder(r).selected().length,1);assert.equal(r.storage['pd.builder.v1'],stored);assert.match(r.el('builder-status').textContent,/different brand/);
+});
+test('invalid seed drafts also disable download and suggestions',()=>{
+ const h=harness();h.set('c1','nope');assert.equal(h.el('download').disabled,true);assert.equal(h.el('suggest').disabled,true);h.enter('c1','#123456');assert.equal(h.el('download').disabled,false);assert.equal(h.el('suggest').disabled,false);
+});
+test('explicit replacement keeps column identity and can undo to the accepted edited ramp',()=>{
+ const h=harness(),b=builder(h);b.suggest();b.accept(0);const id=b.state().active;h.el('edit-name').value='Keep me';h.el('edit-hue').value='18';h.el('edit-chroma').value='90';b.edit();const before=JSON.stringify(b.selected());b.suggest();b.replace(0);assert.equal(b.state().active,id);assert.equal(b.selected().length,2);assert.notEqual(JSON.stringify(b.selected()),before);b.undo();assert.equal(JSON.stringify(b.selected()),before);
+});
+test('normalized export names remain stable across scopes',()=>{
+ const h=harness(),b=builder(h),c=b.columns().find(c=>c.kind==='reference');b.select(c.id);b.open(c.id);h.el('edit-name').value='brand';h.el('edit-hue').value='0';h.el('edit-chroma').value='100';b.edit();assert.match(h.el('code').textContent,/--brand-2-/);h.el('export-scope').value='active';h.el('export-scope').fire('change');assert.match(h.el('code').textContent,/--brand-2-/);
+});
