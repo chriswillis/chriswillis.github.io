@@ -89,6 +89,7 @@
   /* ---------- tool ---------- */
   .tool { display: grid; grid-template-columns: 18.5rem minmax(0, 1fr); gap: 2rem 2.5rem; align-items: start; }
   .intro { grid-column: 1 / -1; max-width: 44rem; }
+  @media (min-width: 62.01rem) { .tool > .controls { grid-column: 1; grid-row: 2 / span 2; } .tool > .result, .tool > .builder { grid-column: 2; } .tool > .builder { margin-top: 1rem; } }
   h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin: 0; text-wrap: balance; }
   .lede { color: var(--tx-2); font-size: 1.05rem; margin: 0.6rem 0 0; max-width: 40rem; }
   h2 { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tx-2); margin: 0 0 0.75rem; }
@@ -108,7 +109,16 @@
     width: 100%; min-width: 0; padding: 0.55rem 0.7rem; border-radius: var(--r); border: 1px solid var(--ui-2);
     background: var(--bg); font-family: var(--mono); font-size: 0.85rem;
   }
-  select { font-family: var(--sans); font-size: 0.9rem; padding-right: 2rem; }
+  select { font-family: var(--sans); font-size: 0.9rem; }
+  select, .builder select, .export-toolbar select {
+    -webkit-appearance: none; appearance: none; padding-right: 2.1rem; text-overflow: ellipsis;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23878580' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; background-size: 10px 6px;
+  }
+  .stopsrow { display: flex; justify-content: space-between; align-items: baseline; }
+  .stopsrow output { font-family: var(--mono); color: var(--tx); }
+  .shapebox input[type=range] { width: 100%; margin: 0; min-height: 1.75rem; accent-color: var(--accent); }
+  .rangescale { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--tx-2); font-family: var(--mono); }
   .txt:hover, select:hover { border-color: var(--ui-3); }
   .txt[aria-invalid="true"] { border-color: var(--re); }
   .err { color: var(--re); font-size: 0.8rem; margin: 0; }
@@ -122,6 +132,14 @@
   .seg button:last-child { border-right: 0; }
   .seg button[aria-pressed="true"] { background: var(--ui); color: var(--tx); font-weight: 400; }
   .hint { font-size: 0.8rem; color: var(--tx-2); margin: 0; }
+  .shapebox { display: flex; flex-direction: column; gap: 0.35rem; padding: 0.75rem; border: 1px solid var(--ui-2); border-radius: var(--r); }
+  .shapebox > .lab { font-size: 0.8rem; color: var(--tx-2); margin-top: 0.4rem; }
+  .shapebox > .lab:first-child { margin-top: 0; }
+  .rangerow { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .rangerow label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; color: var(--tx-2); }
+  .check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; margin-top: 0.5rem; cursor: pointer; }
+  .check input { accent-color: var(--accent); width: 1rem; height: 1rem; margin: 0; }
+  @media (min-width: 40.01rem) { .ramp.dense .sw { padding-left: 0.2rem; padding-right: 0.2rem; align-items: center; } .ramp.dense .sw .step { font-size: 0.7rem; } .ramp.dense .sw .hex, .ramp.dense .sw .aa, .ramp.dense .sw .marks { display: none; } }
 
   /* ---------- the ramp ---------- */
   .result { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
@@ -255,21 +273,24 @@
   .builder p { margin: 0; }
   .builder .note, .builder .status { line-height: 1.6; }
   .builder label { font-size: .82rem; font-weight: 400; }
-  .builder select, .export-toolbar select, .builder input[type=text] { background: var(--bg); border: 1px solid var(--ui-2); border-radius: .4rem; min-height: 40px; padding: .4rem .6rem; max-width: 100%; }
+  .builder select, .export-toolbar select, .builder input[type=text] { background-color: var(--bg); border: 1px solid var(--ui-2); border-radius: .4rem; min-height: 40px; padding: .4rem .6rem; max-width: 100%; }
   .builder input[type=range] { width: 100%; accent-color: var(--accent); min-height: 40px; }
-  #family { min-width: 0; overflow-x: auto; padding: 5px 3px 8px; }
-  .palette-columns { display: flex; gap: 6px; align-items: stretch; }
-  .palette-column { flex: 1 0 66px; max-width: 100px; min-width: 0; display: flex; flex-direction: column; align-items: stretch; border-radius: .5rem; padding: 3px; border: 1px solid transparent; }
-  .palette-column.active { border-color: var(--accent); background: var(--bg-2); }
-  .builder .column-select { align-self: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; margin-bottom: .25rem; }
+  #family { min-width: 0; }
+  .builder #colorset { width: auto; flex: 0 1 auto; }
+  .palette-columns { display: grid; grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr)); gap: .75rem; }
+  .palette-column { min-width: 0; display: flex; flex-direction: column; gap: .5rem; border-radius: .75rem; padding: .5rem; border: 1px solid var(--ui); }
+  .palette-column.included { border-color: var(--ui-3); background: var(--bg-2); }
+  .palette-column.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .builder .column-open { border: 0; background: none; padding: 0; min-height: 0; display: block; border-radius: .5rem; }
+  .column-colors { display: flex; gap: 2px; height: 3.25rem; border-radius: .5rem; overflow: hidden; }
+  .column-colors > span { flex: 1; min-width: 0; }
+  .column-foot { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding-left: .25rem; }
+  .column-meta { display: flex; flex-direction: column; min-width: 0; }
+  .column-name { font-size: .9rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .column-kind { color: var(--tx-2); font-size: .7rem; }
+  .builder .column-select { flex: none; width: 32px; height: 32px; min-height: 32px; padding: 0; border-radius: 50%; }
   .column-select[aria-pressed=true] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-  .builder .column-open { border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: stretch; gap: .4rem; text-align: center; }
-  .column-colors { display: flex; flex-direction: column; height: 174px; border-radius: .25rem; overflow: hidden; opacity: .25; transition: opacity .18s ease; }
-  .included .column-colors, .column-open:hover .column-colors, .column-open:focus-visible .column-colors { opacity: 1; }
-  .column-colors > span { flex: 1; min-height: 0; }
-  .column-name { font-size: .72rem; line-height: 1.35; overflow-wrap: anywhere; }
-  .column-kind { color: var(--tx-2); font-size: .63rem; text-align: center; margin-top: .25rem; }
-  .builder-workspace { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.25rem; }
+  .builder-workspace { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 1.25rem; }
   .ramp-editor, .palette-preview { min-width: 0; padding: 1.2rem; border: 1px solid var(--ui); border-radius: .75rem; display: flex; flex-direction: column; gap: 1rem; }
   .ramp-editor h3, .palette-preview h3, #proposal-heading { font-size: 1.1rem; font-weight: 400; letter-spacing: -.02em; margin: 0; }
   .editor-fields { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; }
@@ -300,7 +321,6 @@
   .export-toolbar label { display: flex; align-items: center; gap: .65rem; font-size: .85rem; }
   .export .tabs button { min-height: 40px; }
   @media(max-width: 760px) { .builder-workspace { grid-template-columns: 1fr; } .builder-head { align-items: flex-start; } .proposal-list { grid-template-columns: 1fr; } .ramp-editor, .palette-preview { padding: .85rem; } }
-  @media(prefers-reduced-motion: reduce) { .column-colors { transition: none; } }
 </style>
 <script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
 </head>
@@ -309,9 +329,9 @@
 <header class="bar">
   <span class="brand"><a href="../">Chris Willis</a> / Palette DNA Ramp</span>
   <nav aria-label="Related">
-    <a href="map.html">Palette DNA Map</a>
+    <a href="map.html" title="See a palette’s shape across hue, lightness and colorfulness.">Palette DNA Map</a>
   </nav>
-  <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark">
+  <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark" title="Switch this page between light and dark.">
     <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 1 0 0 13z" fill="currentColor"/><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
   </button>
 </header>
@@ -328,14 +348,14 @@
         <label class="lab" for="c1"><span>Your color</span><span class="tag" id="c1tag">Example</span></label>
         <div class="colorrow">
           <label class="chip" title="Choose a color"><span id="c1sw"></span><input type="color" id="c1pick" aria-label="Choose your color" /></label>
-          <input class="txt" id="c1" spellcheck="false" placeholder="#D9480F or oklch(…)" aria-describedby="c1err" />
+          <input class="txt" id="c1" spellcheck="false" placeholder="#D9480F or oklch(…)" aria-describedby="c1err" title="Type a hex, RGB, HSL, OKLCH or Display P3 color. The ramp is built around it." />
         </div>
         <p class="err" id="c1err" hidden></p>
       </div>
 
       <div class="field">
         <label class="lab" for="step"><span>Step for your color</span></label>
-        <select id="step"></select>
+        <select id="step" title="Pick which step of the ramp your color becomes. Automatic chooses the step closest in lightness."></select>
         <p class="hint" id="stephint">Choose the step your color should be, such as 500. Automatic uses the closest step in lightness.</p>
       </div>
 
@@ -343,31 +363,51 @@
         <label class="lab" for="c2"><span>Second color</span></label>
         <div class="colorrow">
           <label class="chip" title="Choose a color"><span id="c2sw"></span><input type="color" id="c2pick" aria-label="Choose a second color" /></label>
-          <input class="txt" id="c2" spellcheck="false" placeholder="A lighter or darker tint" aria-describedby="c2err" />
-          <button class="x" type="button" id="c2x" aria-label="Remove second color">✕</button>
+          <input class="txt" id="c2" spellcheck="false" placeholder="A lighter or darker tint" aria-describedby="c2err" title="A lighter or darker tint you already use. The ramp passes through both colors when their lightness differs enough." />
+          <button class="x" type="button" id="c2x" aria-label="Remove second color" title="Remove the second color">✕</button>
         </div>
         <p class="err" id="c2err" hidden></p>
       </div>
-      <button class="linkbtn" type="button" id="c2add">+ Add a second color, such as a tint you already use</button>
+      <button class="linkbtn" type="button" id="c2add" title="Anchor the ramp on two colors, such as a brand color and a tint you already use.">+ Add a second color, such as a tint you already use</button>
 
       <div class="field">
         <label class="lab" for="pal"><span>Shape it like</span></label>
-        <select id="pal"></select>
+        <select id="pal" title="The palette whose lightness steps and colorfulness your ramp borrows. You can also import your own."></select>
         <p class="hint" id="palmeta"></p>
       </div>
 
       <div class="field">
         <span class="lab" id="modelab"><span>Your color</span></span>
         <div class="seg" id="mode" role="group" aria-labelledby="modelab">
-          <button type="button" data-v="through" aria-pressed="true">Through color</button>
-          <button type="button" data-v="fit" aria-pressed="false">Fits the palette</button>
+          <button type="button" data-v="through" aria-pressed="true" title="Build the ramp around your color and keep it as a stop.">Through color</button>
+          <button type="button" data-v="fit" aria-pressed="false" title="Tone your color down if it is more vivid than the palette goes at that hue.">Fits the palette</button>
         </div>
         <p class="hint" id="modehint"></p>
       </div>
 
       <div class="field">
+        <label class="lab" for="shape"><span>Ramp shape</span></label>
+        <select id="shape" title="Reference steps keeps the palette’s own steps. Custom lets you set the number of stops, spacing and lightness range."><option value="ref">Reference steps</option><option value="custom">Custom</option></select>
+        <div class="shapebox" id="shapebox" hidden>
+          <label class="lab stopsrow" for="stops"><span>Color stops</span><output id="stopsval" for="stops"></output></label>
+          <input id="stops" type="range" min="3" max="32" step="1" title="How many colors each ramp has. Drag, or use the arrow keys." />
+          <div class="rangescale" aria-hidden="true"><span>3</span><span>32</span></div>
+          <label class="lab" for="spacing">Step spacing</label>
+          <select id="spacing" title="Follow the reference keeps the palette’s rhythm between steps. Even lightness makes every step the same size."><option value="reference">Follow the reference</option><option value="even">Even lightness</option></select>
+          <label class="lab" for="lrange">Lightness range</label>
+          <select id="lrange" title="Each ramp’s own keeps every ramp’s lightest and darkest values. Set a range gives all ramps the same ends."><option value="own">Each ramp’s own</option><option value="set">Set a range</option></select>
+          <div class="rangerow" id="rangerow" hidden>
+            <label>Darkest %<input class="txt" id="ldark" type="number" min="0.1" max="99.8" step="0.1" inputmode="decimal" title="Lightness of the darkest stop, as OKLCH L. Lower is darker." /></label>
+            <label>Lightest %<input class="txt" id="llight" type="number" min="0.2" max="99.9" step="0.1" inputmode="decimal" title="Lightness of the lightest stop, as OKLCH L. Higher is lighter." /></label>
+          </div>
+          <label class="check" title="Keeps your input as one exact stop. Turn off to use the lightness range and spacing exactly as set."><input type="checkbox" id="lock" checked /> Keep my color exact</label>
+        </div>
+        <p class="hint" id="shapehint"></p>
+      </div>
+
+      <div class="field">
         <label class="lab" for="name"><span>Name for export</span></label>
-        <input class="txt" id="name" spellcheck="false" value="brand" maxlength="40" />
+        <input class="txt" id="name" spellcheck="false" value="brand" maxlength="40" title="Used for variable names in exports, such as --brand-500." />
       </div>
     </form>
 
@@ -382,16 +422,14 @@
         <li><span class="k" aria-hidden="true">Aa</span>Text color with its measured contrast</li>
       </ul>
     </div>
-  </section>
-
   <section class="builder" aria-labelledby="builder-heading">
     <div class="builder-head">
       <div><h2 id="builder-heading">Build your palette</h2><p class="note">Start with your brand. Select a reference hue or suggest companions shaped by the same palette.</p></div>
-      <div class="builder-actions"><span class="tag" id="builder-count">1 selected</span><button type="button" id="builder-undo" disabled>Undo</button><button type="button" class="primary" id="suggest">Suggest companion colors</button></div>
+      <div class="builder-actions"><span class="tag" id="builder-count">1 selected</span><button type="button" id="builder-undo" disabled title="Undo your last change to the working palette.">Undo</button><select id="colorset" aria-label="Add a color set" title="Add every color of a chart color set, such as Tableau 20, as a full ramp shaped like your reference palette."></select><button type="button" class="primary" id="suggest" title="Propose up to three reference hues that stay distinct from your selected colors, including under color-vision simulations.">Suggest companion colors</button></div>
     </div>
     <div id="family"></div><p class="note" id="famnote"></p>
     <div id="proposals" hidden>
-      <div class="builder-head"><h3 id="proposal-heading" tabindex="-1">Suggested companions</h3><button type="button" id="dismiss-proposals">Dismiss suggestions</button></div>
+      <div class="builder-head"><h3 id="proposal-heading" tabindex="-1">Suggested companions</h3><button type="button" id="dismiss-proposals" title="Hide the suggestions without adding them.">Dismiss suggestions</button></div>
       <p class="note">Proposals only. Accept a color to add its full ramp; your existing colors stay unchanged.</p>
       <div class="proposal-list" id="proposal-list"></div>
     </div>
@@ -401,22 +439,22 @@
         <div><h3 id="edit-heading" tabindex="-1">Edit <span id="edit-title">brand</span></h3><p class="note" id="edit-source"></p></div>
         <div class="edit-swatches" id="edit-swatches"></div><p class="note" id="edit-note"></p>
         <div class="editor-fields">
-          <label>Name<input type="text" id="edit-name" maxlength="80" spellcheck="false"></label>
-          <label>Hue shift <output id="edit-hue-value" for="edit-hue">0°</output><input type="range" id="edit-hue" min="-180" max="180" value="0" step="1"></label>
-          <label>Colorfulness <output id="edit-chroma-value" for="edit-chroma">100%</output><input type="range" id="edit-chroma" min="0" max="150" value="100" step="1"></label>
-          <label>Chart step<select id="edit-step"><option value="">Automatic</option></select></label>
+          <label>Name<input type="text" id="edit-name" maxlength="80" spellcheck="false" title="Rename this ramp. The name is used in exports."></label>
+          <label>Hue shift <output id="edit-hue-value" for="edit-hue">0°</output><input type="range" id="edit-hue" min="-180" max="180" value="0" step="1" title="Rotate this ramp’s hue. Lightness steps stay the same."></label>
+          <label>Colorfulness <output id="edit-chroma-value" for="edit-chroma">100%</output><input type="range" id="edit-chroma" min="0" max="150" value="100" step="1" title="Make this ramp more muted or more vivid. Values are limited to the palette’s gamut."></label>
+          <label>Chart step<select id="edit-step" title="Which step of this ramp the chart preview uses. This doesn’t change exported colors."><option value="">Automatic</option></select></label>
         </div>
-        <div class="editor-actions"><button type="button" id="edit-reset">Reset edits</button><button type="button" id="edit-remove">Remove companion</button></div>
+        <div class="editor-actions"><button type="button" id="edit-reset" title="Remove the hue, colorfulness and name changes on this ramp.">Reset edits</button><button type="button" id="edit-remove" title="Take this ramp out of your palette and clear its edits.">Remove companion</button></div>
       </section>
       <section class="palette-preview" aria-labelledby="preview-heading">
         <h3 id="preview-heading">See your colors together</h3>
         <div class="preview-controls">
-          <label>Chart background<select id="preview-bg"><option value="light">Light · #FFFFFF</option><option value="dark">Dark · #181818</option></select></label>
-          <label>Color vision<select id="preview-vision"><option value="normal">Normal vision</option><option value="protanopia">Protanopia · red</option><option value="deuteranopia">Deuteranopia · green</option><option value="tritanopia">Tritanopia · blue</option></select></label>
+          <label>Chart background<select id="preview-bg" title="Preview the chart on a light or dark background. Contrast is measured against it."><option value="light">Light · #FFFFFF</option><option value="dark">Dark · #181818</option></select></label>
+          <label>Color vision<select id="preview-vision" title="Simulate how the chart colors look with a color-vision deficiency. Exports are not changed."><option value="normal">Normal vision</option><option value="protanopia">Protanopia · red</option><option value="deuteranopia">Deuteranopia · green</option><option value="tritanopia">Tritanopia · blue</option></select></label>
         </div>
         <div class="chart" id="chart" aria-label="Illustrative categorical bar chart"></div>
         <p class="metric-note" id="pair-metric"></p>
-        <details><summary class="builder-summary">Contrast &amp; preview method</summary>
+        <details><summary class="builder-summary" title="Contrast of each chart color and how the preview is calculated.">Contrast &amp; preview method</summary>
           <div class="tablewrap"><table><caption class="note">Original sRGB chart colors against the chosen background</caption><thead><tr><th scope="col">Ramp · step</th><th scope="col">sRGB</th><th scope="col">Contrast</th><th scope="col">Reference levels</th></tr></thead><tbody id="chart-metrics"></tbody></table></div>
           <p class="note">* Wide-gamut value shown as an sRGB fallback. Contrast uses the original chart colors, not the simulation. 4.5:1 is a normal-text reference; 3:1 is a large-text and meaningful-graphic reference, not a verdict on the whole chart. Labels keep categories identifiable without color alone.</p>
           <p class="note">Simulations use <a href="https://doi.org/10.1109/TVCG.2009.113">Machado, Oliveira &amp; Fernandes (2009)</a>, severity 1.0, in linear sRGB. They approximate three deficiencies; individual perception varies. Pair distances use the displayed simulation. No simulation or color-distance score certifies accessibility.</p>
@@ -425,22 +463,23 @@
       </section>
     </div>
     <p class="note" id="builder-save"></p>
-    <details><summary class="builder-summary">Brand ramp text contrast</summary><div class="brand-contrast"><div class="tablewrap"><table id="contrast"></table></div><p class="note">The lightest or darkest step of the brand ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p></div></details>
+    <details><summary class="builder-summary" title="Which brand steps pass text contrast on light and dark backgrounds.">Brand ramp text contrast</summary><div class="brand-contrast"><div class="tablewrap"><table id="contrast"></table></div><p class="note">The lightest or darkest step of the brand ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p></div></details>
+  </section>
   </section>
 
   <section class="export" aria-label="Export">
     <h2>Export your palette</h2>
-    <div class="export-toolbar"><label>Include<select id="export-scope"><option value="selected">Selected ramps</option><option value="active">Active ramp</option><option value="all">All available ramps</option></select></label></div>
+    <div class="export-toolbar"><label>Include<select id="export-scope" title="Choose which ramps the export includes."><option value="selected">Selected ramps</option><option value="active">Active ramp</option><option value="all">All available ramps</option></select></label></div>
     <p class="note" id="export-summary"></p>
     <p class="note">CSS oklch and Tailwind v4 retain wide-gamut color. Hex values in CSS, Tailwind v3 and design tokens are rounded sRGB fallbacks; token extensions also include OKLCH.</p>
     <div class="tabs" role="group" aria-label="Export format" id="tabs">
-      <button type="button" data-f="css" aria-pressed="true">CSS</button>
-      <button type="button" data-f="oklch" aria-pressed="false">CSS oklch</button>
-      <button type="button" data-f="tw4" aria-pressed="false">Tailwind v4</button>
-      <button type="button" data-f="tw3" aria-pressed="false">Tailwind v3</button>
-      <button type="button" data-f="json" aria-pressed="false">Design tokens</button>
-      <button type="button" class="copy" id="copy">Copy</button>
-      <button type="button" id="download">Download</button>
+      <button type="button" data-f="css" aria-pressed="true" title="CSS variables with hex values.">CSS</button>
+      <button type="button" data-f="oklch" aria-pressed="false" title="CSS variables in OKLCH. Keeps wide-gamut colors.">CSS oklch</button>
+      <button type="button" data-f="tw4" aria-pressed="false" title="A Tailwind v4 @theme block in OKLCH.">Tailwind v4</button>
+      <button type="button" data-f="tw3" aria-pressed="false" title="Colors for theme.extend.colors in tailwind.config.js.">Tailwind v3</button>
+      <button type="button" data-f="json" aria-pressed="false" title="Design tokens as JSON, with hex values.">Design tokens</button>
+      <button type="button" class="copy" id="copy" title="Copy the export code to the clipboard.">Copy</button>
+      <button type="button" id="download" title="Download the export as a file.">Download</button>
     </div>
     <pre id="code" tabindex="0"></pre>
     <div class="status" id="status" role="status"></div>
@@ -449,7 +488,7 @@
   <section class="notes" id="why">
     <h2>Why borrow a palette's shape</h2>
     <p>Formula generators apply the same rule at every hue. That keeps ramps consistent, but it loses the hue-by-hue decisions in palettes their designers authored. In our tests, Material 3, which is generated from a formula, was far easier to rebuild than designer-authored palettes such as Flexoki: a median error of <span data-evidence="palette.material3.auto.median">0.34</span> against <span data-evidence="palette.flexoki.auto.median">2.27</span> ΔE OK ×100, where about 2 is one just-noticeable difference. Not every authored palette is hard to predict: Radix scored <span data-evidence="palette.radix.auto.median">0.82</span>.</p>
-    <p>This tool reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">113</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">67%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">54%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
+    <p>This tool reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">149</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">65%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">52%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
   </section>
 
   <section class="notes" id="compare">
@@ -479,6 +518,8 @@
     <h2>How it works</h2>
     <p>Each reference palette is treated as a shape. Its ramps are wrapped around a surface in Oklab, a color space where equal distances look about equally different. Your color is placed on that surface by its hue, lightness and colorfulness. The new ramp follows the surface: the same lightness steps, and the same rise and fall in colorfulness, as the palette's own ramps at that hue.</p>
     <p><b>Through color</b> shapes the ramp around your color. Gamut limits, neutral substitution and shared anchor steps can change or omit an input; the result reports those changes. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
+    <p><b>Ramp shape.</b> Custom resamples every ramp to 3–32 stops. Each ramp keeps its own lightest and darkest values unless you set a range, and colorfulness is carried as a share of what the gamut allows at each new lightness. A custom shape left at its starting values returns the reference steps unchanged. Your color stays an exact stop unless you turn that off; a range that excludes it is widened and the result says so.</p>
+    <p><b>Color sets.</b> Chart color sets such as Tableau 20 have too few steps per hue to act as a reference, so they work as starting colors instead. <b>Add a color set</b> builds one ramp per color, shaped like your reference palette and kept through that color and, where it fits, its lighter pair. The chart preview starts on the set’s own colors. Tableau 20 values are from Tableau’s 2016 redesign and belong to Tableau.</p>
     <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page validates the colors and keeps the palette in this browser only.</p>
     <p>The numbers above come from hiding each real ramp, rebuilding it from its most colorful step, and comparing the result with the shipped ramp. Reported input differences use ΔE OK ×100; zero means the same internal color. Hex exports round to 8-bit sRGB; use CSS oklch for higher precision and wide-gamut colors.</p>
     <p>For a deeper look at a palette's shape, open <a href="map.html">Palette DNA Map</a>. For a similar approach and more creative color explorations, check out <a href="https://meodai.github.io/dittoTones/">dittoTones</a> and other tools by David Aerne.</p>
@@ -489,23 +530,25 @@
 
 <dialog id="imp" aria-labelledby="imph">
   <form method="dialog" class="imp" id="impform">
-    <div class="imphead"><h2 id="imph">Import your palette</h2><button class="x" type="submit" value="cancel" id="impx" aria-label="Close">✕</button></div>
+    <div class="imphead"><h2 id="imph">Import your palette</h2><button class="x" type="submit" value="cancel" id="impx" aria-label="Close" title="Close without importing">✕</button></div>
     <p class="hint">Paste your color variables or tokens, or upload the file. CSS, SCSS, Less and JSON all work, as long as names end in a step, like <code>blue-500</code> or <code>blue.500</code>.</p>
-    <div class="field"><label class="lab" for="impn"><span>Name</span></label><input class="txt" id="impn" value="My palette" maxlength="60" spellcheck="false" /></div>
+    <div class="field"><label class="lab" for="impn"><span>Name</span></label><input class="txt" id="impn" value="My palette" maxlength="60" spellcheck="false" title="The name shown in the Shape it like menu." /></div>
     <div class="field">
-      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><button class="linkbtn" type="button" id="upload">Upload a file</button><button class="linkbtn" type="button" id="impex">Load an example</button></span></label>
+      <label class="lab" for="impt"><span>Colors</span><span class="impbtns"><button class="linkbtn" type="button" id="upload" title="Choose a CSS, SCSS, Less or JSON file of color tokens.">Upload a file</button><button class="linkbtn" type="button" id="impex" title="Fill the box with Open Color as a sample.">Load an example</button></span></label>
       <input type="file" id="impf" accept=".css,.scss,.less,.json,.js,.ts,.txt,text/*,application/json" hidden />
-      <textarea class="txt" id="impt" rows="8" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …"></textarea>
+      <textarea class="txt" id="impt" rows="8" spellcheck="false" placeholder=":root {&#10;  --red-50: #fef2f2;&#10;  --red-100: #fee2e2;&#10;  …" title="Paste variables or tokens whose names end in a step, such as blue-500. At least four color ramps are needed."></textarea>
     </div>
     <div id="impp" aria-live="polite"></div>
-    <div class="impfoot"><span class="hint">Saved in this browser only. Nothing is uploaded.</span><button class="primary" type="button" id="impok" disabled>Add palette</button></div>
+    <div class="impfoot"><span class="hint">Saved in this browser only. Nothing is uploaded.</span><button class="primary" type="button" id="impok" disabled title="Save this palette in your browser and use it as the reference.">Add palette</button></div>
   </form>
 </dialog>
-<script src="../assets/palette-dna/palettes.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/engine.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/importer.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/builder.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/builder-ui.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/palettes.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/colorsets.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/engine.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/importer.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/builder.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/layout.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/builder-ui.js?v=2026-11-16"></script>
 <script>
 // Palette DNA Ramp: one or two seed colors → a ramp shaped like a reference palette, with explicit input-preservation feedback.
 // Engine, Importer and PALETTES come from assets/palette-dna/.
@@ -522,7 +565,7 @@
   PALS = BUILTIN.concat(loadUser());
   var PI2 = Math.PI * 2, R2D = 180 / Math.PI;
   var EXAMPLE = '#9D58BA';
-  var st = { c1: EXAMPLE, c2: null, s1: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true, stepNote: null };
+  var st = { c1: EXAMPLE, c2: null, s1: null, pal: 'tailwind4', mode: 'through', name: 'brand', fmt: 'css', example: true, stepNote: null, shape: null };
   var models = {}, loo = {}, last = null;
 
   // ---------- small helpers ----------
@@ -567,7 +610,7 @@
   function meanU(us) { var x = 0, y = 0; us.forEach(function (u) { x += Math.cos(u); y += Math.sin(u); }); return Math.atan2(y, x); }
 
   // ---------- generate ----------
-  function generate() {
+  function generateBase() {
     var pal = palById(st.pal), M = model(st.pal), g = pal.gamut;
     var s1 = parse(st.c1), s2 = st.c2 ? parse(st.c2) : null;
     if (!s1) return null;
@@ -604,6 +647,27 @@
     return out;
   }
 
+  // The engine's ramp, then the optional ramp shape (stop count, lightness range, spacing).
+  function generate() {
+    var o = generateBase(); if (!o) return o;
+    o.nativeCount = o.cells.length;
+    if (o.kind === 'exact') o.exactStep = o.cells.filter(function (c) { return c.anchor; })[0].step;
+    if (!st.shape) return o;
+    var before = o.cells, r = RampLayout.apply({
+      steps: before.map(function (c) { return String(c.step); }), labs: before.map(function (c) { return c.lab; }), gamut: o.pal.gamut,
+      anchors: before.map(function (c, i) { return c.anchor ? { index: i } : null; }).filter(Boolean)
+    }, st.shape);
+    o.cells = r.labs.map(function (p, i) {
+      var s = before[r.from[i]], a = r.anchors.filter(function (x) { return x.index === i; })[0];
+      return { lab: p, step: r.steps[i], anchor: !!a, seedIndex: a ? before[a.from].seedIndex : -1, beyond: !!s.beyond, ext: !!s.ext, clipped: !!s.clipped };
+    });
+    o.steps = r.steps; o.shaped = true; o.relabeled = r.steps.length !== before.length; o.unlocked = st.shape.lock === false;
+    o.reshaped = o.relabeled || o.cells.some(function (c, i) { return Engine.dE(c.lab, before[i].lab) > 1e-9; });
+    r.notes.forEach(function (n) { o.notes.push(n); });
+    if (o.kind === 'gen') o.moved = o.cells.filter(function (c) { return c.anchor; }).map(function (c) { return { step: c.step, e: Engine.dE(c.lab, o.seeds[c.seedIndex].lab) }; });
+    return o;
+  }
+
   // ---------- render ----------
   function textOn(pal, p) {
     var yl = Yof(Engine.parse(pal.poles.light)), yd = Yof(Engine.parse(pal.poles.dark)), y = Yof(p);
@@ -612,6 +676,7 @@
   }
   function renderRamp(o) {
     var g = o.pal.gamut, name = slug(st.name);
+    if ($('ramp').classList) $('ramp').classList.toggle('dense', o.cells.length > 16);
     $('ramp').innerHTML = o.cells.map(function (c) {
       var p = c.lab, t = textOn(o.pal, p), hx = hexOf(p), p3 = !inSrgb(p);
       var marks = (c.beyond ? '<span title="More vivid than the palette goes at this hue and lightness">↑</span>' : '') + (p3 ? '<span title="Outside sRGB; shown in Display P3">P3</span>' : '');
@@ -625,7 +690,7 @@
     var pal = o.pal, pill, cls, say = [];
     if (o.kind === 'exact') {
       cls = 'same'; pill = 'The palette’s own ramp';
-      say.push('Your color is ' + esc(pal.name) + ' ' + esc(o.rampName) + '-' + esc(o.cells.filter(function (c) { return c.anchor; })[0].step) + ', so this is the ramp its designers made.');
+      say.push('Your color is ' + esc(pal.name) + ' ' + esc(o.rampName) + '-' + esc(o.exactStep) + ', so this is the ramp its designers made' + (o.reshaped ? ', with your ramp shape applied.' : '.'));
     } else if (o.kind === 'neutral') {
       cls = 'same'; pill = 'Gray';
       say.push('Your color is close to gray, so this is ' + esc(pal.name) + '’s own neutral ramp. Add a little color to get a tinted ramp.');
@@ -641,12 +706,13 @@
       var c = o.cells.filter(function (cell) { return cell.anchor && cell.seedIndex === i; })[0];
       if (!c) {
         if (o.kind === 'neutral') return;
+        if (o.unlocked && !seed.map.neutral) { say.push(who + ' is not kept exactly, because Keep my color exact is off.'); return; }
         say.push(who + ' was not kept as an anchor' + (!i && o.seeds.length > 1 && !seed.map.neutral ? ', because your second color is almost the same lightness.' : '.'));
         if (!i && pin && pin.reason === 'neutral') say.push('The step you chose doesn’t apply to a gray color.');
         return;
       }
       var e = Engine.dE(c.lab, seed.lab), equal = e < 1e-7, where = '', after = '';
-      if (!i && o.kind === 'gen') {
+      if (!i && o.kind === 'gen' && !o.relabeled) {
         if (pin && pin.applied) { where = ', the step you chose'; if (pin.auto && pin.auto !== c.step) after = ' Automatic placement would use step ' + esc(pin.auto) + '.'; }
         else {
           where = ', the closest step in lightness';
@@ -711,7 +777,7 @@
   function renderPalMeta() {
     var p = palById(st.pal), el = $('palmeta');
     if (!p.user) { el.textContent = p.name + ' ' + p.version + ' \u00b7 ' + p.license + (p.origin ? ' \u00b7 ' + ORIGIN[p.origin.kind] : ''); return; }
-    el.innerHTML = esc((p.source || 'Imported').replace(/^Imported /, 'Imported ')) + ' \u00b7 ' + Object.keys(p.ramps).length + ' ramps \u00b7 <button class="linkbtn" type="button" id="palrm">' + (removeArmed ? 'Select again to remove it' : 'Remove') + '</button>';
+    el.innerHTML = esc((p.source || 'Imported').replace(/^Imported /, 'Imported ')) + ' \u00b7 ' + Object.keys(p.ramps).length + ' ramps \u00b7 <button class="linkbtn" type="button" id="palrm" title="Remove this imported palette from your browser.">' + (removeArmed ? 'Select again to remove it' : 'Remove') + '</button>';
   }
   function renderControls() {
     $('pal').value = st.pal; renderPalMeta();
@@ -720,6 +786,15 @@
     $('step').value = st.s1 || '';
     $('mode').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === st.mode ? 'true' : 'false'); });
     $('modehint').textContent = st.mode === 'fit' ? 'Your color is toned down if it is more vivid than the palette goes at that hue.' : 'The ramp follows your color; any approximation or replacement is reported below.';
+    var sh = st.shape, setv = function (id, v) { if (document.activeElement !== $(id)) $(id).value = String(v); };
+    $('shape').value = sh ? 'custom' : 'ref'; $('shapebox').hidden = !sh;
+    if (sh) {
+      setv('stops', sh.count); $('stopsval').textContent = String(sh.count); $('spacing').value = sh.spacing; $('lock').checked = sh.lock;
+      $('lrange').value = sh.dark === null ? 'own' : 'set'; $('rangerow').hidden = sh.dark === null;
+      if (sh.dark !== null) { setv('ldark', sh.dark); setv('llight', sh.light); }
+    }
+    $('shapehint').textContent = sh ? 'Applies to every ramp in your palette. Stops are numbered 01, 02 and so on when the count differs from the reference.' : 'Uses the reference palette’s own steps and lightness.';
+    $('stephint').textContent = sh && sh.count !== sp.steps.length ? 'Places your color on a reference step before the ramp is reshaped. Automatic uses the closest step in lightness.' : 'Choose the step your color should be, such as 500. Automatic uses the closest step in lightness.';
     $('c1tag').hidden = !st.example;
     $('c2field').hidden = st.c2 === null; $('c2add').hidden = st.c2 !== null;
     [['c1', st.c1], ['c2', st.c2]].forEach(function (x) {
@@ -746,10 +821,12 @@
   // ---------- state: hash (shareable), then this browser's last visit ----------
   function hashOf() {
     var a = parse(st.c1), b = st.c2 ? parse(st.c2) : null; if (!a) return '';
-    return '#r2=' + encodeURIComponent(JSON.stringify({ c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt }));
+    var link = { c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt };
+    if (st.shape) link.shape = st.shape;
+    return '#r2=' + encodeURIComponent(JSON.stringify(link));
   }
   function save() {
-    try { localStorage.setItem('rk.state', JSON.stringify({ c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt, example: st.example })); } catch (e) {}
+    try { localStorage.setItem('rk.state', JSON.stringify({ c1: st.c1, c2: st.c2, s1: st.s1, pal: st.pal, mode: st.mode, name: st.name, fmt: st.fmt, example: st.example, shape: st.shape })); } catch (e) {}
     try { var h = hashOf(); if (h && h !== location.hash) history.replaceState(null, '', h); } catch (e) {}
   }
   function load() {
@@ -763,6 +840,7 @@
         if (s.mode === 'fit' || s.mode === 'through') st.mode = s.mode;
         if (typeof s.name === 'string') st.name = s.name;
         if (/^(css|oklch|tw4|tw3|json)$/.test(s.fmt)) st.fmt = s.fmt;
+        st.shape = RampLayout.normalize(s.shape);
         st.example = s.example !== false && st.c1 === EXAMPLE;
       }
     } catch (e) {}
@@ -773,6 +851,7 @@
         if (!palById(h.pal)) { $('status').textContent = 'This link uses a palette unavailable in this browser. Showing the last valid local settings instead.'; return; }
         st.c1 = h.c1; st.c2 = h.c2; st.pal = h.pal; st.mode = h.mode; st.example = false;
         st.s1 = typeof h.s1 === 'string' ? h.s1 : null;
+        st.shape = RampLayout.normalize(h.shape);
         if (typeof h.name === 'string') st.name = h.name.slice(0,40);
         if (/^(css|oklch|tw4|tw3|json)$/.test(h.fmt)) st.fmt = h.fmt;
       } catch (e) { $('status').textContent = 'This saved link could not be read. Showing the last valid local settings.'; }
@@ -820,6 +899,39 @@
   });
   $('c2x').addEventListener('click', function () { st.c2 = null; invalidInputs.c2 = false; inputReadiness(); $('c2err').hidden = true; render(); $('c2add').focus(); });
   $('step').addEventListener('change', function () { st.s1 = $('step').value || null; render(); });
+  // ---------- ramp shape ----------
+  $('shape').addEventListener('change', function () {
+    st.shape = $('shape').value === 'custom' ? RampLayout.normalize({ count: last ? last.nativeCount : palById(st.pal).steps.length, dark: null, light: null, spacing: 'reference', lock: true }) : null;
+    render();
+  });
+  // typing applies values that are already in range; leaving the field clamps and rewrites it
+  function bindShapeNumber(id, key, lo, hi) {
+    function go(commit) {
+      if (!st.shape) return;
+      var raw = $(id).value, v = Number(raw);
+      if (raw !== '' && Number.isFinite(v) && (commit || (v >= lo && v <= hi))) {
+        v = Math.max(lo, Math.min(hi, v));
+        if (key === 'count') st.shape.count = Math.round(v);
+        else if (key === 'dark') st.shape.dark = Math.min(v, st.shape.light - 0.1);
+        else st.shape.light = Math.max(v, st.shape.dark + 0.1);
+        st.shape = RampLayout.normalize(st.shape); render();
+      }
+      if (commit) $(id).value = String(st.shape[key]);
+    }
+    $(id).addEventListener('input', function () { go(false); });
+    $(id).addEventListener('change', function () { go(true); });
+  }
+  bindShapeNumber('stops', 'count', RampLayout.MIN, RampLayout.MAX); bindShapeNumber('ldark', 'dark', 0.1, 99.8); bindShapeNumber('llight', 'light', 0.2, 99.9);
+  $('spacing').addEventListener('change', function () { if (!st.shape) return; st.shape.spacing = $('spacing').value === 'even' ? 'even' : 'reference'; render(); });
+  $('lock').addEventListener('change', function () { if (!st.shape) return; st.shape.lock = !!$('lock').checked; render(); });
+  $('lrange').addEventListener('change', function () {
+    if (!st.shape) return;
+    if ($('lrange').value === 'set' && last) {
+      var Ls = last.cells.map(function (c) { return c.lab[0] * 100; }), d = +Math.min.apply(null, Ls).toFixed(1), l = +Math.max.apply(null, Ls).toFixed(1);
+      st.shape.dark = Math.max(0.1, Math.min(d, 99.8)); st.shape.light = Math.min(99.9, Math.max(l, st.shape.dark + 0.1));
+    } else { st.shape.dark = null; st.shape.light = null; }
+    st.shape = RampLayout.normalize(st.shape); render();
+  });
   $('pal').addEventListener('change', function () {
     if ($('pal').value === '__import') { $('pal').value = st.pal; openImport(); return; }
     st.pal = $('pal').value; removeArmed = false; render();

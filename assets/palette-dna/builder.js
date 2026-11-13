@@ -98,6 +98,24 @@ var PaletteBuilder = (function () {
     }
     return chosen;
   }
+  // A color set (see colorsets.js) → one full ramp per color, shaped by the model M of palette pal.
+  // Each color is kept as an anchor, with its lighter pair as a second anchor where the two differ enough in lightness.
+  function fromSet(set, pal, M, cap) {
+    return set.pairs.map(function(pair) {
+      var seeds = [pair.color].concat(pair.tint ? [pair.tint] : []).map(function(x) { var lab = Engine.parse(x); return { lab: lab, map: M.seedMap(lab) }; });
+      var gen = seeds.some(function(s) { return !s.map.neutral; }) ? M.genAnchors(seeds, { cap: !!cap }) : null;
+      var c = { name: (set.prefix || set.name) + ' ' + pair.name, source: set.name + ' · shaped like ' + pal.name, kind: 'companion', origin: 'set:' + set.id + ':' + pair.name, gamut: pal.gamut, chartStep: null, kept: 0 };
+      if (gen) {
+        c.steps = gen.map(function(p) { return String(p.step); }); c.labs = gen.map(function(p) { return [p.L, p.a, p.b]; });
+        gen.forEach(function(p) { if (p.anchor) { c.kept++; if (p.seedIndex === 0) c.chartStep = String(p.step); } });
+      } else { c.steps = M.neutral.steps.slice(); c.labs = M.neutral.labs.map(function(p) { return p.slice(); }); c.neutralFallback = true; }
+      return c;
+    });
+  }
+  // The closest pair among a set's own colors, under the same simulation the chart preview uses.
+  function setBenchmark(set, mode) {
+    return weakest(set.pairs.map(function(pair) { return { name: pair.name, lab: Engine.parse(simulate(pair.color.toUpperCase(), mode)) }; }));
+  }
   function named(cols) {
     var used = new Set();
     return cols.map(function(c) { var x = Object.assign({},c), base=slug(c.name), n=base, i=2; while(used.has(n)) n=base+'-'+i++; used.add(n); x.exportName=n; return x; });
@@ -123,5 +141,5 @@ var PaletteBuilder = (function () {
     if(fmt==='tw3') return '// Add to theme.extend.colors in tailwind.config.js\n{\n'+blocks.join('\n')+'\n}\n';
     return (wide&&fmt==='css'?'/* sRGB fallbacks; use CSS OKLCH for wide-gamut values. */\n':'')+(fmt==='tw4'?'@theme {\n':':root {\n')+blocks.join('\n')+'\n}\n';
   }
-  return { LIMIT:LIMIT, clone:clone, slug:slug, hex:hex, ok:ok, inventory:inventory, validColumn:validColumn, transform:transform, simulate:simulate, contrast:contrast, chartIndex:chartIndex, chartRows:chartRows, weakest:weakest, suggest:suggest, named:named, serialize:serialize };
+  return { LIMIT:LIMIT, clone:clone, slug:slug, hex:hex, ok:ok, inventory:inventory, validColumn:validColumn, transform:transform, simulate:simulate, contrast:contrast, chartIndex:chartIndex, chartRows:chartRows, weakest:weakest, suggest:suggest, fromSet:fromSet, setBenchmark:setBenchmark, named:named, serialize:serialize };
 })();

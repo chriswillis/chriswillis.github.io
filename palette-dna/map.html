@@ -292,7 +292,7 @@
     <summary>Why borrow a palette's shape</summary>
     <div class="notes">
       <p>Formula generators apply the same rule at every hue. That keeps ramps consistent, but it loses the hue-by-hue decisions in palettes their designers authored. In our tests, Material 3, which is generated from a formula, was far easier to rebuild than designer-authored palettes such as Flexoki: a median error of <span data-evidence="palette.material3.auto.median">0.34</span> against <span data-evidence="palette.flexoki.auto.median">2.27</span> ΔE OK ×100, where about 2 is one just-noticeable difference. Not every authored palette is hard to predict: Radix scored <span data-evidence="palette.radix.auto.median">0.82</span>.</p>
-      <p>This engine reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">113</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">67%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">54%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
+      <p>This engine reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">149</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">65%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">52%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
     </div>
   </details>
 </header>
@@ -510,9 +510,9 @@
   <div class="impa"><span class="note">Stays in this browser only.</span><button class="tt" id="impok" disabled>Add palette</button></div>
 </dialog>
 
-<script src="../assets/palette-dna/palettes.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/engine.js?v=2026-11-15"></script>
-<script src="../assets/palette-dna/importer.js?v=2026-11-15"></script>
+<script src="../assets/palette-dna/palettes.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/engine.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/importer.js?v=2026-11-16"></script>
 <script>
 (function () {
   var BUILTIN = PALETTES.slice(), PALS = BUILTIN.slice();
