@@ -116,6 +116,22 @@ var PaletteBuilder = (function () {
   function setBenchmark(set, mode) {
     return weakest(set.pairs.map(function(pair) { return { name: pair.name, lab: Engine.parse(simulate(pair.color.toUpperCase(), mode)) }; }));
   }
+  // One row per step of each ramp, in OKLCH, with its contrast on white and black; plus the segments between
+  // neighboring steps, each colored by its midpoint. Feeds the lightness and chroma chart.
+  function analytics(cols) {
+    var rows = [], segments = [], labels = [];
+    cols.forEach(function(c) {
+      var first = rows.length, peak = null;
+      c.labs.forEach(function(p, i) {
+        var hx = hex(p), C = Math.hypot(p[1], p[2]);
+        var row = { ramp: c.name, step: c.steps[i], index: i, L: p[0], C: C, H: C < 0.0005 ? null : (Math.atan2(p[2], p[1]) * 180 / Math.PI + 360) % 360, hex: hx, onWhite: contrast(hx, '#FFFFFF'), onBlack: contrast(hx, '#000000') };
+        rows.push(row); if (!peak || C > peak.C) peak = row;
+        if (i) { var q = c.labs[i - 1], prev = rows[rows.length - 2]; segments.push({ ramp: c.name, x1: prev.L, y1: prev.C, x2: row.L, y2: row.C, hex: hex([(p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2]) }); }
+      });
+      if (rows.length > first) labels.push({ ramp: c.name, L: peak.L, C: peak.C, hex: peak.hex });
+    });
+    return { rows: rows, segments: segments, labels: labels };
+  }
   function named(cols) {
     var used = new Set();
     return cols.map(function(c) { var x = Object.assign({},c), base=slug(c.name), n=base, i=2; while(used.has(n)) n=base+'-'+i++; used.add(n); x.exportName=n; return x; });
@@ -141,5 +157,5 @@ var PaletteBuilder = (function () {
     if(fmt==='tw3') return '// Add to theme.extend.colors in tailwind.config.js\n{\n'+blocks.join('\n')+'\n}\n';
     return (wide&&fmt==='css'?'/* sRGB fallbacks; use CSS OKLCH for wide-gamut values. */\n':'')+(fmt==='tw4'?'@theme {\n':':root {\n')+blocks.join('\n')+'\n}\n';
   }
-  return { LIMIT:LIMIT, clone:clone, slug:slug, hex:hex, ok:ok, inventory:inventory, validColumn:validColumn, transform:transform, simulate:simulate, contrast:contrast, chartIndex:chartIndex, chartRows:chartRows, weakest:weakest, suggest:suggest, fromSet:fromSet, setBenchmark:setBenchmark, named:named, serialize:serialize };
+  return { LIMIT:LIMIT, clone:clone, slug:slug, hex:hex, ok:ok, inventory:inventory, validColumn:validColumn, transform:transform, simulate:simulate, contrast:contrast, chartIndex:chartIndex, chartRows:chartRows, weakest:weakest, suggest:suggest, fromSet:fromSet, setBenchmark:setBenchmark, analytics:analytics, named:named, serialize:serialize };
 })();

@@ -113,7 +113,46 @@ var PaletteBuilderUI = (function () {
       $('export-summary').textContent=cols.length+' ramp'+(cols.length===1?'':'s')+' · '+(state.scope==='all'?'Includes unused references and accepted companions. Proposals are excluded.':state.scope==='active'?'Exports the open ramp, even if it is not selected.':'Only selected ramps, with your edits.')+' Names are normalized for export; duplicates receive a numeric suffix.';
       $('copy').disabled=invalid||!cols.length;$('download').disabled=$('copy').disabled;
     }
-    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id;renderColumns();renderProposals();renderEditor();renderChart();renderExport();if(action&&id){Array.prototype.forEach.call($('family').querySelectorAll('[data-action]'),function(b){if(b.dataset.action===action&&b.dataset.id===id)b.focus();});}}
+    // Lightness and chroma chart (Observable Plot, loaded on demand so the tool works without it).
+    var PLOT_SRC=['https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js','https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.17/dist/plot.umd.min.js'], plotState='idle';
+    function loadPlot(){
+      if(plotState!=='idle'||!document.createElement||!document.head)return;
+      plotState='loading';var i=0;
+      (function next(){
+        if(i>=PLOT_SRC.length){plotState='ready';renderAnalytics();return;}
+        var el=document.createElement('script');el.src=PLOT_SRC[i++];el.onload=next;
+        el.onerror=function(){plotState='failed';renderAnalytics();};document.head.appendChild(el);
+      })();
+    }
+    function renderAnalytics(){
+      var box=$('analytics'), cols=selected(), data=B.analytics(cols), n=cols.length;
+      var summary=n?n+' selected ramp'+(n===1?'':'s')+' · '+data.rows.length+' colors. Each line is one ramp; each dot is a step in its own color. Hover or tap a dot for its values and text contrast.':'Select a ramp to plot it.';
+      if(typeof Plot==='undefined'){
+        $('analytics-note').textContent=plotState==='failed'?'The chart could not load Observable Plot. Check your connection and reload; the rest of the tool is unaffected.':n?'Loading the chart…':summary;
+        loadPlot();return;
+      }
+      $('analytics-note').textContent=summary;
+      if(!n||!box.replaceChildren){if(box.replaceChildren)box.replaceChildren();return;}
+      var width=Math.max(320,Math.round(box.clientWidth||720)), maxC=Math.max.apply(null,data.rows.map(function(r){return r.C;}).concat([0.05]));
+      var tip=function(r){return r.ramp+' '+r.step+'  '+r.hex+'\nLightness '+(r.L*100).toFixed(1)+'%  ·  Chroma '+r.C.toFixed(3)+(r.H===null?'':'  ·  Hue '+r.H.toFixed(0)+'°')+'\nContrast '+r.onWhite.toFixed(2)+':1 on white  ·  '+r.onBlack.toFixed(2)+':1 on black';};
+      var chart=Plot.plot({
+        width:width,height:Math.round(Math.min(440,Math.max(280,width*0.5))),marginLeft:52,marginBottom:44,marginTop:24,marginRight:16,
+        style:{background:'transparent',fontFamily:'inherit',fontSize:'12px',overflow:'visible'},
+        x:{label:'OKLCH lightness',labelAnchor:'center',labelArrow:'none',grid:true,nice:true,tickFormat:function(v){return Math.round(v*100)+'%';}},
+        y:{label:'OKLCH chroma',labelAnchor:'center',labelArrow:'none',grid:true,domain:[0,Math.ceil(maxC*1.12*20)/20]},
+        color:{type:'identity'},
+        marks:[
+          Plot.frame({stroke:'currentColor',strokeOpacity:.3}),
+          Plot.link(data.segments,{x1:'x1',y1:'y1',x2:'x2',y2:'y2',stroke:'hex',strokeWidth:3,strokeLinecap:'round'}),
+          Plot.dot(data.rows,{x:'L',y:'C',fill:'hex',r:n>8?3.5:5,stroke:'currentColor',strokeOpacity:.35,strokeWidth:.75}),
+          (n<=6||width>=640)?Plot.text(data.labels,{x:'L',y:'C',text:'ramp',dy:-12,fill:'currentColor',fontSize:11,stroke:'var(--bg)',strokeWidth:3}):null,
+          Plot.tip(data.rows,Plot.pointer({x:'L',y:'C',title:tip,lineWidth:40,fill:'var(--bg)',stroke:'var(--ui-3)',fontSize:12}))
+        ]
+      });
+      chart.setAttribute('role','img');chart.setAttribute('aria-label','Chart of OKLCH lightness against chroma for '+n+' selected ramp'+(n===1?'':'s'));
+      box.replaceChildren(chart);
+    }
+    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id;renderColumns();renderProposals();renderEditor();renderChart();renderExport();renderAnalytics();if(action&&id){Array.prototype.forEach.call($('family').querySelectorAll('[data-action]'),function(b){if(b.dataset.action===action&&b.dataset.id===id)b.focus();});}}
     function commit(message, focusId){render();persist();if(message)announce(message);if(focusId)$(focusId).focus();}
     function setInvalid(value){invalid=value;renderExport();$('suggest').disabled=value||!ready||state.records.length>=B.LIMIT;}
     function select(id){if(!base(id))return;checkpoint();var k=state.selected.indexOf(id);if(k<0){if(state.records.length>=B.LIMIT&&id!=='brand'&&!state.records.some(function(c){return c.id===id;})){announce('Working palette limit reached. Remove companions or reset unused edits first.');return;}remember(id);state.selected.push(id);}else state.selected.splice(k,1);commit();}
@@ -161,7 +200,7 @@ var PaletteBuilderUI = (function () {
     var o=api.last();generation=signature();brand={id:'brand',name:api.st.name||'brand',source:o.pal.name+' · your brand',kind:'brand',gamut:o.pal.gamut,steps:o.cells.map(function(c){return String(c.step);}),labs:o.cells.map(function(c){return c.lab.slice();})};
     try{refs=B.inventory(o.pal);}catch(e){ready=false;announce(e.message);}
     var restored=restore();render();if(restored!==false)persist();else $('builder-save').textContent='Previous custom palette retained in browser storage until you make a change. Links contain brand settings only.';
-    return {refresh:refresh,renderExport:renderExport,setInvalid:setInvalid,state:function(){return B.clone(state);},columns:columns,selected:selected,select:select,open:open,suggest:suggest,accept:accept,addSet:addSet,replace:replace,edit:edit,reset:reset,remove:remove,undo:undoLast,proposals:function(){return B.clone(proposals);}};
+    return {refresh:refresh,renderExport:renderExport,setInvalid:setInvalid,state:function(){return B.clone(state);},columns:columns,selected:selected,select:select,open:open,suggest:suggest,accept:accept,addSet:addSet,renderAnalytics:renderAnalytics,replace:replace,edit:edit,reset:reset,remove:remove,undo:undoLast,proposals:function(){return B.clone(proposals);}};
   }
   return {mount:mount};
 })();

@@ -139,6 +139,7 @@
   .rangerow label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; color: var(--tx-2); }
   .check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; margin-top: 0.5rem; cursor: pointer; }
   .check input { accent-color: var(--accent); width: 1rem; height: 1rem; margin: 0; }
+  @media (min-width: 40.01rem) { .ramp.compact .sw { padding-left: 0.3rem; padding-right: 0.3rem; } .ramp.compact .sw .aa { font-size: 0.7rem; } .ramp.compact .sw .hex { font-size: 0.6rem; } .ramp.compact .sw .marks { right: 0.25rem; font-size: 0.65rem; } }
   @media (min-width: 40.01rem) { .ramp.dense .sw { padding-left: 0.2rem; padding-right: 0.2rem; align-items: center; } .ramp.dense .sw .step { font-size: 0.7rem; } .ramp.dense .sw .hex, .ramp.dense .sw .aa, .ramp.dense .sw .marks { display: none; } }
 
   /* ---------- the ramp ---------- */
@@ -318,6 +319,12 @@
   .proposal-strip span { flex: 1; }
   .builder-summary { cursor: pointer; font-size: .8rem; color: var(--tx-2); padding-block: .5rem; }
   .brand-contrast { margin-top: .75rem; max-width: 44rem; }
+  .analytics { display: flex; flex-direction: column; gap: .75rem; padding-top: 1.25rem; border-top: 1px solid var(--ui); }
+  .analytics h2 { margin: 0; }
+  .analytics-chart { min-width: 0; padding: 1.2rem; border: 1px solid var(--ui); border-radius: .75rem; display: flex; flex-direction: column; gap: .75rem; }
+  .analytics-chart h3 { font-size: 1.1rem; font-weight: 400; letter-spacing: -.02em; margin: 0; }
+  #analytics { min-width: 0; min-height: 280px; }
+  #analytics svg { display: block; max-width: 100%; height: auto; }
   .export-toolbar label { display: flex; align-items: center; gap: .65rem; font-size: .85rem; }
   .export .tabs button { min-height: 40px; }
   @media(max-width: 760px) { .builder-workspace { grid-template-columns: 1fr; } .builder-head { align-items: flex-start; } .proposal-list { grid-template-columns: 1fr; } .ramp-editor, .palette-preview { padding: .85rem; } }
@@ -463,7 +470,16 @@
       </section>
     </div>
     <p class="note" id="builder-save"></p>
-    <details><summary class="builder-summary" title="Which brand steps pass text contrast on light and dark backgrounds.">Brand ramp text contrast</summary><div class="brand-contrast"><div class="tablewrap"><table id="contrast"></table></div><p class="note">The lightest or darkest step of the brand ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p></div></details>
+    <section class="analytics" aria-labelledby="analytics-heading">
+      <h2 id="analytics-heading">Color analytics and accessibility</h2>
+      <details><summary class="builder-summary" title="Which brand steps pass text contrast on light and dark backgrounds.">Brand ramp text contrast</summary><div class="brand-contrast"><div class="tablewrap"><table id="contrast"></table></div><p class="note">The lightest or darkest step of the brand ramp that passes on each background. WCAG 2: 4.5:1 for body text, 3:1 for large text and icons.</p></div></details>
+      <div class="analytics-chart">
+        <h3>Lightness and chroma</h3>
+        <p class="note">How colorful each selected ramp is at every lightness. Ramps from the same palette should rise and fall together; a line that breaks from the others is the one to check.</p>
+        <div id="analytics"></div>
+        <p class="note" id="analytics-note" role="status"></p>
+      </div>
+    </section>
   </section>
   </section>
 
@@ -488,7 +504,7 @@
   <section class="notes" id="why">
     <h2>Why borrow a palette's shape</h2>
     <p>Formula generators apply the same rule at every hue. That keeps ramps consistent, but it loses the hue-by-hue decisions in palettes their designers authored. In our tests, Material 3, which is generated from a formula, was far easier to rebuild than designer-authored palettes such as Flexoki: a median error of <span data-evidence="palette.material3.auto.median">0.34</span> against <span data-evidence="palette.flexoki.auto.median">2.27</span> ΔE OK ×100, where about 2 is one just-noticeable difference. Not every authored palette is hard to predict: Radix scored <span data-evidence="palette.radix.auto.median">0.82</span>.</p>
-    <p>This tool reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">149</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">65%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">52%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
+    <p>This tool reads a palette's shape and fills in the hue you need. We hid each of <span data-evidence="n.ramps">184</span> published ramps and rebuilt it from one of its colors and the palette's other ramps. <span data-evidence="headline.auto.within1">66%</span> of the rebuilt steps were within one just-noticeable difference of what the designers shipped, against <span data-evidence="headline.nearest.within1">55%</span> for copying the nearest ramp. <a href="evidence.html">How we measured</a></p>
   </section>
 
   <section class="notes" id="compare">
@@ -520,6 +536,7 @@
     <p><b>Through color</b> shapes the ramp around your color. Gamut limits, neutral substitution and shared anchor steps can change or omit an input; the result reports those changes. <b>Fits the palette</b> tones a color down if it is more vivid than the palette ever goes at that hue, so the ramp matches its siblings.</p>
     <p><b>Ramp shape.</b> Custom resamples every ramp to 3–32 stops. Each ramp keeps its own lightest and darkest values unless you set a range, and colorfulness is carried as a share of what the gamut allows at each new lightness. A custom shape left at its starting values returns the reference steps unchanged. Your color stays an exact stop unless you turn that off; a range that excludes it is widened and the result says so.</p>
     <p><b>Color sets.</b> Chart color sets such as Tableau 20 have too few steps per hue to act as a reference, so they work as starting colors instead. <b>Add a color set</b> builds one ramp per color, shaped like your reference palette and kept through that color and, where it fits, its lighter pair. The chart preview starts on the set’s own colors. Tableau 20 values are from Tableau’s 2016 redesign and belong to Tableau.</p>
+    <p><b>Color analytics.</b> The lightness and chroma chart plots every step of your selected ramps in OKLCH, each in its own color. It shows the values you export, not the color-vision simulation. The chart is drawn with <a href="https://observablehq.com/plot/">Observable Plot</a>, loaded when the page opens; the rest of the tool works without it.</p>
     <p><b>Your own palette.</b> Choose <b>Import your palette</b> in the <b>Shape it like</b> menu, then paste or upload your color tokens. It needs at least four color ramps that share the same step names. The page validates the colors and keeps the palette in this browser only.</p>
     <p>The numbers above come from hiding each real ramp, rebuilding it from its most colorful step, and comparing the result with the shipped ramp. Reported input differences use ΔE OK ×100; zero means the same internal color. Hex exports round to 8-bit sRGB; use CSS oklch for higher precision and wide-gamut colors.</p>
     <p>For a deeper look at a palette's shape, open <a href="map.html">Palette DNA Map</a>. For a similar approach and more creative color explorations, check out <a href="https://meodai.github.io/dittoTones/">dittoTones</a> and other tools by David Aerne.</p>
@@ -676,7 +693,7 @@
   }
   function renderRamp(o) {
     var g = o.pal.gamut, name = slug(st.name);
-    if ($('ramp').classList) $('ramp').classList.toggle('dense', o.cells.length > 16);
+    if ($('ramp').classList) { $('ramp').classList.toggle('dense', o.cells.length > 16); $('ramp').classList.toggle('compact', o.cells.length > 13 && o.cells.length <= 16); }
     $('ramp').innerHTML = o.cells.map(function (c) {
       var p = c.lab, t = textOn(o.pal, p), hx = hexOf(p), p3 = !inSrgb(p);
       var marks = (c.beyond ? '<span title="More vivid than the palette goes at this hue and lightness">↑</span>' : '') + (p3 ? '<span title="Outside sRGB; shown in Display P3">P3</span>' : '');
