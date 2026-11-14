@@ -63,17 +63,93 @@ var PaletteBuilderUI = (function () {
       if(!base(state.active))state.active='brand';
       render();persist();
     }
+    // ---- Your palette (tray) and Reference hues (library) ----
+    // The library keeps every hue in the palette's own order; a selected hue leaves a placeholder in its slot,
+    // so nothing reflows and a deselected hue returns to the same place. The tray lists the brand, then
+    // selected ramps in the order they were added.
+    function cardRects(){
+      var map={}, cards=$('family').querySelectorAll('[data-card]');
+      Array.prototype.forEach.call(cards,function(el){if(el.getBoundingClientRect)map[el.dataset.card]=el.getBoundingClientRect();});
+      return map;
+    }
+    // One soft ease-out for every move: quick to start, long to settle.
+    var EASE='cubic-bezier(.16,1,.3,1)', GLIDE=520;
+    function ghost(html,from,to){
+      if(!document.body||!document.createElement)return;
+      var g=document.createElement('div');g.className='card-ghost';g.innerHTML=html;
+      g.style.left=from.left+'px';g.style.top=from.top+'px';g.style.width=from.width+'px';
+      document.body.appendChild(g);
+      var a=g.animate([{transform:'none',opacity:1},{opacity:.9,offset:.55},{transform:'translate('+(to.left-from.left)+'px,'+(to.top-from.top)+'px) scale(.45)',opacity:0}],{duration:GLIDE+120,easing:EASE});
+      a.onfinish=a.oncancel=function(){if(g.parentNode)g.parentNode.removeChild(g);};
+    }
+    function floatCards(before){
+      var calm=typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches, view=typeof window!=='undefined'&&window.innerHeight||800;
+      var bar=$('traybar'), barRect=bar.getBoundingClientRect&&bar.classList&&bar.classList.contains('show')?bar.getBoundingClientRect():null;
+      Array.prototype.forEach.call($('family').querySelectorAll('[data-card]'),function(el){
+        var was=before[el.dataset.card];if(!el.animate||!el.getBoundingClientRect)return;
+        if(!was){
+          // a placeholder dims in place where its card was; anything else fades in
+          var dim=!calm&&el.classList&&el.classList.contains('slot')&&el.querySelector('.column-colors');
+          if(dim)dim.animate([{opacity:1},{opacity:.16}],{duration:GLIDE,easing:EASE});
+          else el.animate([{opacity:0},{opacity:1}],{duration:calm?120:GLIDE-140,easing:EASE});
+          return;
+        }
+        var now=el.getBoundingClientRect(), dx=was.left-now.left, dy=was.top-now.top;
+        if(Math.abs(dx)<1&&Math.abs(dy)<1)return;
+        if(calm){el.animate([{opacity:0},{opacity:1}],{duration:120});return;}
+        var wasSeen=was.bottom>0&&was.top<view, nowSeen=now.bottom>0&&now.top<view;
+        if(wasSeen&&nowSeen)el.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'none'}],{duration:GLIDE,easing:EASE});
+        else if(wasSeen){
+          // the destination is off screen: a copy of the ramp travels toward it and fades
+          var strip=el.querySelector('.column-colors'), up=now.top<0;
+          if(strip)ghost(strip.outerHTML,was,barRect&&up?{left:barRect.right-was.width*.6,top:barRect.top}:{left:was.left,top:up?-60:view+20});
+        } else if(nowSeen)el.animate([{opacity:0,transform:'translateY('+(dy<0?-18:18)+'px)'},{opacity:1,transform:'none'}],{duration:GLIDE,easing:EASE});
+      });
+    }
+    var trayWatch=null;
+    function watchTray(){
+      if(typeof IntersectionObserver==='undefined')return;
+      if(!trayWatch)trayWatch=new IntersectionObserver(function(entries){var e=entries[entries.length-1];$('traybar').classList.toggle('show',!e.isIntersecting&&e.boundingClientRect.bottom<=0);},{threshold:0});
+      trayWatch.disconnect();var tray=$('family').querySelector('.tray');if(tray)trayWatch.observe(tray);
+    }
+    function strip(c){return '<span class="column-colors" aria-hidden="true">'+c.labs.map(function(p){return '<span style="background:'+esc(Engine.cssColor(p[0],p[1],p[2],c.gamut||'srgb'))+'"></span>';}).join('')+'</span>';}
+    function kindOf(c){return c.modified?'Modified':c.kind==='brand'?'Brand':c.kind==='companion'?'Added':c.neutral?'Neutral':'Reference';}
+    function card(c,zone){
+      var included=state.selected.indexOf(c.id)>=0, active=state.active===c.id;
+      return '<article class="palette-column'+(included?' included':'')+(active?' active':'')+'" data-card="'+esc(c.id)+'">'+
+        '<button type="button" class="column-open" data-action="open" data-zone="'+zone+'" data-id="'+esc(c.id)+'" aria-label="Edit '+esc(c.name)+'" aria-pressed="'+active+'" title="Open '+esc(c.name)+' to see its colors and edit it">'+strip(c)+'</button>'+
+        '<div class="column-foot"><span class="column-meta"><span class="column-name">'+esc(c.name)+'</span><span class="column-kind">'+c.steps.length+' stops · '+kindOf(c)+'</span></span>'+
+        '<button type="button" class="column-select" data-action="select" data-zone="'+zone+'" data-id="'+esc(c.id)+'" aria-pressed="'+included+'" aria-label="'+(included?'Deselect ':'Select ')+esc(c.name)+'" title="'+(included?'Remove '+esc(c.name)+' from your palette':'Add '+esc(c.name)+' to your palette')+'"><span aria-hidden="true">'+(included?'✓':'+')+'</span></button></div></article>';
+    }
+    // the place a selected hue keeps in the library
+    function slot(c){
+      return '<article class="palette-column slot" data-card="slot:'+esc(c.id)+'">'+strip(c)+
+        '<div class="column-foot"><span class="column-meta"><span class="column-name">'+esc(c.name)+'</span><span class="column-kind">In your palette</span></span>'+
+        '<button type="button" class="column-select" data-action="select" data-zone="library" data-id="'+esc(c.id)+'" aria-label="Remove '+esc(c.name)+' from your palette" title="Remove '+esc(c.name)+' from your palette. It returns to this place."><span aria-hidden="true">✓</span></button></div></article>';
+    }
+    function zoneBox(name){var el=$('family').querySelector('.'+name);return el&&el.getBoundingClientRect?el.getBoundingClientRect():null;}
     function renderColumns(){
-      var all=columns(), cols=state.selected.map(function(id){return all.find(function(c){return c.id===id;});}).filter(Boolean).concat(all.filter(function(c){return state.selected.indexOf(c.id)<0;}));
-      $('family').innerHTML='<div class="palette-columns">'+cols.map(function(c,i){
-        var included=state.selected.indexOf(c.id)>=0, active=state.active===c.id;
-        var kind=c.modified?'Modified':c.kind==='brand'?'Brand':c.kind==='companion'?'Added':c.neutral?'Neutral':'Reference';
-        return '<article class="palette-column'+(included?' included':'')+(active?' active':'')+'">'+
-          '<button type="button" class="column-open" data-action="open" data-id="'+esc(c.id)+'" aria-label="Edit '+esc(c.name)+'" aria-pressed="'+active+'" title="Open '+esc(c.name)+' to see its colors and edit it"><span class="column-colors" aria-hidden="true">'+c.labs.map(function(p){return '<span style="background:'+esc(Engine.cssColor(p[0],p[1],p[2],c.gamut||'srgb'))+'"></span>';}).join('')+'</span></button>'+
-          '<div class="column-foot"><span class="column-meta"><span class="column-name">'+esc(c.name)+'</span><span class="column-kind">'+c.steps.length+' stops · '+kind+'</span></span>'+
-          '<button type="button" class="column-select" data-action="select" data-id="'+esc(c.id)+'" aria-pressed="'+included+'" aria-label="'+(included?'Deselect ':'Select ')+esc(c.name)+'" title="'+(included?'Remove '+esc(c.name)+' from your palette':'Add '+esc(c.name)+' to your palette')+'"><span aria-hidden="true">'+(included?'✓':'+')+'</span></button></div></article>';
-      }).join('')+'</div>';
-      $('famnote').textContent=state.selected.length+' selected · '+cols.length+' available. Selected ramps appear first. Use + to include a ramp; select its colors to edit it.';
+      var trayWas=zoneBox('tray'), libraryWas=zoneBox('library');
+      var before=cardRects(), all=columns(), byId={}, inLibrary={};
+      all.forEach(function(c){byId[c.id]=c;});refs.forEach(function(c){inLibrary[c.id]=true;});
+      var chosen=state.selected.filter(function(id){return id!=='brand'&&byId[id];}).map(function(id){return byId[id];});
+      var loose=all.filter(function(c){return c.id!=='brand'&&!inLibrary[c.id]&&state.selected.indexOf(c.id)<0;});
+      var tray=[byId.brand].concat(chosen,loose), library=refs.map(function(c){return byId[c.id];}).filter(Boolean), pal=api.last().pal;
+      $('family').innerHTML=
+        '<div class="zone tray"><div class="zone-head"><h3 id="tray-heading">Your palette</h3><span class="note">Your brand, then ramps in the order you added them</span></div>'+
+        '<div class="palette-columns">'+tray.map(function(c){return card(c,'tray');}).join('')+(tray.length===1?'<div class="palette-column hint">Add hues from the reference list below, suggest companions, or add a color set.</div>':'')+'</div></div>'+
+        '<div class="zone library"><div class="zone-head"><h3 id="library-heading">Reference hues</h3><span class="note">'+esc(pal.name)+' · always in this order</span></div>'+
+        '<div class="palette-columns">'+(library.length?library.map(function(c){return state.selected.indexOf(c.id)>=0?slot(c):card(c,'library');}).join(''):'<div class="palette-column hint">This palette has no reference hues to add.</div>')+'</div></div>';
+      var picked=state.selected.filter(function(id){return byId[id];}).map(function(id){return byId[id];});
+      $('traybar').innerHTML='<span class="traybar-label">Your palette · '+picked.length+'</span><span class="traybar-chips">'+picked.map(function(c){
+        var n=c.labs.length, mini='<span class="chip-colors" aria-hidden="true">'+[0.1,0.3,0.5,0.7,0.9].map(function(f){var p=c.labs[Math.min(n-1,Math.round(f*(n-1)))];return '<i style="background:'+esc(B.hex(p))+'"></i>';}).join('')+'</span>';
+        return '<button type="button" class="tchip" data-action="select" data-zone="bar" data-id="'+esc(c.id)+'" aria-label="Remove '+esc(c.name)+' from your palette" title="'+esc(c.name)+' · select to remove it from your palette">'+mini+'</button>';
+      }).join('')+'</span>';
+      // when the tray is out of sight above, hold the library still as the tray grows or shrinks a row
+      var libraryNow=zoneBox('library');
+      if(trayWas&&libraryWas&&libraryNow&&trayWas.bottom<=0&&Math.abs(libraryNow.top-libraryWas.top)>=1&&window.scrollBy)window.scrollBy(0,libraryNow.top-libraryWas.top);
+      floatCards(before);watchTray();
+      $('famnote').textContent=state.selected.length+' in your palette · '+library.length+' reference hues. Use + to add a hue; it keeps its place in the list, so it is easy to find again. Select a ramp’s colors to edit it.';
       $('builder-count').textContent=state.selected.length+' selected';
       $('builder-undo').disabled=!undo;
       $('suggest').disabled=invalid||!ready||state.records.length>=B.LIMIT;
@@ -152,7 +228,7 @@ var PaletteBuilderUI = (function () {
       chart.setAttribute('role','img');chart.setAttribute('aria-label','Chart of OKLCH lightness against chroma for '+n+' selected ramp'+(n===1?'':'s'));
       box.replaceChildren(chart);
     }
-    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id;renderColumns();renderProposals();renderEditor();renderChart();renderExport();renderAnalytics();if(action&&id){Array.prototype.forEach.call($('family').querySelectorAll('[data-action]'),function(b){if(b.dataset.action===action&&b.dataset.id===id)b.focus();});}}
+    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id, zone=focused&&focused.dataset&&focused.dataset.zone;renderColumns();renderProposals();renderEditor();renderChart();renderExport();renderAnalytics();if(action&&id){var hits=Array.prototype.filter.call($('family').querySelectorAll('[data-action]'),function(b){return b.dataset.action===action&&b.dataset.id===id;}), same=hits.filter(function(b){return b.dataset.zone===zone;})[0]||hits[0];if(same)same.focus({preventScroll:true});}}
     function commit(message, focusId){render();persist();if(message)announce(message);if(focusId)$(focusId).focus();}
     function setInvalid(value){invalid=value;renderExport();$('suggest').disabled=value||!ready||state.records.length>=B.LIMIT;}
     function select(id){if(!base(id))return;checkpoint();var k=state.selected.indexOf(id);if(k<0){if(state.records.length>=B.LIMIT&&id!=='brand'&&!state.records.some(function(c){return c.id===id;})){announce('Working palette limit reached. Remove companions or reset unused edits first.');return;}remember(id);state.selected.push(id);}else state.selected.splice(k,1);commit();}
@@ -181,6 +257,7 @@ var PaletteBuilderUI = (function () {
     function remove(){var c=base(state.active);if(!c||c.id==='brand')return;checkpoint();state.selected=state.selected.filter(function(id){return id!==c.id;});state.records=state.records.filter(function(x){return x.id!==c.id;});delete state.edits[c.id];delete state.chartSteps[c.id];state.active='brand';commit(c.kind==='companion'?'Companion removed. Undo is available.':'Reference deselected and edits reset. Undo is available.','edit-heading');}
     function undoLast(){if(!undo)return;state=undo;undo=null;commit('Restored the previous working palette.','edit-heading');}
     $('family').addEventListener('click',function(e){var b=e.target.closest('[data-action]');if(!b)return;var id=b.dataset.id;if(b.dataset.action==='select')select(id);else open(id);});
+    $('traybar').addEventListener('click',function(e){var b=e.target.closest('[data-action]');if(b)select(b.dataset.id);});
     $('suggest').addEventListener('click',suggest);
     $('proposal-list').addEventListener('click',function(e){var b=e.target.closest('[data-accept]');if(b)accept(Number(b.dataset.accept));else {var r=e.target.closest('[data-replace]');if(r)replace(Number(r.dataset.replace));}});
     $('dismiss-proposals').addEventListener('click',function(){proposals=[];renderProposals();announce('Suggestions dismissed.');$('suggest').focus();});
