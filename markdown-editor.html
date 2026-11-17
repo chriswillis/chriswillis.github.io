@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Untitled</title>
+<script type="module" src="https://ui-sdk.dev/web.js"></script>
+<link rel="stylesheet" href="https://ui-sdk.dev/web.css" />
+<style>
+@layer ui-sdk;
+
+:root {
+  color-scheme: light dark;
+  --ui-background: light-dark(#ffffff, #191919);
+  --ui-foreground: light-dark(#191919, #efefef);
+  --ui-muted: light-dark(#f2f2f2, #252525);
+  --ui-muted-foreground: light-dark(#666666, #9c9c9c);
+  --ui-border: light-dark(#e5e5e5, #303030);
+  --ui-input: light-dark(#d6d6d6, #454545);
+  --ui-radius: 6px;
+  --ui-font-size: 0.875rem;
+  --accent: light-dark(#2563a6, #6a9bcc);
+  --hover: light-dark(rgb(0 0 0 / 0.05), rgb(255 255 255 / 0.06));
+  --code-bg: light-dark(rgb(135 131 120 / 0.15), rgb(135 131 120 / 0.25));
+  --code-fg: light-dark(#c4423a, #ff7369);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  font-family: var(--ui-font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Top bar */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 14px;
+  background: var(--ui-background);
+  font-size: 14px;
+}
+.top .doc-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.top .count {
+  flex: 1;
+  color: var(--ui-muted-foreground);
+  font-size: 13px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.ghost {
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ghost:hover, .ghost[aria-expanded="true"] { background: var(--hover); }
+.ghost:focus-visible, .grip:focus-visible, #editor:focus-visible, #source:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+#editor:focus-visible, #source:focus-visible { outline: none; }
+
+/* Shortcuts popover */
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 13px; }
+.keys dt { white-space: nowrap; }
+.keys dd { margin: 0; color: var(--ui-muted-foreground); }
+kbd {
+  padding: 1px 5px;
+  border: 1px solid var(--ui-border);
+  border-radius: 4px;
+  background: var(--ui-muted);
+  font-family: var(--ui-font-mono);
+  font-size: 12px;
+}
+ui-popover-title { font-weight: 600; font-size: 14px; }
+ui-popover-content { max-width: min(30rem, calc(100vw - 16px)); }
+
+/* Page */
+.page {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 56px 40px 0 56px;
+}
+#editor {
+  min-height: 60vh;
+  padding-bottom: 30vh;
+  outline: none;
+  caret-color: var(--ui-foreground);
+}
+#source {
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  margin-bottom: 20vh;
+  padding: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  field-sizing: content;
+  background: transparent;
+  color: inherit;
+  font-family: var(--ui-font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Blocks */
+.block {
+  position: relative;
+  min-height: calc(1.5em + 6px);
+  margin: 1px 0;
+  padding: 3px 2px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.block:is([data-type="p"], [data-type^="h"], [data-type="quote"]):empty::before {
+  color: var(--ui-muted-foreground);
+  opacity: 0.7;
+  pointer-events: none;
+}
+.block[data-type="p"].is-current:empty::before { content: "Type / for blocks"; }
+.block[data-type="h1"]:empty::before { content: "Heading 1"; }
+.block[data-type="h2"]:empty::before { content: "Heading 2"; }
+.block[data-type="h3"]:empty::before { content: "Heading 3"; }
+.block[data-type="bullet"]:empty::after,
+.block[data-type="number"]:empty::after { content: "List"; color: var(--ui-muted-foreground); opacity: 0.7; }
+.block[data-type="todo"]:empty::after { content: "To-do"; color: var(--ui-muted-foreground); opacity: 0.7; }
+.block[data-type="quote"]:empty::before { content: "Quote"; }
+
+.block[data-type="h1"] { margin-top: 1.4em; font-size: 1.875em; font-weight: 700; line-height: 1.3; }
+.block[data-type="h2"] { margin-top: 1.1em; font-size: 1.5em; font-weight: 600; line-height: 1.3; }
+.block[data-type="h3"] { margin-top: 0.8em; font-size: 1.25em; font-weight: 600; line-height: 1.3; }
+.block:first-child { margin-top: 0; }
+
+.block:is([data-type="bullet"], [data-type="number"], [data-type="todo"]) { padding-left: 1.75em; }
+.block:is([data-type="bullet"], [data-type="number"], [data-type="todo"])::before {
+  position: absolute;
+  left: 0;
+  width: 1.75em;
+  text-align: center;
+}
+.block[data-type="bullet"]::before { content: "•"; font-size: 1.4em; line-height: 1.07; width: 1.25em; }
+.block { counter-reset: item; }
+.block[data-type="number"] { counter-reset: none; counter-increment: item; }
+.block[data-type="number"]::before { content: counter(item) "."; font-variant-numeric: tabular-nums; }
+.block[data-type="todo"]::before {
+  content: "";
+  top: calc(3px + 0.75em - 8px);
+  left: 0.3em;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--ui-foreground);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.block[data-type="todo"][data-checked="true"] { color: var(--ui-muted-foreground); text-decoration: line-through; }
+.block[data-type="todo"][data-checked="true"]::before {
+  border-color: var(--accent);
+  background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E") center / 14px no-repeat;
+}
+
+.block[data-type="quote"] { margin: 4px 0; padding-left: 14px; border-left: 3px solid currentColor; }
+.block[data-type="code"] {
+  margin: 6px 0;
+  padding: 18px 20px;
+  border-radius: 6px;
+  background: var(--ui-muted);
+  font-family: var(--ui-font-mono);
+  font-size: 0.85em;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.block[data-type="divider"] { min-height: 0; height: 21px; padding: 0; cursor: default; user-select: none; }
+.block[data-type="divider"]::before {
+  content: "";
+  position: absolute;
+  inset: 10px 0 auto;
+  border-top: 1px solid var(--ui-input);
+}
+
+.block code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  font-family: var(--ui-font-mono);
+  font-size: 0.85em;
+}
+.block a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--ui-muted-foreground);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Block handle */
+#handle { position: absolute; left: 26px; }
+.grip {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ui-muted-foreground);
+  cursor: pointer;
+}
+.grip:hover, .grip[aria-expanded="true"] { background: var(--hover); }
+
+/* Slash menu */
+ui-trigger-menu-content { width: 290px; max-height: min(var(--available-height), 340px); }
+ui-trigger-menu-item { display: flex; align-items: center; gap: 10px; height: auto; padding: 5px 6px; }
+.tile {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 1px solid var(--ui-border);
+  border-radius: 5px;
+  background: var(--ui-background);
+  font-size: 14px;
+  font-weight: 600;
+}
+.cmd { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.cmd small { color: var(--ui-muted-foreground); font-size: 12px; }
+
+/* Selection toolbar */
+#bubble {
+  position: fixed;
+  z-index: 10;
+  padding: 3px;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  background: var(--ui-background);
+  box-shadow: var(--ui-shadow);
+}
+#bubble ui-toolbar { border: 0; padding: 0; background: none; }
+#bubble ui-toggle button { min-width: 30px; }
+#bubble .b { font-weight: 700; }
+#bubble .i { font-style: italic; font-family: Georgia, serif; }
+#bubble .s { text-decoration: line-through; }
+#bubble .c { font-family: var(--ui-font-mono); font-size: 12px; }
+#linkform { display: flex; gap: 4px; }
+#linkform input {
+  width: 230px;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+}
+#linkform button { background: var(--accent); color: #fff; }
+
+@media (max-width: 600px) {
+  .page { padding: 32px 18px 0 34px; }
+  #handle { left: 6px; }
+  .top .count { visibility: hidden; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <span class="doc-title" id="doc-title">Untitled</span>
+  <span class="count" id="count"></span>
+
+  <ui-segmented-control id="view" aria-label="View" default-value="write">
+    <ui-segmented-control-indicator></ui-segmented-control-indicator>
+    <ui-segmented-control-item value="write">Write</ui-segmented-control-item>
+    <ui-segmented-control-item value="markdown">Markdown</ui-segmented-control-item>
+  </ui-segmented-control>
+
+  <ui-popover>
+    <ui-popover-trigger><button type="button" class="ghost">Shortcuts</button></ui-popover-trigger>
+    <ui-popover-content side="bottom" align="end" side-offset="6">
+      <ui-popover-title>Shortcuts</ui-popover-title>
+      <dl class="keys">
+        <dt><kbd>/</kbd></dt><dd>Open the block menu</dd>
+        <dt><kbd>#</kbd> <kbd>##</kbd> <kbd>###</kbd> then space</dt><dd>Headings</dd>
+        <dt><kbd>-</kbd> or <kbd>1.</kbd> then space</dt><dd>Bulleted or numbered list</dd>
+        <dt><kbd>[]</kbd> then space</dt><dd>To-do</dd>
+        <dt><kbd>&gt;</kbd> then space</dt><dd>Quote</dd>
+        <dt><kbd>```</kbd></dt><dd>Code block</dd>
+        <dt><kbd>---</kbd></dt><dd>Divider</dd>
+        <dt><kbd>**bold**</kbd> <kbd>*italic*</kbd></dt><dd>Also Ctrl/⌘ B and I</dd>
+        <dt><kbd>`code`</kbd> <kbd>~~strike~~</kbd></dt><dd>Also Ctrl/⌘ E and Ctrl/⌘ Shift S</dd>
+        <dt><kbd>Ctrl/⌘ K</kbd></dt><dd>Link the selection</dd>
+        <dt><kbd>Ctrl/⌘ Enter</kbd></dt><dd>Check a to-do</dd>
+        <dt><kbd>Shift Enter</kbd></dt><dd>Line break inside a block</dd>
+      </dl>
+    </ui-popover-content>
+  </ui-popover>
+
+  <button type="button" class="ghost" id="copy">Copy markdown</button>
+</header>
+
+<main class="page" id="page">
+  <ui-trigger-menu id="slash">
+    <div id="editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Document" spellcheck="true"></div>
+    <div class="sr-only"><ui-trigger-menu-status></ui-trigger-menu-status></div>
+    <ui-trigger-menu-content side="bottom" align="start" side-offset="6">
+      <ui-trigger-menu-list id="slash-list"></ui-trigger-menu-list>
+    </ui-trigger-menu-content>
+  </ui-trigger-menu>
+
+  <textarea id="source" aria-label="Markdown source" spellcheck="false" hidden></textarea>
+
+  <div id="handle" hidden>
+    <ui-menu id="block-menu">
+      <ui-menu-trigger>
+        <button type="button" class="grip" aria-label="Block actions">
+          <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="3" r="1.4"/><circle cx="8" cy="3" r="1.4"/><circle cx="2" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="2" cy="13" r="1.4"/><circle cx="8" cy="13" r="1.4"/></svg>
+        </button>
+      </ui-menu-trigger>
+      <ui-menu-content side="bottom" align="start" final-focus="none">
+        <ui-menu-group id="turn-into">
+          <ui-menu-group-label>Turn into</ui-menu-group-label>
+        </ui-menu-group>
+        <ui-menu-separator></ui-menu-separator>
+        <ui-menu-item value="up">Move up</ui-menu-item>
+        <ui-menu-item value="down">Move down</ui-menu-item>
+        <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
+        <ui-menu-item value="delete" destructive>Delete</ui-menu-item>
+      </ui-menu-content>
+    </ui-menu>
+  </div>
+</main>
+
+<div id="bubble" hidden>
+  <ui-toolbar id="format" aria-label="Formatting">
+    <ui-toggle value="bold"><button type="button" class="b" aria-label="Bold">B</button></ui-toggle>
+    <ui-toggle value="italic"><button type="button" class="i" aria-label="Italic">i</button></ui-toggle>
+    <ui-toggle value="strike"><button type="button" class="s" aria-label="Strikethrough">S</button></ui-toggle>
+    <ui-toggle value="code"><button type="button" class="c" aria-label="Inline code">&lt;/&gt;</button></ui-toggle>
+    <ui-toolbar-separator></ui-toolbar-separator>
+    <ui-toggle value="link"><button type="button">Link</button></ui-toggle>
+  </ui-toolbar>
+  <form id="linkform" hidden>
+    <input type="text" aria-label="Link address" placeholder="Paste a link" autocomplete="off" />
+    <button type="submit" class="ghost">Apply</button>
+  </form>
+</div>
+
+<script type="module">
+const $ = (selector) => document.querySelector(selector)
+const editor = $("#editor")
+const source = $("#source")
+const slash = $("#slash")
+const bubble = $("#bubble")
+const handle = $("#handle")
+const linkForm = $("#linkform")
+const ZW = "​"
+
+const TYPES = [
+  { id: "p", label: "Text", hint: "Plain paragraph", tile: "T", keys: "paragraph,plain" },
+  { id: "h1", label: "Heading 1", hint: "Large section heading", tile: "H1", keys: "h1,title" },
+  { id: "h2", label: "Heading 2", hint: "Medium section heading", tile: "H2", keys: "h2,subtitle" },
+  { id: "h3", label: "Heading 3", hint: "Small section heading", tile: "H3", keys: "h3" },
+  { id: "bullet", label: "Bulleted list", hint: "Simple list", tile: "•", keys: "ul,unordered" },
+  { id: "number", label: "Numbered list", hint: "List with numbers", tile: "1.", keys: "ol,ordered" },
+  { id: "todo", label: "To-do list", hint: "Track tasks with checkboxes", tile: "☐", keys: "todo,task,checkbox,check" },
+  { id: "quote", label: "Quote", hint: "Capture a quote", tile: "”", keys: "blockquote" },
+  { id: "code", label: "Code", hint: "Code snippet", tile: "&lt;/&gt;", keys: "snippet,pre" },
+  { id: "divider", label: "Divider", hint: "Separate sections", tile: "—", keys: "hr,rule,line" },
+]
+const LISTS = ["bullet", "number", "todo"]
+
+$("#slash-list").innerHTML = TYPES.map(
+  (t) => `
+  <ui-trigger-menu-item value="${t.id}" label="${t.label}" keywords="${t.keys}">
+    <ui-trigger-menu-item-icon><span class="tile">${t.tile}</span></ui-trigger-menu-item-icon>
+    <span class="cmd"><span>${t.label}</span><small>${t.hint}</small></span>
+  </ui-trigger-menu-item>`
+).join("")
+$("#turn-into").insertAdjacentHTML(
+  "beforeend",
+  TYPES.map((t) => `<ui-menu-item value="turn:${t.id}">${t.label}</ui-menu-item>`).join("")
+)
+
+/* ---------- Blocks, caret and text offsets ---------- */
+
+const typeOf = (block) => block?.dataset.type
+const textOf = (block) => block.textContent.replaceAll(ZW, "")
+const blockOf = (node) => {
+  const el = node?.nodeType === 1 ? node : node?.parentElement
+  const block = el?.closest(".block")
+  return block?.parentElement === editor ? block : null
+}
+
+function setType(block, type) {
+  block.dataset.type = type
+  const level = { h1: 1, h2: 2, h3: 3 }[type]
+  block.removeAttribute("role")
+  block.removeAttribute("aria-level")
+  if (level) {
+    block.setAttribute("role", "heading")
+    block.setAttribute("aria-level", level)
+  }
+  if (type === "divider") {
+    block.textContent = ""
+    block.contentEditable = "false"
+    block.setAttribute("role", "separator")
+  } else block.removeAttribute("contenteditable")
+  if (type === "todo") block.dataset.checked ??= "false"
+  else delete block.dataset.checked
+  if (type === "code") {
+    block.textContent = textOf(block)
+    block.spellcheck = false
+  } else block.removeAttribute("spellcheck")
+}
+
+function makeBlock(type = "p", html = "") {
+  const block = document.createElement("div")
+  block.className = "block"
+  block.innerHTML = html
+  setType(block, type)
+  return block
+}
+
+function caret() {
+  const selection = getSelection()
+  if (!selection.rangeCount) return null
+  const range = selection.getRangeAt(0)
+  return editor.contains(range.commonAncestorContainer) ? range : null
+}
+
+function textOffset(block, node, offset) {
+  const range = document.createRange()
+  range.selectNodeContents(block)
+  range.setEnd(node, offset)
+  return range.toString().length
+}
+
+function pointAt(block, offset) {
+  const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT)
+  let node
+  let last = null
+  while ((node = walker.nextNode())) {
+    if (offset <= node.data.length) return { node, offset }
+    offset -= node.data.length
+    last = node
+  }
+  return last ? { node: last, offset: last.data.length } : { node: block, offset: 0 }
+}
+
+function rangeIn(block, start, end = start) {
+  const range = document.createRange()
+  const from = pointAt(block, start)
+  const to = pointAt(block, end)
+  range.setStart(from.node, from.offset)
+  range.setEnd(to.node, to.offset)
+  return range
+}
+
+function select(range) {
+  editor.focus({ preventScroll: true })
+  const selection = getSelection()
+  selection.removeAllRanges()
+  selection.addRange(range)
+}
+
+function setCaret(block, offset = Infinity) {
+  if (typeOf(block) === "divider") block = block.nextElementSibling ?? block
+  select(rangeIn(block, Math.min(offset, block.textContent.length)))
+}
+
+function caretInfo() {
+  const range = caret()
+  const block = range && blockOf(range.startContainer)
+  if (!block) return null
+  return { range, block, offset: textOffset(block, range.startContainer, range.startOffset) }
+}
+
+function insertAtCaret(text) {
+  const info = caretInfo()
+  if (!info) return
+  info.range.deleteContents()
+  const offset = textOffset(info.block, info.range.startContainer, info.range.startOffset)
+  info.range.insertNode(document.createTextNode(text))
+  info.block.normalize()
+  setCaret(info.block, offset + text.length)
+}
+
+/* A line break at the very end of a block needs a second one to show the new line. */
+function insertNewline() {
+  const info = caretInfo()
+  if (!info) return
+  info.range.deleteContents()
+  const offset = textOffset(info.block, info.range.startContainer, info.range.startOffset)
+  const text = info.block.textContent
+  const atEnd = offset === text.length
+  insertAtCaret(atEnd && !text.endsWith("\n") ? "\n\n" : "\n")
+  setCaret(info.block, offset + 1)
+}
+
+function dropEmptyInline(block) {
+  block.querySelectorAll("*").forEach((el) => {
+    if (!el.textContent && el.isConnected) el.remove()
+  })
+}
+
+function merge(into, from) {
+  if (typeOf(from) === "divider") return from.remove()
+  if (typeOf(into) === "code") into.append(textOf(from))
+  else into.append(...from.childNodes)
+  from.remove()
+  into.normalize()
+}
+
+/* Removes a selection that spans several blocks and joins what's left. */
+function deleteAcross() {
+  const range = caret()
+  if (!range || range.collapsed) return false
+  const touched = [...editor.children].filter((block) => range.intersectsNode(block))
+  const first = touched[0]
+  const last = touched.at(-1)
+  if (!first || first === last) return false
+  const offset = first.contains(range.startContainer)
+    ? textOffset(first, range.startContainer, range.startOffset)
+    : 0
+  range.deleteContents()
+  if (!first.isConnected || typeOf(first) === "divider") {
+    normalize()
+    setCaret(last.isConnected ? last : editor.firstElementChild, 0)
+    return true
+  }
+  if (last.isConnected) merge(first, last)
+  dropEmptyInline(first)
+  if (!textOf(first)) setType(first, "p")
+  setCaret(first, offset)
+  return true
+}
+
+function normalize() {
+  for (const node of [...editor.childNodes]) {
+    if (node.nodeType === 1 && node.classList.contains("block")) continue
+    const text = node.textContent
+    if (text.trim()) node.replaceWith(makeBlock("p", escapeHtml(text)))
+    else node.remove()
+  }
+  editor.querySelectorAll("[style]").forEach((el) => el.removeAttribute("style"))
+  if (!editor.firstElementChild) {
+    editor.append(makeBlock())
+    if (document.activeElement === editor) setCaret(editor.firstElementChild, 0)
+  }
+  if (["code", "divider"].includes(typeOf(editor.lastElementChild))) editor.append(makeBlock())
+}
+
+function applyType(block, type) {
+  if (type !== "divider") {
+    setType(block, type)
+    return setCaret(block)
+  }
+  if (textOf(block)) {
+    const divider = makeBlock("divider")
+    block.after(divider)
+    block = divider
+  } else setType(block, "divider")
+  if (!block.nextElementSibling) block.after(makeBlock())
+  setCaret(block.nextElementSibling, 0)
+}
+
+/* ---------- History ---------- */
+
+const history = { stack: [], index: -1, time: 0, typing: false }
+
+function snapshot() {
+  const info = caretInfo()
+  return {
+    html: editor.innerHTML,
+    caret: info && { block: [...editor.children].indexOf(info.block), offset: info.offset },
+  }
+}
+
+function commit(typing = false) {
+  const state = snapshot()
+  const top = history.stack[history.index]
+  if (top?.html === state.html) return void (top.caret = state.caret)
+  history.stack.length = history.index + 1
+  const now = Date.now()
+  if (typing && history.typing && history.index > 0 && now - history.time < 700) {
+    history.stack[history.index] = state
+  } else {
+    history.stack.push(state)
+    if (history.stack.length > 300) history.stack.shift()
+    history.index = history.stack.length - 1
+  }
+  history.time = now
+  history.typing = typing
+}
+
+function travel(step) {
+  const state = history.stack[history.index + step]
+  if (!state) return
+  history.index += step
+  history.typing = false
+  editor.innerHTML = state.html
+  const block = editor.children[state.caret?.block ?? 0]
+  if (block) setCaret(block, state.caret?.offset ?? 0)
+  refresh()
+}
+
+function changed(typing = false) {
+  normalize()
+  commit(typing)
+  refresh()
+  emit({ type: "selection" })
+}
+
+function refresh() {
+  const heading = editor.querySelector('[data-type="h1"]')
+  const title = (heading && textOf(heading).trim()) || "Untitled"
+  $("#doc-title").textContent = document.title = title
+  const words = editor.textContent.replaceAll(ZW, "").trim().split(/\s+/).filter(Boolean).length
+  $("#count").textContent = `${words} ${words === 1 ? "word" : "words"}`
+}
+
+/* ---------- Markdown out ---------- */
+
+function inlineMarkdown(parent) {
+  let out = ""
+  for (const node of parent.childNodes) {
+    if (node.nodeType === 3) {
+      out += node.data.replaceAll(ZW, "").replace(/([\\*`])/g, "\\$1")
+      continue
+    }
+    if (node.nodeType !== 1 || node.tagName === "BR") continue
+    if (node.tagName === "CODE") {
+      const code = textOf(node)
+      if (code) out += "`" + code + "`"
+      continue
+    }
+    const inner = inlineMarkdown(node)
+    if (!inner.trim()) {
+      out += inner
+      continue
+    }
+    const [, before, body, after] = inner.match(/^(\s*)([^]*?)(\s*)$/)
+    const mark = { B: "**", STRONG: "**", I: "*", EM: "*", S: "~~", STRIKE: "~~", DEL: "~~" }[node.tagName]
+    if (mark) out += before + mark + body + mark + after
+    else if (node.tagName === "A") out += `${before}[${body}](${node.getAttribute("href")})${after}`
+    else out += inner
+  }
+  return out
+}
+
+function toMarkdown() {
+  const blocks = [...editor.children]
+  while (blocks.length && typeOf(blocks.at(-1)) === "p" && !textOf(blocks.at(-1)).trim()) blocks.pop()
+  let out = ""
+  let number = 0
+  blocks.forEach((block, index) => {
+    const type = typeOf(block)
+    const text = (type === "code" ? textOf(block) : inlineMarkdown(block)).replace(/\n$/, "")
+    number = type === "number" ? number + 1 : 0
+    let line
+    if (type === "h1") line = "# " + text
+    else if (type === "h2") line = "## " + text
+    else if (type === "h3") line = "### " + text
+    else if (type === "bullet") line = "- " + text
+    else if (type === "number") line = number + ". " + text
+    else if (type === "todo") line = (block.dataset.checked === "true" ? "- [x] " : "- [ ] ") + text
+    else if (type === "quote") line = text.replace(/^/gm, "> ")
+    else if (type === "code") line = "```\n" + text + "\n```"
+    else if (type === "divider") line = "---"
+    else line = text.replace(/^(#{1,6} |[-+>] |\d+[.)] )/, "\\$1")
+    if (index) out += LISTS.includes(type) && LISTS.includes(typeOf(blocks[index - 1])) ? "\n" : "\n\n"
+    out += line
+  })
+  return out + "\n"
+}
+
+/* ---------- Markdown in ---------- */
+
+const escapeHtml = (text) =>
+  text.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c])
+const safeUrl = (url) => /^(https?:|mailto:|\/|#|\.)/i.test(url)
+
+function inlineHtml(text) {
+  const kept = []
+  const keep = (html) => `\u0001${kept.push(html) - 1}\u0001`
+  return escapeHtml(text)
+    .replace(/`([^`\n]+)`/g, (_, code) => keep(`<code>${code}</code>`))
+    .replace(/\\([\\`*_{}[\]()#+\-.!>~])/g, (_, char) => keep(char))
+    .replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (all, label, url) =>
+      safeUrl(url) ? keep(`<a href="${url}">`) + label + "</a>" : all
+    )
+    .replace(/\*\*(?=\S)([^]*?\S)\*\*/g, "<strong>$1</strong>")
+    .replace(/(?<![\w_])__(?=\S)([^]*?\S)__(?!\w)/g, "<strong>$1</strong>")
+    .replace(/(?<![\w*])\*(?=\S)([^*]*?\S)\*(?!\*)/g, "<em>$1</em>")
+    .replace(/(?<![\w_])_(?=\S)([^_]*?\S)_(?!\w)/g, "<em>$1</em>")
+    .replace(/~~(?=\S)([^]*?\S)~~/g, "<s>$1</s>")
+    .replace(/\u0001(\d+)\u0001/g, (_, index) => kept[index])
+}
+
+function parseMarkdown(markdown) {
+  const blocks = []
+  const lines = markdown.replace(/\r/g, "").split("\n")
+  let open = null
+  const add = (type, text, joinable = false) => {
+    const block = makeBlock(type, type === "code" ? escapeHtml(text) : inlineHtml(text))
+    blocks.push(block)
+    open = joinable ? { type, text, block } : null
+    return block
+  }
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    let m
+    if (/^\s*```/.test(line)) {
+      const code = []
+      while (++i < lines.length && !/^\s*```\s*$/.test(lines[i])) code.push(lines[i])
+      add("code", code.join("\n"))
+    } else if (!line.trim()) open = null
+    else if ((m = line.match(/^(#{1,6})\s+(.*)$/))) add("h" + Math.min(m[1].length, 3), m[2].replace(/\s+#+\s*$/, ""))
+    else if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(line)) add("divider", "")
+    else if ((m = line.match(/^\s*[-*+]\s+\[([ xX])\]\s+(.*)$/))) add("todo", m[2]).dataset.checked = String(m[1] !== " ")
+    else if ((m = line.match(/^\s*[-*+]\s+(.*)$/))) add("bullet", m[1])
+    else if ((m = line.match(/^\s*\d+[.)]\s+(.*)$/))) add("number", m[1])
+    else {
+      const quote = line.match(/^>\s?(.*)$/)
+      const type = quote ? "quote" : "p"
+      const text = quote ? quote[1] : line.trim()
+      if (open?.type === type) {
+        open.text += "\n" + text
+        open.block.innerHTML = inlineHtml(open.text)
+      } else add(type, text, true)
+    }
+  }
+  return blocks
+}
+
+/* ---------- Typing: markdown shortcuts ---------- */
+
+function blockShortcut(typed) {
+  const info = caretInfo()
+  if (!info || typeOf(info.block) !== "p") return false
+  const before = textOf(info.block).slice(0, info.offset).replace(/ /g, " ")
+  if (before !== textOf(info.block).replace(/ /g, " ")) return false
+  let type
+  let checked = false
+  if (before === "---") type = "divider"
+  else if (before === "```") type = "code"
+  else if (typed === " ") {
+    const key = before.slice(0, -1)
+    type = { "#": "h1", "##": "h2", "###": "h3", "-": "bullet", "*": "bullet", "+": "bullet", ">": "quote", "[]": "todo", "[ ]": "todo", "[x]": "todo" }[key]
+    if (/^\d+[.)]$/.test(key)) type = "number"
+    checked = key === "[x]"
+  }
+  if (!type) return false
+  info.block.textContent = ""
+  applyType(info.block, type)
+  if (checked) info.block.dataset.checked = "true"
+  return true
+}
+
+const INLINE = [
+  [/\*\*([^*\s](?:[^*]*[^*\s])?)\*\*$/, "strong"],
+  [/~~([^~\s](?:[^~]*[^~\s])?)~~$/, "s"],
+  [/`([^`]+)`$/, "code"],
+  [/(?<![*\w])\*([^*\s](?:[^*]*[^*\s])?)\*$/, "em"],
+  [/(?<![\w_])_([^_\s](?:[^_]*[^_\s])?)_$/, "em"],
+]
+
+function inlineShortcut() {
+  const range = caret()
+  const node = range?.startContainer
+  if (!range?.collapsed || node.nodeType !== 3) return false
+  if (typeOf(blockOf(node)) === "code" || node.parentElement.closest("code")) return false
+  const before = node.data.slice(0, range.startOffset)
+  for (const [pattern, tag] of INLINE) {
+    const match = before.match(pattern)
+    if (!match) continue
+    const span = document.createRange()
+    span.setStart(node, match.index)
+    span.setEnd(node, range.startOffset)
+    span.deleteContents()
+    const el = document.createElement(tag)
+    el.textContent = match[1]
+    const after = document.createTextNode(ZW)
+    span.insertNode(after)
+    span.insertNode(el)
+    const next = document.createRange()
+    next.setStart(after, 1)
+    select(next)
+    return true
+  }
+  return false
+}
+
+/* ---------- Typing: Enter, Backspace, Delete ---------- */
+
+function splitBlock() {
+  deleteAcross()
+  const info = caretInfo()
+  if (!info) return
+  const { block, range } = info
+  const type = typeOf(block)
+  if (type === "code") return insertNewline()
+  range.deleteContents()
+  const list = LISTS.includes(type)
+  if (!textOf(block) && (list || type === "quote")) return applyType(block, "p")
+  const offset = textOffset(block, range.startContainer, range.startOffset)
+  if (offset === 0 && textOf(block) && !list) {
+    block.before(makeBlock())
+    return
+  }
+  const tail = document.createRange()
+  tail.selectNodeContents(block)
+  tail.setStart(range.startContainer, range.startOffset)
+  const next = makeBlock(list ? type : "p")
+  next.append(tail.extractContents())
+  block.after(next)
+  dropEmptyInline(block)
+  dropEmptyInline(next)
+  if (next.textContent === "\n") next.textContent = ""
+  setCaret(next, 0)
+  next.scrollIntoView({ block: "nearest" })
+}
+
+function backspaceAtStart(info) {
+  const { block } = info
+  if (typeOf(block) !== "p") return applyType(block, "p"), setCaret(block, 0)
+  const previous = block.previousElementSibling
+  if (!previous) return
+  if (typeOf(previous) === "divider") return previous.remove()
+  const offset = previous.textContent.length
+  merge(previous, block)
+  setCaret(previous, offset)
+}
+
+function deleteAtEnd(info) {
+  const next = info.block.nextElementSibling
+  if (!next) return
+  merge(info.block, next)
+  setCaret(info.block, info.offset)
+}
+
+let before = { block: null, text: "" }
+
+editor.addEventListener("beforeinput", (event) => {
+  const type = event.inputType
+  const info = caretInfo()
+  before = { block: info?.block ?? null, text: info?.block.textContent ?? "" }
+  if (type === "historyUndo" || type === "historyRedo") {
+    event.preventDefault()
+    return travel(type === "historyUndo" ? -1 : 1)
+  }
+  if (type.startsWith("format") && typeOf(info?.block) === "code") return event.preventDefault()
+  if (type === "insertParagraph" || type === "insertLineBreak") {
+    event.preventDefault()
+    if (type === "insertLineBreak") deleteAcross(), insertNewline()
+    else splitBlock()
+    return changed()
+  }
+  if (!type.startsWith("insert") && !type.startsWith("delete")) return
+  if (deleteAcross()) {
+    before = { block: null, text: "" }
+    if (!type.startsWith("delete")) return normalize()
+    event.preventDefault()
+    return changed()
+  }
+  if (!info || !info.range.collapsed) return
+  if (type === "deleteContentBackward" && info.offset === 0) {
+    event.preventDefault()
+    backspaceAtStart(info)
+    changed()
+  } else if (type === "deleteContentForward" && info.offset === info.block.textContent.length) {
+    event.preventDefault()
+    deleteAtEnd(info)
+    changed()
+  }
+})
+
+editor.addEventListener("input", (event) => {
+  emitInput(event)
+  const typing = event.inputType === "insertText" && !event.isComposing
+  if (typing) blockShortcut(event.data) || inlineShortcut()
+  changed(typing || event.inputType === "deleteContentBackward")
+})
+
+editor.addEventListener("keydown", (event) => {
+  if (event.defaultPrevented) return
+  const info = caretInfo()
+  const key = event.key.toLowerCase()
+  if (key === "tab" && typeOf(info?.block) === "code") {
+    event.preventDefault()
+    insertAtCaret("  ")
+    return changed(true)
+  }
+  if (!(event.metaKey || event.ctrlKey) || event.altKey) return
+  const run = (action) => (event.preventDefault(), action())
+  if (key === "z") run(() => travel(event.shiftKey ? 1 : -1))
+  else if (key === "y") run(() => travel(1))
+  else if (key === "e") run(() => format("code"))
+  else if (key === "k") run(() => format("link"))
+  else if (key === "s" && event.shiftKey) run(() => format("strike"))
+  else if (key === "enter" && typeOf(info?.block) === "todo")
+    run(() => {
+      info.block.dataset.checked = String(info.block.dataset.checked !== "true")
+      changed()
+    })
+})
+
+editor.addEventListener("paste", (event) => {
+  event.preventDefault()
+  const text = event.clipboardData.getData("text/plain").replace(/\r/g, "")
+  if (!text) return
+  deleteAcross()
+  const info = caretInfo()
+  if (!info) return
+  if (!text.includes("\n") || typeOf(info.block) === "code") insertAtCaret(text)
+  else {
+    info.range.deleteContents()
+    const blocks = parseMarkdown(text)
+    if (!blocks.length) return
+    if (textOf(info.block)) info.block.after(...blocks)
+    else info.block.replaceWith(...blocks)
+    setCaret(blocks.at(-1))
+  }
+  changed()
+})
+
+editor.addEventListener("mousedown", (event) => {
+  const block = event.target
+  if (typeOf(block) !== "todo" || block.parentElement !== editor) return
+  if (event.clientX - block.getBoundingClientRect().left > 26) return
+  event.preventDefault()
+  block.dataset.checked = String(block.dataset.checked !== "true")
+  commit()
+})
+
+editor.addEventListener("click", (event) => {
+  const link = event.target.closest?.("a")
+  if (link && (event.metaKey || event.ctrlKey) && safeUrl(link.getAttribute("href")))
+    window.open(link.href, "_blank", "noopener")
+})
+
+/* ---------- Slash menu: ui-trigger-menu through an editor adapter ---------- */
+
+const listeners = new Set()
+const emit = (change) => listeners.forEach((listener) => listener(change))
+let composing = false
+let current = null
+
+function emitInput(event) {
+  const info = caretInfo()
+  if (!info || composing) return
+  const now = info.block.textContent
+  const was = before.block === info.block ? before.text : ""
+  let start = 0
+  const limit = Math.min(was.length, now.length)
+  while (start < limit && was[start] === now[start]) start++
+  let end = 0
+  while (end < limit - start && was[was.length - 1 - end] === now[now.length - 1 - end]) end++
+  emit({
+    type: "input",
+    range: { start, end: was.length - end },
+    inserted: now.slice(start, now.length - end),
+    user: event.isTrusted,
+  })
+}
+
+const adapter = {
+  element: editor,
+  textBefore(length) {
+    const info = document.activeElement === editor && caretInfo()
+    if (!info || typeOf(info.block) === "code") return null
+    const end = textOffset(info.block, info.range.endContainer, info.range.endOffset)
+    const start = Math.max(0, end - length)
+    return { text: info.block.textContent.slice(start, end), offset: start }
+  },
+  selection() {
+    const info = document.activeElement === editor && caretInfo()
+    if (!info || blockOf(info.range.endContainer) !== info.block) return null
+    return { start: info.offset, end: textOffset(info.block, info.range.endContainer, info.range.endOffset) }
+  },
+  rectAt(offset) {
+    if (!current?.isConnected) return null
+    const rect = rangeIn(current, offset).getClientRects()[0]
+    if (rect?.height) return { x: rect.left, y: rect.top, width: 0, height: rect.height }
+    const box = current.getBoundingClientRect()
+    const style = getComputedStyle(current)
+    return {
+      x: box.left + parseFloat(style.paddingLeft),
+      y: box.top + parseFloat(style.paddingTop),
+      width: 0,
+      height: parseFloat(style.lineHeight) || 24,
+    }
+  },
+  replace(range, content) {
+    if (!current?.isConnected) return
+    const text = typeof content === "string" ? content : content.label
+    const target = rangeIn(current, range.start, range.end)
+    target.deleteContents()
+    if (text) target.insertNode(document.createTextNode(text))
+    current.normalize()
+    setCaret(current, range.start + text.length)
+    emit({ type: "input", range, inserted: text, user: false })
+    changed()
+  },
+  subscribe(listener) {
+    listeners.add(listener)
+    return () => listeners.delete(listener)
+  },
+  composing: () => composing,
+}
+
+editor.addEventListener("compositionstart", () => {
+  composing = true
+  emit({ type: "compositionstart" })
+})
+editor.addEventListener("compositionend", () => {
+  composing = false
+  emit({ type: "compositionend" })
+})
+
+customElements.whenDefined("ui-trigger-menu").then(() => {
+  slash.editor = adapter
+  slash.triggers = [{ char: "/", maxLength: 24 }]
+})
+
+slash.addEventListener("itemselect", (event) => {
+  event.preventDefault()
+  const info = caretInfo()
+  if (!info) return
+  const start = info.block.textContent.lastIndexOf("/", info.offset - 1)
+  if (start >= 0) {
+    rangeIn(info.block, start, info.offset).deleteContents()
+    info.block.normalize()
+    emit({ type: "input", range: { start, end: info.offset }, inserted: "", user: false })
+  }
+  applyType(info.block, event.detail.value)
+  changed()
+})
+
+/* ---------- Selection toolbar: ui-toolbar with ui-toggle ---------- */
+
+let linking = null
+let pointerDown = false
+
+function format(kind) {
+  const range = caret()
+  if (!range || typeOf(blockOf(range.startContainer)) === "code") return
+  if (kind === "link") return startLink()
+  if (kind === "code") toggleCode(range)
+  else document.execCommand({ bold: "bold", italic: "italic", strike: "strikeThrough" }[kind])
+  changed()
+  showBubble()
+}
+
+function toggleCode(range) {
+  const inside = (range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement).closest("code")
+  if (inside) {
+    const text = document.createTextNode(inside.textContent)
+    inside.replaceWith(text)
+    const next = document.createRange()
+    next.selectNode(text)
+    return select(next)
+  }
+  if (range.collapsed) return
+  const code = document.createElement("code")
+  code.textContent = range.toString()
+  range.deleteContents()
+  range.insertNode(code)
+  const next = document.createRange()
+  next.selectNodeContents(code)
+  select(next)
+}
+
+function startLink() {
+  const range = caret()
+  if (!range || range.collapsed) return
+  const el = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement
+  if (el.closest("a") || range.cloneContents().querySelector("a")) {
+    document.execCommand("unlink")
+    changed()
+    return showBubble()
+  }
+  linking = range.cloneRange()
+  bubble.hidden = false
+  $("#format").hidden = true
+  linkForm.hidden = false
+  placeBubble(linking)
+  linkForm.querySelector("input").value = ""
+  linkForm.querySelector("input").focus()
+}
+
+function endLink(url) {
+  const range = linking
+  linking = null
+  linkForm.hidden = true
+  $("#format").hidden = false
+  if (!range) return
+  select(range)
+  if (url) {
+    if (!/^(https?:|mailto:|\/|#)/i.test(url)) url = "https://" + url
+    document.execCommand("createLink", false, url)
+    changed()
+  }
+  showBubble()
+}
+
+linkForm.addEventListener("submit", (event) => {
+  event.preventDefault()
+  endLink(linkForm.querySelector("input").value.trim())
+})
+linkForm.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") endLink()
+})
+linkForm.addEventListener("focusout", (event) => {
+  if (linking && !linkForm.contains(event.relatedTarget)) endLink()
+})
+
+function placeBubble(range) {
+  const rect = range.getBoundingClientRect()
+  const width = bubble.offsetWidth
+  const height = bubble.offsetHeight
+  const left = rect.left + rect.width / 2 - width / 2
+  const top = rect.top - height - 8
+  bubble.style.left = Math.max(8, Math.min(left, innerWidth - width - 8)) + "px"
+  bubble.style.top = (top < 56 ? rect.bottom + 8 : top) + "px"
+}
+
+function showBubble() {
+  if (linking) return
+  const range = caret()
+  const block = range && blockOf(range.startContainer)
+  const show = !!range && !range.collapsed && !editor.hidden && !pointerDown && !!range.toString().trim() && typeOf(block) !== "code"
+  bubble.hidden = !show
+  if (!show) return
+  const el = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement
+  const state = {
+    bold: document.queryCommandState("bold") && !/^h\d$/.test(typeOf(block) ?? ""),
+    italic: document.queryCommandState("italic"),
+    strike: document.queryCommandState("strikeThrough"),
+    code: !!el.closest("code"),
+    link: !!el.closest("a"),
+  }
+  for (const toggle of bubble.querySelectorAll("ui-toggle")) {
+    if ("pressed" in toggle) toggle.pressed = state[toggle.getAttribute("value")]
+  }
+  placeBubble(range)
+}
+
+bubble.addEventListener("mousedown", (event) => {
+  if (event.target.tagName !== "INPUT") event.preventDefault()
+})
+bubble.addEventListener("pressedchange", (event) => format(event.target.getAttribute("value")), { capture: true })
+
+document.addEventListener("selectionchange", () => {
+  const info = caretInfo()
+  if (info) {
+    if (current !== info.block) {
+      editor.querySelectorAll(".is-current").forEach((block) => block.classList.remove("is-current"))
+      info.block.classList.add("is-current")
+      current = info.block
+    }
+    emit({ type: "selection" })
+  }
+  showBubble()
+})
+document.addEventListener("mousedown", () => (pointerDown = true))
+document.addEventListener("mouseup", () => {
+  pointerDown = false
+  setTimeout(showBubble)
+})
+addEventListener("scroll", showBubble, { passive: true })
+addEventListener("resize", showBubble)
+
+/* ---------- Block handle: ui-menu ---------- */
+
+const blockMenu = $("#block-menu")
+let handleBlock = null
+let menuOpen = false
+
+$("#page").addEventListener("mousemove", (event) => {
+  if (menuOpen || editor.hidden || handle.contains(event.target)) return
+  const block =
+    blockOf(event.target) ??
+    [...editor.children].find((el) => {
+      const box = el.getBoundingClientRect()
+      return event.clientY >= box.top && event.clientY <= box.bottom
+    })
+  if (!block) return
+  handleBlock = block
+  const style = getComputedStyle(block)
+  const line = parseFloat(style.lineHeight) || 24
+  handle.style.top = block.offsetTop + parseFloat(style.paddingTop) + (typeOf(block) === "divider" ? -2 : (line - 24) / 2) + "px"
+  handle.hidden = false
+})
+$("#page").addEventListener("mouseleave", () => {
+  if (!menuOpen) handle.hidden = true
+})
+
+blockMenu.addEventListener("openchange", (event) => {
+  menuOpen = event.detail.value
+  if (menuOpen) bubble.hidden = true
+})
+blockMenu.addEventListener("action", (event) => {
+  const block = handleBlock
+  const action = String(event.detail.value)
+  if (!block?.isConnected) return
+  let focus = block
+  if (action.startsWith("turn:")) applyType(block, action.slice(5))
+  else if (action === "up") block.previousElementSibling?.before(block)
+  else if (action === "down") block.nextElementSibling?.after(block)
+  else if (action === "duplicate") {
+    focus = block.cloneNode(true)
+    block.after(focus)
+  } else if (action === "delete") {
+    focus = block.nextElementSibling ?? block.previousElementSibling
+    block.remove()
+  }
+  normalize()
+  handle.hidden = true
+  setTimeout(() => {
+    setCaret(focus?.isConnected ? focus : editor.firstElementChild)
+    changed()
+  })
+})
+
+/* ---------- Views and copy ---------- */
+
+function setView(view) {
+  const markdown = view === "markdown"
+  if (markdown === editor.hidden) return
+  if (markdown) source.value = toMarkdown()
+  else {
+    editor.replaceChildren(...parseMarkdown(source.value))
+    normalize()
+    commit()
+    refresh()
+  }
+  editor.hidden = markdown
+  source.hidden = !markdown
+  bubble.hidden = handle.hidden = true
+  if (markdown) source.focus()
+  else setCaret(editor.firstElementChild, 0)
+}
+
+$("#view").addEventListener("valuechange", (event) => setView(event.detail.value))
+
+$("#copy").addEventListener("click", async (event) => {
+  const button = event.currentTarget
+  const markdown = editor.hidden ? source.value : toMarkdown()
+  try {
+    await navigator.clipboard.writeText(markdown)
+    button.textContent = "Copied"
+  } catch {
+    button.textContent = "Copy failed"
+  }
+  setTimeout(() => (button.textContent = "Copy markdown"), 1600)
+})
+
+/* ---------- Starting document ---------- */
+
+editor.append(
+  ...parseMarkdown(`# Weekly planning
+
+A block editor that reads and writes **markdown**. Type \`/\` on an empty line for the block menu, or use the shortcuts you already know.
+
+## This week
+
+- [x] Draft the launch outline
+- [ ] Review it with *design*
+- [ ] Publish the [changelog](https://example.com/changelog)
+
+## Notes
+
+> Select any text to format it or add a link.
+
+1. Hover a block and use the handle on the left to move, duplicate or convert it.
+2. Switch to Markdown in the top bar to edit the source directly.
+
+\`\`\`
+npm run build
+\`\`\`
+
+---
+
+`)
+)
+normalize()
+commit()
+refresh()
+</script>
+</body>
+</html>
