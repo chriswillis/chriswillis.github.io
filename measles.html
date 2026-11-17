@@ -193,6 +193,57 @@ h1 {
   max-width: 52ch; margin: 0 0 40px;
 }
 
+del, s, .strike-clean {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px; /* Or 0.12em to scale with font size */
+  text-decoration-color: #e63946; /* Contrasting color, or use currentColor */
+  color: #6c757d; /* Muted text color so the line stands out */
+}
+del {
+  position: relative;
+  display: inline-block;
+  text-decoration: none; /* Remove native line-through */
+  color: #767676;        /* Muted gray text shown in your screenshot */
+}
+
+del::after {
+  content: "";
+  position: absolute;
+  left: -0.04em;
+  right: -0.04em;
+
+  /* Increase this value to push the line down onto the 'e' crossbar */
+  top: 53%;              /* Try between 56% and 60% depending on your line-height */
+
+  height: 1.5px;         /* Matches the thin editorial stroke in your image */
+  background-color: #e03131;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+h1 del {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: #767676;
+}
+
+h1 del::after {
+  content: "";
+  position: absolute;
+  left: -0.03em;
+  right: -0.03em;
+
+  /* Tighter line-height in headings shifts the 'e' crossbar slightly higher */
+  top: 56%;              /* Fine-tune between 54% and 58% */
+
+  /* Proportional thickness scales cleanly with large display sizes */
+  height: 0.065em;       /* ~3px on a 48px heading; matches serif crossbars */
+  background-color: #e03131;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 /* ============================================================================
  * Sections — eyebrow labels and subheds
  * ========================================================================== */
@@ -537,10 +588,10 @@ footer p {
 <header class="hero">
   <div class="wide">
     <p class="kicker">Measles in America, 1928&ndash;2026</p>
-    <h1>We beat measles once, but will it come back?</h1>
+    <h1>We beat measles once, but <del>will it come</del><br/> it came back<del>?</del></h1>
     <p class="byline">Charts and text by Chris Willis</p>
     <p class="dateline" id="dateline">Project Tycho and CDC surveillance data &middot; cases reported through the week ending October&nbsp;3, 2026</p>
-    <p class="lede" id="lede">This chart shows both a dramatic case for vaccination and, on closer inspection, a tenous moment for public health. The US eliminated measles in 2000. <span class="lede-key">In 2026, the CDC has confirmed <span class="num" id="lede-cases">4,080</span> cases<span id="lede-asof"> as of October&nbsp;8</span>, the most since <span class="num" id="lede-since">1991</span>.</span> Kindergarten vaccination now sits below the herd-immunity threshold (95%) in most of the country.</p>
+    <p class="lede" id="lede"><b>Update: US lost its measles elimination status on 17 Nov. 2026.</b><br/> This chart shows both a dramatic case for vaccination and, on closer inspection, a tenous moment for public health. The US eliminated measles in 2000. <span class="lede-key">In 2026, the CDC has confirmed <span class="num" id="lede-cases">4,080</span> cases<span id="lede-asof"> as of October&nbsp;8</span>, the most since <span class="num" id="lede-since">1991</span>.</span> Kindergarten vaccination now sits below the herd-immunity threshold (95%) in most of the country.</p>
     <p class="status" data-state="loading" id="status"><span class="dot"></span><span id="status-text">Fetching this year&rsquo;s counts from the CDC&hellip;</span></p>
     <figure id="fig1">
       <div class="ramp-key" id="key1"></div>
@@ -566,7 +617,7 @@ footer p {
       <p class="eyebrow">Don't call it a comeback</p>
       <h2>Looking closer at the last two years</h2>
       <p>As you can see, even with herd-immunity, a virus like measles can continue to circulate. Today's case rate wouldn't have registered as unusual in 1940s. So, our old color scale doesn't highlight the problem. This chart is calibrated on a more sensitive scale &ndash; each step in color is ten times the rate below it. Gray means no cases were reported that year. States are sorted by their rate since January 2025, and counts are printed where at least 25 cases were reported.</p>
-      <p>The CDC counted <span class="num">2,289</span> confirmed cases in 2025 and three deaths. The first American measles deaths in a decade. The year began with an outbreak in Gaines County, Texas. In 2026, the count had passed 4,000 by early October. The largest totals this year are in Pennsylvania, South Carolina, and Utah, where one outbreak has now continued for more than a year. A regional commission of the Pan American Health Organization is expected to rule in November on whether the United States has lost its elimination status. Canada lost its in November 2025.</p>
+      <p>The CDC counted <span class="num">2,289</span> confirmed cases in 2025 and three deaths. The first American measles deaths in a decade. The year began with an outbreak in Gaines County, Texas. In 2026, the count had passed 4,000 by early October. The largest totals this year are in Pennsylvania, South Carolina, and Utah, where one outbreak has now continued for more than a year. A regional commission of the Pan American Health Organization <del>is expected to rule in November on whether</del> ruled 17 November 2026 the United States has <a href="https://www.nytimes.com/2026/11/17/well/us-measles-elimination-status.html">lost its elimination status</a>. Canada lost its in November 2025.</p>
     </div>
     <figure id="fig2">
       <div class="ramp-key" id="key2"></div>
