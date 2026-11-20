@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Chris Willis</title>
 <meta name="description" content="Chris Willis — Chief Design Officer and Futurist at Domo. Emotional design, human-AI collaboration, and the future of work." />
@@ -10,9 +11,7 @@
 <link rel="icon" href="/favicon-32.png" type="image/png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="alternate" type="application/rss+xml" title="Chris Willis: writing" href="/feed.xml" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet" />
+<link rel="preload" href="assets/fonts/allo/AlloVariable.woff2" as="font" type="font/woff2" crossorigin />
 
 <!-- iMessage / Open Graph preview -->
 <meta property="og:type" content="website">
@@ -69,15 +68,8 @@
     display: block; width: 100%; height: calc(100% + 0.5rem);
     object-fit: cover; object-position: 50% var(--shot-y, 0%);
     box-shadow: 0 0 0 1px var(--ui);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   a.project .name, .project-open { text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out; }
-  a.project:hover .name, a.project:focus-visible .name,
-  .project.is-clickable:hover .project-open, .project-open:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
-  a.project:hover .project-shot img, a.project:focus-visible .project-shot img,
-  .project.is-clickable:hover .project-shot img, .project.is-clickable:focus-within .project-shot img { transform: translateY(-0.35rem); }
-  a.project:focus-visible, .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
-  a.project:hover .project-count, .project.is-clickable:hover .project-count { color: var(--accent); }
   /* A card that opens an image gallery: the title button stretches over the whole card */
   .project.is-clickable { cursor: pointer; }
   .project-open { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
@@ -138,9 +130,6 @@
     transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
   }
   .experiment .blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); font-size: 1.05rem; }
-  .experiment:hover .title, .experiment:focus-visible .title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
-  .experiment:hover img { opacity: 0.92; }
-  .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   .more-link { margin-top: 1.5rem; }
 
   /* Selected writings: title, one-line dek and source */
@@ -156,8 +145,6 @@
   }
   .writing-dek { display: block; margin-top: 0.3rem; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
   .writing-meta { display: block; margin-top: 0.4rem; color: var(--tx-2); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
-  .writing:hover .writing-title, .writing:focus-visible .writing-title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
-  .writing:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
   /* Brands: a tight grid of tinted logos */
   .brands-section { margin: 2.5rem 0 2.75rem; }
@@ -182,6 +169,117 @@
   .flying { display: grid; gap: 2px; margin: 0.9rem 0 0.6rem; }
   .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
   @media (min-width: 40rem) { .flying { display: flex; } .flying img { flex: var(--ar) 1 0; } }
+
+  /* ==== Allo prototype ==========================================================
+     Type: Allo variable (wght 100–900, ROND 0–100, opsz 14–32), self-hosted, OFL.
+     Hover: modeled on joshpuckett.me. Rounded rows that fill on hover, a cursor-following
+     preview that swings like a pendulum, and a dim-and-blur focus on the brand grid.
+     Try ?rond=0, ?rond=50 or ?rond=100 in the URL to compare roundness. */
+  @font-face {
+    font-family: "Allo";
+    src: url("assets/fonts/allo/AlloVariable.woff2") format("woff2");
+    font-weight: 100 900; font-style: normal; font-display: swap;
+  }
+  :root {
+    --sans: "Allo", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --rond: 50;
+    --w-body: 350; --w-strong: 520; --w-display: 330;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --row-r: 12px;
+    --peek-w: 400px; --peek-h: 330px; --peek-gap: 54px;   /* floating preview size */
+  }
+  @media (max-width: 62rem) { :root { --peek-w: 380px; --peek-h: 250px; } }
+  body {
+    font-weight: var(--w-body); font-optical-sizing: auto; font-variation-settings: "ROND" var(--rond);
+    line-height: 1.55; letter-spacing: -0.003em;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Muted body copy so links read by color and weight, without underlines */
+  main p, main li { color: var(--tx-2); }
+  .masthead + p { color: var(--tx); font-weight: var(--w-display); letter-spacing: -0.022em; line-height: 1.15; }
+  h2 { font-weight: var(--w-strong); color: var(--tx); letter-spacing: -0.01em; }
+  .masthead h1 { font-weight: var(--w-strong); color: var(--tx); }
+  .masthead h1 .role { font-weight: var(--w-body); color: var(--tx-2); }
+
+  a { color: var(--tx); font-weight: var(--w-strong); text-decoration: none; transition: color 0.15s var(--ease); }
+  a:hover { color: var(--accent); transition: color 0.15s var(--ease); }
+  a:focus-visible { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.15em; }
+
+  /* ---- Rows: projects, explorations, media and writings ---- */
+  .project, .experiment, .writing {
+    border-radius: var(--row-r);
+    transition: background-color 0.15s var(--ease);
+  }
+  .project h3, .experiment .title, .writing-title { font-weight: var(--w-strong); color: var(--tx); }
+  a.project .name, .project-open, .experiment .title, .writing-title { text-decoration: none; }
+  .project .year, .gallery-head .year { font-weight: var(--w-body); }
+  .project:hover, .project:focus-within, .experiment:hover, .experiment:focus-visible,
+  .writing:hover, .writing:focus-visible { background: var(--bg-2); }
+  .experiment:focus-visible, .writing:focus-visible, a.project:focus-visible,
+  .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .writing-list { border-bottom: 0; margin-left: -1rem; margin-right: -1rem; }
+  .writing-list li + li { border-top: 0; }
+  .writing { padding: 0.85rem 1rem 0.95rem; }
+
+  /* Touch: keep the teaser images inline, only the type changes */
+  @media (hover: none), (pointer: coarse) {
+    .project:hover, .experiment:hover, .writing:hover { background: none; }
+    .project, .project:hover, .project:focus-within { background: var(--bg-2); border-radius: 0; }
+  }
+
+  /* Mouse: images move into the floating preview, cards become rows */
+  @media (hover: hover) and (pointer: fine) {
+    .project { background: none; margin: 0.15rem -1rem 0; overflow: visible; }
+    .project-text { padding: 0.85rem 1rem 0.95rem; }
+    .project-shot { display: none; }
+    .project-count {
+      position: absolute; top: 0.95rem; right: 1rem; bottom: auto;
+      padding: 0; background: none; box-shadow: none; color: var(--tx-3);
+      font-variant-numeric: tabular-nums; transition: color 0.15s var(--ease);
+    }
+    .project:hover .project-count { color: var(--tx-2); }
+    .project h3 { padding-right: 9rem; }
+    .projects > p { margin-bottom: 0.6rem; }
+
+    .experiment { margin: 0.15rem -1rem 0; padding: 0.85rem 1rem 0.95rem; }
+    .experiment picture { display: none; }
+    .experiment figcaption { margin-top: 0; }
+    .experiments h2 + .experiment { margin-top: 0; }
+    .more-link { margin-top: 1rem; }
+  }
+
+  /* ---- Focus blur on the brand grid ---- */
+  .brands li { transition: opacity 0.25s ease-out, filter 0.25s ease-out; }
+  @media (hover: hover) and (pointer: fine) {
+    .brands:has(li:hover) li:not(:hover) { opacity: 0.5; filter: blur(2px); }
+  }
+
+  /* ---- Floating preview (built by script) ---- */
+  .peek { position: fixed; top: 0; left: 0; width: var(--peek-w); height: var(--peek-h); z-index: 30; pointer-events: none; }
+  .peek-swing { width: 100%; height: 100%; transform-origin: calc(var(--peek-w) / 2) calc(var(--peek-h) + var(--peek-gap)); }
+  .peek[data-side="below"] .peek-swing { transform-origin: calc(var(--peek-w) / 2) calc(-1 * var(--peek-gap)); }
+  .peek-stack { display: grid; width: 100%; height: 100%; place-items: end center; }
+  .peek[data-side="below"] .peek-stack { place-items: start center; }
+  .peek-item {
+    grid-area: 1 / 1; opacity: 0; transform: scale(0.8) rotate(var(--tilt));
+    transition: opacity 0.3s var(--ease), transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  .peek-item.is-on { opacity: 1; transform: rotate(var(--tilt)); }
+  .peek img {
+    display: block; max-width: var(--peek-w); max-height: var(--peek-h); width: auto; height: auto;
+    border-radius: 10px; user-select: none;
+    filter: drop-shadow(0 12px 28px rgb(16 15 15 / 0.16)) drop-shadow(0 2px 6px rgb(16 15 15 / 0.1));
+  }
+  :root[data-theme="dark"] .peek img { filter: drop-shadow(0 14px 32px rgb(0 0 0 / 0.5)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.3)); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .peek img { filter: drop-shadow(0 14px 32px rgb(0 0 0 / 0.5)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.3)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .peek-item, .peek-item.is-on { transform: rotate(var(--tilt)); }
+    .brands li { filter: none !important; }
+  }
 </style>
 
 <script>
@@ -859,6 +957,108 @@
         });
       });
     });
+  })();
+</script>
+<script>
+  // Allo prototype: ?rond=0–100 sets the font's roundness axis for comparison
+  (function () {
+    var r = new URLSearchParams(location.search).get("rond");
+    if (r !== null && !isNaN(r)) document.documentElement.style.setProperty("--rond", Math.max(0, Math.min(100, +r)));
+  })();
+
+  // Floating preview, modeled on joshpuckett.me: the hovered row's image hangs above the cursor,
+  // follows it on a spring and swings against the direction of travel. Mouse only.
+  (function () {
+    var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var rows = Array.prototype.slice.call(document.querySelectorAll(".project, .experiment"));
+    if (!rows.length) return;
+
+    var TILTS = [-5, 3.5, -2.5, 5.5, -4, 2, -6, 4, -3, 6, -1.5, -5, 3];
+    var W = 480, H = 320, GAP = 54;            // preview box and the space above the cursor; synced from CSS --peek-*
+
+    var peek = document.createElement("div");
+    peek.className = "peek"; peek.setAttribute("aria-hidden", "true"); peek.dataset.side = "above";
+    var swing = document.createElement("div"); swing.className = "peek-swing";
+    var stack = document.createElement("div"); stack.className = "peek-stack";
+    swing.appendChild(stack); peek.appendChild(swing); document.body.appendChild(peek);
+
+    function srcFor(row) {
+      var source = row.querySelector("picture source[type='image/webp']");
+      if (source) return source.getAttribute("srcset").split(/\s+/)[0];
+      var img = row.querySelector(".project-shot img, picture img");
+      return img ? img.getAttribute("src") : null;
+    }
+    var items = rows.map(function (row, i) {
+      var src = srcFor(row), item = document.createElement("div");
+      item.className = "peek-item"; item.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
+      if (src) {
+        var img = document.createElement("img");
+        img.alt = ""; img.decoding = "async"; img.loading = "lazy"; img.src = src;
+        item.appendChild(img);
+      }
+      stack.appendChild(item);
+      return item;
+    });
+
+    // Spring state: anchor position follows the cursor; swing angle reacts to the anchor's speed
+    var tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, ang = 0, va = 0;
+    var active = -1, raf = 0, last = 0, placed = false;
+
+    function measure() { W = peek.offsetWidth || W; H = peek.offsetHeight || H; }
+    function targetFor(cx, cy) {
+      var below = cy - GAP - H < 8;
+      peek.dataset.side = below ? "below" : "above";
+      tx = cx - W / 2; ty = below ? cy + GAP : cy - GAP - H;
+    }
+    function paint() {
+      peek.style.transform = "translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
+      swing.style.rotate = ang.toFixed(3) + "deg";
+    }
+    function tick(now) {
+      var dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+      // Position: close to critically damped, so it trails the cursor without overshoot
+      var k = 170, c = 26;
+      vx += (k * (tx - x) - c * vx) * dt; vy += (k * (ty - y) - c * vy) * dt;
+      x += vx * dt; y += vy * dt;
+      // Swing: underdamped, pushed by horizontal speed, so it sways and settles
+      var goal = Math.max(-10, Math.min(10, -vx * 0.009));
+      va += (320 * (goal - ang) - 14 * va) * dt; ang += va * dt;
+      paint();
+      var moving = Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1 || Math.abs(vx) > 0.5 || Math.abs(ang) > 0.01 || Math.abs(va) > 0.05;
+      raf = moving ? requestAnimationFrame(tick) : 0;
+    }
+    function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } }
+
+    function show(i) {
+      if (active === i) return;
+      if (active > -1) items[active].classList.remove("is-on");
+      active = i;
+      if (i > -1) items[i].classList.add("is-on");
+    }
+    function onMove(e) {
+      if (e.pointerType && e.pointerType !== "mouse") return;
+      targetFor(e.clientX, e.clientY);
+      if (!placed || reduce.matches) { x = tx; y = ty; vx = vy = 0; placed = true; paint(); return; }
+      kick();
+    }
+
+    // Leaving one row for the next keeps the preview in flight; leaving the list hides it
+    var hideTimer = 0;
+    function hide() { clearTimeout(hideTimer); show(-1); placed = false; }
+    function enter(e, i) {
+      if (!fine.matches || e.pointerType !== "mouse") return;
+      clearTimeout(hideTimer); if (active === -1) measure(); onMove(e); show(i);
+    }
+    rows.forEach(function (row, i) {
+      row.addEventListener("pointerenter", function (e) { enter(e, i); });
+      row.addEventListener("pointermove", function (e) { if (active !== i) enter(e, i); else onMove(e); });
+      row.addEventListener("pointerleave", function () {
+        if (active === i) { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 80); }
+      });
+      row.addEventListener("click", hide);
+    });
+    window.addEventListener("scroll", function () { if (active > -1) hide(); }, { passive: true });
   })();
 </script>
 </body>

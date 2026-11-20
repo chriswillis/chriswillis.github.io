@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chris Willis</title>
+<meta name="description" content="Chris Willis — Chief Design Officer and Futurist at Domo. Emotional design, human-AI collaboration, and the future of work." />
+<link rel="canonical" href="https://cewillis.com/" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon-32.png" type="image/png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="alternate" type="application/rss+xml" title="Chris Willis: writing" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet" />
+
+<!-- iMessage / Open Graph preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cewillis.com/">
+<meta property="og:site_name" content="Chris Willis">
+<meta property="og:title" content="Chris Willis — Designing technology for humans">
+<meta property="og:description" content="Chief Design Officer and Futurist at Domo. Designing AI-powered products that solve human problems—not just cool demos.">
+<meta property="og:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta property="og:image:secure_url" content="https://cewillis.com/og-cewillis.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Chris Willis — Designing technology for humans">
+
+<!-- X / Twitter fallback -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chris Willis — Designing technology for humans">
+<meta name="twitter:description" content="Chief Design Officer and Futurist at Domo. Designing AI-powered products that solve human problems—not just cool demos.">
+<meta name="twitter:image" content="https://cewillis.com/og-cewillis.jpg">
+<meta name="twitter:image:alt" content="Chris Willis — Designing technology for humans">
+
+<link rel="stylesheet" href="assets/site/site.css" />
+<style>
+  /* Home page. Shared tokens, links, masthead and theme toggle live in assets/site/site.css */
+
+  /* Home page typography */
+  p { margin-bottom: 1.25rem; }
+  h2 { font-size: 1.2rem; font-weight: 400; margin: 3rem 0 0.9rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
+  hr { border: 0; height: 1px; background: var(--divider); margin: 2.5rem 0 1.75rem; }
+
+  /* Lists: a short accent dash for each item */
+  ul { list-style: none; display: grid; gap: 0.5rem; margin-bottom: 1.25rem; }
+  ul li { position: relative; padding-left: 1.4rem; }
+  ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.6rem; height: 2px; background: var(--accent); }
+
+  /* The opening line is the display element */
+  .masthead + p {
+    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
+    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
+    margin-bottom: 1.5rem; max-width: 24ch;
+  }
+  .masthead + p + p { color: var(--tx-2); margin-bottom: 2.5rem; }
+
+  /* Selected projects: teaser cards with the screenshot peeking up from the bottom edge.
+     A card is either a link (a.project) or opens an image gallery (.project.is-clickable). */
+  .project { position: relative; display: block; margin-top: 1rem; background: var(--bg-2); color: inherit; font-weight: inherit; text-decoration: none; overflow: hidden; }
+  .project-text { padding: 1.1rem 1.25rem 0; }
+  .project h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
+  .project .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
+  .project p { margin: 0.3rem 0 0; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .project-shot { height: clamp(8.5rem, 32vw, 13.5rem); margin-top: 1.25rem; padding: 0 1.25rem; overflow: hidden; }
+  /* The screenshot fills the width and is cropped vertically; set --shot-y on an img to move the focal point down */
+  .project-shot img {
+    display: block; width: 100%; height: calc(100% + 0.5rem);
+    object-fit: cover; object-position: 50% var(--shot-y, 0%);
+    box-shadow: 0 0 0 1px var(--ui);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  a.project .name, .project-open { text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out; }
+  a.project:hover .name, a.project:focus-visible .name,
+  .project.is-clickable:hover .project-open, .project-open:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
+  a.project:hover .project-shot img, a.project:focus-visible .project-shot img,
+  .project.is-clickable:hover .project-shot img, .project.is-clickable:focus-within .project-shot img { transform: translateY(-0.35rem); }
+  a.project:focus-visible, .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
+  a.project:hover .project-count, .project.is-clickable:hover .project-count { color: var(--accent); }
+  /* A card that opens an image gallery: the title button stretches over the whole card */
+  .project.is-clickable { cursor: pointer; }
+  .project-open { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .project-open::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .project-open:focus-visible { outline: none; }
+  .project-count {
+    position: absolute; right: 2rem; bottom: 0.75rem;
+    padding: 0.1rem 0.5rem; font-size: 0.85rem; color: var(--tx-2);
+    background: var(--bg); box-shadow: 0 0 0 1px var(--ui);
+    transition: color 0.2s ease-out;
+  }
+  :root[data-theme="dark"] .project-shot img { filter: brightness(0.9); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .project-shot img { filter: brightness(0.9); } }
+
+  /* Gallery modal: a scroll-snap carousel inside a native <dialog> */
+  html:has(.gallery[open]) { overflow: hidden; }
+  .gallery {
+    width: min(100% - 2rem, 76rem); max-width: none; max-height: calc(100dvh - 2rem);
+    margin: auto; padding: 0; overflow: hidden;
+    background: var(--bg); color: var(--tx); border: 1px solid var(--ui);
+  }
+  .gallery::backdrop { background: rgb(16 15 15 / 0.75); }
+  /* Grid rows let the image row shrink so the header, caption and arrows always fit on screen */
+  .gallery-inner { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 1rem; max-height: calc(100dvh - 2rem); padding: 1.25rem clamp(1rem, 3vw, 1.5rem); }
+  .gallery-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .gallery-head h3 { font-size: inherit; font-weight: 400; line-height: 1.35; }
+  .gallery-head .year { color: var(--tx-2); font-weight: 300; margin-right: 0.4rem; font-variant-numeric: tabular-nums; }
+  .gallery-head p { margin: 0.3rem 0 0; max-width: 62ch; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .gallery-track { display: flex; min-height: 0; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .gallery-track::-webkit-scrollbar { display: none; }
+  .gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .gallery-slide { flex: 0 0 100%; min-width: 0; min-height: 0; scroll-snap-align: center; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: center; gap: 0.75rem; }
+  .gallery-slide img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; background: var(--bg-2); box-shadow: 0 0 0 1px var(--ui); }
+  .gallery-slide figcaption { color: var(--tx-2); font-size: 1rem; text-align: center; }
+  .gallery-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+  .gallery-count { min-width: 3.5rem; text-align: center; color: var(--tx-2); font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .gallery button {
+    flex: none; display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
+    background: none; border: 1px solid var(--ui-2); color: var(--tx); font: inherit; font-size: 1.1rem; line-height: 1; cursor: pointer;
+    transition: color 0.2s ease-out, border-color 0.2s ease-out;
+  }
+  .gallery button:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+  .gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .gallery button:disabled { opacity: 0.35; cursor: default; }
+
+  /* Selected explorations: full-width teaser image, title and blurb */
+  .experiments h2 { margin-top: 3rem; }
+  .experiment { display: block; margin-top: 1.25rem; color: inherit; font-weight: inherit; text-decoration: none; }
+  .experiment figure { margin: 0; }
+  .experiment img {
+    display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover;
+    background: var(--surface); transition: opacity 0.2s ease-out;
+  }
+  .experiment figcaption { margin-top: 0.9rem; }
+  .experiment .title {
+    display: block; font-weight: 400; text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .experiment .blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); font-size: 1.05rem; }
+  .experiment:hover .title, .experiment:focus-visible .title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+  .experiment:hover img { opacity: 0.92; }
+  .experiment:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .more-link { margin-top: 1.5rem; }
+
+  /* Selected writings: title, one-line dek and source */
+  .writing-list { list-style: none; display: grid; gap: 0; margin: 0 0 1.25rem; border-bottom: 1px solid var(--divider); }
+  .writing-list li { padding: 0; margin: 0; }
+  .writing-list li::before { content: none; }
+  .writing-list li + li { border-top: 1px solid var(--divider); }
+  .writing { display: block; padding: 0.9rem 0 1rem; color: inherit; font-weight: inherit; text-decoration: none; }
+  .writing-title {
+    display: block; font-weight: 400; text-decoration: underline; text-decoration-color: var(--underline);
+    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+  }
+  .writing-dek { display: block; margin-top: 0.3rem; color: var(--tx-2); font-size: 1.05rem; line-height: 1.45; }
+  .writing-meta { display: block; margin-top: 0.4rem; color: var(--tx-2); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .writing:hover .writing-title, .writing:focus-visible .writing-title { color: var(--accent); text-decoration-color: var(--accent); transition: color 25ms ease-in-out, text-decoration-color 25ms ease-in-out; }
+  .writing:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  /* Brands: a tight grid of tinted logos */
+  .brands-section { margin: 2.5rem 0 2.75rem; }
+  /* minmax(0, 1fr) keeps every column the same width; plain 1fr lets a wide logo's min width push its column wider */
+  .brands { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; margin: 0; }
+  .brands li::before { content: none; }
+  .brands li {
+    margin: 0; padding: 1.5rem 1rem; min-width: 0; min-height: 5rem;
+    display: flex; align-items: center; justify-content: center; background: var(--bg-2);
+  }
+  .brands img {
+    display: block; max-width: min(5.5rem, 100%); max-height: 1.6rem; width: auto; height: auto; object-fit: contain;
+    filter: var(--logo-filter, none);
+  }
+  .brands li.mark img { max-width: min(2.1rem, 100%); max-height: 2rem; }
+  .brands li.wide img { max-width: min(6rem, 100%); max-height: 1.4rem; }
+  @media (min-width: 30rem) { .brands { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 40rem) { .brands { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+  /* Flying photos under the pilot bullet: stacked on phones, one equal-height row on wider screens.
+     --ar is each photo's aspect ratio, so flex-grow gives both the same height. */
+  .flying { display: grid; gap: 2px; margin: 0.9rem 0 0.6rem; }
+  .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
+  @media (min-width: 40rem) { .flying { display: flex; } .flying img { flex: var(--ar) 1 0; } }
+</style>
+
+<script>
+  // Apply saved theme before paint to avoid a flash
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": "https://cewillis.com/",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Chris Willis",
+    "url": "https://cewillis.com/",
+    "image": "https://cewillis.com/assets/avatar/chris-willis-216.png",
+    "jobTitle": "Chief Design Officer and Futurist",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Domo",
+      "url": "https://www.domo.com"
+    },
+    "sameAs": [
+      "https://x.com/chriswillis",
+      "https://www.linkedin.com/in/cwillis/",
+      "https://github.com/chriswillis/",
+      "https://www.instagram.com/hypergene/"
+    ]
+  }
+}
+</script>
+<!-- Same-site navigation: prerender a page once its link is hovered or pressed; site.css cross-fades between pages -->
+<script type="speculationrules">
+{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
+</head>
+<body>
+<main>
+  <div class="controls">
+    <button class="theme-toggle" aria-label="Toggle light and dark mode">
+      <span class="icon-moon" aria-hidden="true">☾</span>
+      <span class="icon-sun" aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <header class="masthead">
+    <picture>
+      <source type="image/webp"
+              srcset="assets/avatar/chris-willis-72.webp 1x,
+                      assets/avatar/chris-willis-144.webp 2x,
+                      assets/avatar/chris-willis-216.webp 3x" />
+      <img class="avatar" src="assets/avatar/chris-willis-72.png"
+           srcset="assets/avatar/chris-willis-144.png 2x,
+                   assets/avatar/chris-willis-216.png 3x"
+           width="72" height="72" alt="" />
+    </picture>
+    <h1>Chris Willis <span class="role">Chief Design Officer and AI Strategy, Domo</span></h1>
+  </header>
+
+  <p>I'm a design leader and product strategist helping put complex technology to work for people.</p>
+
+  <p>I'm the founding Chief Design Officer and Futurist at <a href="https://www.domo.com">Domo</a>. For 15 years, I've helped shape our cloud-native, mobile-first data analytics platform and, more recently, its approach to governed, agentic AI.</p>
+
+  <p>My focus is now on developing systems of context, knowledge, observability, and generative UI for agentic applications – understanding how agents work (or don't), who's using them, and what those people need to accomplish, then encoding the UX/UI judgement that's perfect for them.</p>
+
+  <p>Personalization is the new productivity. Enterprise software has long asked people to adapt to its way of working. I'm working toward software that adapts to each person's way of working.</p>
+
+
+
+  <h2>What I'm known for</h2>
+  <ul>
+    <li>Founding CDO at Domo: $0 to $330M ARR, a Nasdaq IPO and an acquisition by Progress Software.</li>
+    <li>Product design lead for Intent Engine, Domo's high-definition context engine for agentic AI.</li>
+    <li>Domo's AI experiences, including enterprise AI Chat for analytics that runs nearly any LLM.</li>
+    <li>The Domo COVID-19 Tracker, a <a href="https://winners.webbyawards.com/2021/apps-and-software/software-services-platforms/data-management/168780/domo-covid19-tracker">Webby Award</a> winner, and a pandemic-response app for the White House</li>
+    <li>Six U.S. patents for data visualization, analytics, AI and interfaces</li>
+    <li><a href="https://www.domo.com/news/press/domos-chris-willis-wins-executive-excellence-award">2025 Executive Excellence Award</a>, Utah Business Magazine, and Forbes Technology Council member</li>
+  </ul>
+
+  <section class="projects" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Selected projects</h2>
+    <p>A curated selection of work, with more on the way...</p>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="intent-engine-gallery" aria-label="Intent Engine, view 6 images">Intent Engine</button></h3>
+        <p>Giving AI agents the business context to act on what people mean</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/intent-impact-800.webp"
+             srcset="assets/portfolio/intent-impact-800.webp 800w, assets/portfolio/intent-impact-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="900" loading="lazy" decoding="async"
+             alt="A supply chain app shows a $3.2M order at risk and a stock forecast beside Intent Engine’s graph of connected people, products, and suppliers." />
+      </div>
+      <span class="project-count" aria-hidden="true">6 images + video</span>
+    </article>
+
+    <dialog class="gallery" id="intent-engine-gallery" aria-labelledby="intent-engine-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="intent-engine-title"><span class="year">2026</span> Intent Engine</h3>
+            <p>Giving AI agents the business context to act on what people mean</p>
+            <p><a href="https://youtu.be/wuKCtZKI1AQ?si=XJ5hjSK2jDEmLy82&amp;t=341" target="_blank" rel="noopener noreferrer">Watch the Domopalooza demo</a></p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Intent Engine images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-impact-1600.webp"
+                 srcset="assets/portfolio/intent-impact-1600.webp 1600w, assets/portfolio/intent-impact-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A supply chain app shows a $3.2M order at risk and a stock forecast beside Intent Engine’s graph of connected people, products, and suppliers." />
+            <figcaption>Business impact: the order at risk, its stock forecast, and the context behind it</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-recommendations-1600.webp"
+                 srcset="assets/portfolio/intent-recommendations-1600.webp 1600w, assets/portfolio/intent-recommendations-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="Two sourcing recommendations show projected impact reduction alongside the governed memory used to assess suppliers." />
+            <figcaption>Compare next steps using current constraints and past resolutions</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-reasoning-1600.webp"
+                 srcset="assets/portfolio/intent-reasoning-1600.webp 1600w, assets/portfolio/intent-reasoning-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A step-by-step explanation connects supplier identification, availability, pricing, and scenario analysis to the Intent Engine graph." />
+            <figcaption>Follow the reasoning from a recommendation back to its sources</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-memory-1600.webp"
+                 srcset="assets/portfolio/intent-memory-1600.webp 1600w, assets/portfolio/intent-memory-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="An organization-validated memory explains why Supplier C is excluded after a high defect rate on the BP48 component." />
+            <figcaption>Governed memory: keep lessons from past incidents available for future decisions</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-workflow-1600.webp"
+                 srcset="assets/portfolio/intent-workflow-1600.webp 1600w, assets/portfolio/intent-workflow-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A workflow review lists purchase order creation, notifications, validation, and memory updates, with a Run Workflow control." />
+            <figcaption>Review a generated workflow before putting it into motion</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/intent-context-1600.webp"
+                 srcset="assets/portfolio/intent-context-1600.webp 1600w, assets/portfolio/intent-context-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="900" loading="lazy" decoding="async"
+                 alt="The app asks for a Snowflake connection and a definition of top-tier accounts, while Intent Engine maps the additional context." />
+            <figcaption>Ask for missing data and definitions to build shared business context</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 6</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="enterprise-metrics-gallery" aria-label="Enterprise Metrics and Ontologies, view 4 images">Enterprise Metrics and Ontologies</button></h3>
+        <p>Shared definitions and relationships that help people and agents understand the business</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/metrics-ontology-800.webp"
+             srcset="assets/portfolio/metrics-ontology-800.webp 800w, assets/portfolio/metrics-ontology-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1000" loading="lazy" decoding="async"
+             alt="The ontology map expands Sales to show metric definitions and their connections to data sources and business entities." />
+      </div>
+      <span class="project-count" aria-hidden="true">4 images</span>
+    </article>
+
+    <dialog class="gallery" id="enterprise-metrics-gallery" aria-labelledby="enterprise-metrics-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="enterprise-metrics-title"><span class="year">2026</span> Enterprise Metrics and Ontologies</h3>
+            <p>Shared definitions and relationships that help people and agents understand the business</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Enterprise Metrics and Ontologies images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-ontology-1600.webp"
+                 srcset="assets/portfolio/metrics-ontology-1600.webp 1600w, assets/portfolio/metrics-ontology-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The ontology map expands Sales to show metric definitions and their connections to data sources and business entities." />
+            <figcaption>Trace the connections between business metrics, data sources, and entities</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-catalog-1600.webp"
+                 srcset="assets/portfolio/metrics-catalog-1600.webp 1600w, assets/portfolio/metrics-catalog-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The metric catalog groups governed definitions by business area, with trends, owners, and performance against budget." />
+            <figcaption>A shared catalog of metric definitions for people and agents</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-detail-1600.webp"
+                 srcset="assets/portfolio/metrics-detail-1600.webp 1600w, assets/portfolio/metrics-detail-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="Revenue by Sales Rep and Department shows a time-series chart, budget comparison, breakdown controls, and its underlying definition." />
+            <figcaption>Explore a metric with its targets, dimensions, and definition in view</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/metrics-editor-1600.webp"
+                 srcset="assets/portfolio/metrics-editor-1600.webp 1600w, assets/portfolio/metrics-editor-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The metric editor combines a chart preview and generated SQL with controls for aggregation, dimensions, time grain, and description." />
+            <figcaption>Define a metric and inspect its preview and generated query</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 4</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="app-studio-gallery" aria-label="App Studio, view 2 images">App Studio</button></h3>
+        <p>A visual canvas for designing, generating and publishing data apps</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/app-studio-800.webp"
+             srcset="assets/portfolio/app-studio-800.webp 800w, assets/portfolio/app-studio-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1032" loading="lazy" decoding="async"
+             alt="Domo App Studio editor with a block library, a page in progress and a properties panel" />
+      </div>
+      <span class="project-count" aria-hidden="true">2 images</span>
+    </article>
+
+    <dialog class="gallery" id="app-studio-gallery" aria-labelledby="app-studio-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="app-studio-title"><span class="year">2026</span> App Studio</h3>
+            <p>A visual canvas for designing, generating and publishing data apps</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="App Studio images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/app-studio-1600.webp"
+                 srcset="assets/portfolio/app-studio-1600.webp 1600w, assets/portfolio/app-studio-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1032" loading="lazy" decoding="async"
+                 alt="Domo App Studio editor with a block library, a page in progress and a properties panel" />
+            <figcaption>The editor: a block library, the page in progress and a properties panel</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/app-studio-canvas-1600.webp"
+                 srcset="assets/portfolio/app-studio-canvas-1600.webp 1600w, assets/portfolio/app-studio-canvas-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="867" loading="lazy" decoding="async"
+                 alt="A workflow beside the app it drives: when S3 utilization is flagged as oversized and savings top 15 percent, the Cloud Cost Commander app recommends a tiering fix worth $9,531 a year" />
+            <figcaption>Apps and workflows together: a trigger, a condition and the app that acts on it</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 2</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2026</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="supergrid-gallery" aria-label="SuperGrid, view 4 images">SuperGrid</button></h3>
+        <p>A unified data grid for fast, frictionless exploration of DataSets of any size</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/supergrid-explore-800.webp"
+             srcset="assets/portfolio/supergrid-explore-800.webp 800w, assets/portfolio/supergrid-explore-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="997" loading="lazy" decoding="async"
+             alt="SuperGrid showing value distributions in every column header, column stats and a column menu" />
+      </div>
+      <span class="project-count" aria-hidden="true">4 images</span>
+    </article>
+
+    <dialog class="gallery" id="supergrid-gallery" aria-labelledby="supergrid-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="supergrid-title"><span class="year">2026</span> SuperGrid</h3>
+            <p>Establish a unified visual data grid exploration and app experience throughout the platform, enhancing customer familiarity with fast and frictionless EDA interaction for DataSets of any size.</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="SuperGrid images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-explore-1600.webp"
+                 srcset="assets/portfolio/supergrid-explore-1600.webp 1600w, assets/portfolio/supergrid-explore-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid Explorer: value distributions in every column header, a stats popover and the column menu" />
+            <figcaption>Explore: distributions, nulls and column stats at a glance</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-map-1600.webp"
+                 srcset="assets/portfolio/supergrid-map-1600.webp 1600w, assets/portfolio/supergrid-map-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid Visualize panel mapping ZIP codes as points beside the grouped grid" />
+            <figcaption>Visualize: map ZIP codes straight from the grid</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-groupby-1600.webp"
+                 srcset="assets/portfolio/supergrid-groupby-1600.webp 1600w, assets/portfolio/supergrid-groupby-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="997" loading="lazy" decoding="async"
+                 alt="SuperGrid grouped by state with menus for sorting, grouping and choosing how each column aggregates" />
+            <figcaption>Group by any column and choose how each one aggregates</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/supergrid-anatomy-1600.webp"
+                 srcset="assets/portfolio/supergrid-anatomy-1600.webp 1600w, assets/portfolio/supergrid-anatomy-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="930" loading="lazy" decoding="async"
+                 alt="Annotated anatomy of SuperGrid labeling the table source, toolbar, formulas, context menu, appearance panel, status bar and aggregation bar" />
+            <figcaption>Anatomy of the grid, from toolbar to aggregation bar</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 4</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2024</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="ai-readiness-gallery" aria-label="AI Readiness, view 2 images">AI Readiness</button></h3>
+        <p>Showing people what to fix before their data meets AI</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/ai-readiness-800.webp"
+             srcset="assets/portfolio/ai-readiness-800.webp 800w, assets/portfolio/ai-readiness-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="1039" loading="lazy" decoding="async"
+             alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
+      </div>
+      <span class="project-count" aria-hidden="true">2 images</span>
+    </article>
+
+    <dialog class="gallery" id="ai-readiness-gallery" aria-labelledby="ai-readiness-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="ai-readiness-title"><span class="year">2024</span> AI Readiness</h3>
+            <p>Showing people what to fix before their data meets AI</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="AI Readiness images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/ai-readiness-1600.webp"
+                 srcset="assets/portfolio/ai-readiness-1600.webp 1600w, assets/portfolio/ai-readiness-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1039" loading="lazy" decoding="async"
+                 alt="Domo's AI Readiness screen rating a retail dataset &ldquo;Not yet&rdquo; and suggesting fixes, with Domo.AI offering to help" />
+            <figcaption>A readiness score, what needs attention and an assistant ready to help</figcaption>
+          </figure>
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/ai-readiness-tidy-1600.webp"
+                 srcset="assets/portfolio/ai-readiness-tidy-1600.webp 1600w, assets/portfolio/ai-readiness-tidy-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="1039" loading="lazy" decoding="async"
+                 alt="AI Preflight step 2, Tidy-up and explore: column distributions on the left, readiness cards showing four columns with possible PII, and Domo.AI offering to write descriptions" />
+            <figcaption>Tidy-up and explore: flag sensitive columns and fill in what's missing</figcaption>
+          </figure>
+        </div>
+        <div class="gallery-nav">
+          <button type="button" data-prev aria-label="Previous image">&larr;</button>
+          <span class="gallery-count" aria-live="polite">1 / 2</span>
+          <button type="button" data-next aria-label="Next image">&rarr;</button>
+        </div>
+      </div>
+    </dialog>
+
+    <article class="project is-clickable">
+      <div class="project-text">
+        <h3><span class="year">2023</span> <button type="button" class="name project-open" aria-haspopup="dialog" aria-controls="workflow-engine-gallery" aria-label="Improved Domo Workflow Engine, view 1 image">Improved Domo Workflow Engine</button></h3>
+        <p>Turning business automation into flows anyone can read and edit</p>
+      </div>
+      <div class="project-shot">
+        <img src="assets/portfolio/workflow-engine-800.webp"
+             srcset="assets/portfolio/workflow-engine-800.webp 800w, assets/portfolio/workflow-engine-1600.webp 1600w"
+             sizes="(min-width: 47rem) 41.5rem, calc(100vw - 5.5rem)"
+             width="1600" height="916" loading="lazy" decoding="async"
+             alt="A Domo workflow for new hire onboarding: when Workday approves a new hire, Outlook sends them a welcome email" />
+      </div>
+      <span class="project-count" aria-hidden="true">1 image</span>
+    </article>
+
+    <dialog class="gallery" id="workflow-engine-gallery" aria-labelledby="workflow-engine-title">
+      <div class="gallery-inner">
+        <div class="gallery-head">
+          <div>
+            <h3 id="workflow-engine-title"><span class="year">2023</span> Improved Domo Workflow Engine</h3>
+            <p>Turning business automation into flows anyone can read and edit</p>
+          </div>
+          <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="gallery-track" tabindex="0" role="group" aria-label="Improved Domo Workflow Engine images">
+          <figure class="gallery-slide">
+            <img src="assets/portfolio/workflow-engine-1600.webp"
+                 srcset="assets/portfolio/workflow-engine-1600.webp 1600w, assets/portfolio/workflow-engine-2400.webp 2400w"
+                 sizes="min(100vw - 5rem, 73rem)" width="1600" height="916" loading="lazy" decoding="async"
+                 alt="A Domo workflow for new hire onboarding: when Workday approves a new hire, Outlook sends them a welcome email" />
+            <figcaption>New hire onboarding as a flow anyone can read</figcaption>
+          </figure>
+        </div>
+      </div>
+    </dialog>
+  </section>
+
+  <section class="experiments" aria-labelledby="experiments-heading">
+    <h2 id="experiments-heading">Selected explorations</h2>
+    <a class="experiment" href="Cue/">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/cue-teaser.webp" />
+          <img src="assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Cue (alpha). Write your talk. Cue the slides.</span>
+          <span class="blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="measles.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/measles-teaser.webp" />
+          <img src="assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">We beat measles once but will it come back? Tracking US state cases.</span>
+          <span class="blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="godzilla-el-nino.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/godzilla-teaser.webp" />
+          <img src="assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
+          <span class="blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="luminet-tribute.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/luminet-teaser.webp" />
+          <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">A tribute to Luminet's first portrait of a black hole</span>
+          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
+          <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Yves Outlines. Generate posters with type that ripples</span>
+          <span class="blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="palette-dna/map.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
+          <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Palette DNA Map</span>
+          <span class="blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's filling in, and it can generate new colors shaped like the rest of the family.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <a class="experiment" href="palette-dna/ramp.html">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
+          <img src="assets/color-ramp-teaser.png" alt="Dark-mode view of Tailwind’s color family with a generated blue ramp marked by white bars, beside the enlarged ramp with the input color circled" loading="lazy" width="1916" height="790" />
+        </picture>
+        <figcaption>
+          <span class="title">Palette DNA Ramp</span>
+          <span class="blurb">Turn a brand color into a ramp of light and dark steps, shaped by Tailwind, Radix, Flexoki or your own imported palette. Add a second color to guide the result, compare the ramp with its reference family, and check text contrast on light and dark backgrounds. Export CSS, Tailwind or design tokens, or share a link to your ramp.</span>
+        </figcaption>
+      </figure>
+    </a>
+    <p class="more-link"><a href="lab/">All explorations</a></p>
+  </section>
+
+  <section class="media" aria-labelledby="media-heading">
+    <h2 id="media-heading">In the media</h2>
+    <p>50+ TV and podcast appearances in 2026 on human-AI collaboration, the future of work and emotional design.</p>
+    <ol class="writing-list">
+      <li>
+        <a class="writing no-ext" href="https://www.domo.com/media/how-domo-empowers-human-ai-collaboration-to-transform-the-future-of-work">
+          <span class="writing-title">How Domo powers human-AI collaboration</span>
+          <span class="writing-dek">Human judgment in AI decisions, using AI to augment creativity and the mistakes companies make adopting it</span>
+          <span class="writing-meta"><time datetime="2026-01">Jan 2026</time> · Fox News, Washington D.C. &nearr;</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing no-ext" href="https://cmscritic.com/backoff-on-the-ai-layoffs-domos-chris-willis-on-the-future-of-work-in-2026">
+          <span class="writing-title">Back off on the AI layoffs</span>
+          <span class="writing-dek">Why AI-driven layoffs were overhyped, and why work is shifting toward people steering AI with judgment</span>
+          <span class="writing-meta"><time datetime="2026-01-22">Jan 2026</time> · CMS Critic &nearr;</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing no-ext" href="https://podcast.uxwritinghub.com/ai-and-content-design-evolution-in-ux-with-chris-willies-cdo-domo">
+          <span class="writing-title">AI and the evolution of content design</span>
+          <span class="writing-dek">From organizational data problems to interfaces that speak in the terms each person's role makes familiar</span>
+          <span class="writing-meta"><time datetime="2024-06-19">Jun 2024</time> · Writers in Tech podcast &nearr;</span>
+        </a>
+      </li>
+    </ol>
+  </section>
+
+  <section class="writings" aria-labelledby="writings-heading">
+    <h2 id="writings-heading">Selected writings</h2>
+    <ol class="writing-list">
+      <li>
+        <a class="writing" href="writing/innovators-new-dilemma.html">
+          <span class="writing-title">The innovator's new dilemma</span>
+          <span class="writing-dek">Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</span>
+          <span class="writing-meta"><time datetime="2026-01-09">Jan 2026</time> · Utah Business</span>
+        </a>
+      </li>
+      <li>
+        <a class="writing" href="writing/the-trust-gap.html">
+          <span class="writing-title">The trust gap</span>
+          <span class="writing-dek">What a failed bank project taught me about the invisible architecture of organizations</span>
+          <span class="writing-meta"><time datetime="2023-02-06">Feb 2023</time> · Medium</span>
+        </a>
+      </li>
+    </ol>
+  </section>
+
+  <h2>Before Domo</h2>
+  <ul>
+    <li>Co-founded Footnote.com (now <a href="https://www.fold3.com/publication/485/us-vietnam-veterans-memorial">Fold3.com</a>), a TechCrunch50 finalist that put 670M+ National Archives documents online. Acquired by Ancestry.com for $27M.</li>
+    <li>Led design at Ancestry.com, the world's largest genealogy site, raising subscriber conversion by $12M a year</li>
+    <li>Co-author of <a href="https://www.amazon.com/dp/0201793040?lv=shuf&channelId=500&plpRedirect=mhFallback">Designing Web Sites That Sell</a> (Peachpit Press) and <a href="https://hypergene.net/wemedia/download/we_media.pdf">We Media</a> (American Press Institute)</li>
+    <li>Co-founded <a href="https://www.hourdetroit.com/">Hour Media and Hour Detroit Magazine</a>; original concept development for <a href="https://www.oprah.com/omagazine/oprahs-favorite-o-magazine-covers">O, The Oprah Magazine</a></li>
+    <li>Award-winning newspaper designer and illustrator, including redesigns of <a href="https://en.wikipedia.org/wiki/The_Detroit_News">The Detroit News</a> and the Cleveland Plain Dealer</li>
+  </ul>
+  <p>The full story is on <a href="https://www.linkedin.com/in/cwillis/">LinkedIn</a>.</p>
+
+  <h2>Brands I've worked with</h2>
+
+  <section class="brands-section" aria-label="Brands I've worked with">
+    <ul class="brands">
+      <li class="mark"><img src="assets/logos/apple.svg" alt="Apple" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/nike.svg" alt="Nike" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/target.svg" alt="Target" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/walmart.svg" alt="Walmart" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/snowflake.svg" alt="Snowflake" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/yum-brands.svg" alt="Yum! Brands" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/white-house.svg" alt="The White House" loading="lazy" /></li>
+      <li><img src="assets/logos/us-bank.svg" alt="U.S. Bank" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/deutsche-bank.svg" alt="Deutsche Bank" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/visa.svg" alt="Visa" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/chanel.svg" alt="Chanel" loading="lazy" /></li>
+      <li><img src="assets/logos/ford.svg" alt="Ford" loading="lazy" /></li>
+      <li><img src="assets/logos/coca-cola.svg" alt="Coca-Cola Swire" loading="lazy" /></li>
+      <li class="tall"><img src="assets/logos/disney.svg" alt="Disney" loading="lazy" /></li>
+      <li><img src="assets/logos/nbc.svg" alt="NBC" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/oprah.svg" alt="O, The Oprah Magazine" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/nfl.svg" alt="NFL" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/ge-healthcare.svg" alt="GE HealthCare" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/loreal.svg" alt="L'Oréal" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/unitedhealth.svg" alt="UnitedHealth Group" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/bbva.svg" alt="BBVA" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/ups.svg" alt="UPS" loading="lazy" /></li>
+      <li><img src="assets/logos/dhl.svg" alt="DHL" loading="lazy" /></li>
+      <li><img src="assets/logos/randstad.svg" alt="Randstad" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/pg.svg" alt="Procter &amp; Gamble" loading="lazy" /></li>
+      <li class="mark"><img src="assets/logos/unilever.svg" alt="Unilever" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/la-z-boy.svg" alt="La-Z-Boy" loading="lazy" /></li>
+      <li><img src="assets/logos/telus.svg" alt="Telus" loading="lazy" /></li>
+      <li><img src="assets/logos/sony.svg" alt="Sony Interactive Entertainment" loading="lazy" /></li>
+      <li class="wide"><img src="assets/logos/ancestry.svg" alt="Ancestry" loading="lazy" /></li>
+    </ul>
+  </section>
+
+  <h2>Outside of work</h2>
+  <ul>
+    <li>Chaired the board of a <a href="https://www.deseret.com/2011/9/15/20387620/midway-school-celebrates-nature-receives-national-recognition/">National Blue Ribbon-winning charter school</a></li>
+    <li>2,000+ hour pilot; flew humanitarian medical flights to remote Baja, Mexico
+      <figure class="flying">
+        <img src="assets/flying/t210-baja-800.webp"
+             srcset="assets/flying/t210-baja-800.webp 800w, assets/flying/t210-baja-1600.webp 1600w"
+             sizes="(min-width: 47rem) 26rem, (min-width: 40rem) 58vw, calc(100vw - 4.4rem)"
+             width="1791" height="878" loading="lazy" decoding="async" style="--ar: 2.04"
+             alt="A Cessna T210 parked on a dirt airstrip in Baja California Sur, the sun low on the horizon" />
+        <img src="assets/flying/baja-medical-flight-800.webp"
+             srcset="assets/flying/baja-medical-flight-800.webp 800w, assets/flying/baja-medical-flight-1448.webp 1448w"
+             sizes="(min-width: 47rem) 17rem, (min-width: 40rem) 38vw, calc(100vw - 4.4rem)"
+             width="1448" height="1086" loading="lazy" decoding="async" style="--ar: 1.333"
+             alt="Above: the wing over snowy mountains in low golden light. Below: a mother holds her sleeping baby in the Baja desert." />
+      </figure>
+    </li>
+    <li>Coached youth hockey in Park City, UT for more than a decade</li>
+  </ul>
+
+  <p>If you're building the future of work, or just looking for a spirited chat about it, <a href="https://www.linkedin.com/in/cwillis/">let's talk</a>.</p>
+
+  <footer class="site-foot">
+    <hr />
+    <nav aria-label="Profiles">
+    <a href="https://x.com/chriswillis">𝕏</a>
+    <a href="https://www.linkedin.com/in/cwillis/">LinkedIn</a>
+    <a href="https://github.com/chriswillis/">GitHub</a>
+    <a href="https://www.instagram.com/hypergene/">Instagram</a>
+    <a href="/feed.xml">RSS</a>
+  </nav>
+  </footer>
+</main>
+<script src="assets/site/theme.js" defer></script>
+<script>
+  // Project galleries: open from the card, arrows or swipe to move, Esc or backdrop click to close.
+  // A one-image gallery has no arrows.
+  (function () {
+    document.querySelectorAll("dialog.gallery").forEach(function (dlg) {
+      var track = dlg.querySelector(".gallery-track");
+      var slides = track.children;
+      var count = dlg.querySelector(".gallery-count");
+      var prev = dlg.querySelector("[data-prev]");
+      var next = dlg.querySelector("[data-next]");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+      function index() { return Math.round(track.scrollLeft / track.clientWidth) || 0; }
+      function update() {
+        if (!count) return;
+        var i = index();
+        count.textContent = (i + 1) + " / " + slides.length;
+        prev.disabled = i === 0;
+        next.disabled = i === slides.length - 1;
+      }
+      function go(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        track.scrollTo({ left: i * track.clientWidth, behavior: reduce.matches ? "auto" : "smooth" });
+      }
+      var raf;
+      track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
+      if (prev) prev.addEventListener("click", function () { go(index() - 1); });
+      if (next) next.addEventListener("click", function () { go(index() + 1); });
+      dlg.querySelector(".gallery-close").addEventListener("click", function () { dlg.close(); });
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { e.preventDefault(); go(index() + 1); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); go(index() - 1); }
+      });
+      document.querySelectorAll('[aria-controls="' + dlg.id + '"]').forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          dlg.querySelectorAll("img").forEach(function (img) { img.loading = "eager"; });
+          dlg.showModal();
+          track.scrollLeft = 0;
+          update();
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
