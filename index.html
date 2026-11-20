@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="robots" content="noindex" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Chris Willis</title>
 <meta name="description" content="Chris Willis — Chief Design Officer and Futurist at Domo. Emotional design, human-AI collaboration, and the future of work." />
@@ -115,23 +114,6 @@
   .gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .gallery button:disabled { opacity: 0.35; cursor: default; }
 
-  /* Selected explorations: full-width teaser image, title and blurb */
-  .experiments h2 { margin-top: 3rem; }
-  .experiment { display: block; margin-top: 1.25rem; color: inherit; font-weight: inherit; text-decoration: none; }
-  .experiment figure { margin: 0; }
-  .experiment img {
-    display: block; width: 100%; height: auto; aspect-ratio: 1916 / 790; object-fit: cover;
-    background: var(--surface); transition: opacity 0.2s ease-out;
-  }
-  .experiment figcaption { margin-top: 0.9rem; }
-  .experiment .title {
-    display: block; font-weight: 400; text-decoration: underline; text-decoration-color: var(--underline);
-    text-decoration-thickness: 0.05em; text-underline-offset: 0.12em;
-    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
-  }
-  .experiment .blurb { display: block; margin-top: 0.35rem; color: var(--tx-2); font-size: 1.05rem; }
-  .more-link { margin-top: 1.5rem; }
-
   /* Selected writings: title, one-line dek and source */
   .writing-list { list-style: none; display: grid; gap: 0; margin: 0 0 1.25rem; border-bottom: 1px solid var(--divider); }
   .writing-list li { padding: 0; margin: 0; }
@@ -170,11 +152,10 @@
   .flying img { display: block; width: 100%; height: auto; min-width: 0; background: var(--bg-2); }
   @media (min-width: 40rem) { .flying { display: flex; } .flying img { flex: var(--ar) 1 0; } }
 
-  /* ==== Allo prototype ==========================================================
-     Type: Allo variable (wght 100–900, ROND 0–100, opsz 14–32), self-hosted, OFL.
+  /* ==== Type and hover ==========================================================
+     Type: Allo variable (wght 100–900, ROND 0–100, opsz 14–32), self-hosted, OFL. --rond sets roundness.
      Hover: modeled on joshpuckett.me. Rounded rows that fill on hover, a cursor-following
-     preview that swings like a pendulum, and a dim-and-blur focus on the brand grid.
-     Try ?rond=0, ?rond=50 or ?rond=100 in the URL to compare roundness. */
+     preview that swings like a pendulum, and a dim-and-blur focus on the brand grid. */
   @font-face {
     font-family: "Allo";
     src: url("assets/fonts/allo/AlloVariable.woff2") format("woff2");
@@ -206,30 +187,30 @@
   a:hover { color: var(--accent); transition: color 0.15s var(--ease); }
   a:focus-visible { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.15em; }
 
-  /* ---- Rows: projects, explorations, media and writings ---- */
-  .project, .experiment, .writing {
+  /* ---- Rows: projects, media and writings ---- */
+  .project, .writing {
     border-radius: var(--row-r);
     transition: background-color 0.15s var(--ease);
   }
-  .project h3, .experiment .title, .writing-title { font-weight: var(--w-strong); color: var(--tx); }
-  a.project .name, .project-open, .experiment .title, .writing-title { text-decoration: none; }
+  .project h3, .writing-title { font-weight: var(--w-strong); color: var(--tx); }
+  a.project .name, .project-open, .writing-title { text-decoration: none; }
   .project .year, .gallery-head .year { font-weight: var(--w-body); }
-  .project:hover, .project:focus-within, .experiment:hover, .experiment:focus-visible,
+  .project:hover, .project:focus-within,
   .writing:hover, .writing:focus-visible { background: var(--bg-2); }
-  .experiment:focus-visible, .writing:focus-visible, a.project:focus-visible,
+  .writing:focus-visible, a.project:focus-visible,
   .project:has(.project-open:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .writing-list { border-bottom: 0; margin-left: -1rem; margin-right: -1rem; }
   .writing-list li + li { border-top: 0; }
   .writing { padding: 0.85rem 1rem 0.95rem; }
 
-  /* Touch: keep the teaser images inline, only the type changes */
+  /* Touch: project cards keep their screenshots inline */
   @media (hover: none), (pointer: coarse) {
-    .project:hover, .experiment:hover, .writing:hover { background: none; }
+    .project:hover, .writing:hover { background: none; }
     .project, .project:hover, .project:focus-within { background: var(--bg-2); border-radius: 0; }
   }
 
-  /* Mouse: images move into the floating preview, cards become rows */
+  /* Mouse: screenshots move into the floating preview, project cards become rows */
   @media (hover: hover) and (pointer: fine) {
     .project { background: none; margin: 0.15rem -1rem 0; overflow: visible; }
     .project-text { padding: 0.85rem 1rem 0.95rem; }
@@ -243,11 +224,6 @@
     .project h3 { padding-right: 9rem; }
     .projects > p { margin-bottom: 0.6rem; }
 
-    .experiment { margin: 0.15rem -1rem 0; padding: 0.85rem 1rem 0.95rem; }
-    .experiment picture { display: none; }
-    .experiment figcaption { margin-top: 0; }
-    .experiments h2 + .experiment { margin-top: 0; }
-    .more-link { margin-top: 1rem; }
   }
 
   /* ---- Focus blur on the brand grid ---- */
@@ -280,6 +256,230 @@
     .peek-item, .peek-item.is-on { transform: rotate(var(--tilt)); }
     .brands li { filter: none !important; }
   }
+
+  /* ==== Explorations as cards ===================================================
+     The Palette DNA map is featured; the other explorations are compact cards whose
+     floating preview pushes in on the image, then loads the live page.
+     Explorations break out of the text column so the lab reads as its own space. */
+  .xp-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    margin: 3rem 0 1rem; padding-top: 1rem; border-top: 1px solid var(--divider);
+  }
+  .xp-head h2 { margin: 0; padding: 0; border: 0; }
+  .xp-head-end { display: flex; align-items: center; gap: 0.75rem; }
+  .xp-all { font-size: 1rem; color: var(--tx-2); font-weight: var(--w-body); white-space: nowrap; }
+  .xp-all:hover { color: var(--accent); }
+  .xp-all span { display: inline-block; transition: transform 0.2s var(--ease); }
+  .xp-all:hover span { transform: translateX(3px); }
+
+  .xp-grid {
+    --bench: min(60rem, 100vw - 3rem);
+    width: var(--bench); margin-left: calc((100% - var(--bench)) / 2);
+    display: grid; gap: 0.75rem;
+  }
+  .xp {
+    --tint: color-mix(in oklab, var(--hue) 14%, var(--bg-2));
+    position: relative; display: grid; gap: 0 1rem; padding: 1.1rem;
+    color: inherit; font-weight: inherit; text-decoration: none;
+    background: var(--bg-2); border-radius: 14px;
+    box-shadow: inset 0 0 0 1px transparent;
+    transition: box-shadow 0.15s var(--ease), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .xp:hover { color: inherit; box-shadow: inset 0 0 0 1px var(--ui-2); transform: translateY(-2px); }
+  .xp:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; text-decoration: none; }
+  .xp-body { min-width: 0; display: flex; flex-direction: column; }
+  .xp-kicker { display: none; }
+  .xp-title { display: block; color: var(--tx); font-weight: var(--w-strong); line-height: 1.3; }
+  .xp-blurb {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+    margin-top: 0.3rem; color: var(--tx-2); font-size: 1rem; line-height: 1.45;
+  }
+  .xp-meta { display: flex; align-items: center; gap: 0.45rem; color: var(--tx-2); font-size: 0.9rem; margin-bottom: -0.35rem; }
+  .xp-body > .xp-meta { margin-top: auto; padding-top: 0.55rem; min-height: 2.65rem; }
+  .xp-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--hue); flex: none; }
+
+  /* Call to action: a pill that takes the exploration's color on hover.
+     On cards it sits bottom right, level with the label, so titles get the full width. */
+  .xp-cta {
+    position: absolute; right: 1.1rem; bottom: 0.75rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    height: 2.1rem; padding: 0 0.85rem 0 0.7rem; border-radius: 999px; white-space: nowrap;
+    background: var(--ui); color: var(--tx); font-size: 0.95rem; font-weight: var(--w-strong);
+    transition: background-color 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .xp-cta svg { width: 0.9rem; height: 0.9rem; }
+  .xp:hover .xp-cta, .xp:focus-visible .xp-cta { background: var(--hue); color: var(--bg); }
+
+  /* Icon tile: tinted with the exploration's color, animates on hover */
+  .xp-icon { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 10px; background: var(--tint); color: var(--hue); }
+  .xp-icon svg { width: 1.75rem; height: 1.75rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+  .xp-icon svg * { transform-box: fill-box; transform-origin: center; }
+  .xp-icon .i-bar, .xp-icon .i-sw { transform-origin: bottom; }
+  .xp-icon .i-a, .xp-icon .i-b, .xp-icon .i-c { transform-origin: left; }
+  .xp-icon .i-spin { transform-box: view-box; transform-origin: 16px 16px; }
+  .xp-icon .i-draw { stroke-dasharray: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .xp:hover .i-a, .xp:hover .i-b, .xp:hover .i-c { animation: xp-type 0.5s var(--ease) both; }
+    .xp:hover .i-b { animation-delay: 0.08s; } .xp:hover .i-c { animation-delay: 0.16s; }
+    .xp:hover .i-bar { animation: xp-grow 0.55s cubic-bezier(0.34, 1.5, 0.64, 1) var(--d) both; }
+    .xp:hover .i-draw { animation: xp-draw 0.8s var(--ease) both; }
+    .xp:hover .i-spin { animation: xp-spin 2.4s linear infinite; }
+    .xp:hover .i-ring { animation: xp-ripple 1.4s var(--ease) var(--d) infinite; }
+    .xp:hover .i-lift { animation: xp-lift 1.2s ease-in-out infinite alternate; }
+    .xp:hover .i-sw { animation: xp-grow 0.5s cubic-bezier(0.34, 1.5, 0.64, 1) var(--d) both; }
+  }
+  @keyframes xp-type { from { transform: scaleX(0.2); opacity: 0.3; } }
+  @keyframes xp-grow { from { transform: scaleY(0.25); } }
+  @keyframes xp-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes xp-spin { to { transform: rotate(360deg); } }
+  @keyframes xp-ripple { 0% { transform: scale(0.6); opacity: 0; } 40% { opacity: 1; } 100% { transform: scale(1.15); opacity: 0; } }
+  @keyframes xp-lift { to { transform: translateY(-3.5px); } }
+
+  /* Media: the teaser image. --focus sets the crop, --kb is the point the Ken Burns zoom moves toward. */
+  .xp-media { display: none; position: relative; overflow: hidden; border-radius: 10px; background: var(--ui); }
+  .xp-media picture, .xp-media img { display: block; width: 100%; height: 100%; }
+  .xp-media img {
+    object-fit: cover; object-position: var(--focus, 50% 50%);
+    transform-origin: var(--kb, 50% 50%); transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  [data-key="cue"]      { --focus: 30% 50%; --kb: 72% 35%; }
+  [data-key="measles"]  { --focus: 25% 50%; --kb: 30% 60%; }
+  [data-key="godzilla"] { --focus: 80% 50%; --kb: 85% 30%; }
+  [data-key="luminet"]  { --focus: 45% 50%; --kb: 45% 55%; }
+  [data-key="yves"]     { --focus: 12% 50%; --kb: 20% 45%; }
+  [data-key="map"]      { --focus: 20% 50%; --kb: 15% 40%; }
+  [data-key="ramp"]     { --focus: 55% 50%; --kb: 60% 70%; }
+
+
+  /* ---- Featured layout: the Palette DNA map leads in deep orange-brown, the rest follow as compact cards ---- */
+  .experiments { --feat: var(--or); --kicker: "Featured"; }
+  .experiments .xp-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 25rem), 1fr)); }
+  .experiments .xp { grid-template-columns: auto minmax(0, 1fr); }
+  .experiments .xp .xp-blurb { -webkit-line-clamp: 1; }
+  .experiments [data-key="map"] { order: -2; }
+  .experiments [data-key="ramp"] { order: -1; }
+
+  .xp[data-key="map"] {
+    --hue: var(--feat) !important; --on: #FFFCF0; --soft: color-mix(in oklab, var(--feat) 35%, #FFFCF0);
+    grid-column: 1 / -1; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-areas: "media body" "media cta";
+    gap: 0 2.5rem; padding: 2rem 2.25rem 2rem 2rem; overflow: hidden;
+    background: color-mix(in oklab, var(--feat) 58%, #100F0F);
+  }
+  .xp[data-key="map"]:hover { transform: none; }
+  .xp[data-key="map"] .xp-icon { display: none; }
+  .xp[data-key="map"] .xp-body { grid-area: body; align-self: end; }
+  .xp[data-key="map"] .xp-kicker { display: block; color: var(--soft); font-size: 0.9rem; font-weight: var(--w-strong); margin-bottom: 0.4rem; }
+  .xp-kicker::before { content: var(--kicker, ""); }
+  .xp[data-key="map"] .xp-title { color: var(--on); font-size: 1.6rem; line-height: 1.15; letter-spacing: -0.015em; }
+  .xp[data-key="map"] .xp-blurb { color: rgb(255 252 240 / 0.74); -webkit-line-clamp: 4; font-size: 1.05rem; margin-top: 0.6rem; }
+  .xp[data-key="map"] .xp-body > .xp-meta { color: rgb(255 252 240 / 0.74); margin-top: 0; min-height: 0; padding-top: 0.75rem; margin-bottom: 0; }
+  .xp[data-key="map"] .xp-dot { background: var(--soft); }
+  .xp[data-key="map"] .xp-cta {
+    position: static; grid-area: cta; justify-self: start; align-self: start; margin-top: 1.25rem; height: 2.4rem; padding: 0 1.1rem 0 0.95rem;
+    background: var(--on); color: #100F0F;
+  }
+  .xp[data-key="map"]:hover .xp-cta, .xp[data-key="map"]:focus-visible .xp-cta { background: color-mix(in oklab, var(--feat) 22%, #FFFCF0); color: #100F0F; }
+  .xp[data-key="map"] .xp-media {
+    display: block; grid-area: media; align-self: center; aspect-ratio: 4 / 3; border-radius: 10px;
+    transform: rotate(-2deg) translateX(-0.25rem);
+    box-shadow: 0 18px 40px rgb(0 0 0 / 0.35), 0 2px 8px rgb(0 0 0 / 0.25);
+    transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  .xp[data-key="map"]:hover .xp-media { transform: rotate(0deg) translateX(0); }
+  /* Ken Burns on the featured image: a 3s push into the DNA lattice, a 1s ease back */
+  .xp[data-key="map"] .xp-media img { transform-origin: 18% 45%; transition: transform 1s cubic-bezier(0.3, 0.7, 0.3, 1); }
+  @media (prefers-reduced-motion: no-preference) {
+    .xp[data-key="map"]:hover .xp-media img { transform: scale(1.55); transition: transform 3s cubic-bezier(0.2, 0.6, 0.3, 1); }
+  }
+
+  /* Its companion, the ramp, sits first on the shelf with a light family tint */
+  .xp[data-key="ramp"] { background: color-mix(in oklab, var(--feat) 7%, var(--bg-2)); }
+  .xp[data-key="ramp"] .xp-meta::after { content: "· Pairs with the map"; }
+  @media (max-width: 40rem) {
+    .xp[data-key="map"] { grid-template-columns: 1fr; grid-template-areas: "media" "body" "cta"; padding: 1.25rem; }
+    .xp[data-key="map"] .xp-media { margin-bottom: 1.25rem; transform: none; }
+  }
+  @media (max-width: 30rem) {
+    .experiments .xp { grid-template-columns: 1fr; }
+    .experiments .xp-icon { margin-bottom: 0.8rem; width: 2.6rem; height: 2.6rem; }
+  }
+
+  /* ---- Floating previews: image frames with Ken Burns and a live page ---- */
+  .peek-frame {
+    position: relative; overflow: hidden; border-radius: 10px; background: var(--bg-2);
+    filter: drop-shadow(0 12px 28px rgb(16 15 15 / 0.16)) drop-shadow(0 2px 6px rgb(16 15 15 / 0.1));
+    transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  :root[data-theme="dark"] .peek-frame, :root[data-theme="dark"] .pv { filter: drop-shadow(0 14px 32px rgb(0 0 0 / 0.5)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.3)); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .peek-frame, :root:not([data-theme="light"]) .pv { filter: drop-shadow(0 14px 32px rgb(0 0 0 / 0.5)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.3)); }
+  }
+  .peek .peek-item .peek-frame img {
+    display: block; max-width: var(--peek-w); max-height: var(--peek-h); width: auto; height: auto;
+    border-radius: 0; filter: none !important;
+    transform: scale(1); transition: transform 1s cubic-bezier(0.3, 0.7, 0.3, 1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .peek .peek-item.is-on .peek-frame img { transform: scale(1.15); transition: transform 3s cubic-bezier(0.2, 0.6, 0.3, 1); }
+    .peek .peek-item.is-on .pv-img img { transform: scale(1.08); transition: transform 3s cubic-bezier(0.2, 0.6, 0.3, 1); }
+  }
+  .peek-frame iframe {
+    position: absolute; top: 0; left: 0; width: 1280px; height: 800px; border: 0; pointer-events: none;
+    transform: scale(var(--s, 0.3)); transform-origin: 0 0; background: var(--bg);
+    opacity: 0; transition: opacity 0.35s var(--ease);
+  }
+  .peek-frame.is-live iframe { opacity: 1; }
+  .peek-live {
+    position: absolute; left: 0.6rem; top: 0.6rem; z-index: 1; display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.15rem 0.55rem; border-radius: 999px; background: rgb(16 15 15 / 0.72); color: #FFFCF0;
+    font-size: 0.75rem; font-weight: var(--w-strong); opacity: 0; transform: translateY(-4px);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  .peek-live::before { content: ""; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: #D14D41; animation: xp-blink 1.2s ease-in-out infinite; }
+  .peek-frame.is-live .peek-live { opacity: 1; transform: none; }
+  @keyframes xp-blink { 50% { opacity: 0.35; } }
+
+  /* ---- Floating previews for writings and media: a miniature browser window ----
+     Essays are set like their page (title, dek, opening paragraph); media show the article's image. */
+  .pv {
+    --hue: var(--accent);
+    width: 24rem; max-width: var(--peek-w); overflow: hidden; border-radius: 12px; text-align: left;
+    background: var(--bg); color: var(--tx); box-shadow: inset 0 0 0 1px var(--ui-2);
+    filter: drop-shadow(0 12px 28px rgb(16 15 15 / 0.16)) drop-shadow(0 2px 6px rgb(16 15 15 / 0.1));
+    font-size: 0.9rem; line-height: 1.45; font-weight: var(--w-body);
+  }
+  .pv-chrome {
+    display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.65rem;
+    background: var(--bg-2); border-bottom: 1px solid var(--ui);
+  }
+  .pv-dots { display: flex; gap: 0.3rem; flex: none; }
+  .pv-dots i { width: 0.55rem; height: 0.55rem; border-radius: 50%; }
+  .pv-dots i:nth-child(1) { background: var(--re); } .pv-dots i:nth-child(2) { background: var(--ye); } .pv-dots i:nth-child(3) { background: var(--gr); }
+  .pv-url {
+    flex: 1; min-width: 0; padding: 0.1rem 0.6rem; border-radius: 6px; background: var(--bg);
+    color: var(--tx-2); font-size: 0.72rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .pv-img { aspect-ratio: 1200 / 630; overflow: hidden; background: var(--bg-2); }
+  .pv-img img { display: block; width: 100%; height: 100%; object-fit: cover; transform-origin: var(--pv-kb, 50% 40%); transition: transform 1s cubic-bezier(0.3, 0.7, 0.3, 1); }
+  .pv-fallback { display: grid; place-content: center; justify-items: center; gap: 0.6rem; color: var(--hue); background: color-mix(in oklab, var(--hue) 16%, var(--bg-2)); }
+  .pv-fallback svg { width: 9rem; height: 3rem; }
+  .pv-wave { transform-box: fill-box; transform-origin: center; }
+  @media (prefers-reduced-motion: no-preference) { .peek-item.is-on .pv-wave { animation: pv-wave 0.9s ease-in-out var(--d) infinite alternate; } }
+  @keyframes pv-wave { to { transform: scaleY(0.45); } }
+  .pv-show { font-weight: var(--w-strong); font-size: 0.95rem; color: var(--tx); }
+  .pv-text { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.75rem 0.95rem 0.9rem; }
+  .pv-title { color: var(--tx); font-weight: var(--w-strong); font-size: 1rem; line-height: 1.3; }
+  .pv-sub { color: var(--tx-2); font-size: 0.8rem; margin-top: 0.15rem; }
+  .pv-essay .pv-img { aspect-ratio: 2.4 / 1; }
+  .pv-essay .pv-text { padding: 1rem 1.15rem 0; }
+  .pv-essay .pv-title { font-size: 1.4rem; line-height: 1.12; letter-spacing: -0.015em; }
+  .pv-dek { display: block; margin-top: 0.35rem; color: var(--tx-2); }
+  .pv-para {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
+    margin-top: 0.75rem; color: var(--tx);
+    -webkit-mask: linear-gradient(#000 45%, transparent); mask: linear-gradient(#000 45%, transparent);
+  }
+  .peek .pv-img img { border-radius: 0; filter: none !important; max-width: none; max-height: none; width: 100%; height: 100%; }
 </style>
 
 <script>
@@ -698,92 +898,124 @@
   </section>
 
   <section class="experiments" aria-labelledby="experiments-heading">
-    <h2 id="experiments-heading">Selected explorations</h2>
-    <a class="experiment" href="Cue/">
-      <figure>
+    <div class="xp-head">
+      <h2 id="experiments-heading">Selected explorations</h2>
+      <a class="xp-all" href="lab/">All explorations <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="xp-grid">
+    <a class="xp" href="Cue/" data-key="cue" style="--hue: var(--or)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/cue-teaser.webp" />
-          <img src="assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Cue (alpha). Write your talk. Cue the slides.</span>
-          <span class="blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/cue-teaser.webp" />
+                  <img src="assets/cue-teaser.png" alt="The Cue editor in split view: markdown on the left, and on the right the slide it makes, Welcome to Cue, in large type with Cue in red" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="18" rx="2.5"/><path class="i-a" d="M9 12h10"/><path class="i-b" d="M9 16.5h14"/><path class="i-c" d="M9 21h7"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Cue (alpha). Write your talk. Cue the slides.</span>
+        <span class="xp-blurb">Behind every great presentation is a great story. Cue is a markdown editor I designed for writing presentations rather than wrestling with design tools. The layout automatically comes from what you write. It's fast, minimal and beautiful. For now, your slides are locally in your browser. Warning: It&rsquo;s an early alpha, so beware and save often.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Tool · Alpha</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
     </a>
-    <a class="experiment" href="measles.html">
-      <figure>
+    <a class="xp" href="measles.html" data-key="measles" style="--hue: var(--re)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/measles-teaser.webp" />
-          <img src="assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">We beat measles once but will it come back? Tracking US state cases.</span>
-          <span class="blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/measles-teaser.webp" />
+                  <img src="assets/measles-teaser.png" alt="A heat map of measles cases by state and year, dark purple-red before the 1963 vaccine and nearly white afterward" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 26h22"/><path class="i-bar" style="--d:0s" d="M8 26v-6"/><path class="i-bar" style="--d:.06s" d="M13 26v-13"/><path class="i-bar" style="--d:.12s" d="M18 26v-17"/><path class="i-bar" style="--d:.18s" d="M23 26v-4"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">We beat measles once but will it come back? Tracking US state cases.</span>
+        <span class="xp-blurb">Measles vanished after 2000. Now it&rsquo;s surging back as most states have slipped below the herd-immunity line.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Data story</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Explore</span>
     </a>
-    <a class="experiment" href="godzilla-el-nino.html">
-      <figure>
+    <a class="xp" href="godzilla-el-nino.html" data-key="godzilla" style="--hue: var(--bl)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/godzilla-teaser.webp" />
-          <img src="assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
-          <span class="blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/godzilla-teaser.webp" />
+                  <img src="assets/godzilla-teaser.png" alt="A red line for 2026 climbs past the +3 standard deviation curve: Pacific sea-surface temperature on straight degree gridlines, with a warped blue grid of standard deviations and gray lines for earlier years" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 25h24" opacity=".45"/><path class="i-draw" pathLength="1" d="M4 21c3 0 4-6 7-6s3.5 4 6 4 3-11 6-11 3 3 5 3"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Some monsters are real. Tracking the 2026 El Ni&ntilde;o in real-time</span>
+        <span class="xp-blurb">Climatologists have warned a Godzilla El Ni&ntilde;o was coming. As a way to better understand just how unique this situation is, we use a chart that warps the grid instead of the data, rebuilt from NOAA&rsquo;s daily sea-surface temperatures every time it loads. The Ni&ntilde;o 3.4 region temperatures are plotted against curves of standard deviations.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Live data</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Explore</span>
     </a>
-    <a class="experiment" href="luminet-tribute.html">
-      <figure>
+    <a class="xp" href="luminet-tribute.html" data-key="luminet" style="--hue: var(--ye)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/luminet-teaser.webp" />
-          <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">A tribute to Luminet's first portrait of a black hole</span>
-          <span class="blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/luminet-teaser.webp" />
+                  <img src="assets/luminet-teaser.png" alt="A dot-rendered simulation of a black hole: a bright accretion disk bending around a dark shadow" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="4.2"/><g class="i-spin"><ellipse cx="16" cy="16" rx="12" ry="4.6"/></g></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">A tribute to Luminet's first portrait of a black hole</span>
+        <span class="xp-blurb">In 1978 nobody had seen a black hole, and nobody expected to. Jean-Pierre Luminet, a young astrophysicist at the Paris Observatory in Meudon, let the math show him something unique about the universe. He computed the view on an old IBM 7040 and painted the portrait by hand. I used his original equations to recreate his paper in the browser.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Simulation</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Explore</span>
     </a>
-    <a class="experiment" href="outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9">
-      <figure>
+    <a class="xp" href="outline-echo.html#t=supersonic&f=Inter&sz=207&ld=1&tr=-92&m=100&al=center&va=middle&g=word&n=26&sp=16&gp=3.5&lw=2.75&op=0.54&fd=0.97&dx=-1.5&dy=0.05&ga=176&st=100F0F-0~942822-40~DA702C-72~ECCB60-100&bg=1B3FB8&tc=F3EFE4&rc=496DD0&bl=screen&fm=16%3A9" data-key="yves" style="--hue: var(--ma)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
-          <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Yves Outlines. Generate posters with type that ripples</span>
-          <span class="blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/outline-echo-teaser.webp" />
+                  <img src="assets/outline-echo-teaser.png" alt="The words stop whining and take in white serif type, wrapped in dozens of thin concentric outlines on a red ground" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="3"/><circle class="i-ring" style="--d:0s" cx="16" cy="16" r="7"/><circle class="i-ring" style="--d:.15s" cx="16" cy="16" r="11.5"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Yves Outlines. Generate posters with type that ripples</span>
+        <span class="xp-blurb">Inspired by Yves B&eacute;har's type treatment on Design Manifestos (from ICON magazine, Issue 50, August 2007). Tiny app grows thin concentric outlines around any letters and words, like rings spreading from a stone dropped in water. Choose a typeface, adjust the rings and the background color, and export your own manifesto as a png.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Generator</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
     </a>
-    <a class="experiment" href="palette-dna/map.html">
-      <figure>
+    <a class="xp" href="palette-dna/map.html" data-key="map" style="--hue: var(--cy)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
-          <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Palette DNA Map</span>
-          <span class="blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's filling in, and it can generate new colors shaped like the rest of the family.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/color-intelligence-teaser.webp" />
+                  <img src="assets/color-intelligence-teaser.png" alt="The Flexoki palette as a 3D surface beside a color picker map and a generated 13-step ramp" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 21l11-6 11 6-11 6z"/><path class="i-lift" d="M5 15l11-6 11 6-11 6z"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Palette DNA Map</span>
+        <span class="xp-blurb">It started with Steph Ango's Flexoki, a palette inspired by ink on paper. Wrapping its colors around a 3D surface revealed a hidden shape, a kind of DNA, and the same method can look inside any palette. That surface then becomes the engine for a color picker. It shows where the palette has real colors and where it's filling in, and it can generate new colors shaped like the rest of the family.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Color tool</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
     </a>
-    <a class="experiment" href="palette-dna/ramp.html">
-      <figure>
+    <a class="xp" href="palette-dna/ramp.html" data-key="ramp" style="--hue: var(--pu)">
+      <span class="xp-media">
         <picture>
-          <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
-          <img src="assets/color-ramp-teaser.png" alt="Dark-mode view of Tailwind’s color family with a generated blue ramp marked by white bars, beside the enlarged ramp with the input color circled" loading="lazy" width="1916" height="790" />
-        </picture>
-        <figcaption>
-          <span class="title">Palette DNA Ramp</span>
-          <span class="blurb">Turn a brand color into a ramp of light and dark steps, shaped by Tailwind, Radix, Flexoki or your own imported palette. Add a second color to guide the result, compare the ramp with its reference family, and check text contrast on light and dark backgrounds. Export CSS, Tailwind or design tokens, or share a link to your ramp.</span>
-        </figcaption>
-      </figure>
+                  <source type="image/webp" srcset="assets/color-ramp-teaser.webp" />
+                  <img src="assets/color-ramp-teaser.png" alt="Dark-mode view of Tailwind’s color family with a generated blue ramp marked by white bars, beside the enlarged ramp with the input color circled" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect class="i-sw" style="--d:0s"   x="4"  y="9" width="5" height="14" rx="1.2"/><rect class="i-sw" style="--d:.05s" x="10" y="9" width="5" height="14" rx="1.2"/><rect class="i-sw" style="--d:.1s" x="16" y="9" width="5" height="14" rx="1.2"/><rect class="i-sw" style="--d:.15s" x="22" y="9" width="5" height="14" rx="1.2"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Palette DNA Ramp</span>
+        <span class="xp-blurb">Turn a brand color into a ramp of light and dark steps, shaped by Tailwind, Radix, Flexoki or your own imported palette. Add a second color to guide the result, compare the ramp with its reference family, and check text contrast on light and dark backgrounds. Export CSS, Tailwind or design tokens, or share a link to your ramp.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Color tool</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
     </a>
-    <p class="more-link"><a href="lab/">All explorations</a></p>
+    </div>
   </section>
 
   <section class="media" aria-labelledby="media-heading">
@@ -795,6 +1027,14 @@
           <span class="writing-title">How Domo powers human-AI collaboration</span>
           <span class="writing-dek">Human judgment in AI decisions, using AI to augment creativity and the mistakes companies make adopting it</span>
           <span class="writing-meta"><time datetime="2026-01">Jan 2026</time> · Fox News, Washington D.C. &nearr;</span>
+          <template class="peek-tpl"><div class="pv pv-web" style="--hue: var(--bl)">
+  <div class="pv-chrome"><span class="pv-dots"><i></i><i></i><i></i></span><span class="pv-url">domo.com/media/how-domo-empowers-human-ai…</span></div>
+  <div class="pv-img"><img src="https://cdn.prod.website-files.com/67af3db5bb3b892e61258bd4/695fdc3a55874d4fd12c8806_Fox5Thumb1.png" alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" style="--pv-kb: 50% 35%" /></div>
+  <div class="pv-text">
+    <span class="pv-title">How Domo Empowers Human-AI Collaboration to Transform the Future of Work</span>
+    <span class="pv-sub">Fox News, Washington D.C. · Video · Jan 2026</span>
+  </div>
+</div></template>
         </a>
       </li>
       <li>
@@ -802,6 +1042,14 @@
           <span class="writing-title">Back off on the AI layoffs</span>
           <span class="writing-dek">Why AI-driven layoffs were overhyped, and why work is shifting toward people steering AI with judgment</span>
           <span class="writing-meta"><time datetime="2026-01-22">Jan 2026</time> · CMS Critic &nearr;</span>
+          <template class="peek-tpl"><div class="pv pv-web" style="--hue: var(--or)">
+  <div class="pv-chrome"><span class="pv-dots"><i></i><i></i><i></i></span><span class="pv-url">cmscritic.com/backoff-on-the-ai-layoffs…</span></div>
+  <div class="pv-img"><img src="https://cmscritic.com/ms-content/uploads/2026/01/chris-willis-domo-featured.jpg" alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" style="--pv-kb: 50% 30%" /></div>
+  <div class="pv-text">
+    <span class="pv-title">Backoff on the AI Layoffs: Domo’s Chris Willis on the Future of Work in 2026</span>
+    <span class="pv-sub">CMS Critic · Interview · Jan 2026</span>
+  </div>
+</div></template>
         </a>
       </li>
       <li>
@@ -809,6 +1057,17 @@
           <span class="writing-title">AI and the evolution of content design</span>
           <span class="writing-dek">From organizational data problems to interfaces that speak in the terms each person's role makes familiar</span>
           <span class="writing-meta"><time datetime="2024-06-19">Jun 2024</time> · Writers in Tech podcast &nearr;</span>
+          <template class="peek-tpl"><div class="pv pv-web" style="--hue: var(--pu)">
+  <div class="pv-chrome"><span class="pv-dots"><i></i><i></i><i></i></span><span class="pv-url">podcast.uxwritinghub.com/ai-and-content-design…</span></div>
+  <div class="pv-img pv-fallback">
+    <svg viewBox="0 0 120 40" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path class="pv-wave" style="--d:0s" d="M8 16v8"/><path class="pv-wave" style="--d:.1s" d="M18 10v20"/><path class="pv-wave" style="--d:.2s" d="M28 4v32"/><path class="pv-wave" style="--d:.3s" d="M38 12v16"/><path class="pv-wave" style="--d:.4s" d="M48 7v26"/><path class="pv-wave" style="--d:.5s" d="M58 14v12"/><path class="pv-wave" style="--d:.15s" d="M68 6v28"/><path class="pv-wave" style="--d:.25s" d="M78 11v18"/><path class="pv-wave" style="--d:.35s" d="M88 3v34"/><path class="pv-wave" style="--d:.45s" d="M98 13v14"/><path class="pv-wave" style="--d:.05s" d="M108 17v6"/></g></svg>
+    <span class="pv-show">Writers in Tech</span>
+  </div>
+  <div class="pv-text">
+    <span class="pv-title">AI and Content Design Evolution in UX with Chris Willis, CDO @Domo</span>
+    <span class="pv-sub">Writers in Tech podcast · Episode · Jun 2024</span>
+  </div>
+</div></template>
         </a>
       </li>
     </ol>
@@ -822,6 +1081,14 @@
           <span class="writing-title">The innovator's new dilemma</span>
           <span class="writing-dek">Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</span>
           <span class="writing-meta"><time datetime="2026-01-09">Jan 2026</time> · Utah Business</span>
+          <template class="peek-tpl"><div class="pv pv-essay">
+  <div class="pv-chrome"><span class="pv-dots"><i></i><i></i><i></i></span><span class="pv-url">cewillis.com/writing/innovators-new-dilemma</span></div>
+  <div class="pv-text">
+    <span class="pv-title">The innovator's new dilemma</span>
+    <span class="pv-dek">Leaders are demanding moonshots from AI. The better bet is getting 1 percent better every day.</span>
+    <span class="pv-para">My first corporate offsite began, as many do, in a windowless hotel meeting room seemingly designed to disconnect us from the world we were sent to reimagine.</span>
+  </div>
+</div></template>
         </a>
       </li>
       <li>
@@ -829,6 +1096,15 @@
           <span class="writing-title">The trust gap</span>
           <span class="writing-dek">What a failed bank project taught me about the invisible architecture of organizations</span>
           <span class="writing-meta"><time datetime="2023-02-06">Feb 2023</time> · Medium</span>
+          <template class="peek-tpl"><div class="pv pv-essay">
+  <div class="pv-chrome"><span class="pv-dots"><i></i><i></i><i></i></span><span class="pv-url">cewillis.com/writing/the-trust-gap</span></div>
+  <div class="pv-img"><img src="assets/article-trust-gap.webp" alt="" decoding="async" loading="lazy" style="--pv-kb: 50% 45%" /></div>
+  <div class="pv-text">
+    <span class="pv-title">The trust gap</span>
+    <span class="pv-dek">What a failed bank project taught me about the invisible architecture of organizations</span>
+    <span class="pv-para">Maybe Machiavelli was right. This thought arrived uninvited one fall afternoon as I sat at a small desk overlooking Wall Street, surrounded by the quiet wreckage of a project I had believed in.</span>
+  </div>
+</div></template>
         </a>
       </li>
     </ol>
@@ -960,22 +1236,19 @@
   })();
 </script>
 <script>
-  // Allo prototype: ?rond=0–100 sets the font's roundness axis for comparison
-  (function () {
-    var r = new URLSearchParams(location.search).get("rond");
-    if (r !== null && !isNaN(r)) document.documentElement.style.setProperty("--rond", Math.max(0, Math.min(100, +r)));
-  })();
-
-  // Floating preview, modeled on joshpuckett.me: the hovered row's image hangs above the cursor,
+  // Floating previews, modeled on joshpuckett.me: the hovered row's preview hangs above the cursor,
   // follows it on a spring and swings against the direction of travel. Mouse only.
+  //   Projects and explorations: the image, with a slow Ken Burns push toward a point of interest.
+  //   Explorations: after 1.5s the live page loads in place of the image.
+  //   Writings: the opening paragraph.   Media: a web preview.
   (function () {
     var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    var rows = Array.prototype.slice.call(document.querySelectorAll(".project, .experiment"));
-    if (!rows.length) return;
-
-    var TILTS = [-5, 3.5, -2.5, 5.5, -4, 2, -6, 4, -3, 6, -1.5, -5, 3];
-    var W = 480, H = 320, GAP = 54;            // preview box and the space above the cursor; synced from CSS --peek-*
+    var TILTS = [-5, 3.5, -2.5, 5.5, -4, 2, -6, 4, -3, 6, -1.5, -5, 3, -2, 4.5, -3.5];
+    // Where each project screenshot's Ken Burns zoom heads, as a share of the image
+    var PROJECT_KB = ["78% 50%", "48% 35%", "35% 40%", "45% 35%", "13% 30%", "72% 30%"];
+    var LIVE_DELAY = 1500;
+    var W = 400, H = 330, GAP = 54;            // synced from CSS --peek-* when a preview opens
 
     var peek = document.createElement("div");
     peek.className = "peek"; peek.setAttribute("aria-hidden", "true"); peek.dataset.side = "above";
@@ -983,22 +1256,55 @@
     var stack = document.createElement("div"); stack.className = "peek-stack";
     swing.appendChild(stack); peek.appendChild(swing); document.body.appendChild(peek);
 
-    function srcFor(row) {
-      var source = row.querySelector("picture source[type='image/webp']");
-      if (source) return source.getAttribute("srcset").split(/\s+/)[0];
-      var img = row.querySelector(".project-shot img, picture img");
-      return img ? img.getAttribute("src") : null;
+    var entries = [];
+    function add(row, build, live) {
+      var item = document.createElement("div");
+      item.className = "peek-item"; item.style.setProperty("--tilt", TILTS[entries.length % TILTS.length] + "deg");
+      build(item); stack.appendChild(item);
+      entries.push({ row: row, item: item, live: live || null });
     }
-    var items = rows.map(function (row, i) {
-      var src = srcFor(row), item = document.createElement("div");
-      item.className = "peek-item"; item.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
-      if (src) {
-        var img = document.createElement("img");
-        img.alt = ""; img.decoding = "async"; img.loading = "lazy"; img.src = src;
-        item.appendChild(img);
-      }
-      stack.appendChild(item);
-      return item;
+    function imageInto(item, src, kb) {
+      var frame = document.createElement("div"); frame.className = "peek-frame";
+      var img = document.createElement("img");
+      img.alt = ""; img.decoding = "async"; img.dataset.src = src;
+      img.style.transformOrigin = kb || "50% 50%";
+      var chip = document.createElement("span"); chip.className = "peek-live"; chip.textContent = "Live";
+      frame.appendChild(img); frame.appendChild(chip); item.appendChild(frame);
+    }
+
+    document.querySelectorAll(".project").forEach(function (row, i) {
+      var img = row.querySelector(".project-shot img");
+      if (img) add(row, function (item) { imageInto(item, img.getAttribute("src"), PROJECT_KB[i]); });
+    });
+    document.querySelectorAll('.xp:not([data-key="map"])').forEach(function (row) {
+      var source = row.querySelector("picture source[type='image/webp']");
+      var img = row.querySelector("picture img");
+      var src = source ? source.getAttribute("srcset").split(/\s+/)[0] : img && img.getAttribute("src");
+      var kb = getComputedStyle(row).getPropertyValue("--kb").trim();
+      if (src) add(row, function (item) { imageInto(item, src, kb); }, row.getAttribute("href"));
+    });
+    document.querySelectorAll(".writing").forEach(function (row) {
+      var tpl = row.querySelector("template.peek-tpl");
+      if (tpl) add(row, function (item) {
+        var card = tpl.content.cloneNode(true);
+        card.querySelectorAll("img[src]").forEach(function (img) { img.dataset.src = img.getAttribute("src"); img.removeAttribute("src"); });
+        item.classList.add("is-card"); item.appendChild(card);
+      });
+    });
+    if (!entries.length) return;
+
+    // Load a section's preview images the first time the pointer enters it
+    function hydrate(entry) {
+      entry.item.querySelectorAll("img[data-src]").forEach(function (img) { img.src = img.dataset.src; img.removeAttribute("data-src"); });
+    }
+    var sections = [];
+    entries.forEach(function (entry) {
+      var section = entry.row.closest("section") || entry.row.parentNode;
+      if (sections.indexOf(section) > -1) return;
+      sections.push(section);
+      section.addEventListener("pointerenter", function () {
+        if (fine.matches) entries.forEach(function (e) { if (section.contains(e.row)) hydrate(e); });
+      }, { once: true });
     });
 
     // Spring state: anchor position follows the cursor; swing angle reacts to the anchor's speed
@@ -1017,11 +1323,9 @@
     }
     function tick(now) {
       var dt = Math.min((now - last) / 1000, 1 / 30); last = now;
-      // Position: close to critically damped, so it trails the cursor without overshoot
       var k = 170, c = 26;
       vx += (k * (tx - x) - c * vx) * dt; vy += (k * (ty - y) - c * vy) * dt;
       x += vx * dt; y += vy * dt;
-      // Swing: underdamped, pushed by horizontal speed, so it sways and settles
       var goal = Math.max(-10, Math.min(10, -vx * 0.009));
       va += (320 * (goal - ang) - 14 * va) * dt; ang += va * dt;
       paint();
@@ -1030,11 +1334,50 @@
     }
     function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } }
 
+    // Live page: an iframe scaled to the preview's width; the frame grows to 16:10 once it has loaded.
+    // Same-origin pages only; a page that fails to load (a 404 here) leaves the image in place.
+    var liveTimer = 0;
+    function clearLive(entry) {
+      clearTimeout(liveTimer);
+      var frame = entry && entry.item.querySelector(".peek-frame");
+      if (!frame) return;
+      var iframe = frame.querySelector("iframe");
+      frame.classList.remove("is-live"); frame.style.height = "";
+      if (iframe) setTimeout(function () { iframe.remove(); }, 300);
+    }
+    function goLive(entry) {
+      var url = new URL(entry.live, location.href);
+      if (url.origin !== location.origin) return;
+      var frame = entry.item.querySelector(".peek-frame");
+      var w = frame.offsetWidth, h0 = frame.offsetHeight, h1 = Math.round(w * 10 / 16);
+      var iframe = document.createElement("iframe");
+      iframe.tabIndex = -1; iframe.title = ""; iframe.setAttribute("aria-hidden", "true");
+      iframe.style.setProperty("--s", (w / 1280).toFixed(4));
+      iframe.addEventListener("load", function () {
+        if (entries[active] !== entry) return;
+        var ok = false;
+        try {
+          var doc = iframe.contentDocument;
+          ok = !!doc && !!doc.body && doc.body.childElementCount > 0 && !/404|not found|error response/i.test(doc.title);
+        } catch (e) { ok = false; }
+        if (!ok) { iframe.remove(); return; }
+        frame.style.height = h0 + "px";
+        requestAnimationFrame(function () { frame.classList.add("is-live"); frame.style.height = h1 + "px"; });
+      });
+      iframe.src = url.href;
+      frame.appendChild(iframe);
+    }
+
     function show(i) {
       if (active === i) return;
-      if (active > -1) items[active].classList.remove("is-on");
+      if (active > -1) { entries[active].item.classList.remove("is-on"); clearLive(entries[active]); }
       active = i;
-      if (i > -1) items[i].classList.add("is-on");
+      if (i > -1) {
+        var entry = entries[i];
+        hydrate(entry);
+        entry.item.classList.add("is-on");
+        if (entry.live && !reduce.matches) liveTimer = setTimeout(function () { if (entries[active] === entry) goLive(entry); }, LIVE_DELAY);
+      }
     }
     function onMove(e) {
       if (e.pointerType && e.pointerType !== "mouse") return;
@@ -1050,7 +1393,8 @@
       if (!fine.matches || e.pointerType !== "mouse") return;
       clearTimeout(hideTimer); if (active === -1) measure(); onMove(e); show(i);
     }
-    rows.forEach(function (row, i) {
+    entries.forEach(function (entry, i) {
+      var row = entry.row;
       row.addEventListener("pointerenter", function (e) { enter(e, i); });
       row.addEventListener("pointermove", function (e) { if (active !== i) enter(e, i); else onMove(e); });
       row.addEventListener("pointerleave", function () {
