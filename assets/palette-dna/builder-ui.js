@@ -235,7 +235,40 @@ var PaletteBuilderUI = (function () {
       chart.setAttribute('role','img');chart.setAttribute('aria-label','Chart of OKLCH lightness against chroma for '+n+' selected ramp'+(n===1?'':'s'));
       box.replaceChildren(chart);
     }
-    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id, zone=focused&&focused.dataset&&focused.dataset.zone;renderColumns();renderProposals();renderEditor();renderChart();renderExport();renderAnalytics();if(action&&id){var hits=Array.prototype.filter.call($('family').querySelectorAll('[data-action]'),function(b){return b.dataset.action===action&&b.dataset.id===id;}), same=hits.filter(function(b){return b.dataset.zone===zone;})[0]||hits[0];if(same)same.focus({preventScroll:true});}}
+    // Pairings: every selected step as text on one background, with its measured level and USWDS grade gap.
+    var pairBg='pole:light';
+    // The level is always WCAG 2's. With APCA on, short marks a level whose paired Lc (90, 75, 60) isn't reached.
+    function pairLevel(r,lc,both){
+      var tiers=[[7,90,'AAA'],[4.5,75,'AA'],[3,60,'3:1']];
+      for(var i=0;i<tiers.length;i++)if(r>=tiers[i][0])return {lv:tiers[i][2],lc:tiers[i][1],short:both&&Math.abs(lc)<tiers[i][1]};
+      return {lv:'—',lc:0,short:false};
+    }
+    function renderPairs(){
+      var o=api.last(), pal=o.pal, cols=selected(), both=api.st.rule!=='wcag', sel=$('pair-bg');if(!sel)return;
+      var pole=function(w){var n=pal.poleNames&&pal.poleNames[w];n=n||(w==='light'?'white':'black');return n.charAt(0).toUpperCase()+n.slice(1);};
+      var opts=[{key:'pole:light',label:pole('light'),lab:Engine.parse(pal.poles.light)},{key:'pole:dark',label:pole('dark'),lab:Engine.parse(pal.poles.dark)}];
+      cols.forEach(function(c){c.steps.forEach(function(st,k){opts.push({key:c.id+'|'+k,label:c.name+' '+st,lab:c.labs[k],group:c.name});});});
+      if(!opts.some(function(x){return x.key===pairBg;}))pairBg='pole:light';
+      var groups={}, html='<optgroup label="Surfaces">'+opts.slice(0,2).map(function(x){return '<option value="'+esc(x.key)+'">'+esc(x.label)+'</option>';}).join('')+'</optgroup>';
+      opts.slice(2).forEach(function(x){(groups[x.group]=groups[x.group]||[]).push(x);});
+      Object.keys(groups).forEach(function(g){html+='<optgroup label="'+esc(g)+'">'+groups[g].map(function(x){return '<option value="'+esc(x.key)+'">'+esc(x.label)+'</option>';}).join('')+'</optgroup>';});
+      sel.innerHTML=html;sel.value=pairBg;
+      var bg=opts.filter(function(x){return x.key===pairBg;})[0], bl=bg.lab, bgY=Engine.Y(bl[0],bl[1],bl[2]), bgA=Engine.apcaY(bl[0],bl[1],bl[2]), bgG=Engine.gradeOf(bgY).grade, bgHex=B.hex(bl), starts=[];
+      if(!cols.length){$('pairs').innerHTML='';$('pairs-note').textContent='Select a ramp to see its pairings.';return;}
+      $('pairs').innerHTML=cols.map(function(c){
+        var best=-1,br=1e9;
+        var cells=c.labs.map(function(p,k){
+          var y=Engine.Y(p[0],p[1],p[2]), r=Engine.cr(y,bgY), lc=Engine.apca(Engine.apcaY(p[0],p[1],p[2]),bgA), g=Engine.gradeOf(y).grade, gap=Math.round(Math.abs(g-bgG)), pl=pairLevel(r,lc,both), lv=pl.lv, hx=B.hex(p);
+          if(r>=4.5&&(!both||Math.abs(lc)>=75)&&r<br){br=r;best=k;}
+          var tip=c.name+' '+c.steps[k]+' on '+bg.label+': '+r.toFixed(2)+':1 · Lc '+lc.toFixed(0)+(pl.short?' (APCA falls short of Lc '+pl.lc+')':'')+' · grade '+Math.round(g)+' vs '+Math.round(bgG)+' (magic number '+gap+')';
+          return '<div class="pair" data-level="'+lv+'"'+(pl.short?' data-apca="short"':'')+' title="'+esc(tip)+'"><span class="pair-sw" style="background:'+bgHex+';color:'+hx+'" aria-hidden="true">Aa</span><span class="cap"><span>'+esc(c.steps[k])+'</span><b>'+lv+(pl.short?'<span class="apca-short" aria-hidden="true">*</span>':'')+'</b></span><span class="cap"><span>'+r.toFixed(1)+'</span><span>Δ'+gap+'</span></span><span class="sr-only">'+esc(tip)+', WCAG level '+lv+(pl.short?', APCA falls short':'')+'</span></div>';
+        }).join('');
+        starts.push(c.name+(best<0?' none':' '+c.steps[best]));
+        return '<div class="pair-row" style="--n:'+c.labs.length+'"><span class="pair-name" title="'+esc(c.name)+'">'+esc(c.name)+'</span>'+cells+'</div>';
+      }).join('');
+      $('pairs-note').textContent='Body text on '+bg.label+(both?' (4.5:1 and Lc 75)':' (4.5:1)')+', closest passing step: '+starts.join(' · ')+'.';
+    }
+    function render(){var focused=document.activeElement, action=focused&&focused.dataset&&focused.dataset.action, id=focused&&focused.dataset&&focused.dataset.id, zone=focused&&focused.dataset&&focused.dataset.zone;renderColumns();renderProposals();renderEditor();renderChart();renderExport();renderAnalytics();renderPairs();if(action&&id){var hits=Array.prototype.filter.call($('family').querySelectorAll('[data-action]'),function(b){return b.dataset.action===action&&b.dataset.id===id;}), same=hits.filter(function(b){return b.dataset.zone===zone;})[0]||hits[0];if(same)same.focus({preventScroll:true});}}
     function commit(message, focusId){render();persist();if(message)announce(message);if(focusId)$(focusId).focus();}
     function setInvalid(value){invalid=value;renderExport();$('suggest').disabled=value||!ready||state.records.length>=B.LIMIT;}
     function select(id){if(!base(id))return;checkpoint();var k=state.selected.indexOf(id);if(k<0){if(state.records.length>=B.LIMIT&&id!=='brand'&&!state.records.some(function(c){return c.id===id;})){announce('Working palette limit reached. Remove companions or reset unused edits first.');return;}remember(id);state.selected.push(id);}else state.selected.splice(k,1);commit();}
@@ -283,8 +316,9 @@ var PaletteBuilderUI = (function () {
     // Initialize without persisting before attempting restoration.
     var o=api.last();generation=signature();brand={id:'brand',name:api.st.name||'brand',source:o.pal.name+' · your brand',kind:'brand',gamut:o.pal.gamut,steps:o.cells.map(function(c){return String(c.step);}),labs:o.cells.map(function(c){return c.lab.slice();})};
     try{refs=B.inventory(o.pal);}catch(e){ready=false;announce(e.message);}
+    $('pair-bg')&&$('pair-bg').addEventListener('change',function(){pairBg=$('pair-bg').value;renderPairs();});
     var restored=restore();render();if(restored!==false)persist();else $('builder-save').textContent='Previous custom palette retained in browser storage until you make a change. Links contain brand settings only.';
-    return {refresh:refresh,renderExport:renderExport,setInvalid:setInvalid,state:function(){return B.clone(state);},columns:columns,selected:selected,select:select,open:open,suggest:suggest,accept:accept,addSet:addSet,renderAnalytics:renderAnalytics,replace:replace,edit:edit,reset:reset,remove:remove,undo:undoLast,proposals:function(){return B.clone(proposals);}};
+    return {refresh:refresh,renderExport:renderExport,setInvalid:setInvalid,state:function(){return B.clone(state);},columns:columns,selected:selected,select:select,open:open,suggest:suggest,accept:accept,addSet:addSet,renderAnalytics:renderAnalytics,renderPairs:renderPairs,replace:replace,edit:edit,reset:reset,remove:remove,undo:undoLast,proposals:function(){return B.clone(proposals);}};
   }
   return {mount:mount};
 })();

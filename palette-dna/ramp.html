@@ -342,6 +342,20 @@
   .proposal-strip span { flex: 1; }
   .builder-summary { cursor: pointer; font-size: .8rem; color: var(--tx-2); padding-block: .5rem; }
   .brand-contrast { margin-top: .75rem; max-width: 44rem; }
+  .pairs-wrap { margin-top: .75rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .pairs { display: flex; flex-direction: column; gap: .6rem; margin-top: .4rem; overflow-x: auto; padding-bottom: .25rem; }
+  .pair-row { display: grid; grid-template-columns: 6.5rem repeat(var(--n), minmax(3.4rem, 1fr)); gap: .3rem .5rem; align-items: start; min-width: max-content; }
+  .pair-row > .pair-name { font-size: .78rem; padding-top: .55rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pair { display: flex; flex-direction: column; gap: .2rem; font-size: .68rem; color: var(--tx-2); min-width: 3.4rem; }
+  .pair .pair-sw { height: 2.2rem; border-radius: .35rem; display: grid; place-items: center; font-size: 1.05rem; border: 1px solid var(--ui); }
+  .pair[data-level="AAA"] .pair-sw { box-shadow: 0 0 0 2px var(--tx); }
+  .pair[data-level="AA"] .pair-sw { box-shadow: 0 0 0 1px var(--tx); }
+  .pair[data-level="3:1"] .pair-sw { outline: 1px dashed var(--tx-2); outline-offset: 1px; }
+  .pair[data-level="—"] .cap { opacity: .55; }
+  .pair .cap { display: flex; justify-content: space-between; gap: .2rem; font-variant-numeric: tabular-nums; }
+  .pair .cap b { font-weight: 500; color: var(--tx); }
+  .pair .apca-short { color: var(--tx-2); font-weight: 400; margin-left: .05rem; }
   .crule { display: inline-flex; flex-direction: row; white-space: nowrap; gap: .5rem; align-items: center; font-size: .8rem; color: var(--tx-2); margin-bottom: .6rem; }
   .analytics { display: flex; flex-direction: column; gap: .75rem; padding-top: 1.25rem; border-top: 1px solid var(--ui); }
   .analytics h2 { margin: 0; }
@@ -497,7 +511,14 @@
     <p class="note" id="builder-save"></p>
     <section class="analytics" aria-labelledby="analytics-heading">
       <h2 id="analytics-heading">Color analytics and accessibility</h2>
+      <p class="note">Contrast is checked two ways. WCAG 2 ratios are the standard that regulations cite; APCA scores (Lc) are advisory and model perceived contrast, especially on dark backgrounds. Read <a href="https://git.apcacontrast.com/documentation/WhyAPCA.html" target="_blank" rel="noopener">how APCA differs from WCAG 2</a> (from APCA’s authors) and <a href="https://adrianroselli.com/2026/04/wcag3-contrast-as-of-april-2026.html" target="_blank" rel="noopener">where APCA stands in WCAG 3</a> (Adrian Roselli).</p>
       <details><summary class="builder-summary" title="Which brand steps pass text contrast on light and dark backgrounds.">Brand ramp text contrast</summary><div class="brand-contrast"><label class="crule">Passes when<select id="crule" title="WCAG 2 is the standard regulations cite. Adding APCA also requires the step to read well perceptually, which matters most on dark backgrounds."><option value="both">WCAG 2 and APCA</option><option value="wcag">WCAG 2 only</option></select></label><div class="tablewrap"><table id="contrast"></table></div><p class="note">The step closest to the background that passes. WCAG 2 is the pass/fail standard: 4.5:1 for body text, 3:1 for large text and icons. APCA Lc, shown for every step, is advisory: Lc 75 for body text and Lc 60 for other content text (APCA Bronze). Lc is negative for light text on a dark background; the levels apply to its absolute value. APCA isn’t part of any standard yet, so “WCAG 2 and APCA” never picks a step that fails WCAG 2.</p></div></details>
+      <details><summary class="builder-summary" title="Every step of your selected ramps as text on one background, with its contrast level and grade gap.">Pairings and magic numbers</summary><div class="pairs-wrap">
+        <label class="crule">Background<select id="pair-bg" title="Choose a surface. Every step of every selected ramp is shown as text on it."></select></label>
+        <div id="pairs" class="pairs"></div>
+        <p class="note" id="pairs-note" role="status"></p>
+        <p class="note">Each tile shows a step as text on the background. Levels are WCAG 2: AAA is 7:1, AA is 4.5:1 and 3:1 is large text and icons. With “WCAG 2 and APCA” chosen under Brand ramp text contrast, an asterisk (AA*) means APCA falls short of the paired level, Lc 90, 75 or 60; hover a tile for its score. The summary above counts a step as passing only without an asterisk. Δ is the magic number: the gap between the two USWDS grades, from relative luminance. A gap of 40 or more usually gives 3:1, 50 or more 4.5:1 and 70 or more 7:1, but colors near band edges can fall short, so the level shown is measured, not predicted.</p>
+      </div></details>
       <div class="analytics-chart">
         <h3>Lightness and chroma</h3>
         <p class="note">How colorful each selected ramp is at every lightness. Ramps from the same palette should rise and fall together; a line that breaks from the others is the one to check.</p>
@@ -946,7 +967,7 @@
     st.c2 = hexOf(t); $('c2').value = st.c2; render(); $('c2').focus(); $('c2').select();
   });
   $('c2x').addEventListener('click', function () { st.c2 = null; invalidInputs.c2 = false; inputReadiness(); $('c2err').hidden = true; render(); $('c2add').focus(); });
-  $('crule').addEventListener('change', function () { st.rule = $('crule').value === 'wcag' ? 'wcag' : 'both'; if (last) renderContrast(last); save(); });
+  $('crule').addEventListener('change', function () { st.rule = $('crule').value === 'wcag' ? 'wcag' : 'both'; if (last) renderContrast(last); if (window.__paletteUI) window.__paletteUI.renderPairs(); save(); });
   $('step').addEventListener('change', function () { st.s1 = $('step').value || null; render(); });
   // ---------- ramp shape ----------
   $('shape').addEventListener('change', function () {
