@@ -672,7 +672,7 @@
       return '<tr><td>' + esc(step) + '</td><td>' + Math.round(lo.g) + '–' + Math.round(hi.g) + '</td><td>' + Math.round(sp) + '</td><td>' + esc(lo.r.name) + ' · ' + esc(hi.r.name) + '</td></tr>';
     }).join('');
     var med = spreads.slice().sort(function (a, b) { return a - b; })[Math.floor(spreads.length / 2)];
-    $('gradenote').textContent = 'Median spread ' + Math.round(med) + ' grades across ' + ramps.length + ' hued ramps. Under about 10, one magic-number rule works for a step at every hue; above that, check contrast per hue. Grades follow relative luminance, so a large spread is usually yellow and cyan running light. Near band edges the USWDS rule can miss: 30 and 80 can give 4.44:1, so the measured ratio is the final check.';
+    $('gradenote').textContent = 'Median spread ' + Math.round(med) + ' grades across ' + ramps.length + ' hued ramps. Under about 10, one magic-number rule works for a step at every hue; above that, check contrast per hue. Grades follow relative luminance, so a large spread is usually yellow and cyan running light. Near band edges the USWDS rule can miss: 30 and 80 can give 4.44:1, so the measured ratio is the final check. See “Using the magic number” in Palette DNA Ramp for a worked example.';
   }
 
 

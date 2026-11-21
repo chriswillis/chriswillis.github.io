@@ -222,6 +222,15 @@
   .notes ul { margin: 0; padding-left: 1.2rem; color: var(--tx-2); }
   .notes li { margin-bottom: 0.35rem; }
   .notes table td { color: var(--tx-2); }
+  .notes .mn-h { font-size: 1.05rem; font-weight: 400; margin: .6rem 0 0; }
+  .mn-ramp { display: grid; gap: 3px; }
+  .mn-ramp .mn-chip { display: flex; flex-direction: column; gap: .2rem; font-size: .7rem; color: var(--tx-2); font-variant-numeric: tabular-nums; }
+  .mn-ramp .mn-chip i { display: block; height: 2rem; border-radius: .3rem; border: 1px solid var(--ui); }
+  .mn-ramp .mn-chip b { color: var(--tx); font-weight: 500; font-size: .8rem; }
+  .mn-steps li { margin-bottom: .6rem; }
+  .mn-steps .eq { font-variant-numeric: tabular-nums; color: var(--tx); }
+  .mn-steps .dot { display: inline-block; width: .8rem; height: .8rem; border-radius: .2rem; border: 1px solid var(--ui-2); vertical-align: -.1rem; margin-right: .3rem; }
+  .mn-code { font-size: .8rem; white-space: pre-wrap; }
   footer { border-top: 1px solid var(--ui); padding-top: 1rem; font-size: 0.8rem; color: var(--tx-2); }
 
   /* ---------- import ---------- */
@@ -517,7 +526,7 @@
         <label class="crule">Background<select id="pair-bg" title="Choose a surface. Every step of every selected ramp is shown as text on it."></select></label>
         <div id="pairs" class="pairs"></div>
         <p class="note" id="pairs-note" role="status"></p>
-        <p class="note">Each tile shows a step as text on the background. Levels are WCAG 2: AAA is 7:1, AA is 4.5:1 and 3:1 is large text and icons. With “WCAG 2 and APCA” chosen under Brand ramp text contrast, an asterisk (AA*) means APCA falls short of the paired level, Lc 90, 75 or 60; hover a tile for its score. The summary above counts a step as passing only without an asterisk. Δ is the magic number: the gap between the two USWDS grades, from relative luminance. A gap of 40 or more usually gives 3:1, 50 or more 4.5:1 and 70 or more 7:1, but colors near band edges can fall short, so the level shown is measured, not predicted.</p>
+        <p class="note">Each tile shows a step as text on the background. Levels are WCAG 2: AAA is 7:1, AA is 4.5:1 and 3:1 is large text and icons. With “WCAG 2 and APCA” chosen under Brand ramp text contrast, an asterisk (AA*) means APCA falls short of the paired level, Lc 90, 75 or 60; hover a tile for its score. The summary above counts a step as passing only without an asterisk. Δ is the magic number: the gap between the two USWDS grades, from relative luminance. A gap of 40 or more usually gives 3:1, 50 or more 4.5:1 and 70 or more 7:1, but colors near band edges can fall short, so the level shown is measured, not predicted. <a href="#magic-number">How to use the magic number</a>.</p>
       </div></details>
       <div class="analytics-chart">
         <h3>Lightness and chroma</h3>
@@ -545,6 +554,39 @@
     </div>
     <pre id="code" tabindex="0"></pre>
     <div class="status" id="status" role="status"></div>
+  </section>
+
+  <section class="notes" id="magic-number">
+    <h2>Using the magic number</h2>
+    <p>The magic number is a shortcut from the U.S. Web Design System (USWDS) for choosing color pairs that pass contrast without checking every pair. Every color gets a <b>grade</b> from 0 (white) to 100 (black), based on how much light it gives off. The magic number is the difference between two grades. The bigger the gap, the more contrast.</p>
+    <div class="tablewrap"><table class="mn-rules">
+      <thead><tr><th>Magic number</th><th>Usually gives</th><th>Use it for</th></tr></thead>
+      <tbody>
+        <tr><td>40 or more</td><td>3:1</td><td>Large text, icons, input borders, focus rings, chart marks</td></tr>
+        <tr><td>50 or more</td><td>4.5:1</td><td>Body text and labels</td></tr>
+        <tr><td>70 or more</td><td>7:1</td><td>Long reading, or people who need extra contrast</td></tr>
+      </tbody>
+    </table></div>
+    <p>A grade-50 color works for body text on both white and black, because it is 50 from each.</p>
+
+    <h3 class="mn-h">Worked example with your brand ramp</h3>
+    <p><b>1. Give each color a grade.</b> White is 0 and black is 100. Here are your brand steps with their grades; ≈ means the color falls between two official grades and is rounded.</p>
+    <div class="mn-ramp" id="mn-ramp" aria-label="Brand steps with their grades"></div>
+    <p><b>2. Subtract to find the magic number,</b> then read the table above.</p>
+    <ul class="mn-steps" id="mn-steps"></ul>
+    <p><b>3. Confirm with the measured contrast.</b> The magic number gets you close fast; the measured ratio is the final check. Each example above shows it. <a href="#analytics-heading">Pairings and magic numbers</a> does this for every step of every selected ramp.</p>
+
+    <h3 class="mn-h">Write it into your design system</h3>
+    <p>Rules in grades are short enough to remember and work across every hue, so a team doesn’t need a contrast table per color:</p>
+    <pre class="mn-code" id="mn-code"></pre>
+    <p>Naming steps by grade (brand-60 instead of brand-600) makes the rule readable in code: brand-60 text on brand-5 is 55 apart, so it passes. Only do this when your steps actually land on grades; the next section explains why that isn’t a given.</p>
+
+    <h3 class="mn-h">Where it breaks</h3>
+    <ul>
+      <li><b>Step names aren’t grades.</b> In Tailwind 4, step 500 is about grade 24 for yellow and 50 for indigo, so “500 on white” means different contrast for each hue. Apply the rule to each color’s grade, not its step name. <a href="map.html">Palette DNA Map</a> shows how far a palette’s steps wander under Step grades.</li>
+      <li><b>Band edges.</b> Each grade covers a range of lightness. Two colors at the far edges of their ranges can miss: grade 30 against grade 80 can measure 4.44:1, and 40 against 90 can measure 4.23:1. That’s why every example shows the measured ratio.</li>
+      <li><b>WCAG 2 only.</b> Grades follow the WCAG 2 contrast formula. APCA treats light text on dark backgrounds differently and often wants more, which is what the asterisk in Pairings flags.</li>
+    </ul>
   </section>
 
   <section class="notes" id="why">
@@ -826,6 +868,42 @@
       return '<tr><td><span class="dot" style="background-color:' + Engine.cssColor(b.lab[0], b.lab[1], b.lab[2], pal.gamut) + '"></span>' + esc(b.label) + '</td>' + first(b.lab, 4.5, 75) + first(b.lab, 3, 60) + '</tr>';
     }).join('') + '</tbody>';
   }
+  // Live worked example of the USWDS magic number using the brand ramp and the palette's light and dark poles.
+  function renderMagic(o) {
+    var pal = o.pal, name = slug(st.name), n = o.cells.length;
+    var info = function (lab) { var y = Yof(lab), g = Engine.gradeOf(y); return { lab: lab, y: y, g: Math.round(g.grade), exact: g.band != null, a: Engine.apcaY(lab[0], lab[1], lab[2]) }; };
+    var label = function (x) { return (x.exact ? '' : '≈') + x.g; };
+    var cells = o.cells.map(function (c) { var x = info(c.lab); x.name = name + '-' + c.step; x.css = Engine.cssColor(c.lab[0], c.lab[1], c.lab[2], pal.gamut); return x; });
+    var light = info(Engine.parse(pal.poles.light)), dark = info(Engine.parse(pal.poles.dark));
+    light.name = poleName(pal, 'light'); dark.name = poleName(pal, 'dark'); light.css = hexOf(light.lab); dark.css = hexOf(dark.lab);
+    $('mn-ramp').style.gridTemplateColumns = 'repeat(' + n + ', minmax(0, 1fr))';
+    $('mn-ramp').innerHTML = cells.map(function (x, k) { return '<span class="mn-chip"><i style="background:' + x.css + '"></i>' + esc(o.cells[k].step) + '<b>' + label(x) + '</b></span>'; }).join('');
+    var rule = function (gap) { return gap >= 70 ? '70 or more, so it should pass 7:1' : gap >= 50 ? '50 or more, so it should pass 4.5:1 for body text' : gap >= 40 ? '40 or more, so it should pass 3:1 for large text and icons' : 'under 40, so don’t use it for text or icons'; };
+    function example(title, fg, bg) {
+      var gap = Math.abs(fg.g - bg.g), r = Engine.cr(fg.y, bg.y), lc = Engine.apca(fg.a, bg.a), need = gap >= 70 ? [7, 90] : gap >= 50 ? [4.5, 75] : gap >= 40 ? [3, 60] : null;
+      var verdict = !need ? '' : r >= need[0] ? (Math.abs(lc) >= need[1] ? ' Confirmed, and APCA agrees.' : ' Confirmed for WCAG 2; APCA falls short of Lc ' + need[1] + '.') : ' Close, but it measures under ' + need[0] + ':1: a band-edge case, so pick the next step.';
+      var dot = function (x) { return '<span class="dot" style="background:' + x.css + '"></span>'; };
+      return '<li><b>' + title + '</b> ' + dot(fg) + esc(fg.name) + ' is grade ' + label(fg) + ' and ' + dot(bg) + esc(bg.name) + ' is ' + label(bg) + '. <span class="eq">' + Math.max(fg.g, bg.g) + ' − ' + Math.min(fg.g, bg.g) + ' = ' + gap + '</span>, which is ' + rule(gap) + '. Measured: ' + fx(r, 1) + ':1, Lc ' + fx(lc, 0) + '.' + verdict + '</li>';
+    }
+    // closest step to a background that is at least `gap` grades away, searching from the background's side
+    function closest(bg, gap) { var best = null; cells.forEach(function (x) { var d = Math.abs(x.g - bg.g); if (d >= gap && (!best || d < Math.abs(best.g - bg.g))) best = x; }); return best; }
+    var items = [], onLight = closest(light, 50), onDark = closest(dark, 50), surface = cells[0], onSurface = closest(surface, 50), icon = closest(light, 40);
+    if (onLight) items.push(example('Body text on ' + light.name + ':', onLight, light));
+    if (onDark) items.push(example('Body text on ' + dark.name + ':', onDark, dark));
+    if (onLight && onLight === onDark) items[items.length - 1] = items[items.length - 1].replace('</li>', ' This is the grade-50 case: one step that works on both, though APCA shows it reads far worse on the dark side.</li>');
+    if (onSurface) items.push(example('Text on a tinted surface:', onSurface, surface));
+    if (icon && icon !== onLight) items.push(example('An icon or border on ' + light.name + ':', icon, light));
+    $('mn-steps').innerHTML = items.join('') || '<li>Your ramp has no pair 50 grades apart. Widen its lightness range under Ramp shape.</li>';
+    var tok = function (x) { return x ? '--' + x.name + ' (grade ' + label(x) + ')' : 'none in this ramp'; };
+    $('mn-code').textContent = '/* Contrast rules, in USWDS grades */\n' +
+      'Text on any surface ............ 50+ grades apart  (4.5:1)\n' +
+      'Large text, icons, borders ..... 40+ grades apart  (3:1)\n' +
+      'Long-form reading .............. 70+ grades apart  (7:1)\n\n' +
+      '/* From your ramp */\n' +
+      'Text on ' + light.name.toLowerCase() + ': ' + tok(onLight) + ' or darker\n' +
+      'Text on ' + dark.name.toLowerCase() + ': ' + tok(onDark) + ' or lighter\n' +
+      'Icons on ' + light.name.toLowerCase() + ': ' + tok(icon) + ' or darker';
+  }
   function exportText(o, fmt) {
     var name = slug(st.name), rows = o.cells.map(function (c) { return { step: c.step, hex: hexOf(c.lab), ok: oklch(c.lab), p3: !inSrgb(c.lab) }; });
     var anyP3 = rows.some(function (r) { return r.p3; }), key = function (s) { return /^\d+$|^[A-Za-z_]\w*$/.test(s) ? s : "'" + s + "'"; };
@@ -881,7 +959,7 @@
     renderControls();
     var o = generate(); if (!o) return;
     last = o;
-    renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderExport(o);
+    renderRamp(o); renderVerdict(o); renderFamily(o); renderContrast(o); renderMagic(o); renderExport(o);
     if (window.__paletteUI) window.__paletteUI.refresh(o);
     save();
   }
