@@ -173,6 +173,12 @@ var PaletteBuilderUI = (function () {
       $('edit-swatches').innerHTML=c.labs.map(function(p,i){var hx=B.hex(p),text=B.contrast(hx,'#FFFFFF')>B.contrast(hx,'#000000')?'#FFFFFF':'#000000';return '<button type="button" class="edit-swatch'+(i===ix?' chart-step':'')+'" data-copy-color="'+hx+'" style="background:'+hx+';color:'+text+'" aria-label="Copy '+esc(c.name)+' '+esc(c.steps[i])+' '+hx+'" title="Copy '+hx+' · '+esc(B.ok(p))+'"><span>'+esc(c.steps[i])+'</span><span>'+hx+'</span></button>';}).join('');
       $('edit-note').textContent='Click a swatch to copy its sRGB hex. Chart uses step '+c.steps[ix]+'.'+(c.labs.some(function(p){return !Engine.inG.apply(null,p.concat(['srgb']));})?' Some values are sRGB fallbacks; OKLCH export retains wide-gamut colors.':'');
     }
+    function refLevel(r,a){
+      if(r>=4.5&&a>=75)return 'Meets 4.5:1 and Lc 75 text references';
+      if(r>=4.5)return 'Meets 4.5:1; '+(a>=60?'Lc 60, below Lc 75':'below Lc 60');
+      if(r>=3)return 'Meets 3:1'+(a>=60?' and Lc 60':'; below Lc 60');
+      return 'Below 3:1';
+    }
     function renderChart(){
       var rows=B.chartRows(selected(),state.background,state.vision,state.chartSteps), dark=state.background==='dark', bg=dark?'#181818':'#FFFFFF';
       $('preview-bg').value=state.background;$('preview-vision').value=state.vision;
@@ -181,7 +187,8 @@ var PaletteBuilderUI = (function () {
       var pair=B.weakest(rows);
       $('pair-metric').textContent=pair?'Closest pair: '+pair.a+' / '+pair.b+' · ΔE OK ×100 '+pair.distance.toFixed(1)+' ('+(state.vision==='normal'?'normal vision':state.vision+' simulation')+'). Smaller means more similar; this is not an accessibility pass/fail score.':'Select at least two ramps to compare chart colors.';
       if(pair&&sets.length){var bench=B.setBenchmark(sets[0],state.vision);if(bench)$('pair-metric').textContent+=' For comparison, the closest pair among '+sets[0].name+'’s ten main colors is '+bench.a+' / '+bench.b+' at '+bench.distance.toFixed(1)+' in the same view.';}
-      $('chart-metrics').innerHTML=rows.map(function(r){return '<tr><th scope="row">'+esc(r.name)+' · '+esc(r.step)+'</th><td class="mono">'+r.hex+(r.wide?' *':'')+'</td><td class="num">'+r.ratio.toFixed(2)+':1</td><td>'+ (r.ratio>=4.5?'Meets 4.5:1 text reference':r.ratio>=3?'Below 4.5:1; meets 3:1':'Below 3:1')+'</td></tr>';}).join('');
+      var bgY=Engine.apcaY.apply(null,Engine.parse(bg));
+      $('chart-metrics').innerHTML=rows.map(function(r){var lc=Engine.apca(Engine.apcaY.apply(null,Engine.parse(r.hex)),bgY),a=Math.abs(lc);return '<tr><th scope="row">'+esc(r.name)+' · '+esc(r.step)+'</th><td class="mono">'+r.hex+(r.wide?' *':'')+'</td><td class="num">'+r.ratio.toFixed(2)+':1</td><td class="num">'+lc.toFixed(0)+'</td><td>'+refLevel(r.ratio,a)+'</td></tr>';}).join('');
     }
     function renderExport(){
       var cols=scopeColumns();$('export-scope').value=state.scope;

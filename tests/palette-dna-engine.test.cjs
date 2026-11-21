@@ -56,3 +56,19 @@ test('pins behave the same in Fit mode', () => {
   const M = model('tailwind4');
   assert.equal(M.genAnchors([seed(M, '#3B82F6', '600')], { cap: true }).findIndex(p => p.anchor), 6);
 });
+
+test('APCA Lc matches the published APCA-W3 0.0.98G reference values, with polarity', () => {
+  const lc = (t, b) => Math.round(E.apca(E.apcaY(...E.parse(t)), E.apcaY(...E.parse(b))) * 100) / 100;
+  assert.equal(lc('#888888', '#FFFFFF'), 63.06);
+  assert.equal(lc('#FFFFFF', '#888888'), -68.54);
+  assert.equal(lc('#000000', '#AAAAAA'), 58.15);
+  assert.equal(lc('#AAAAAA', '#000000'), -56.24);
+  assert.equal(lc('#777777', '#777777'), 0);
+});
+
+test('USWDS grades: in-band colors get the band, others a continuous grade between bands', () => {
+  assert.deepEqual({ ...E.gradeOf(0.179) }, { grade: 50, band: 50 });
+  assert.equal(E.gradeOf(1).grade, 0); assert.equal(E.gradeOf(0).grade, 100);
+  const between = E.gradeOf(0.2); assert.equal(between.band, null); assert.ok(between.grade > 40 && between.grade < 50);
+  for (let y = 0; y <= 1; y += 0.01) assert.ok(E.gradeOf(y).grade >= E.gradeOf(y + 0.01).grade - 1e-9, 'grade falls as luminance rises');
+});

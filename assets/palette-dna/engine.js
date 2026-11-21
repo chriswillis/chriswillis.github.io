@@ -130,6 +130,29 @@ var Engine = (function () {
     var c = lab2lin(L, a, b); return Math.max(0, 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]);
   }
   function cr(y1, y2) { return (Math.max(y1, y2) + 0.05) / (Math.min(y1, y2) + 0.05); }
+  // USWDS grade bands: relative luminance [min, max] per grade (designsystem.digital.gov, color overview).
+  // Colors between two bands have no official grade; gradeOf still reports the nearest whole grade for reading.
+  var GRADES = [[0, 1, 1], [5, 0.85, 0.93], [10, 0.75, 0.82], [20, 0.5, 0.65], [30, 0.35, 0.45], [40, 0.225, 0.3], [50, 0.175, 0.183],
+    [60, 0.1, 0.125], [70, 0.05, 0.07], [80, 0.02, 0.04], [90, 0.005, 0.015], [100, 0, 0]];
+  // Continuous grade: linear in log(Y + 0.05) between band midpoints, so a grade gap tracks the WCAG 2 ratio.
+  function gradeOf(y) {
+    var band = null, k, q = function (v) { return Math.log(v + 0.05); }, t = q(y);
+    for (k = 0; k < GRADES.length; k++) if (y >= GRADES[k][1] - 1e-9 && y <= GRADES[k][2] + 1e-9) band = GRADES[k][0];
+    var mid = GRADES.map(function (g) { return [g[0], q((g[1] + g[2]) / 2)]; }), g = 100;
+    if (t >= mid[0][1]) g = 0;
+    else for (k = 1; k < mid.length; k++) if (t >= mid[k][1]) { g = mid[k - 1][0] + (mid[k - 1][1] - t) / (mid[k - 1][1] - mid[k][1]) * (mid[k][0] - mid[k - 1][0]); break; }
+    return { grade: band != null ? band : g, band: band };
+  }
+  // APCA-W3 0.0.98G-4g (Myndex). apcaY uses APCA's own simple 2.4 curve on 8-bit sRGB, not WCAG's piecewise one.
+  // apca(textY, backgroundY) returns signed Lc: positive for dark text on light, negative for light text on dark.
+  function apcaY(L, a, b) { var r = rgb8(L, a, b); return 0.2126729 * Math.pow(r[0] / 255, 2.4) + 0.7151522 * Math.pow(r[1] / 255, 2.4) + 0.0721750 * Math.pow(r[2] / 255, 2.4); }
+  function apca(txt, bg) {
+    var clamp = function (y) { return y > 0.022 ? y : y + Math.pow(0.022 - y, 1.414); };
+    txt = clamp(txt); bg = clamp(bg);
+    if (Math.abs(bg - txt) < 0.0005) return 0;
+    if (bg > txt) { var s = (Math.pow(bg, 0.56) - Math.pow(txt, 0.57)) * 1.14; return s < 0.1 ? 0 : (s - 0.027) * 100; }
+    var r = (Math.pow(bg, 0.65) - Math.pow(txt, 0.62)) * 1.14; return r > -0.1 ? 0 : (r + 0.027) * 100;
+  }
   function cssColor(L, a, b, g) {
     if (g === 'p3' && !inG(L, a, b, 'srgb')) return 'color(display-p3 ' + p3f(L, a, b).map(function (v) { return v.toFixed(4); }).join(' ') + ')';
     return hex(L, a, b);
@@ -743,5 +766,5 @@ var Engine = (function () {
     return out;
   }
 
-  return { gamutVolume: gamutVolume, alphaOf: alphaOf, build: build, holdOut: holdOut, looOne: looOne, summarise: summarise, calAt: calAt, dE: dE, quant: quant, parse: parse, hex: hex, rgb8: rgb8, p38: p38, cssColor: cssColor, oklchStr: oklchStr, Y: Y, cr: cr, inG: inG, maxC: maxC, hexRgb: hexRgb };
+  return { gamutVolume: gamutVolume, alphaOf: alphaOf, build: build, holdOut: holdOut, looOne: looOne, summarise: summarise, calAt: calAt, dE: dE, quant: quant, parse: parse, hex: hex, rgb8: rgb8, p38: p38, cssColor: cssColor, oklchStr: oklchStr, Y: Y, cr: cr, apcaY: apcaY, apca: apca, GRADES: GRADES, gradeOf: gradeOf, inG: inG, maxC: maxC, hexRgb: hexRgb };
 })();

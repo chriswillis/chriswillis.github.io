@@ -158,6 +158,7 @@
   .kv .v { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; overflow-wrap: anywhere; }
   button.mini { font-size: 0.72rem; padding: 0.12rem 0.45rem; }
   .fit { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .tgtapca { display: flex; gap: .4rem; align-items: center; font-size: .8rem; color: var(--tx-2); margin-top: .5rem; }
   .near { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; }
   .near .nsw { width: 1.5rem; height: 1.5rem; border-radius: 3px; flex-shrink: 0; outline: 1px solid var(--ui); }
   #vpos b, .near b { font-weight: 500; color: var(--tx); }
@@ -387,6 +388,17 @@
       </div>
       <p class="note" style="margin-top:0.6rem">Drag to orbit, scroll to zoom. Hover any point for its values.</p>
     </section>
+
+    <section>
+      <h2>Step grades</h2>
+      <div class="tblwrap">
+      <table>
+        <thead><tr><th>step</th><th title="USWDS grade range across hued ramps, from relative luminance">grades</th><th title="Highest minus lowest grade at this step">spread</th><th title="Lightest and darkest hue at this step">lightest · darkest</th></tr></thead>
+        <tbody id="gradebody"></tbody>
+      </table>
+      </div>
+      <p class="note" id="gradenote" style="margin-top:0.6rem"></p>
+    </section>
   </aside>
 </div>
 </div>
@@ -404,6 +416,7 @@
         <div class="toggles" style="display:flex;gap:1rem">
           <label><input type="checkbox" id="fog" checked> Show reference stippling</label>
           <label><input type="checkbox" id="hatch" checked> Hatch clipped</label>
+          <label title="USWDS grade bands by relative luminance. The gap between two grades (the magic number) predicts WCAG 2 contrast."><input type="checkbox" id="grades"> Grade bands</label>
         </div>
       </div>
       <p class="holdbanner" id="holdbanner" hidden></p>
@@ -414,7 +427,7 @@
           <canvas id="ovc" tabindex="0" aria-label="Color map: hue position across, lightness up. Arrow keys move the pick, Shift for larger steps."></canvas>
         </div>
       </div>
-      <details class="maplegend"><summary>How to read the map</summary><p class="note">Hue position runs across; lightness runs up. The picker uses PCHIP independently of the 3D interpolation controls. Solid lines show lofted ramps; dashed lines show interior ramps. Stippling is a reference from full-saturation PCHIP hold-outs, plus areas beyond neighbouring ramps' lightness ranges. It does not validate a seed-shaped ramp or predict an individual color's error. Error-based stippling is hidden when palette saturation changes; extrapolation stippling remains. Hatching marks gamut clipping. <span id="p3note"></span></p></details>
+      <details class="maplegend"><summary>How to read the map</summary><p class="note">Hue position runs across; lightness runs up. The picker uses PCHIP independently of the 3D interpolation controls. Solid lines show lofted ramps; dashed lines show interior ramps. Stippling is a reference from full-saturation PCHIP hold-outs, plus areas beyond neighbouring ramps' lightness ranges. It does not validate a seed-shaped ramp or predict an individual color's error. Error-based stippling is hidden when palette saturation changes; extrapolation stippling remains. Hatching marks gamut clipping. Grade bands show where each USWDS grade (10 to 90) falls at every hue, by relative luminance; a flat band means that grade sits at one lightness across hues. Colors between bands have no official grade. <span id="p3note"></span></p></details>
 
       <section class="gen">
         <div class="ghead">
@@ -476,6 +489,7 @@
         <span class="k">hex</span><span class="v" id="vhex"></span><button class="tt mini" id="cphex">Copy</button>
         <span class="k">oklch</span><span class="v" id="voklch"></span><button class="tt mini" id="cpok">Copy</button>
         <span class="k">rel C</span><span class="v" id="vrel" style="grid-column: span 2"></span>
+        <span class="k" title="USWDS grade from relative luminance">grade</span><span class="v" id="vgrade" style="grid-column: span 2"></span>
       </section>
       <section>
         <h2>Fit lightness to a contrast target</h2>
@@ -484,8 +498,9 @@
           <label><input type="radio" name="tgt" value="4.5" checked><span>4.5:1</span></label>
           <label><input type="radio" name="tgt" value="7"><span>7:1</span></label>
         </div>
+        <label class="tgtapca"><input type="checkbox" id="tgtapca" checked> Also require APCA <span class="num" id="tgtlc">Lc 75</span></label>
         <div class="fit"><button class="tt" id="fitp">Lightest on white</button><button class="tt" id="fitb">Darkest on black</button></div>
-        <p class="note" style="margin-top:0.4rem">With seeds, selects the lightest or darkest generated step meeting the target. Otherwise moves lightness along the palette surface.</p>
+        <p class="note" style="margin-top:0.4rem">With seeds, selects the lightest or darkest generated step meeting the target. Otherwise moves lightness along the palette surface. WCAG 2 ratios are the pass/fail standard; APCA is advisory and not yet part of any standard. With APCA on, a color must meet both: 3:1 with Lc 60, 4.5:1 with Lc 75, 7:1 with Lc 90. Lc is negative for light text on a dark background; the levels apply to its absolute value.</p>
       </section>
       <section><h2>Where it sits</h2><p class="note" id="vpos" style="font-size:0.85rem"></p></section>
       <section><h2>Nearest real palette color</h2><div class="near" id="near"></div></section>
@@ -510,9 +525,9 @@
   <div class="impa"><span class="note">Stays in this browser only.</span><button class="tt" id="impok" disabled>Add palette</button></div>
 </dialog>
 
-<script src="../assets/palette-dna/palettes.js?v=2026-11-16"></script>
-<script src="../assets/palette-dna/engine.js?v=2026-11-16"></script>
-<script src="../assets/palette-dna/importer.js?v=2026-11-16"></script>
+<script src="../assets/palette-dna/palettes.js?v=2026-11-20"></script>
+<script src="../assets/palette-dna/engine.js?v=2026-11-20"></script>
+<script src="../assets/palette-dna/importer.js?v=2026-11-20"></script>
 <script>
 (function () {
   var BUILTIN = PALETTES.slice(), PALS = BUILTIN.slice();
@@ -643,6 +658,21 @@
         '<td>' + (c.overshoot > 5e-5 ? c.overshoot.toFixed(4) : '0') + '</td><td>' + c.clipped + '</td><td>' + looCell(r) + '</td>';
       tb.appendChild(tr);
     });
+    stepGrades();
+  }
+  // How far each step's luminance wanders across hues, in USWDS grades. A small spread means one
+  // magic-number rule (e.g. 50 grades apart for 4.5:1) works for that step at every hue.
+  function stepGrades() {
+    var ramps = M.R.filter(function (r) { return r.labs.length === M.steps.length; }), spreads = [];
+    if (ramps.length < 2) { $('gradebody').innerHTML = ''; $('gradenote').textContent = 'Needs at least two hued ramps with the same steps.'; return; }
+    $('gradebody').innerHTML = M.steps.map(function (step, k) {
+      var gs = ramps.map(function (r) { var p = r.labs[k]; return { r: r, g: Engine.gradeOf(Engine.Y(p[0], p[1], p[2])).grade }; });
+      gs.sort(function (a, b) { return a.g - b.g; });
+      var lo = gs[0], hi = gs[gs.length - 1], sp = hi.g - lo.g; spreads.push(sp);
+      return '<tr><td>' + esc(step) + '</td><td>' + Math.round(lo.g) + '–' + Math.round(hi.g) + '</td><td>' + Math.round(sp) + '</td><td>' + esc(lo.r.name) + ' · ' + esc(hi.r.name) + '</td></tr>';
+    }).join('');
+    var med = spreads.slice().sort(function (a, b) { return a - b; })[Math.floor(spreads.length / 2)];
+    $('gradenote').textContent = 'Median spread ' + Math.round(med) + ' grades across ' + ramps.length + ' hued ramps. Under about 10, one magic-number rule works for a step at every hue; above that, check contrast per hue. Grades follow relative luminance, so a large spread is usually yellow and cyan running light. Near band edges the USWDS rule can miss: 30 and 80 can give 4.44:1, so the measured ratio is the final check.';
   }
 
 
@@ -869,7 +899,7 @@
   $('vtop').addEventListener('click', function () { camera = TOP; render(); });
 
   // ---------------- picker ----------------
-  var P = { seeds: [], pi: 0, seedLocked: false, seedMode: 'fit', inspected: null, snRamp: null, u: 0, L: 0.62, s: 1, snap: 'free', target: 4.5, show3d: true, fog: true, hatch: true, init: false, needsSetup: true, pt: null, hex: '#888888', gen: null, moved: false };
+  var P = { seeds: [], pi: 0, seedLocked: false, seedMode: 'fit', inspected: null, snRamp: null, u: 0, L: 0.62, s: 1, snap: 'free', target: 4.5, apca: true, grades: false, show3d: true, fog: true, hatch: true, init: false, needsSetup: true, pt: null, hex: '#888888', gen: null, moved: false };
   var mapbox = $('mapbox'), ovc = $('ovc'), octx = ovc.getContext('2d'), mapc = null, mctx = null, mapIsP3 = false;
   var MW = 640, MH = 320, u0 = 0;
   // stipple layer: crisp dots at device resolution, drawn over the map from per-pixel data recorded in drawMap
@@ -924,18 +954,68 @@
       var cc = cols[cols.length - 1]; cc.fd = Math.max(STIP.extFadeLight, Math.min(STIP.extFadeDark, 0.8 * (cc.lo - PM.Lk)));
     }
     ST = { w: w, h: h, fog: cols.map(function (c) { return c.fog; }), ext: new Float32Array(w * h) };
+    var GY = new Float32Array(w * h);
     for (y = 0; y < h; y++) {
       var lev = PM.level(PM.Lp - (y + 0.5) / h * (PM.Lp - PM.Lk));
       for (x = 0; x < w; x++) {
         var c = cols[x], p = PM.pointSeg(c.i, c.f, c.u, lev, P.s, 'pchip'), rgb = mapIsP3 ? Engine.p38(p.L, p.a, p.b) : Engine.rgb8(p.L, p.a, p.b), o = (y * w + x) * 4;
         var r = rgb[0], g = rgb[1], b = rgb[2];
         if (P.hatch && p.clipped && ((x + y) % period) < hband) { r = r * 0.5 + txc[0] * 0.5; g = g * 0.5 + txc[1] * 0.5; b = b * 0.5 + txc[2] * 0.5; }
+        GY[y * w + x] = Engine.Y(p.L, p.a, p.b);
         ST.ext[y * w + x] = smooth01(Math.max((c.lo - p.L) / c.fd, (p.L - c.hi) / STIP.extFadeLight, 0));
         px[o] = r; px[o + 1] = g; px[o + 2] = b; px[o + 3] = 255;
       }
     }
     mctx.putImageData(img, 0, 0);
+    GB = gradeEdges(GY, w, h);
     drawStipple();
+  }
+  // For each grade band, the y (0–1, top = light) where luminance crosses its max and its min in every map column.
+  // Luminance falls down each column, so the first row at or below a threshold is the crossing.
+  var GB = null;
+  function gradeEdges(GY, w, h) {
+    function cross(x, thr) {
+      for (var y = 0; y < h; y++) {
+        var v = GY[y * w + x];
+        if (v <= thr) { var u = y ? GY[(y - 1) * w + x] : v, f = u > v ? (u - thr) / (u - v) : 0; return (y - 1 + f + 0.5) / h; }
+      }
+      return 1;
+    }
+    return Engine.GRADES.filter(function (g) { return g[0] % 10 === 0 && g[0] > 0 && g[0] < 100; }).map(function (g) {
+      var top = [], bot = [];
+      for (var x = 0; x < w; x++) { top.push(cross(x, g[2])); bot.push(cross(x, g[1])); }
+      return { grade: g[0], top: smoothEdge(top), bot: smoothEdge(bot), w: w };
+    });
+  }
+  // Luminance comes from 8-bit sRGB, so crossings step by a row here and there; a short moving average hides that.
+  function smoothEdge(a) {
+    var r = 3, out = [];
+    for (var i = 0; i < a.length; i++) { var s = 0, n = 0; for (var j = Math.max(0, i - r); j <= Math.min(a.length - 1, i + r); j++) { s += a[j]; n++; } out.push(s / n); }
+    return out;
+  }
+  function drawGrades(c, W, H, dpr) {
+    if (!P.grades || !GB) return;
+    var tx = css('--tx');
+    GB.forEach(function (b) {
+      var n = b.w, X = function (x) { return (x + 0.5) / n * W; }, x;
+      c.beginPath(); c.moveTo(X(0), b.top[0] * H);
+      for (x = 1; x < n; x++) c.lineTo(X(x), b.top[x] * H);
+      for (x = n - 1; x >= 0; x--) c.lineTo(X(x), Math.max(b.bot[x], b.top[x] + 1 / H) * H);
+      c.closePath(); c.globalAlpha = 0.12; c.fillStyle = tx; c.fill();
+      c.globalAlpha = 0.4; c.lineWidth = dpr; c.strokeStyle = tx; c.stroke();
+    });
+    c.globalAlpha = 1;
+  }
+  // Drawn after the ramps so dots never cover the numbers.
+  function drawGradeLabels(c, W, H, dpr) {
+    if (!P.grades || !GB) return;
+    var tx = css('--tx'), bg = css('--bg');
+    c.font = (10 * dpr) + 'px ' + getComputedStyle(document.body).fontFamily; c.textBaseline = 'middle'; c.textAlign = 'right';
+    GB.forEach(function (b) {
+      var n = b.w, ly = (b.top[n - 1] + b.bot[n - 1]) / 2 * H;
+      c.lineWidth = 3 * dpr; c.strokeStyle = bg; c.strokeText(String(b.grade), W - 4 * dpr, ly); c.fillStyle = tx; c.fillText(String(b.grade), W - 4 * dpr, ly);
+    });
+    c.textAlign = 'start';
   }
   // Uncertainty as the original 4×4 ordered (Bayer) dither, drawn on its own canvas at device resolution in
   // 1.5 px square cells so it stays crisp. Coverage rises from nothing at ΔE 4 (1 step in 10 misses by two JND)
@@ -976,6 +1056,7 @@
     if (ovc.width !== W || ovc.height !== H) { ovc.width = W; ovc.height = H; }
     var c = octx, tx = css('--tx'), rad = Math.min(3.4, rc.width / 260) * dpr;
     c.clearRect(0, 0, W, H);
+    drawGrades(c, W, H, dpr);
     if (P.hold) {
       var hr = P.hold.r, HX = uToX(hr.theta) * W; c.globalAlpha = 0.9; c.strokeStyle = accent(hr); c.lineWidth = 1.5 * dpr; c.setLineDash([5 * dpr, 3 * dpr]);
       c.beginPath(); c.moveTo(HX, 0); c.lineTo(HX, H); c.stroke(); c.setLineDash([]);
@@ -1015,6 +1096,7 @@
     var Yy = LToY(P.pt ? P.pt.L : P.L) * H;
     c.beginPath(); c.arc(X, Yy, 9 * dpr, 0, PI2); c.fillStyle = P.css || P.hex; c.fill(); c.lineWidth = 3 * dpr; c.strokeStyle = '#FFFFFF'; c.stroke();
     c.beginPath(); c.arc(X, Yy, 10.6 * dpr, 0, PI2); c.lineWidth = 1.2 * dpr; c.strokeStyle = '#000000'; c.stroke();
+    drawGradeLabels(c, W, H, dpr);
   }
   function placeLabels() {
     var w = $('rlabels').getBoundingClientRect().width || 600, rows = [[], [], []], items = [];
@@ -1043,8 +1125,14 @@
     var hgt = (used * 1.05 + 0.3) + 'rem';
     $('rlabels').style.height = hgt; $('mapwrap').style.paddingTop = hgt; $('lticks').style.top = hgt;
   }
-  function contrastSample(color, background, name, ratio) {
-    return '<span class="preview" style="color:' + color + ';background:' + background + '">Aa</span><small>On ' + esc(name) + ': ' + ratio.toFixed(2) + ':1 · ' + badge(ratio) + '</small>';
+  function contrastSample(color, background, name, ratio, lc) {
+    return '<span class="preview" style="color:' + color + ';background:' + background + '">Aa</span><small>On ' + esc(name) + ': ' + ratio.toFixed(2) + ':1 · ' + badge(ratio) + ' · Lc ' + lc.toFixed(0) + '</small>';
+  }
+  function gradeText(y) {
+    var g = Engine.gradeOf(y);
+    if (g.band != null) return g.band + ' · ' + g.band + ' from white, ' + (100 - g.band) + ' from black';
+    var lo = Math.floor(g.grade / 10) * 10;
+    return '≈' + Math.round(g.grade) + ' · between the ' + lo + ' and ' + (lo + 10) + ' bands, no official grade';
   }
   function announcePick() { $('status').textContent = 'Picked ' + P.hex + (P.inspected != null ? ', step ' + P.gen[P.inspected].step : '') + '.'; }
   function badge(r) { return r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'AA large' : 'fails'; }
@@ -1121,10 +1209,11 @@
     var C = Math.hypot(p.a, p.b), Hr = Math.atan2(p.b, p.a), mc = Engine.maxC(p.L, Hr, PM.gamut), rel = mc > 1e-4 ? C / mc : 0;
     var Yp = Engine.Y(p.L, p.a, p.b), cL = Engine.cr(Yp, Yof(PM.pl)), cD = Engine.cr(Yp, Yof(PM.pd));
     $('bigsw').style.background = P.css;
-    $('spaper').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pl[0], PM.pl[1], PM.pl[2], 'srgb'), pal.poleNames.light, cL);
-    $('sblack').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pd[0], PM.pd[1], PM.pd[2], 'srgb'), pal.poleNames.dark, cD);
+    $('spaper').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pl[0], PM.pl[1], PM.pl[2], 'srgb'), pal.poleNames.light, cL, lcOf(p, PM.pl));
+    $('sblack').innerHTML = contrastSample(P.css, Engine.cssColor(PM.pd[0], PM.pd[1], PM.pd[2], 'srgb'), pal.poleNames.dark, cD, lcOf(p, PM.pd));
     $('vhex').innerHTML = P.hex + (inS ? '' : ' <span style="color:var(--tx-2)">(nearest sRGB; color is P3)</span>');
     $('voklch').textContent = Engine.oklchStr(p.L, p.a, p.b);
+    $('vgrade').textContent = gradeText(Yp);
     $('vrel').textContent = rel.toFixed(2) + ' of ' + (PM.gamut === 'p3' ? 'P3' : 'sRGB') + (p.clipped ? ' · clipped' : '') + (P.s < 1 ? ' · saturation ' + P.s.toFixed(2) : '');
     var sg = PM.seg(P.u), i = sg[0], j = (i + 1) % PM.loft.length;
     var dI = PM.angDist(P.u, PM.thetaU[i]) * 180 / Math.PI, dJ = PM.angDist(P.u, PM.thetaU[j]) * 180 / Math.PI, dmin = Math.min(dI, dJ), near = dI <= dJ ? PM.loft[i].name : PM.loft[j].name;
@@ -1187,13 +1276,24 @@
   $('sat').addEventListener('change', function () { drawMap(1); update(); });
   $('fog').addEventListener('change', function (e) { P.fog = e.target.checked; drawStipple(); });
   $('hatch').addEventListener('change', function (e) { P.hatch = e.target.checked; drawMap(1); });
+  $('grades').addEventListener('change', function (e) { P.grades = e.target.checked; drawOverlay(); });
   $('g3d').addEventListener('change', function (e) { P.show3d = e.target.checked; });
   $('gname').addEventListener('input', renderGen);
   $('gramp').addEventListener('click', function (e) { var b = e.target.closest('.cell'); if (!b) return; var k = +b.dataset.k; update(k); $('gramp').querySelector('[data-k="' + k + '"]').focus(); announcePick(); });
-  $('tgt').addEventListener('change', function (e) { P.target = parseFloat(e.target.value); });
+  var LC_FOR = { 3: 60, 4.5: 75, 7: 90 };
+  function lcOf(p, bg) {
+    return Engine.apca(Engine.apcaY(p.L, p.a, p.b), Engine.apcaY(bg[0], bg[1], bg[2]));
+  }
+  // WCAG 2 is the gate; with APCA on, the color must also reach the paired Lc level.
+  function meets(p, bg) {
+    return Engine.cr(Engine.Y(p.L, p.a, p.b), Yof(bg)) >= P.target && (!P.apca || Math.abs(lcOf(p, bg)) >= LC_FOR[P.target]);
+  }
+  function syncTarget() { $('tgtlc').textContent = 'Lc ' + LC_FOR[P.target]; }
+  $('tgt').addEventListener('change', function (e) { P.target = parseFloat(e.target.value); syncTarget(); });
+  $('tgtapca').addEventListener('change', function (e) { P.apca = e.target.checked; });
   function solve(onLight) {
-    var Ybg = onLight ? Yof(PM.pl) : Yof(PM.pd), lo = PM.Lk + 1e-3, hi = PM.Lp - 1e-3, n, m;
-    function ok(L) { var p = PM.point(P.u, L, P.s); return Engine.cr(Engine.Y(p.L, p.a, p.b), Ybg) >= P.target; }
+    var bgl = onLight ? PM.pl : PM.pd, lo = PM.Lk + 1e-3, hi = PM.Lp - 1e-3, n, m;
+    function ok(L) { return meets(PM.point(P.u, L, P.s), bgl); }
     if (onLight) { if (!ok(lo)) return null; if (ok(hi)) return hi; for (n = 0; n < 40; n++) { m = (lo + hi) / 2; if (ok(m)) lo = m; else hi = m; } return lo; }
     if (!ok(hi)) return null; if (ok(lo)) return lo; for (n = 0; n < 40; n++) { m = (lo + hi) / 2; if (ok(m)) hi = m; else lo = m; } return hi;
   }
@@ -1201,8 +1301,8 @@
   function fitPick(onLight) {
     var btn = $(onLight ? 'fitp' : 'fitb');
     if (seedActive()) {
-      var bg = Yof(onLight ? PM.pl : PM.pd), candidates = [];
-      P.gen.forEach(function (g, k) { if (Engine.cr(Engine.Y(g.L, g.a, g.b), bg) >= P.target) candidates.push(k); });
+      var bgl = onLight ? PM.pl : PM.pd, candidates = [];
+      P.gen.forEach(function (g, k) { if (meets(g, bgl)) candidates.push(k); });
       candidates.sort(function (a, b) { return onLight ? P.gen[b].L - P.gen[a].L : P.gen[a].L - P.gen[b].L; });
       if (!candidates.length) { flash(btn, 'No qualifying step'); return; }
       update(candidates[0]); return;

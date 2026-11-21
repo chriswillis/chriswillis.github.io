@@ -80,6 +80,7 @@ test('inspect every seeded step without changing the generated ramp; contrast se
     c.Yof=p=>c.Engine.Y(...p); c.band=()=>({p90:5,med:2,f:1}); c.VAL={summary:null};
     c.badge=()=>''; c.renderGen=c.renderPickCompare=c.renderSeed=c.drawOverlay=()=>{};
     c.flash=(btn,msg)=>btn.textContent=msg;
+    c.LC_FOR={3:60,4.5:75,7:90}; c.P.apca=true; vm.runInContext(fn('lcOf'),c); vm.runInContext(fn('meets'),c); vm.runInContext(fn('gradeText'),c);
     vm.runInContext(fn('contrastSample'),c); vm.runInContext(fn('resultStatus'),c); vm.runInContext(fn('update'),c); vm.runInContext(fn('fitPick'),c);
     for(let i=0;i<ramp.length;i++) {
       c.update(i);
@@ -90,6 +91,7 @@ test('inspect every seeded step without changing the generated ramp; contrast se
     for(const onLight of [true,false]) {
       c.fitPick(onLight); const p=c.P.pt,bg=onLight?c.PM.pl:c.PM.pd;
       assert.ok(c.Engine.cr(c.Engine.Y(p.L,p.a,p.b),c.Yof(bg))>=4.5);
+      assert.ok(Math.abs(c.lcOf(p,bg))>=75, 'fit also meets the paired APCA level');
       assert.equal(c.P.gen,ramp); assert.equal(c.P.seedLocked,true);
     }
     c.update(c.P.inspected); assert.equal(c.P.gen,ramp);
@@ -145,9 +147,9 @@ test('comparison inverse maps known ramp colors and clears absent/neutral compar
 test('contrast diagnostics remain independent of sample foreground', () => {
   const c=uiHarness(); c.badge=r=>r<3?'fails':'AA';vm.runInContext(fn('contrastSample'),c);
   for(const color of ['#FFFFFF','#000000']) {
-    const output=c.contrastSample(color,color,'test background',1);
+    const output=c.contrastSample(color,color,'test background',1,0);
     assert.match(output,/<span class="preview" style="color:/);
-    assert.match(output,/<small>On test background: 1.00:1 · fails<\/small>/);
+    assert.match(output,/<small>On test background: 1.00:1 · fails · Lc 0<\/small>/);
     assert.doesNotMatch(output,/<small[^>]*style=/);
   }
 });
