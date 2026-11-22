@@ -349,6 +349,7 @@
   [data-key="yves"]     { --focus: 12% 50%; --kb: 20% 45%; }
   [data-key="map"]      { --focus: 20% 50%; --kb: 15% 40%; }
   [data-key="ramp"]     { --focus: 55% 50%; --kb: 60% 70%; }
+  [data-key="ramp2"]    { --focus: 30% 50%; --kb: 28% 50%; }
 
 
   /* ---- Featured layout: the Palette DNA map leads in deep orange-brown, the rest follow as compact cards ---- */
@@ -358,6 +359,7 @@
   .experiments .xp .xp-blurb { -webkit-line-clamp: 1; }
   .experiments [data-key="map"] { order: -2; }
   .experiments [data-key="ramp"] { order: -1; }
+  .experiments [data-key="ramp2"] { order: -1; }
 
   .xp[data-key="map"] {
     --hue: var(--feat) !important; --on: #FFFCF0; --soft: color-mix(in oklab, var(--feat) 35%, #FFFCF0);
@@ -1057,6 +1059,22 @@
         <span class="xp-kicker"></span>
         <span class="xp-title">Palette DNA Ramp</span>
         <span class="xp-blurb">Turn a brand color into a ramp of light and dark steps, shaped by Tailwind, Radix, Flexoki or your own imported palette. Add a second color to guide the result, compare the ramp with its reference family, and check text contrast on light and dark backgrounds. Export CSS, Tailwind or design tokens, or share a link to your ramp.</span>
+        <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Color tool</span>
+      </span>
+      <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
+    </a>
+    <a class="xp" href="color-ramp-v2.html" data-key="ramp2" style="--hue: var(--ma)">
+      <span class="xp-media">
+        <picture>
+                  <source type="image/webp" srcset="assets/color-ramp-v2-teaser.webp" />
+                  <img src="assets/color-ramp-v2-teaser.png" alt="A sequential ring and a diverging ring of color classes beside a six-color bar chart, all built from one purple brand color" loading="lazy" width="1916" height="790" />
+                </picture>
+      </span>
+      <span class="xp-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M8.93 23.07A10 10 0 1 1 23.07 23.07"/><path class="i-spin" d="M12.46 19.54A5 5 0 1 1 19.54 19.54"/></svg></span>
+      <span class="xp-body">
+        <span class="xp-kicker"></span>
+        <span class="xp-title">Color Ramp v2</span>
+        <span class="xp-blurb">One brand color in; a ramp, a palette, roles and chart colors out. A simpler layout keeps your palette in view while you switch between the ramp, which step to use for what, and contrast checks. It also suggests chart colors: categorical sequences for up to 12 series, and sequential and diverging scales, each checked under color-blind simulation.</span>
         <span class="xp-meta"><span class="xp-dot" aria-hidden="true"></span>Color tool</span>
       </span>
       <span class="xp-cta" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"/></svg>Try</span>
