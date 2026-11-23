@@ -59,6 +59,26 @@ test('categorical: matching the brand narrows visual weight compared with free',
   assert.ok(match.seq.slice(1).every(x => x.c.tone && x.c.tone < 1), 'companions are toned to the brand');
 });
 
+test('categorical: on a light background, lines avoid the dark end of each ramp', () => {
+  for (const id of ['tailwind4', 'flexoki', 'carbon']) for (const hex of ['#9D58BA', '#99CCEE', '#EAB308']) {
+    const r = CS.plan({ ...setup(id, hex, false), mark: 'lines', n: 6, order: 'far', even: true, sigma: 0.45 });
+    assert.ok(r.seq.every(x => x.lab[0] >= 0.5 - 1e-9), `${id} ${hex}: ` + r.seq.map(x => x.c.name + ' ' + x.c.steps[x.k]).join(', '));
+    assert.ok(r.seq.every(x => x.r >= 2), 'and none is fainter than 2:1');
+  }
+  const tw = CS.plan({ ...setup('tailwind4', '#9D58BA', false), mark: 'lines', n: 6, order: 'far', even: true, sigma: 0.45 });
+  assert.ok(tw.seq.every(x => ['400', '500', '600', '700'].includes(x.c.steps[x.k])), tw.seq.map(x => x.c.steps[x.k]).join());
+});
+
+test('categorical: dark steps that have lost their color are skipped', () => {
+  // In Tailwind, yellows and greens past 700 read as dull brown or olive, so bars on dark never use them.
+  const dullSide = ['yellow', 'green', 'lime', 'emerald', 'teal', 'cyan'];
+  for (const opt of [{ tone: 1 }, { even: true, sigma: 0.45 }, { fish: true, sigma: 0.35 }]) {
+    const r = CS.plan({ ...setup('tailwind4', '#9D58BA', true), mark: 'bars', n: 12, order: 'far', ...opt });
+    for (const x of r.seq) if (dullSide.includes(x.c.name)) assert.ok(Number(x.c.steps[x.k]) <= 700, x.c.name + ' ' + x.c.steps[x.k]);
+    assert.ok(r.seq.every(x => x.c.steps[x.k] !== '950'), 'no 950 at all');
+  }
+});
+
 test('sequential: classes run one way in lightness, from the background outward', () => {
   for (const dark of [false, true]) for (const variant of ['single', 'shift']) {
     const r = CS.scale({ ...setup('tailwind4', '#9D58BA', dark), kind: 'seq', n: 7, variant, partner: 'auto' });

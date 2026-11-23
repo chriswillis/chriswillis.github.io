@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Palette DNA Ramp v2</title>
-<meta name="description" content="A simpler take on the ramp tool. Turn a brand color into a ramp, build a palette around it, see which step to use for what, and get chart colors: categorical, sequential and diverging, each checked under color-blind simulation.">
+<meta name="description" content="Start with one color and get a ramp, matching hues, the right step for each job, and chart colors, shaped by a palette you trust and checked for contrast and color-blind viewers.">
 <link rel="canonical" href="https://cewillis.com/color-ramp-v2.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cewillis.com/color-ramp-v2.html">
 <meta property="og:site_name" content="Chris Willis">
 <meta property="og:title" content="Color Ramp v2">
-<meta property="og:description" content="A simpler take on the ramp tool. Turn a brand color into a ramp, build a palette around it, see which step to use for what, and get chart colors: categorical, sequential and diverging, each checked under color-blind simulation.">
+<meta property="og:description" content="Start with one color and get a ramp, matching hues, the right step for each job, and chart colors, shaped by a palette you trust and checked for contrast and color-blind viewers.">
 <meta property="og:image" content="https://cewillis.com/og-color-ramp-v2.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -64,10 +64,6 @@ footer { color: var(--tx-2); font-size: .8rem; padding: 1.5rem 0 .5rem; }
 .seg button:last-child { border-right: 0; }
 .seg button[aria-pressed="true"] { background: var(--ui); color: var(--tx); font-weight: 400; }
 .frame { margin: 0 auto; padding: 1rem; max-width: 84rem; container-type: inline-size; }
-.tasks { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1rem; }
-.tasks span { color: var(--tx-2); font-size: .85rem; margin-right: .25rem; }
-.chip { border: 1px solid var(--ui-2); background: var(--bg); border-radius: 999px; padding: .35rem .85rem; font-size: .85rem; min-height: 2.25rem; }
-.chip[aria-pressed="true"] { background: var(--tx); color: var(--bg); border-color: var(--tx); }
 .app { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1.5rem; align-items: start; }
 .side { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 1rem; }
 .field { display: flex; flex-direction: column; gap: .35rem; }
@@ -107,7 +103,22 @@ details.more .in { display: flex; flex-direction: column; gap: 1rem; margin-top:
 .mini i { flex: 1; }
 .card .row { display: flex; justify-content: space-between; align-items: center; font-size: .82rem; }
 .card .rm { background: none; border: 0; color: var(--ws-tx2); min-width: 1.75rem; min-height: 1.75rem; border-radius: .3rem; }
-.hues { display: flex; flex-wrap: wrap; gap: 4px; }
+.hues { display: flex; flex-wrap: wrap; gap: 4px; position: relative; }
+.pop { position: absolute; z-index: 6; transform: translate(-50%, -100%); width: 15rem; max-width: 80vw; padding: .5rem .6rem; border-radius: .5rem; background: var(--ws-bg); color: var(--ws-tx); border: 1px solid var(--ws-line); box-shadow: 0 6px 20px rgba(0,0,0,.18); pointer-events: none; display: flex; flex-direction: column; gap: .35rem; font-size: .8rem; }
+.pop[hidden] { display: none; }
+.exs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.ex { border: 1px solid var(--ws-line); border-radius: .6rem; padding: .85rem 1rem; display: flex; flex-direction: column; gap: .3rem; font-size: .9rem; }
+.ex b { font-weight: 500; font-size: 1.15rem; }
+.ex .exk { font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; opacity: .7; }
+.tip { position: relative; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1px solid var(--ws-line); color: var(--ws-tx2); font-size: .78rem; cursor: help; }
+.tipbox { display: none; position: absolute; z-index: 7; top: calc(100% + .4rem); left: 50%; transform: translateX(-50%); width: 21rem; max-width: 80vw; padding: .7rem .8rem; border-radius: .5rem; background: var(--ws-bg); color: var(--ws-tx2); border: 1px solid var(--ws-line); box-shadow: 0 6px 20px rgba(0,0,0,.18); font-size: .8rem; line-height: 1.45; text-align: left; cursor: default; }
+.tipbox b { color: var(--ws-tx); font-weight: 500; }
+.tipbox ul { margin: .4rem 0 0; padding-left: 1rem; display: flex; flex-direction: column; gap: .3rem; }
+.tip:hover .tipbox, .tip:focus .tipbox, .tip:focus-within .tipbox { display: block; }
+.colbtn { background: none; border: 0; padding: .2rem .45rem; margin-left: -.45rem; border-radius: .35rem; color: var(--ws-tx2); font-size: .78rem; }
+.colbtn[aria-pressed="true"] { background: color-mix(in srgb, var(--ws-tx) 12%, transparent); color: var(--ws-tx); font-weight: 500; }
+table.roles td[data-rolecol] { cursor: pointer; }
+table.roles td.on { background: color-mix(in srgb, var(--ws-tx) 5%, transparent); }
 .hue { width: 2rem; height: 2rem; border-radius: .4rem; border: 2px solid transparent; padding: 0; position: relative; }
 .hue[aria-pressed="true"] { border-color: var(--ws-tx); }
 .hue[aria-pressed="true"]::after { content: "✓"; position: absolute; inset: 0; display: grid; place-items: center; font-size: .8rem; color: var(--ck, #fff); }
@@ -162,6 +173,7 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
   .ramp { gap: 2px; }
   .sw .hx, .sw .you { display: none; }
   .rolegrid { grid-template-columns: 1fr; }
+  .exs { grid-template-columns: 1fr; }
   .scalegrid { grid-template-columns: 1fr; }
   .ringbox { max-width: 14rem; margin: 0 auto; }
   .rhead .sp { display: none; }
@@ -182,12 +194,7 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
 </header>
 <main class="frame" id="frame">
   <h1>Palette DNA Ramp v2</h1>
-  <p class="lede">Turn a brand color into a ramp, build a palette around it, see which step to use for what, and get chart colors that hold up for color-blind viewers. This is an exploration of a simpler layout. The per-ramp editor, color-vision preview, share links and wide-gamut export are still in <a href="palette-dna/ramp.html">Palette DNA Ramp</a>.</p>
-  <div class="tasks"><span>What are you making?</span>
-    <button class="chip" data-task="scale" aria-pressed="true">A color scale</button>
-    <button class="chip" data-task="chart" aria-pressed="false">Chart colors</button>
-    <button class="chip" data-task="system" aria-pressed="false">A full palette</button>
-  </div>
+  <p class="lede">Start with one color and get everything you need to design with it: a ramp of light and dark steps, hues that go with it, the right step for each job, and chart colors. It is shaped by a palette you already trust, such as Tailwind or Radix, so the results sit naturally beside it, and every suggestion is checked for contrast and for color-blind viewers. Enter your color, choose a style to match, then work through Ramp, Palette and UI.</p>
   <div class="strip" id="strip" aria-hidden="true"></div>
   <div class="app">
     <aside class="side">
@@ -208,8 +215,7 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
         <div class="tabs" role="tablist">
           <button role="tab" data-tab="ramp" aria-selected="true">Ramp</button>
           <button role="tab" data-tab="palette" aria-selected="false">Palette</button>
-          <button role="tab" data-tab="roles" aria-selected="false">Roles</button>
-          <button role="tab" data-tab="check" aria-selected="false">Check</button>
+          <button role="tab" data-tab="roles" aria-selected="false">UI</button>
         </div>
         <span class="sp"></span>
         <button class="tool" id="bg-light" aria-pressed="true">Light</button><button class="tool" id="bg-dark" aria-pressed="false">Dark</button>
@@ -218,19 +224,19 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
       <div class="pane" id="pane"></div>
     </section>
   </div>
-  <footer>Built on the Palette DNA engine. Palettes belong to their authors; see each one’s license.</footer>
+  <footer>The per-ramp editor, color-vision preview and share links are in <a href="palette-dna/ramp.html">Palette DNA Ramp</a>. Built on the Palette DNA engine. Palettes belong to their authors; see each one’s license.</footer>
 </main>
 <div class="toast" id="toast" role="status"></div>
 <script src="assets/palette-dna/palettes.js?v=2026-11-20"></script>
 <script src="assets/palette-dna/engine.js?v=2026-11-20"></script>
 <script src="assets/palette-dna/builder.js?v=2026-11-20"></script>
-<script src="assets/palette-dna/chart-seq.js?v=2026-11-22"></script>
+<script src="assets/palette-dna/chart-seq.js?v=2026-11-22c"></script>
 <script>
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); }, E = Engine;
   var PALS = PALETTES.slice();
-  var S = { color: '#9D58BA', pal: 'tailwind4', step: '', mode: 'through', rule: 'both', tab: 'ramp', bg: 'light', sel: [], pairBg: 'ws', chart: 'bars', peek: null, n: 6, weight: 'match', order: 'auto', toned: {}, scheme: 'cat', sn: 7, dn: 9, svar: 'auto', partner: 'auto' };
+  var S = { color: '#9D58BA', pal: 'tailwind4', step: '', mode: 'through', rule: 'both', tab: 'ramp', bg: 'light', sel: [], pairBg: 'ws', chart: 'bars', n: 6, roleCol: 'yours', weight: 'match', order: 'auto', toned: {}, scheme: 'cat', sn: 7, dn: 9, svar: 'auto', partner: 'auto' };
   var M = null, cols = [], note = '', brandTone = 1, brandSeed = null;
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function pal() { return PALS.filter(function (p) { return p.id === S.pal; })[0]; }
@@ -250,7 +256,7 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     brandTone = Math.min(1, seed.map.s || 1); brandSeed = seed.map;
     var g = M.genAnchors([seed], { cap: S.mode === 'fit' });
     if (!g || !g.length) { $('c1note').textContent = 'This color is too close to black, white or grey to build a ramp from. Try one with some color in it.'; return false; }
-    var brand = { id: 'brand', name: 'brand', steps: g.map(function (x) { return String(x.step); }), labs: g.map(function (x) { return [x.L, x.a, x.b]; }), anchor: Math.max(0, g.findIndex(function (x) { return x.anchor; })), brand: true };
+    var brand = { id: 'yours', name: 'Yours', steps: g.map(function (x) { return String(x.step); }), labs: g.map(function (x) { return [x.L, x.a, x.b]; }), anchor: Math.max(0, g.findIndex(function (x) { return x.anchor; })), brand: true };
     var names = Object.keys(p.ramps).concat(Object.keys(p.neutrals || {}));
     S.sel = S.sel.filter(function (n) { return names.indexOf(n) >= 0; });
     cols = [brand].concat(S.sel.map(function (n) { var raw = p.ramps[n] || p.neutrals[n], labs = raw.map(E.parse), tone = S.toned[n] && p.ramps[n] && brandTone < 0.98 ? brandTone : 1;
@@ -261,24 +267,30 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     return true;
   }
   function closest(col, bg, r, lc) { var best = -1, br = 1e9; col.labs.forEach(function (l, k) { var c = ratio(l, bg); if (passes(l, bg, r, lc) && c < br) { br = c; best = k; } }); return best; }
-  function verdict() {
-    var p = pal(), b = cols[0], parts = [['light', 'darker'], ['dark', 'lighter']].map(function (w) {
-      var bg = E.parse(p.poles[w[0]]), k = closest(b, bg, 4.5, 75), nm = (p.poleNames && p.poleNames[w[0]]) || (w[0] === 'light' ? 'white' : 'black');
-      return k < 0 ? 'none on ' + nm : '<b>' + esc(b.steps[k]) + '</b> and ' + w[1] + ' on ' + nm;
-    });
-    return '<p class="verdict">Body text: ' + parts.join(' · ') + '.</p><p class="sub">' + esc(note) + ' Rule: 4.5:1' + (S.rule === 'both' ? ' and APCA Lc 75' : '') + '.' + (S.tab === 'check' ? '' : ' Open Check for every pairing.') + '</p>';
+  // Body-text guidance as two worked examples: dark text on the light pole, light text on the dark pole.
+  function bodyText() {
+    var p = pal(), b = cols[0];
+    var tile = function (w) {
+      var bg = E.parse(p.poles[w]), k = closest(b, bg, 4.5, 75), nm = (p.poleNames && p.poleNames[w]) || (w === 'light' ? 'white' : 'black'), dir = w === 'light' ? 'darker' : 'lighter';
+      var edge = w === 'light' ? 'Dark text on ' + nm : 'Light text on ' + nm, neutral = w === 'light' ? '#100F0F' : '#F2F0E5';
+      if (k < 0) return '<div class="ex" style="background:' + hx(bg) + ';color:' + neutral + '"><span class="exk">' + edge + '</span><b>No step passes</b><span>Use a neutral for body text on ' + nm + '.</span></div>';
+      var l = b.labs[k]; return '<div class="ex" style="background:' + hx(bg) + ';color:' + hx(l) + '"><span class="exk" style="color:' + neutral + '">' + edge + '</span><b>Use ' + esc(b.steps[k]) + ' or ' + dir + '</b><span>This sentence is set in ' + esc(b.steps[k]) + ', the closest step to ' + nm + ' that still passes for body text, at ' + ratio(l, bg).toFixed(1) + ':1.</span></div>';
+    };
+    return '<p class="h3">Body text</p><div class="exs">' + tile('light') + tile('dark') + '</div><p class="sub">' + esc(note) + ' Body text needs 4.5:1' + (S.rule === 'both' ? ' and APCA Lc 75' : '') + '. Every other pairing is checked further down.</p>';
   }
   function rampView() {
+
     var b = cols[0], bg = wsBg();
-    return verdict() + '<div class="ramp" style="grid-template-columns:repeat(' + b.labs.length + ',minmax(0,1fr))">' + b.labs.map(function (l, k) {
+    return '<p class="h3">Your ramp</p><div class="ramp" style="grid-template-columns:repeat(' + b.labs.length + ',minmax(0,1fr))">' + b.labs.map(function (l, k) {
       var h = hx(l), t = ink(l);
       return '<button class="sw" data-hex="' + h + '" style="background:' + h + ';color:' + t + '" title="Copy ' + h + '"><span class="st">' + esc(b.steps[k]) + '</span>' + (k === b.anchor ? '<span class="you">yours</span>' : '') + '<span><span class="num">' + ratio(l, bg).toFixed(1) + '</span><br><span class="hx">' + h + '</span></span></button>';
-    }).join('') + '</div><p class="sub">The number on each swatch is its contrast against the ' + S.bg + ' background. Select a swatch to copy its hex.</p>';
+    }).join('') + '</div><p class="sub">The number on each swatch is its contrast against the ' + S.bg + ' background. Select a swatch to copy its hex.</p>' + bodyText() + checkView();
   }
   function mini(c) { return '<span class="mini">' + c.labs.map(function (l) { return '<i style="background:' + hx(l) + '"></i>'; }).join('') + '</span>'; }
   // ---- chart sequence (logic lives in seq.js) ----
   var CS = ChartSeq.make(E, PaletteBuilder), ORDERS = ['far', 'cvd', 'tol', 't12'], autoMemo = {};
-  var ORDER_NAMES = { far: 'Farthest-first', cvd: 'Color-blind first', tol: 'Tol bright order', t12: 'Tsitsulin 12 order' };
+  var ORDER_NAMES = { far: 'Most different first', cvd: 'Color-blind safe first', tol: 'Six bold hues', t12: 'Twelve mixed hues' };
+  var ORDER_HELP = '<b>Hue order</b> sets which hue each series gets. Your color always comes first.<ul><li><b>Automatic</b> tries all four and keeps the one that stays distinct for the most series.</li><li><b>Most different first</b> gives each new series the hue farthest from those already used.</li><li><b>Color-blind safe first</b> does the same, judged mainly by red-green color-blind vision.</li><li><b>Six bold hues</b> follows blue, red, green, yellow, cyan, purple, after Paul Tol’s bright scheme.</li><li><b>Twelve mixed hues</b> alternates warm and cool across a wider set, after Anton Tsitsulin’s 12 colors.</li></ul>';
   function planOpts(order, dark, mark, n) { var p = pal(); return { brand: cols[0], pal: p, bg: E.parse(dark ? p.poles.dark : p.poles.light), dark: dark, mark: mark, n: n, order: order, even: S.weight === 'match', fish: S.weight === 'fish', sigma: S.weight === 'fish' ? 0.35 : 0.45, tone: S.weight === 'free' ? 1 : brandTone }; }
   // Automatic: try each hue order on light and dark, bars and lines, and keep the one that stays distinct for the most series overall.
   function autoOrder() {
@@ -303,7 +315,7 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
   }
   function seg(attr, cur, items) { return '<div class="seg" role="group">' + items.map(function (it) { return '<button data-' + attr + '="' + it[0] + '" aria-pressed="' + (cur === it[0]) + '"' + (it[2] ? ' title="' + it[2] + '"' : '') + '>' + it[1] + '</button>'; }).join('') + '</div>'; }
   function chartBlock() {
-    return '<div class="ctl"><span class="h3">On a chart</span>' + seg('scheme', S.scheme, [['cat', 'Categorical', 'Unordered groups: one color per series'], ['seq', 'Sequential', 'Low to high: one ordered scale'], ['div', 'Diverging', 'Two directions from a midpoint, such as below and above zero']]) + '</div>' + (S.scheme === 'cat' ? catBlock() : scaleBlock());
+    return '<div class="ctl"><span>Type of data</span>' + seg('scheme', S.scheme, [['cat', 'Categorical', 'Unordered groups: one color per series'], ['seq', 'Sequential', 'Low to high: one ordered scale'], ['div', 'Diverging', 'Two directions from a midpoint, such as below and above zero']]) + '</div>' + (S.scheme === 'cat' ? catBlock() : scaleBlock());
   }
   // ---- sequential and diverging scales ----
   function arc(cx, cy, r0, r1, a0, a1) {
@@ -330,12 +342,12 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     var p = pal(), div = S.scheme === 'div', n = div ? S.dn : S.sn, wn = ['normal vision', 'protanopia', 'deuteranopia'];
     var R = CS.scale({ kind: div ? 'div' : 'seq', brand: cols[0], pal: p, M: M, seed: brandSeed, bg: wsBg(), dark: S.bg === 'dark', n: n, variant: S.svar, partner: S.partner, tone: brandTone });
     var ctl = '<div class="ctl"><label>Classes <select id="scn">' + (div ? [3, 4, 5, 6, 7, 8, 9, 10, 11] : [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]).map(function (v) { return '<option' + (v === n ? ' selected' : '') + '>' + v + '</option>'; }).join('') + '</select></label>';
-    if (!R) return ctl + '</div><p class="sub">' + esc(p.name) + ' has no hue far enough from your brand to form the other side of a diverging scale.</p>';
+    if (!R) return ctl + '</div><p class="sub">' + esc(p.name) + ' has no hue far enough from your color to form the other side of a diverging scale.</p>';
     ctl += div ? '<label>Other side <select id="spart"><option value="auto"' + (S.partner === 'auto' ? ' selected' : '') + '>Automatic (' + esc(R.partners[0].name) + ')</option>' + R.partners.slice(0, 8).map(function (q) { return '<option value="' + esc(q.name) + '"' + (S.partner === q.name ? ' selected' : '') + '>' + esc(q.name) + ' · ΔE ' + q.score.toFixed(0) + '</option>'; }).join('') + '</select></label>'
-      : '<span>Style</span>' + seg('svar', S.svar, [['auto', 'Automatic', 'Whichever keeps neighboring classes farther apart'], ['single', 'Single hue', 'Your brand ramp from light to dark'], ['shift', 'Hue shift', 'Drifts toward neighboring hues as it darkens, for a little more separation']]);
+      : '<span>Style</span>' + seg('svar', S.svar, [['auto', 'Automatic', 'Whichever keeps neighboring classes farther apart'], ['single', 'Single hue', 'Your ramp from light to dark'], ['shift', 'Hue shift', 'Drifts toward neighboring hues as it darkens, for a little more separation']]);
     ctl += '<button class="tool" data-copyscale="' + esc(R.cols.map(function (x) { return x.hex; }).join(',')) + '">Copy this scale</button></div>';
     var safe = R.adj.min.d >= ChartSeq.DISTINCT && (!div || R.gap.d >= ChartSeq.DISTINCT), grey = div ? 'sides match in grey' : (R.adj.mono && R.adj.greyStep >= 4 ? 'good in grey' : 'weak in grey');
-    var what = div ? 'brand ↔ ' + R.used : (R.used === 'shift' ? 'hue shift' : 'single hue');
+    var what = div ? 'yours ↔ ' + R.used : (R.used === 'shift' ? 'hue shift' : 'single hue');
     var lines = [(div ? 'Diverging' : 'Sequential') + ' · ' + n + ' classes', what, safe ? 'color-blind check: pass' : 'color-blind check: tight', grey];
     var chips = '<ol class="seq">' + R.cols.map(function (x, i) { return '<li><button class="sw2" data-hex="' + x.hex + '" style="background:' + x.hex + ';color:' + ink(x.lab) + '" title="Copy ' + x.hex + '">' + (i + 1) + '</button><span class="mono" style="font-size:.74rem">' + x.hex + '</span><span class="num none">' + x.r.toFixed(1) + ':1</span></li>'; }).join('') + '</ol>';
     var a = R.adj.min, low = S.bg === 'dark' ? 'darkest' : 'lightest';
@@ -345,8 +357,8 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
       '<p class="sub"><b style="color:var(--ws-tx);font-weight:500">Closest neighbors: classes ' + (a.i + 1) + ' and ' + (a.i + 2) + '</b>, ΔE ' + a.d.toFixed(1) + ' under ' + wn[a.w] + '. <b style="color:var(--ws-tx);font-weight:500">Evenness: ' + R.adj.even.toFixed(2) + '×</b> between the largest and smallest step.' +
         (div ? ' <b style="color:var(--ws-tx);font-weight:500">The two sides</b> stay at least ΔE ' + R.gap.d.toFixed(1) + ' apart under ' + wn[R.gap.w] + ' (weakest ' + R.gap.j + ' class' + (R.gap.j === 1 ? '' : 'es') + ' from the middle).' : ' <b style="color:var(--ws-tx);font-weight:500">In grey</b> each step differs by at least ' + R.adj.greyStep.toFixed(1) + ' lightness points.') + '</p>' +
       '<p class="sub">' + (div
-        ? 'The midpoint is a neutral close to the background and both sides move away from it in equal lightness steps, so neither side looks heavier. Your brand is the right-hand side. The other side is the reference hue that stays farthest from your brand at matched lightness under normal vision, protanopia and deuteranopia' + (brandTone < 0.98 ? ', toned to ' + Math.round(brandTone * 100) + '% to match your brand' : '') + '. Each side stops where its color starts to fade toward ' + (S.bg === 'dark' ? 'white' : 'black') + ', because beyond that the two sides look alike. In grey the sides are identical by design, so a grey print keeps size but loses direction.'
-        : 'The scale starts at the ' + low + ' step that is still visible against the background (1.15:1) and runs to the far end of your brand ramp, with classes spaced at equal perceptual distance. ' + (R.used === 'shift' ? 'Hue shift drifts toward ' + esc(R.toward[0]) + ' at the light end and ' + esc(R.toward[1]) + ' at the dark end, passing through your brand’s hue at its own lightness.' : 'Single hue follows your brand ramp exactly.') + (S.svar === 'auto' ? ' Automatic picked this style because it keeps neighboring classes farther apart.' : '')) +
+        ? 'The midpoint is a neutral close to the background and both sides move away from it in equal lightness steps, so neither side looks heavier. Your color is the right-hand side. The other side is the reference hue that stays farthest from your color at matched lightness under normal vision, protanopia and deuteranopia' + (brandTone < 0.98 ? ', toned to ' + Math.round(brandTone * 100) + '% to match your color' : '') + '. Each side stops where its color starts to fade toward ' + (S.bg === 'dark' ? 'white' : 'black') + ', because beyond that the two sides look alike. In grey the sides are identical by design, so a grey print keeps size but loses direction.'
+        : 'The scale starts at the ' + low + ' step that is still visible against the background (1.15:1) and runs to the far end of your ramp, with classes spaced at equal perceptual distance. ' + (R.used === 'shift' ? 'Hue shift drifts toward ' + esc(R.toward[0]) + ' at the light end and ' + esc(R.toward[1]) + ' at the dark end, passing through your color’s hue at its own lightness.' : 'Single hue follows your ramp exactly.') + (S.svar === 'auto' ? ' Automatic picked this style because it keeps neighboring classes farther apart.' : '')) +
       ' On a dark background the direction flips, so low values or the midpoint always sit near the background. “Comfortably distinct” uses the same ΔE 8 test as the categorical colors, applied to neighboring classes.</p>';
   }
   function catBlock() {
@@ -358,25 +370,25 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     var edgeNote = edged.length ? edged.length + ' of ' + seq.length + ' fills are under 3:1 against the background and get a hairline edge. The edge is now one step closer to the fill than the 3:1 step, so it reads lighter; it measures ' + Math.min.apply(null, edged.map(function (x) { return x.edgeR; })).toFixed(1) + ':1 at its weakest, which is under the 3:1 rule for graphics. Where that rule must hold, label the bars.' : 'No fill here needs an edge.';
     return '<div class="ctl"><span>Marks</span>' + seg('chart', S.chart, [['bars', 'Bars'], ['lines', 'Lines'], ['dots', 'Dots']]) +
       '<label>Series <select id="nser">' + [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (v) { return '<option' + (v === S.n ? ' selected' : '') + '>' + v + '</option>'; }).join('') + '</select></label></div>' +
-      '<div class="ctl"><span>Emphasis</span>' + seg('weight', S.weight, [['match', 'Match my brand', 'Companions are toned to your brand’s colorfulness and kept near its visual weight'], ['fish', 'Big fish first', 'Heavier color for the first series, lighter toward the last, never faint'], ['free', 'Free', 'Reference colors as published, no matching: often more distinct, but vivid ones will pop']]) +
-      '<label>Hue order <select id="hord"><option value="auto"' + (S.order === 'auto' ? ' selected' : '') + '>Automatic</option>' + ORDERS.map(function (k) { return '<option value="' + k + '"' + (S.order === k ? ' selected' : '') + '>' + ORDER_NAMES[k] + '</option>'; }).join('') + '</select></label>' +
-      '<button class="tool" data-addseq="' + esc(names.join(',')) + '" data-toned="' + (S.weight !== 'free') + '">Add these ramps to my palette</button></div>' + chart(other ? seq.concat([other]) : seq, S.weight === 'fish') + chips +
+      '<div class="ctl"><span>Emphasis</span>' + seg('weight', S.weight, [['match', 'Your color', 'The other hues are toned to match your color, so nothing stands out more than it does'], ['fish', 'Large categories', 'For data sorted by size: stronger color for the biggest series, lighter toward the smallest, never faint'], ['free', 'Default', 'The reference palette’s own colors, unchanged: often easier to tell apart, but vivid hues will stand out']]) +
+      '<label>Hue order <select id="hord"><option value="auto"' + (S.order === 'auto' ? ' selected' : '') + '>Automatic</option>' + ORDERS.map(function (k) { return '<option value="' + k + '"' + (S.order === k ? ' selected' : '') + '>' + ORDER_NAMES[k] + '</option>'; }).join('') + '</select></label><span class="tip" tabindex="0" aria-label="About hue order">?<span class="tipbox" role="tooltip">' + ORDER_HELP + '</span></span>' +
+      '<button class="tool" data-addseq="' + esc(names.join(',')) + '" data-toned="' + (S.weight !== 'free') + '">Add these Hues to your palette</button></div>' + chart(other ? seq.concat([other]) : seq, S.weight === 'fish') + chips +
       '<p class="verdict" style="font-size:.92rem"><b>Comfortably distinct up to ' + cap + ' series</b> here' + (S.n > cap ? '; you are showing ' + S.n + '. Past ' + cap + ', group the smallest into Other or label the series directly.' : '.') + '</p>' +
       (cp ? '<p class="sub"><b style="color:var(--ws-tx);font-weight:500">Closest pair: ' + (cp.i + 1) + ' and ' + (cp.j + 1) + '</b>, ΔE ' + cp.d.toFixed(1) + ' under ' + wn[cp.w] + '. <b style="color:var(--ws-tx);font-weight:500">Weight spread: ' + R.spread.toFixed(1) + '×</b> between the heaviest and lightest color. For scale, Paul Tol’s six-color bright scheme scores ΔE 8.3 on the same test.' + (seq.length < S.n ? ' Only ' + seq.length + ' colors qualify here.' : '') + '</p>' : '') +
-      '<p class="sub"><b style="color:var(--ws-tx);font-weight:500">Hue order: ' + ORDER_NAMES[ord] + (S.order === 'auto' ? ', picked automatically' : '') + '.</b> ' + esc(R.hues.slice(0, 12).join(' » ')) + '.' + (R.dropped.length ? ' Left out as too close to your brand’s hue: ' + esc(R.dropped.join(', ')) + '.' : '') + (S.weight !== 'free' && brandTone < 0.98 ? ' Your brand is ' + Math.round(brandTone * 100) + '% as colorful as ' + esc(pal().name) + ' at its hue, so the other hues are toned to ' + Math.round(brandTone * 100) + '% to sit with it.' : '') + '</p>' +
+      '<p class="sub"><b style="color:var(--ws-tx);font-weight:500">Hue order: ' + ORDER_NAMES[ord] + (S.order === 'auto' ? ', picked automatically' : '') + '.</b> ' + esc(R.hues.slice(0, 12).join(' » ')) + '.' + (R.dropped.length ? ' Left out as too close to your color’s hue: ' + esc(R.dropped.join(', ')) + '.' : '') + (S.weight !== 'free' && brandTone < 0.98 ? ' Your color is ' + Math.round(brandTone * 100) + '% as colorful as ' + esc(pal().name) + ' at its hue, so the other hues are toned to ' + Math.round(brandTone * 100) + '% to sit with it.' : '') + '</p>' +
       '<p class="sub">' + (S.chart === 'bars'
-        ? 'Bars are large, so they use softer steps: the lighter half of each ramp on light, the darker half on dark, never under 1.5:1. ' + edgeNote
-        : 'Lines and dots are small, so they use each ramp’s more colorful steps that reach 3:1 against the background.') +
-      (S.weight === 'match' ? ' Match my brand keeps every color close to your brand’s visual weight, measured as distance from the background in lightness and chroma together, so no series pops by accident.' : S.weight === 'fish' ? ' Big fish first gives the first series about 1.3 times the brand’s weight and eases down to 0.7 times for the last; the sample values are sorted to match. No fill drops below 1.5:1.' : ' Free uses the reference colors as published, so vivid hues can stand out beside a softer brand.') +
+        ? 'Bars are large, so they use softer steps: the lighter half of each ramp on light, the darker half on dark, never under 1.5:1. Dark steps that have lost their color are skipped, such as yellows and greens past 700 in Tailwind, which read as dull brown or olive. ' + edgeNote
+        : (S.bg === 'dark' ? 'Lines and dots are small, so they use each ramp’s more colorful steps that reach 3:1 against the background.'
+          : 'Lines and dots are small, so on a light background they use each ramp’s more colorful middle steps, about 400 to 600 in Tailwind, and avoid darker ones, which read as near-black. ' + (function () { var u = seq.filter(function (x) { return x.r < 3; }).length; return u ? 'They aim for 3:1 against the background without insisting on it: ' + u + ' of ' + seq.length + ' sit a little under, the usual case for yellows, limes and cyans.' : 'Every line here reaches 3:1.'; })())) +
+      (S.weight === 'match' ? ' Your color keeps every color close to your color’s visual weight, measured as distance from the background in lightness and chroma together, so no series pops by accident.' : S.weight === 'fish' ? ' Large categories gives the first series about 1.3 times your color’s weight and eases down to 0.7 times for the last; the sample values are sorted to match. No fill drops below 1.5:1.' : ' Default uses the reference colors as published, so vivid hues can stand out beside a softer color of yours.') +
       ' Each series keeps its hue on light and dark and across chart types; only the step changes, and steps are tuned for the number of series shown. Pairs are checked under normal vision, protanopia and deuteranopia, with neighbors held to a stricter gap. “Comfortably distinct” means every pair is at least ΔE 8 apart. Grey is reserved for Other and missing data.</p>';
   }
   function paletteView() {
     var p = pal(), names = Object.keys(p.ramps).concat(Object.keys(p.neutrals || {}));
-    var pk = S.peek && (p.ramps[S.peek] || p.neutrals[S.peek]);
-    return '<p class="h3">Your palette · ' + cols.length + '</p><div class="mine">' + cols.map(function (c) { return '<div class="card">' + mini(c) + '<div class="row"><span>' + esc(c.name) + (c.tone && c.tone < 1 ? ' <span class="sub">' + Math.round(c.tone * 100) + '%</span>' : '') + '</span>' + (c.brand ? '<span class="sub">yours</span>' : '<button class="rm" data-rm="' + esc(c.id) + '" aria-label="Remove ' + esc(c.name) + '">✕</button>') + '</div></div>'; }).join('') + '</div>' +
-      '<p class="h3">Add from ' + esc(p.name) + ' · ' + names.length + ' hues</p><div class="hues">' + names.map(function (nm) { var raw = (p.ramps[nm] || p.neutrals[nm]).map(E.parse), l = raw[Math.min(cols[0].anchor, raw.length - 1)], on = S.sel.indexOf(nm) >= 0;
+    return '<p class="h3">Your palette · ' + cols.length + '</p><div class="mine">' + cols.map(function (c) { return '<div class="card">' + mini(c) + '<div class="row"><span>' + esc(c.name) + (c.tone && c.tone < 1 ? ' <span class="sub">' + Math.round(c.tone * 100) + '%</span>' : '') + '</span>' + (c.brand ? '<span class="sub">your color</span>' : '<button class="rm" data-rm="' + esc(c.id) + '" aria-label="Remove ' + esc(c.name) + '">✕</button>') + '</div></div>'; }).join('') + '</div>' +
+      '<p class="h3">Add from ' + esc(p.name) + ' · ' + names.length + ' hues</p><div class="hues"><div class="pop" id="peek" role="tooltip" hidden></div>' + names.map(function (nm) { var raw = (p.ramps[nm] || p.neutrals[nm]).map(E.parse), l = raw[Math.min(cols[0].anchor, raw.length - 1)], on = S.sel.indexOf(nm) >= 0;
         return '<button class="hue" data-hue="' + esc(nm) + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Remove ' : 'Add ') + esc(nm) + '" title="' + esc(nm) + '" style="background:' + hx(l) + ';--ck:' + ink(l) + '"></button>'; }).join('') + '</div>' +
-      '<div class="peek" id="peek">' + (pk ? '<span>' + esc(S.peek) + '</span><span class="mini">' + pk.map(function (v) { return '<i style="background:' + hx(E.parse(v)) + '"></i>'; }).join('') + '</span>' : 'Point at a hue to see its full ramp. Select it to add or remove it.') + '</div>' +
+      '<p class="sub">Point at a hue to preview its ramp. Select it to add or remove it.</p><p class="h3">Data visualization</p>' +
       chartBlock();
   }
   var ROLES = [['Surface', 'min'], ['Surface, hover', 'min2'], ['Border', 1.5, 0], ['Control border, icon', 3, 0], ['Solid fill', 'solid'], ['Text', 4.5, 75], ['Strong text', 7, 90]];
@@ -389,31 +401,32 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     return -1;
   }
   function rolesView() {
-    var bg = wsBg(), b = cols[0], rb = {}; ROLES.forEach(function (r) { rb[r[0]] = role(b, r, bg); });
+    var bg = wsBg(), b = cols.filter(function (c) { return c.id === S.roleCol; })[0] || cols[0], rb = {}; ROLES.forEach(function (r) { rb[r[0]] = role(b, r, bg); });
     var col = function (nm, fb) { var k = rb[nm]; return k < 0 ? fb : hx(b.labs[k]); }, solid = col('Solid fill', '#888');
-    var head = '<tr><th>Role</th>' + cols.map(function (c) { return '<th>' + esc(c.name) + '</th>'; }).join('') + '</tr>';
-    var rows = ROLES.map(function (r) { return '<tr><td>' + r[0] + '</td>' + cols.map(function (c) { var k = role(c, r, bg); if (k < 0) return '<td class="none">No step</td>';
+    var head = '<tr><th>Role</th>' + cols.map(function (c) { return '<th><button class="colbtn" data-rolecol="' + esc(c.id) + '" aria-pressed="' + (c === b) + '" title="Preview ' + esc(c.name) + '">' + esc(c.name) + '</button></th>'; }).join('') + '</tr>';
+    var rows = ROLES.map(function (r) { return '<tr><td>' + r[0] + '</td>' + cols.map(function (c) { var k = role(c, r, bg), on = c === b ? ' class="on"' : ''; if (k < 0) return '<td data-rolecol="' + esc(c.id) + '" class="none' + (c === b ? ' on' : '') + '">No step</td>';
       var l = c.labs[k], ra = ratio(l, bg), low = r[1] === 'solid' && ra < 3;
-      return '<td><span class="dot" style="background:' + hx(l) + '"></span>' + esc(c.steps[k]) + ' <span class="num none">' + ra.toFixed(1) + ':1' + (low ? ' · under 3:1' : '') + '</span></td>'; }).join('') + '</tr>'; }).join('');
-    var ctx = '<div class="ctx" style="background:' + col('Surface', hx(bg)) + ';border:1px solid ' + col('Border', '#ccc') + '"><h4 style="color:' + col('Strong text', 'inherit') + '">Brand in context</h4><p style="color:' + col('Text', 'inherit') + '">Body text sits on the surface step. The outline button and icon use the control border step.</p><div class="btns"><span class="b" style="background:' + solid + ';color:' + ink(E.parse(solid)) + '">Primary action</span><span class="b" style="border-color:' + col('Control border, icon', '#888') + ';color:' + col('Text', 'inherit') + '">Secondary</span><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="' + col('Control border, icon', '#888') + '" stroke-width="2"/><path d="M6 10l3 3 5-6" fill="none" stroke="' + col('Control border, icon', '#888') + '" stroke-width="2"/></svg></div></div>';
-    return '<p class="verdict">Which step to use for what, on a ' + S.bg + ' background.</p><div class="rolegrid"><div class="tw"><table>' + head + rows + '</table></div>' + ctx + '</div>' +
-      '<p class="sub">Roles are picked by measured contrast against the background, not by step number, so they hold for any reference palette. Border is the first step at 1.5:1, control border and icon at 3:1, text at 4.5:1, strong text at 7:1' + (S.rule === 'both' ? ', with APCA Lc 75 and 90 also required for the two text roles' : '') + '. Solid fill is your own color for the brand ramp and the most colorful step at 3:1 for the others. Switch Light and Dark above to see the roles move.</p>';
+      return '<td data-rolecol="' + esc(c.id) + '"' + on + '><span class="dot" style="background:' + hx(l) + '"></span>' + esc(c.steps[k]) + ' <span class="num none">' + ra.toFixed(1) + ':1' + (low ? ' · under 3:1' : '') + '</span></td>'; }).join('') + '</tr>'; }).join('');
+    var ctx = '<div class="ctx" style="background:' + col('Surface', hx(bg)) + ';border:1px solid ' + col('Border', '#ccc') + '"><h4 style="color:' + col('Strong text', 'inherit') + '">' + esc(b.name) + ' in context</h4><p style="color:' + col('Text', 'inherit') + '">Body text sits on the surface step. The outline button and icon use the control border step.</p><div class="btns"><span class="b" style="background:' + solid + ';color:' + ink(E.parse(solid)) + '">Primary action</span><span class="b" style="border-color:' + col('Control border, icon', '#888') + ';color:' + col('Text', 'inherit') + '">Secondary</span><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="' + col('Control border, icon', '#888') + '" stroke-width="2"/><path d="M6 10l3 3 5-6" fill="none" stroke="' + col('Control border, icon', '#888') + '" stroke-width="2"/></svg></div></div>';
+    return '<p class="verdict">Which step to use for what, on a ' + S.bg + ' background.</p><div class="rolegrid"><div class="tw"><table class="roles">' + head + rows + '</table></div>' + ctx + '</div>' +
+      '<p class="sub">' + (cols.length > 1 ? 'Select a column to see it in the preview. ' : 'Add hues on the Palette tab to compare them here. ') + 'Roles are picked by measured contrast against the background, not by step number, so they hold for any reference palette. Border is the first step at 1.5:1, control border and icon at 3:1, text at 4.5:1, strong text at 7:1' + (S.rule === 'both' ? ', with APCA Lc 75 and 90 also required for the two text roles' : '') + '. Solid fill is your own color for your ramp and the most colorful step at 3:1 for the others. Switch Light and Dark above to see the roles move.</p>';
   }
   function checkView() {
+
     var opts = [{ k: 'ws', label: 'This background (' + S.bg + ')', lab: wsBg() }]; cols.forEach(function (c) { c.steps.forEach(function (s, k) { opts.push({ k: c.id + '|' + k, label: c.name + ' ' + s, lab: c.labs[k] }); }); });
     var bg = opts.filter(function (o) { return o.k === S.pairBg; })[0] || opts[0], bgG = E.gradeOf(Y(bg.lab)).grade, tiers = [[7, 90, 'AAA'], [4.5, 75, 'AA'], [3, 60, '3:1']];
     var rows = cols.map(function (c) { return '<div class="prow" style="grid-template-columns:5.5rem repeat(' + c.labs.length + ',minmax(3.3rem,1fr))"><span class="nm">' + esc(c.name) + '</span>' + c.labs.map(function (l, k) {
       var r = ratio(l, bg.lab), lc = lcOf(l, bg.lab), lv = '—', sh = false; for (var i = 0; i < 3; i++) if (r >= tiers[i][0]) { lv = tiers[i][2]; sh = S.rule === 'both' && Math.abs(lc) < tiers[i][1]; break; }
       var gap = Math.round(Math.abs(E.gradeOf(Y(l)).grade - bgG));
       return '<div class="pair" data-l="' + lv + '" title="' + esc(c.name + ' ' + c.steps[k] + ' on ' + bg.label + ': ' + r.toFixed(2) + ':1, Lc ' + lc.toFixed(0) + ', grade gap ' + gap) + '"><span class="ps" style="background:' + hx(bg.lab) + ';color:' + hx(l) + '">Aa</span><span class="cap"><span>' + esc(c.steps[k]) + '</span><b>' + lv + (sh ? '*' : '') + '</b></span><span class="cap num"><span>' + r.toFixed(1) + '</span><span>Δ' + gap + '</span></span></div>'; }).join('') + '</div>'; }).join('');
-    return verdict() + '<div class="ctl"><label>Text on <select id="pairbg">' + opts.map(function (o) { return '<option value="' + esc(o.k) + '"' + (o.k === bg.k ? ' selected' : '') + '>' + esc(o.label) + '</option>'; }).join('') + '</select></label></div><div class="pairs">' + rows + '</div>' +
+    return '<p class="h3">Check any pairing</p><div class="ctl"><label>Text on <select id="pairbg">' + opts.map(function (o) { return '<option value="' + esc(o.k) + '"' + (o.k === bg.k ? ' selected' : '') + '>' + esc(o.label) + '</option>'; }).join('') + '</select></label></div><div class="pairs">' + rows + '</div>' +
       '<p class="sub">Levels are WCAG 2: AAA is 7:1, AA is 4.5:1, and 3:1 is for large text and icons. An asterisk means APCA falls short of the paired level. Δ is the magic number, the gap between the two colors’ grades.</p>';
   }
   function render() {
     if (!build()) return;
     $('result').dataset.bg = S.bg;
     $('strip').innerHTML = cols[0].labs.map(function (l) { return '<i style="background:' + hx(l) + '"></i>'; }).join('');
-    $('pane').innerHTML = { ramp: rampView, palette: paletteView, roles: rolesView, check: checkView }[S.tab]();
+    $('pane').innerHTML = { ramp: rampView, palette: paletteView, roles: rolesView }[S.tab]();
     document.querySelectorAll('[role=tab]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === S.tab); });
     $('bg-light').setAttribute('aria-pressed', S.bg === 'light'); $('bg-dark').setAttribute('aria-pressed', S.bg === 'dark');
     $('m-through').setAttribute('aria-pressed', S.mode === 'through'); $('m-fit').setAttribute('aria-pressed', S.mode === 'fit');
@@ -424,11 +437,11 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
   }
   function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 1400); }
   function copy(text, msg) { try { navigator.clipboard.writeText(text).then(function () { toast(msg); }, function () { toast('Copying is blocked here'); }); } catch (e) { toast('Copying is blocked here'); } }
+  function slug(c) { return String(c.brand ? 'yours' : c.name).toLowerCase().replace(/[^a-z0-9-]+/g, '-'); }
   function exportText(kind) {
-    return kind === 'css' ? ':root {\n' + cols.map(function (c) { return c.labs.map(function (l, k) { return '  --' + c.name + '-' + c.steps[k] + ': ' + hx(l) + ';'; }).join('\n'); }).join('\n') + '\n}\n'
-      : '@theme {\n' + cols.map(function (c) { return c.labs.map(function (l, k) { return '  --color-' + c.name + '-' + c.steps[k] + ': ' + E.oklchStr(l[0], l[1], l[2]) + ';'; }).join('\n'); }).join('\n') + '\n}\n';
+    return kind === 'css' ? ':root {\n' + cols.map(function (c) { return c.labs.map(function (l, k) { return '  --' + slug(c) + '-' + c.steps[k] + ': ' + hx(l) + ';'; }).join('\n'); }).join('\n') + '\n}\n'
+      : '@theme {\n' + cols.map(function (c) { return c.labs.map(function (l, k) { return '  --color-' + slug(c) + '-' + c.steps[k] + ': ' + E.oklchStr(l[0], l[1], l[2]) + ';'; }).join('\n'); }).join('\n') + '\n}\n';
   }
-  function spread() { var names = Object.keys(pal().ramps), n = names.length; return [0, 1, 2].map(function (i) { return names[Math.floor((i + 0.5) * n / 3) % n]; }); }
   $('pal').innerHTML = PALS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.name) + '</option>'; }).join('');
   $('pal').value = S.pal; $('c1').value = S.color;
   $('c1').addEventListener('input', function () { S.color = $('c1').value.trim(); render(); });
@@ -447,13 +460,9 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
   });
   document.querySelectorAll('[role=tab]').forEach(function (b) { b.addEventListener('click', function () { S.tab = b.dataset.tab; render(); }); });
   document.querySelectorAll('[data-copy]').forEach(function (b) { b.addEventListener('click', function () { copy(exportText(b.dataset.copy), 'Copied ' + cols.length + ' ramp' + (cols.length === 1 ? '' : 's')); }); });
-  document.querySelectorAll('[data-task]').forEach(function (b) { b.addEventListener('click', function () {
-    document.querySelectorAll('[data-task]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-    var t = b.dataset.task; S.tab = t === 'scale' ? 'ramp' : t === 'chart' ? 'palette' : 'roles';
-    if (t === 'system' && !S.sel.length) { S.sel = spread(); if (pal().neutral && pal().neutrals[pal().neutral]) S.sel.push(pal().neutral); }
-    render(); }); });
   $('pane').addEventListener('click', function (e) {
-    var t = e.target.closest('[data-hex],[data-hue],[data-rm],[data-chart],[data-addseq],[data-weight],[data-scheme],[data-svar],[data-copyscale]'); if (!t) return;
+    var t = e.target.closest('[data-hex],[data-hue],[data-rm],[data-chart],[data-addseq],[data-weight],[data-scheme],[data-svar],[data-copyscale],[data-rolecol]'); if (!t) return;
+    if (t.dataset.rolecol) { S.roleCol = t.dataset.rolecol; return render(); }
     if (t.dataset.scheme) { S.scheme = t.dataset.scheme; return render(); }
     if (t.dataset.svar) { S.svar = t.dataset.svar; return render(); }
     if (t.dataset.copyscale) { var pre = S.scheme === 'div' ? 'div' : 'seq'; return copy(':root {\n' + t.dataset.copyscale.split(',').map(function (h, i) { return '  --' + pre + '-' + (i + 1) + ': ' + h + ';'; }).join('\n') + '\n}\n', 'Copied ' + t.dataset.copyscale.split(',').length + ' classes'); }
@@ -461,12 +470,18 @@ th { font-weight: 400; color: var(--ws-tx2); font-size: .78rem; }
     if (t.dataset.addseq !== undefined) { t.dataset.addseq.split(',').forEach(function (n) { if (!n) return; if (S.sel.indexOf(n) < 0) S.sel.push(n); S.toned[n] = t.dataset.toned === 'true'; }); toast('Added to your palette'); return render(); }
     if (t.dataset.hex) return copy(t.dataset.hex, 'Copied ' + t.dataset.hex);
     if (t.dataset.chart) { S.chart = t.dataset.chart; return render(); }
-    var n = t.dataset.hue || t.dataset.rm, i = S.sel.indexOf(n); if (i >= 0) S.sel.splice(i, 1); else S.sel.push(n); S.peek = t.dataset.hue || null; render();
+    var n = t.dataset.hue || t.dataset.rm, i = S.sel.indexOf(n); if (i >= 0) S.sel.splice(i, 1); else S.sel.push(n); render();
   });
   $('pane').addEventListener('change', function (e) { if (e.target.id === 'pairbg') { S.pairBg = e.target.value; render(); } if (e.target.id === 'nser') { S.n = +e.target.value; render(); } if (e.target.id === 'hord') { S.order = e.target.value; render(); } if (e.target.id === 'scn') { if (S.scheme === 'div') S.dn = +e.target.value; else S.sn = +e.target.value; render(); } if (e.target.id === 'spart') { S.partner = e.target.value; render(); } });
-  function peek(e) { var t = e.target.closest && e.target.closest('[data-hue]'); if (!t || S.peek === t.dataset.hue) return; S.peek = t.dataset.hue; var p = pal(), raw = p.ramps[S.peek] || p.neutrals[S.peek];
-    $('peek').innerHTML = '<span>' + esc(S.peek) + '</span><span class="mini">' + raw.map(function (v) { return '<i style="background:' + hx(E.parse(v)) + '"></i>'; }).join('') + '</span>'; }
+  function peek(e) {
+    var t = e.target.closest && e.target.closest('[data-hue]'), box = $('peek'); if (!t || !box) return;
+    var p = pal(), nm = t.dataset.hue, raw = p.ramps[nm] || p.neutrals[nm], wrap = box.parentNode, half = 120;
+    box.innerHTML = '<span>' + esc(nm) + (S.sel.indexOf(nm) >= 0 ? ' · in your palette' : '') + '</span><span class="mini">' + raw.map(function (v) { return '<i style="background:' + hx(E.parse(v)) + '"></i>'; }).join('') + '</span>';
+    box.style.left = Math.max(half, Math.min(wrap.clientWidth - half, t.offsetLeft + t.offsetWidth / 2)) + 'px'; box.style.top = (t.offsetTop - 8) + 'px'; box.hidden = false;
+  }
+  function unpeek(e) { var box = $('peek'); if (box && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-hue]'))) box.hidden = true; }
   $('pane').addEventListener('mouseover', peek); $('pane').addEventListener('focusin', peek);
+  $('pane').addEventListener('mouseout', unpeek); $('pane').addEventListener('focusout', unpeek);
   render();
 })();
 </script>

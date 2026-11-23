@@ -9,6 +9,8 @@ var ChartSeq = (function () {
     t12: { name: 'Tsitsulin 12 order', colors: ['#EBAC23', '#B80058', '#008CF9', '#006E00', '#00BBAD', '#D163E6', '#B24502', '#FF9287', '#5954D6', '#00C6F8', '#878500', '#00A76C'] }
   };
   var COLLIDE_DEG = 20;   // a reference hue this close to the brand reads as the same color
+  var LINE_MIN_L = 0.5;    // on a light background, lines and dots use no step darker than this Oklab lightness
+  var DULL = 0.62;        // a step darker than the ramp's most colorful one is skipped once its chroma falls under this share of the peak
   var DISTINCT = 8;       // ΔE OK ×100 that every pair must reach to count as comfortably distinct
 
   function make(E, B) {
@@ -66,15 +68,23 @@ var ChartSeq = (function () {
     }
 
     // ---- which steps a hue may use for this mark and background ----
-    // Bars are large: lighter half of the ramp on light, darker half on dark, never under 1.5:1.
-    // Lines and dots are small: the more colorful steps that reach 3:1.
+    // Bars are large: lighter half of the ramp on light, darker half on dark, never under 1.5:1. Dark steps that have
+    // lost their color are skipped: past 700 in Tailwind, yellows read as dull brown and greens as olive-black.
+    // Lines and dots are small, so they need vivid color. On dark: the more colorful steps that reach 3:1.
+    // On light: the more colorful steps from the middle of the ramp (about 400 to 600 in Tailwind), plus a later step
+    // only if it is still light, and never under 2:1. Darker steps read as muddy near-black lines. A light hue such
+    // as yellow may then sit under 3:1. If a hue has no such step, the rule relaxes for that hue alone.
     function allowed(c, o, relax) {
       var key = c.id + '|' + (relax || ''), hit = o.cache[key]; if (hit) return hit;
-      var small = o.mark !== 'bars', n = c.labs.length, mid = Math.floor((n - 1) / 2), peak = chroma(peakLab(c)), out = [], bgSim = simLabs(o.bg)[0];
+      var small = o.mark !== 'bars', n = c.labs.length, mid = Math.floor((n - 1) / 2), pk = peakLab(c), peak = chroma(pk), pkL = pk[0], out = [], bgSim = simLabs(o.bg)[0];
       var e3 = -1, er = 1e9; c.labs.forEach(function (l, k) { var r = ratio(l, o.bg); if (r >= 3 && r < er) { er = r; e3 = k; } });
       c.labs.forEach(function (l, k) {
         var r = ratio(l, o.bg), ch = chroma(l);
-        var ok = small ? (r >= 3 && (relax || ch >= 0.7 * peak)) : (r >= 1.5 && (relax === 'any' || (o.dark ? k >= mid : k <= mid)));
+        var dull = l[0] < pkL && ch < DULL * peak;
+        var ok = !small ? (r >= 1.5 && (relax === 'any' || ((o.dark ? k >= mid : k <= mid) && !dull)))
+          : o.dark ? (r >= 3 && (relax || ch >= 0.7 * peak))
+          : relax === 'all' ? r >= 1.5 : relax === 'any' ? (r >= 2 && l[0] >= LINE_MIN_L - 0.05) : relax ? r >= 2
+          : (r >= 2 && ch >= 0.7 * peak && l[0] >= LINE_MIN_L && (k <= mid + 1 || l[0] >= LINE_MIN_L + 0.05));
         if (!ok) return;
         // Edge for soft fills: the first step at 3:1, pulled one step back toward the fill so it does not outweigh it.
         var e = e3; if (e >= 0 && Math.abs(e - k) > 1) e += k > e ? 1 : -1;
@@ -83,13 +93,15 @@ var ChartSeq = (function () {
       });
       o.cache[key] = out; return out;
     }
-    function options(c, o) { var a = allowed(c, o); if (!a.length) a = allowed(c, o, 'any'); return a; }
+    function options(c, o) { var a = allowed(c, o); if (!a.length) a = allowed(c, o, 'any'); if (!a.length) a = allowed(c, o, 'all'); return a; }
 
     // Visual weight = how far a color sits from the background in Oklab (lightness and chroma together).
     // Even mode pulls every series toward the brand's weight; big-fish mode grades the target from heavy to light.
     function wfit(x, target, o) {
-      if (!o.even && !o.fish) return o.mark === 'bars' ? Math.min(1, x.r / 2.5) * Math.min(1, 6 / x.r) : 1;
-      var s = (o.sigma || 0.3) * (o.mark === 'bars' ? 1 : 2.3), q = Math.log(x.w / target); return Math.exp(-(q * q) / (2 * s * s));
+      // Light lines: among the allowed vivid steps, lean toward the one that reaches 3:1.
+      var vis = o.mark !== 'bars' && !o.dark ? Math.pow(Math.min(1, x.r / 3), 2) : 1;
+      if (!o.even && !o.fish) return o.mark === 'bars' ? Math.min(1, x.r / 2.5) * Math.min(1, 6 / x.r) : vis;
+      var s = (o.sigma || 0.3) * (o.mark === 'bars' ? 1 : 2.3), q = Math.log(x.w / target); return vis * Math.exp(-(q * q) / (2 * s * s));
     }
     function targets(base, n, o) {
       var out = [], i;
